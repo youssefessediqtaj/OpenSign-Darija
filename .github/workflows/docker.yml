@@ -1,0 +1,13 @@
+name: docker
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose build web api inference

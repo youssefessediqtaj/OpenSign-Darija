@@ -1,0 +1,31 @@
+{
+  "feature_schema_version": "1.0.0",
+  "coordinate_format": "torso_normalized_v1",
+  "target_frame_count": 30,
+  "feature_order": [
+    "pose.LEFT_SHOULDER",
+    "pose.RIGHT_SHOULDER",
+    "pose.LEFT_ELBOW",
+    "pose.RIGHT_ELBOW",
+    "pose.LEFT_WRIST",
+    "pose.RIGHT_WRIST",
+    "face.NOSE",
+    "face.MOUTH_LEFT",
+    "face.MOUTH_RIGHT",
+    "leftHand.WRIST",
+    "leftHand.THUMB_TIP",
+    "leftHand.INDEX_FINGER_TIP",
+    "leftHand.MIDDLE_FINGER_TIP",
+    "leftHand.RING_FINGER_TIP",
+    "leftHand.PINKY_TIP",
+    "rightHand.WRIST",
+    "rightHand.THUMB_TIP",
+    "rightHand.INDEX_FINGER_TIP",
+    "rightHand.MIDDLE_FINGER_TIP",
+    "rightHand.RING_FINGER_TIP",
+    "rightHand.PINKY_TIP"
+  ],
+  "missing_value": 0,
+  "presence_mask": "1 when the selected landmark exists and is visible enough, otherwise 0",
+  "left_right_convention": "MediaPipe anatomical left/right. Mirroring is visual only and must not alter submitted coordinates."
+}

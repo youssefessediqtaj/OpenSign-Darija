@@ -1,0 +1,111 @@
+services:
+  web:
+    build:
+      context: ./apps/web
+      args:
+        VITE_API_BASE_URL: /api
+    depends_on:
+      api:
+        condition: service_healthy
+    expose:
+      - "80"
+
+  api:
+    build: ./services/api
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      APP_NAME: ${APP_NAME:-OpenSign Darija}
+      APP_VERSION: ${APP_VERSION:-0.1.0}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-me-in-local-env}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      JWT_ACCESS_TOKEN_EXPIRE_MINUTES: ${JWT_ACCESS_TOKEN_EXPIRE_MINUTES:-30}
+      JWT_REFRESH_TOKEN_EXPIRE_DAYS: ${JWT_REFRESH_TOKEN_EXPIRE_DAYS:-7}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-opensign}:${POSTGRES_PASSWORD:-opensign_dev_password}@postgres:5432/${POSTGRES_DB:-opensign}
+      REDIS_URL: redis://redis:6379/0
+      INFERENCE_SERVICE_URL: http://inference:8001
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      inference:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/version').read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  inference:
+    build: ./services/inference
+    expose:
+      - "8001"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8001/health').read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-opensign}
+      POSTGRES_USER: ${POSTGRES_USER:-opensign}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-opensign_dev_password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-opensign} -d ${POSTGRES_DB:-opensign}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-opensign}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-opensign_dev_password}
+    volumes:
+      - minio-data:/data
+      - ./infrastructure/scripts:/workspace/infrastructure/scripts:ro
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      - web
+      - api
+    ports:
+      - "8080:80"
+    volumes:
+      - ./infrastructure/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  postgres-data:
+  redis-data:
+  minio-data:

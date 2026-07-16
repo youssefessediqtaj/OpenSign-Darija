@@ -1,0 +1,8 @@
+export function FieldError({ message }: { message?: string }) {
+  if (!message) return null;
+  return (
+    <p className="mt-1 text-sm font-medium text-coral" role="alert">
+      {message}
+    </p>
+  );
+}

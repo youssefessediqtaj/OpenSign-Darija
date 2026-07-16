@@ -1,0 +1,17 @@
+pyproject.toml
+app/__init__.py
+app/main.py
+app/api/__init__.py
+app/api/routes.py
+app/core/config.py
+app/models/mock_model.py
+app/preprocessing/__init__.py
+app/schemas/prediction.py
+app/services/interfaces.py
+app/services/prediction_service.py
+opensign_inference.egg-info/PKG-INFO
+opensign_inference.egg-info/SOURCES.txt
+opensign_inference.egg-info/dependency_links.txt
+opensign_inference.egg-info/requires.txt
+opensign_inference.egg-info/top_level.txt
+tests/test_inference.py

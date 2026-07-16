@@ -1,0 +1,41 @@
+from enum import StrEnum
+
+
+class UserRoleName(StrEnum):
+    USER = "USER"
+    CONTRIBUTOR = "CONTRIBUTOR"
+    LINGUIST_REVIEWER = "LINGUIST_REVIEWER"
+    ML_REVIEWER = "ML_REVIEWER"
+    ADMIN = "ADMIN"
+
+
+class SignStatus(StrEnum):
+    DRAFT = "DRAFT"
+    EXPERIMENTAL = "EXPERIMENTAL"
+    ACTIVE = "ACTIVE"
+    DEPRECATED = "DEPRECATED"
+
+
+class RiskLevel(StrEnum):
+    NORMAL = "NORMAL"
+    SENSITIVE = "SENSITIVE"
+    MEDICAL = "MEDICAL"
+    LEGAL = "LEGAL"
+    FINANCIAL = "FINANCIAL"
+    EMERGENCY = "EMERGENCY"
+
+
+class ModelStatus(StrEnum):
+    DRAFT = "DRAFT"
+    VALIDATING = "VALIDATING"
+    ACTIVE = "ACTIVE"
+    ARCHIVED = "ARCHIVED"
+    FAILED = "FAILED"
+
+
+class RecognitionStatus(StrEnum):
+    CREATED = "CREATED"
+    PROCESSING = "PROCESSING"
+    COMPLETED = "COMPLETED"
+    UNCERTAIN = "UNCERTAIN"
+    FAILED = "FAILED"
