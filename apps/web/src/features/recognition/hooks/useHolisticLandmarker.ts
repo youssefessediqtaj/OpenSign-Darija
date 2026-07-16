@@ -41,17 +41,21 @@ export function useHolisticLandmarker(
     setStatus('loading');
     setError(null);
     let landmarker: Awaited<ReturnType<typeof loadHolisticLandmarker>> | null = null;
-    try {
-      landmarker = await Promise.race([
-        loadHolisticLandmarker(),
-        new Promise<never>((_, reject) => {
-          window.setTimeout(() => reject(new Error('MediaPipe timeout')), 12000);
-        }),
-      ]);
-      setStatus('ready');
-    } catch (loadError) {
+    if (location.search.includes('mockCamera')) {
       setStatus('fallback');
-      setError(loadError instanceof Error ? loadError.message : 'MediaPipe indisponible');
+    } else {
+      try {
+        landmarker = await Promise.race([
+          loadHolisticLandmarker(),
+          new Promise<never>((_, reject) => {
+            window.setTimeout(() => reject(new Error('MediaPipe timeout')), 12000);
+          }),
+        ]);
+        setStatus('ready');
+      } catch (loadError) {
+        setStatus('fallback');
+        setError(loadError instanceof Error ? loadError.message : 'MediaPipe indisponible');
+      }
     }
     const targetFps = performanceMode === 'PERFORMANCE' ? 10 : performanceMode === 'QUALITY' ? 20 : 15;
     const minInterval = 1000 / targetFps;

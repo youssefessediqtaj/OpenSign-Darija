@@ -70,8 +70,8 @@ export function resultToFrame(
 }
 
 export function createSyntheticFrame(frameIndex: number, timestampMs: number): HolisticFrame {
-  const shoulderLeft = { x: 0.42, y: 0.48, z: 0, visibility: 0.98 };
-  const shoulderRight = { x: 0.58, y: 0.48, z: 0, visibility: 0.98 };
+  const shoulderLeft = { x: 0.4, y: 0.48, z: 0, visibility: 0.98 };
+  const shoulderRight = { x: 0.6, y: 0.48, z: 0, visibility: 0.98 };
   const wristLeft = { x: 0.38 + Math.sin(frameIndex / 5) * 0.05, y: 0.55, z: -0.02, visibility: 0.9 };
   const wristRight = { x: 0.62 + Math.cos(frameIndex / 5) * 0.05, y: 0.55, z: -0.02, visibility: 0.9 };
   const pose = Array.from({ length: 33 }, () => ({ x: 0, y: 0, z: 0, visibility: 0 }));

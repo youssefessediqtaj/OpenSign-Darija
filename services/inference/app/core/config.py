@@ -8,8 +8,9 @@ class Settings(BaseSettings):
 
     app_name: str = "OpenSign Darija Inference"
     app_version: str = "0.1.0"
-    model_name: str = "opensign-darija-mock"
-    model_version: str = "0.1.0"
+    model_name: str = "opensign-darija-landmark-mock"
+    model_version: str = "0.2.0"
+    feature_schema_version: str = "1.0.0"
 
 
 @lru_cache

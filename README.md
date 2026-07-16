@@ -2,7 +2,7 @@
 
 OpenSign Darija est une application web open source visant a preparer la reconnaissance de signes de la Langue des Signes Marocaine, la construction de phrases en Darija et une future lecture vocale.
 
-Phase actuelle: architecture, infrastructure et flux simule. La camera reelle, le dataset, le modele IA entraine et la synthese vocale ne sont pas encore inclus.
+Phase actuelle: camera web reelle avec extraction locale de landmarks, infrastructure et modele de reconnaissance encore simule. Le dataset, le modele IA entraine et la synthese vocale ne sont pas encore inclus.
 
 ## Architecture
 
@@ -20,6 +20,7 @@ Le frontend ne contacte jamais directement le service d’inference.
 - Docker et Docker Compose
 - Node.js 22 pour le developpement frontend manuel
 - Python 3.12 pour le developpement backend/inference manuel
+- Navigateur compatible camera (`localhost` ou HTTPS hors local)
 
 ## Installation locale
 
@@ -36,7 +37,7 @@ Ne placez jamais de secrets reels dans `.env`.
 docker compose up --build
 ```
 
-Application via Nginx: `http://localhost:8080`
+Application via Nginx: `http://localhost:8081`
 
 Services directs de developpement:
 
@@ -83,6 +84,7 @@ Tests frontend seuls:
 ```bash
 cd apps/web && npm test -- --run
 cd apps/web && npm run test:e2e
+cd apps/web && npm run perf:recognition
 ```
 
 Tests backend et inference:
@@ -115,3 +117,9 @@ Voir `CONTRIBUTING.md`, `SECURITY.md` et `docs/security.md`.
 ## Roadmap
 
 Voir `docs/roadmap.md`.
+
+## Camera Et Confidentialite
+
+La page `/app/recognition` demande explicitement l’autorisation camera. MediaPipe Holistic extrait visage, mains et haut du corps dans le navigateur. Aucune video, image, capture canvas ou audio n’est envoyee au backend. Seuls des landmarks compacts et normalises sont transmis a `POST /api/v1/recognitions`.
+
+Le modele de reconnaissance est encore simule.

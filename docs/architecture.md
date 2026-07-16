@@ -20,3 +20,13 @@ Le service d’inference n’est pas expose par Nginx. Toute politique d’authe
 - PostgreSQL: persistance applicative.
 - Redis: cache/session/rate limiting futur.
 - MinIO: stockage objet futur pour artefacts, jamais pour publication automatique de videos.
+
+## Camera Recognition
+
+The phase 2 flow is:
+
+```text
+Browser camera -> MediaPipe browser landmarks -> compact sequence -> API -> internal inference
+```
+
+The web app mirrors front-camera preview visually only. Internal landmark coordinates keep the MediaPipe anatomical left/right convention.

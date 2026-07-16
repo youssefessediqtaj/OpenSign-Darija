@@ -5,7 +5,12 @@ import numpy as np
 
 from app.core.config import get_settings
 from app.models.mock_model import MockInferenceModel
-from app.schemas.prediction import ModelInfo, PredictionResponse
+from app.schemas.prediction import (
+    LandmarkSequenceRequest,
+    ModelInfo,
+    PredictionItem,
+    PredictionResponse,
+)
 from app.services.interfaces import InferenceModel, ModelRegistry
 
 
@@ -32,8 +37,51 @@ class PredictionService:
         return PredictionResponse(
             request_id=str(uuid4()),
             model=ModelInfo(name=settings.model_name, version=settings.model_version),
+            feature_schema_version=settings.feature_schema_version,
             status="completed",
             predictions=predictions,
             unknown_probability=0.03,
             processing_time_ms=elapsed_ms,
+        )
+
+    def predict_sequence(self, payload: LandmarkSequenceRequest) -> PredictionResponse:
+        started = perf_counter()
+        labels = [
+            "oui",
+            "non",
+            "aide",
+            "eau",
+            "medecin",
+            "douleur",
+            "merci",
+            "vouloir",
+            "ou",
+            "urgence",
+        ]
+        seed = sum(ord(char) for char in str(payload.sequence_id))
+        movement = payload.quality.movement_score
+        hand_ratio = payload.quality.detected_hand_ratio
+        base_index = int((seed + round(movement * 100) + round(hand_ratio * 10)) % len(labels))
+        first = labels[base_index]
+        second = labels[(base_index + 3) % len(labels)]
+        third = labels[(base_index + 6) % len(labels)]
+        top_confidence = round(min(0.82, max(0.62, 0.65 + movement * 0.12 + hand_ratio * 0.05)), 2)
+        second_confidence = round(max(0.08, 0.16 - movement * 0.03), 2)
+        third_confidence = round(max(0.04, 0.08 - hand_ratio * 0.02), 2)
+        settings = get_settings()
+        return PredictionResponse(
+            request_id=str(uuid4()),
+            sequence_id=str(payload.sequence_id),
+            model=ModelInfo(name=settings.model_name, version=settings.model_version),
+            feature_schema_version=settings.feature_schema_version,
+            status="completed",
+            predictions=[
+                PredictionItem(label=first, confidence=top_confidence, rank=1),
+                PredictionItem(label=second, confidence=second_confidence, rank=2),
+                PredictionItem(label=third, confidence=third_confidence, rank=3),
+            ],
+            unknown_probability=round(
+                max(0.02, 1 - top_confidence - second_confidence - third_confidence), 2
+            ),
+            processing_time_ms=max(1, int((perf_counter() - started) * 1000)),
         )

@@ -19,6 +19,12 @@ class Settings(BaseSettings):
     inference_service_url: str = "http://localhost:8001"
     inference_timeout_seconds: float = 3
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
+    recognition_max_frames: int = 60
+    recognition_max_payload_bytes: int = 262_144
+    recognition_min_duration_ms: int = 500
+    recognition_max_duration_ms: int = 8000
+    recognition_rate_limit: int = 30
+    feature_schema_version: str = "1.0.0"
 
 
 @lru_cache

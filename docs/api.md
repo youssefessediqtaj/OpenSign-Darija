@@ -23,6 +23,11 @@
 ## Reconnaissance
 
 - `POST /api/v1/recognitions/mock`
+- `POST /api/v1/recognitions`
+- `POST /api/v1/recognitions/{recognition_id}/confirm`
+- `POST /api/v1/recognitions/{recognition_id}/correct`
+
+`POST /api/v1/recognitions` accepts compact normalized landmark sequences only. It does not accept images, video, audio, or raw camera frames.
 
 Format d’erreur:
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from app.core.config import get_settings
-from app.schemas.prediction import PredictionResponse, PredictMockRequest
+from app.schemas.prediction import LandmarkSequenceRequest, PredictionResponse, PredictMockRequest
 from app.services.prediction_service import PredictionService
 
 router = APIRouter()
@@ -29,3 +29,8 @@ def model() -> dict[str, str | bool]:
 @router.post("/predict/mock", response_model=PredictionResponse)
 def predict_mock(payload: PredictMockRequest) -> PredictionResponse:
     return prediction_service.predict_mock(payload.frames_count)
+
+
+@router.post("/predict", response_model=PredictionResponse)
+def predict(payload: LandmarkSequenceRequest) -> PredictionResponse:
+    return prediction_service.predict_sequence(payload)

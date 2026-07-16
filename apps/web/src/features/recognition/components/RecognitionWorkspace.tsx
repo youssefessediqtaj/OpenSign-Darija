@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { CameraPermissionPanel } from './CameraPermissionPanel';
 import { CameraControls } from './CameraControls';
@@ -51,6 +51,8 @@ export function RecognitionWorkspace() {
   const { devices } = useCameraDevices(Boolean(videoRef.current) || permission.status === 'READY');
   const submission = useRecognitionSubmission();
   const recorder = useLandmarkRecorder(anonymousSessionId);
+  const startRecorder = recorder.start;
+  const startRecording = useCallback(() => startRecorder(), [startRecorder]);
 
   const camera = useCameraStream(
     preferences.preferredDeviceId,
@@ -78,11 +80,12 @@ export function RecognitionWorkspace() {
     handleFrame,
     preferences.performanceMode,
   );
+  const startLandmarker = landmarker.start;
 
   const isCameraActive = Boolean(camera.stream);
   const canCapture = evaluation.isReady && isCameraActive && recorder.phase !== 'capturing';
   const isSubmitting = submission.isPending || recorder.phase === 'submitting';
-  const countdown = useRecognitionCapture(() => recorder.start());
+  const countdown = useRecognitionCapture(startRecording);
 
   const startCamera = useCallback(async () => {
     permission.markRequesting();
@@ -90,9 +93,13 @@ export function RecognitionWorkspace() {
     if (stream) {
       permission.markGranted();
       permission.setStatus('READY');
-      await landmarker.start();
     }
-  }, [camera, landmarker, permission]);
+  }, [camera, permission]);
+
+  useEffect(() => {
+    if (!camera.stream) return;
+    void startLandmarker();
+  }, [camera.stream, startLandmarker]);
 
   const stopCamera = useCallback(() => {
     landmarker.stop();

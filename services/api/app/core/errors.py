@@ -20,6 +20,17 @@ def error_payload(code: str, message: str, details: dict[str, Any] | None = None
     return {"error": {"code": code, "message": message, "details": details or {}}}
 
 
+def safe_validation_errors(exc: RequestValidationError) -> list[dict[str, Any]]:
+    return [
+        {
+            "loc": list(error.get("loc", [])),
+            "msg": str(error.get("msg", "Invalid value")),
+            "type": str(error.get("type", "value_error")),
+        }
+        for error in exc.errors()
+    ]
+
+
 def install_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(ApiError)
     async def api_error_handler(_: Request, exc: ApiError) -> JSONResponse:
@@ -35,7 +46,7 @@ def install_error_handlers(app: FastAPI) -> None:
             content=error_payload(
                 "VALIDATION_ERROR",
                 "Les donnees envoyees sont invalides.",
-                {"errors": exc.errors()},
+                {"errors": safe_validation_errors(exc)},
             ),
         )
 

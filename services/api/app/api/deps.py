@@ -27,3 +27,12 @@ def get_current_user(
     if user is None:
         raise ApiError("UNAUTHORIZED", "Utilisateur introuvable.", 401)
     return user
+
+
+def get_optional_current_user(
+    credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer_scheme)],
+    db: Annotated[Session, Depends(get_db)],
+) -> User | None:
+    if credentials is None:
+        return None
+    return get_current_user(credentials, db)

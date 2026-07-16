@@ -10,6 +10,7 @@ import { RegisterPage } from '../pages/RegisterPage';
 import { RecognitionPage } from '../pages/RecognitionPage';
 import { SignsPage } from '../pages/SignsPage';
 import { SimplePage } from '../pages/SimplePage';
+import { SettingsPage } from '../pages/SettingsPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export function AppRoutes() {
@@ -30,7 +31,7 @@ export function AppRoutes() {
           <Route index element={<AppDashboardPage />} />
           <Route path="recognition" element={<RecognitionPage />} />
           <Route path="messages" element={<SimplePage title="Messages">Construction de messages Darija prevue pour une prochaine phase.</SimplePage>} />
-          <Route path="settings" element={<SimplePage title="Parametres">Mode clair, mode sombre et reduction des animations seront relies aux preferences utilisateur.</SimplePage>} />
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
