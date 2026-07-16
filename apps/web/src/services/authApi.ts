@@ -18,4 +18,5 @@ export const authApi = {
     apiRequest<Tokens>('/api/v1/auth/login', { method: 'POST', body: JSON.stringify(payload) }),
   register: (payload: RegisterPayload) =>
     apiRequest<User>('/api/v1/auth/register', { method: 'POST', body: JSON.stringify(payload) }),
+  me: () => apiRequest<User>('/api/v1/auth/me'),
 };

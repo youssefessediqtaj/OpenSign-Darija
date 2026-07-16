@@ -25,6 +25,14 @@ class Settings(BaseSettings):
     recognition_max_duration_ms: int = 8000
     recognition_rate_limit: int = 30
     feature_schema_version: str = "1.0.0"
+    minio_endpoint: str = "localhost:9000"
+    minio_public_endpoint: str = "localhost:9000"
+    minio_access_key: str = "opensign"
+    minio_secret_key: str = "opensign_dev_password"
+    minio_secure: bool = False
+    dataset_presigned_url_expire_seconds: int = 600
+    dataset_max_recordings_per_contribution: int = 8
+    dataset_cleanup_draft_days: int = 14
 
 
 @lru_cache

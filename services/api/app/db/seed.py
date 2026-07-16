@@ -2,9 +2,24 @@ from sqlalchemy import select
 
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
-from app.models.enums import ModelStatus, RiskLevel, SignStatus, UserRoleName
+from app.models.dataset import (
+    CampaignSign,
+    CollectionCampaign,
+    ConsentTemplate,
+    ContributorProfile,
+    DatasetVersion,
+)
+from app.models.enums import (
+    CampaignStatus,
+    DatasetVersionStatus,
+    ModelStatus,
+    RiskLevel,
+    SignStatus,
+    UserRoleName,
+)
 from app.models.sign import ModelVersion, Sign, SignCategory
-from app.models.user import Role
+from app.models.user import Role, User, UserRole
+from app.security.passwords import hash_password
 
 ROLE_DESCRIPTIONS = {
     UserRoleName.USER: "Compte utilisateur standard",
@@ -135,13 +150,59 @@ SIGNS = [
     ),
 ]
 
+DEV_USERS: list[tuple[str, str, str]] = [
+    ("contributor@example.test", "Contributor Demo", "CONTRIBUTOR"),
+    ("linguist@example.test", "Linguist Reviewer Demo", "LINGUIST_REVIEWER"),
+    ("ml-reviewer@example.test", "ML Reviewer Demo", "ML_REVIEWER"),
+    ("admin@example.test", "Admin Demo", "ADMIN"),
+]
+
+CONSENT_TEMPLATES = [
+    (
+        "dataset-collection",
+        "1.0.0",
+        "Consentement pour contribuer au dataset OpenSign Darija",
+        (
+            "Choisissez separement les traitements de landmarks, la conservation, "
+            "la video et les usages futurs."
+        ),
+        (
+            "OpenSign Darija collecte des points de mouvement et, seulement si vous l'autorisez, "
+            "des videos privees pour constituer un dataset de Langue des Signes Marocaine. "
+            "Les landmarks decrivent des mouvements corporels et peuvent rester sensibles. "
+            "Vous pouvez refuser la video et retirer vos consentements pour les futures versions."
+        ),
+        "fr",
+    ),
+    (
+        "dataset-collection",
+        "1.0.0",
+        "Consent for OpenSign Darija dataset contribution",
+        "Choose landmark, storage, video, and future-use consent separately.",
+        (
+            "OpenSign Darija stores movement landmarks and, only with explicit "
+            "permission, private videos. "
+            "Landmarks are motion data and are not fully anonymous."
+        ),
+        "en",
+    ),
+    (
+        "dataset-collection",
+        "1.0.0",
+        "الموافقة على المساهمة في بيانات OpenSign Darija",
+        "اختار الموافقات ديال النقاط، التخزين، الفيديو، والاستعمالات القادمة بشكل منفصل.",
+        "OpenSign Darija كيخزن نقاط الحركة وفيديو خاص غير إلا وافقتي صراحة.",
+        "ar",
+    ),
+]
+
 
 def seed() -> None:
     Base.metadata.create_all(bind=engine)
     with SessionLocal() as db:
-        for role_name, description in ROLE_DESCRIPTIONS.items():
-            if not db.scalar(select(Role).where(Role.name == role_name.value)):
-                db.add(Role(name=role_name.value, description=description))
+        for role_enum, description in ROLE_DESCRIPTIONS.items():
+            if not db.scalar(select(Role).where(Role.name == role_enum.value)):
+                db.add(Role(name=role_enum.value, description=description))
         db.flush()
 
         category_by_slug: dict[str, SignCategory] = {}
@@ -172,6 +233,98 @@ def seed() -> None:
                         is_active=True,
                     )
                 )
+        role_by_name = {role.name: role for role in db.scalars(select(Role)).all()}
+        for email, display_name, role_name in DEV_USERS:
+            user = db.scalar(select(User).where(User.email == email))
+            if user is None:
+                user = User(
+                    email=email,
+                    display_name=display_name,
+                    password_hash=hash_password("OpenSignDemo123!"),
+                    is_verified=True,
+                )
+                db.add(user)
+                db.flush()
+            role = role_by_name[role_name]
+            if not any(user_role.role_id == role.id for user_role in user.roles):
+                user.roles.append(UserRole(role=role))
+            if role_name == "CONTRIBUTOR":
+                profile = db.scalar(
+                    select(ContributorProfile).where(ContributorProfile.user_id == user.id)
+                )
+                if profile is None:
+                    db.add(
+                        ContributorProfile(
+                            user_id=user.id,
+                            public_id="signer_000001",
+                            preferred_interface_language="fr",
+                            region="UNCONFIRMED",
+                        )
+                    )
+
+        for code, version, title, summary, full_text, language in CONSENT_TEMPLATES:
+            if not db.scalar(
+                select(ConsentTemplate).where(
+                    ConsentTemplate.code == code,
+                    ConsentTemplate.version == version,
+                    ConsentTemplate.language == language,
+                )
+            ):
+                db.add(
+                    ConsentTemplate(
+                        code=code,
+                        version=version,
+                        title=title,
+                        summary=summary,
+                        full_text=full_text,
+                        language=language,
+                        is_active=True,
+                    )
+                )
+
+        campaign = db.scalar(
+            select(CollectionCampaign).where(CollectionCampaign.slug == "pilot-lsm-maroc-10")
+        )
+        if campaign is None:
+            campaign = CollectionCampaign(
+                name="Pilote Langue des Signes Marocaine - 10 signes",
+                slug="pilot-lsm-maroc-10",
+                description=(
+                    "Campagne de demonstration pour collecter plusieurs repetitions consenties "
+                    "des dix signes initiaux. Les videos restent privees et optionnelles."
+                ),
+                status=CampaignStatus.ACTIVE,
+                target_sign_count=10,
+                target_repetitions_per_sign=5,
+                minimum_repetitions_per_submission=3,
+                maximum_repetitions_per_submission=8,
+            )
+            db.add(campaign)
+            db.flush()
+        signs_by_code = {sign.code: sign for sign in db.scalars(select(Sign)).all()}
+        for sign in signs_by_code.values():
+            existing = db.scalar(
+                select(CampaignSign).where(
+                    CampaignSign.campaign_id == campaign.id,
+                    CampaignSign.sign_id == sign.id,
+                )
+            )
+            if existing is None:
+                db.add(
+                    CampaignSign(
+                        campaign_id=campaign.id,
+                        sign_id=sign.id,
+                        target_repetitions=5,
+                        instruction_text=(
+                            f"Enregistrez le signe {sign.french_translation}. "
+                            "Utilisez uniquement une demonstration validee par votre communaute; "
+                            "ne copiez pas un signe ASL."
+                        ),
+                        requires_face=True,
+                        requires_pose=True,
+                    )
+                )
+
         if not db.scalar(select(ModelVersion).where(ModelVersion.name == "opensign-darija-mock")):
             db.add(
                 ModelVersion(
@@ -183,6 +336,21 @@ def seed() -> None:
                     metrics_json={"mock": True},
                     artifact_path="mock://opensign-darija",
                     is_active=True,
+                )
+            )
+        admin = db.scalar(select(User).where(User.email == "admin@example.test"))
+        existing_dataset = db.scalar(
+            select(DatasetVersion).where(DatasetVersion.name == "opensign-darija-pilot")
+        )
+        if admin and not existing_dataset:
+            db.add(
+                DatasetVersion(
+                    name="opensign-darija-pilot",
+                    semantic_version="0.1.0",
+                    status=DatasetVersionStatus.DRAFT,
+                    description="Version brouillon de demonstration; ne pas publier.",
+                    feature_schema_version="1.0.0",
+                    created_by=admin.id,
                 )
             )
         db.commit()

@@ -1,4 +1,5 @@
 import { env } from '../config/env';
+import { useAuthStore } from '../stores/authStore';
 import type { ApiErrorPayload } from '../types/api';
 
 export class ApiError extends Error {
@@ -23,10 +24,12 @@ async function parseError(response: Response): Promise<ApiError> {
 }
 
 export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const token = useAuthStore.getState().tokens?.access_token;
   const response = await fetch(`${env.apiBaseUrl}${path}`, {
     ...init,
     headers: {
       'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...init.headers,
     },
   });

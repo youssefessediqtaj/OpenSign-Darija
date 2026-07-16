@@ -22,8 +22,14 @@ export function LoginPage() {
   const form = useForm<LoginForm>({ resolver: zodResolver(schema), defaultValues: { email: '', password: '' } });
   const mutation = useMutation({
     mutationFn: authApi.login,
-    onSuccess: (tokens) => {
+    onSuccess: async (tokens) => {
       setSession(tokens);
+      try {
+        const user = await authApi.me();
+        useAuthStore.getState().setUser(user);
+      } catch {
+        // The token is enough for protected routes; user details can be retried later.
+      }
       navigate('/app');
     },
   });

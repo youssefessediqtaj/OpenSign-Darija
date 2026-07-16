@@ -3,6 +3,19 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppLayout } from '../layouts/AppLayout';
 import { PublicLayout } from '../layouts/PublicLayout';
 import { AppDashboardPage } from '../pages/AppDashboardPage';
+import {
+  CampaignDetailPage,
+  CampaignsPage,
+  ContributePage,
+  ContributionDetailPage,
+  ContributionHistoryPage,
+  ContributionSessionPage,
+  ConsentPage,
+  DatasetAdminPage,
+  LinguisticReviewPage,
+  MlReviewPage,
+  PrivacySettingsPage,
+} from '../pages/ContributionPages';
 import { DemoPage } from '../pages/DemoPage';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
@@ -32,6 +45,19 @@ export function AppRoutes() {
           <Route path="recognition" element={<RecognitionPage />} />
           <Route path="messages" element={<SimplePage title="Messages">Construction de messages Darija prevue pour une prochaine phase.</SimplePage>} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="settings/privacy" element={<PrivacySettingsPage />} />
+          <Route path="contribute" element={<ContributePage />} />
+          <Route path="contribute/consent" element={<ConsentPage />} />
+          <Route path="contribute/campaigns" element={<CampaignsPage />} />
+          <Route path="contribute/campaigns/:campaignId" element={<CampaignDetailPage />} />
+          <Route path="contribute/session/:contributionId" element={<ContributionSessionPage />} />
+          <Route path="contribute/history" element={<ContributionHistoryPage />} />
+          <Route path="contribute/history/:contributionId" element={<ContributionDetailPage />} />
+        </Route>
+        <Route path="admin" element={<AppLayout />}>
+          <Route path="reviews/linguistic" element={<LinguisticReviewPage />} />
+          <Route path="reviews/ml" element={<MlReviewPage />} />
+          <Route path="datasets" element={<DatasetAdminPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

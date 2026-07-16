@@ -4,8 +4,10 @@ import { useAuthStore } from '../stores/authStore';
 
 const appItems = [
   ['/app/recognition', 'Reconnaissance'],
+  ['/app/contribute', 'Contribuer'],
   ['/app/messages', 'Messages'],
   ['/app/settings', 'Parametres'],
+  ['/admin/reviews/linguistic', 'Review'],
 ];
 
 export function AppLayout() {

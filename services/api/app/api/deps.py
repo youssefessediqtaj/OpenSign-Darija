@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from typing import Annotated
 
 from fastapi import Depends
@@ -7,6 +8,7 @@ from sqlalchemy.orm import Session
 
 from app.core.errors import ApiError
 from app.db.session import get_db
+from app.models.enums import UserRoleName
 from app.models.user import User
 from app.security.tokens import decode_token
 
@@ -36,3 +38,33 @@ def get_optional_current_user(
     if credentials is None:
         return None
     return get_current_user(credentials, db)
+
+
+def user_role_names(user: User) -> set[str]:
+    return {user_role.role.name for user_role in user.roles}
+
+
+def require_roles(*roles: UserRoleName) -> Callable[[User], User]:
+    allowed = {role.value for role in roles}
+
+    def dependency(current_user: Annotated[User, Depends(get_current_user)]) -> User:
+        if not user_role_names(current_user).intersection(allowed):
+            raise ApiError("FORBIDDEN", "Permission insuffisante.", 403)
+        return current_user
+
+    return dependency
+
+
+def require_any_reviewer(
+    current_user: Annotated[
+        User,
+        Depends(
+            require_roles(
+                UserRoleName.LINGUIST_REVIEWER,
+                UserRoleName.ML_REVIEWER,
+                UserRoleName.ADMIN,
+            )
+        ),
+    ],
+) -> User:
+    return current_user
