@@ -23,6 +23,12 @@ from app.models.enums import (
     DatasetSplit,
     DatasetVersionStatus,
     DominantHand,
+    ExternalDatasetLabelStatus,
+    ExternalDatasetLicenseStatus,
+    ExternalDatasetProvider,
+    ExternalDatasetSourceStatus,
+    InputModality,
+    RecognitionTaskType,
     ReviewDecision,
     ReviewType,
     SigningExperienceLevel,
@@ -33,6 +39,10 @@ from app.models.user import uuid_str
 
 def utc_now() -> datetime:
     return datetime.now(UTC)
+
+
+def enum_values(enum_class: type[ExternalDatasetProvider]) -> list[str]:
+    return [member.value for member in enum_class]
 
 
 class ContributorProfile(Base):
@@ -347,6 +357,108 @@ class DatasetVersionItem(Base):
 
     dataset_version: Mapped[DatasetVersion] = relationship(back_populates="items")
     recording: Mapped[ContributionRecording] = relationship()
+
+
+class ExternalDatasetSource(Base):
+    __tablename__ = "external_dataset_sources"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_str)
+    code: Mapped[str] = mapped_column(String(120), unique=True, index=True, nullable=False)
+    name: Mapped[str] = mapped_column(String(240), nullable=False)
+    provider: Mapped[ExternalDatasetProvider] = mapped_column(
+        Enum(ExternalDatasetProvider, values_callable=enum_values), nullable=False
+    )
+    version: Mapped[str] = mapped_column(String(40), default="", nullable=False)
+    doi: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    task_type: Mapped[RecognitionTaskType] = mapped_column(
+        Enum(RecognitionTaskType), nullable=False
+    )
+    modality: Mapped[InputModality] = mapped_column(Enum(InputModality), nullable=False)
+    license: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    license_status: Mapped[ExternalDatasetLicenseStatus] = mapped_column(
+        Enum(ExternalDatasetLicenseStatus),
+        default=ExternalDatasetLicenseStatus.TO_VERIFY,
+        nullable=False,
+    )
+    source_metadata: Mapped[dict[str, object]] = mapped_column(JSON, default=dict, nullable=False)
+    checksum: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    status: Mapped[ExternalDatasetSourceStatus] = mapped_column(
+        Enum(ExternalDatasetSourceStatus),
+        default=ExternalDatasetSourceStatus.REGISTERED,
+        nullable=False,
+    )
+    imported_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    validated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False
+    )
+
+    labels: Mapped[list["ExternalDatasetLabel"]] = relationship(
+        back_populates="source", cascade="all, delete-orphan"
+    )
+    imports: Mapped[list["ExternalDatasetImport"]] = relationship(
+        back_populates="source", cascade="all, delete-orphan"
+    )
+
+
+class ExternalDatasetLabel(Base):
+    __tablename__ = "external_dataset_labels"
+    __table_args__ = (
+        UniqueConstraint("source_id", "original_label", name="uq_external_label_source_original"),
+    )
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_str)
+    source_id: Mapped[str] = mapped_column(
+        ForeignKey("external_dataset_sources.id"), nullable=False
+    )
+    original_label: Mapped[str] = mapped_column(String(240), nullable=False)
+    normalized_label: Mapped[str] = mapped_column(String(240), default="", nullable=False)
+    canonical_sign_id: Mapped[str | None] = mapped_column(ForeignKey("signs.id"), nullable=True)
+    semantic_concept_id: Mapped[str | None] = mapped_column(
+        ForeignKey("semantic_concepts.id"), nullable=True
+    )
+    class_code: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    status: Mapped[ExternalDatasetLabelStatus] = mapped_column(
+        Enum(ExternalDatasetLabelStatus),
+        default=ExternalDatasetLabelStatus.UNMAPPED,
+        nullable=False,
+    )
+    sample_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    signer_count: Mapped[int | None] = mapped_column(Integer, nullable=True)
+    label_metadata: Mapped[dict[str, object]] = mapped_column(
+        "metadata", JSON, default=dict, nullable=False
+    )
+    created_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, nullable=False
+    )
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=utc_now, onupdate=utc_now, nullable=False
+    )
+
+    source: Mapped[ExternalDatasetSource] = relationship(back_populates="labels")
+    canonical_sign: Mapped[Sign | None] = relationship(foreign_keys=[canonical_sign_id])
+
+
+class ExternalDatasetImport(Base):
+    __tablename__ = "external_dataset_imports"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uuid_str)
+    source_id: Mapped[str] = mapped_column(
+        ForeignKey("external_dataset_sources.id"), nullable=False
+    )
+    status: Mapped[str] = mapped_column(String(40), nullable=False)
+    archive_checksum: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    file_count: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    total_size_bytes: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
+    report_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=utc_now)
+    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    error_code: Mapped[str | None] = mapped_column(String(80), nullable=True)
+
+    source: Mapped[ExternalDatasetSource] = relationship(back_populates="imports")
 
 
 class AuditLog(Base):

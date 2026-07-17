@@ -4,7 +4,7 @@ from sqlalchemy import JSON, Boolean, DateTime, Enum, ForeignKey, Integer, Strin
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
-from app.models.enums import ModelStatus, RiskLevel, SignStatus
+from app.models.enums import InputModality, ModelStatus, RecognitionTaskType, RiskLevel, SignStatus
 from app.models.user import uuid_str
 
 
@@ -63,11 +63,25 @@ class ModelVersion(Base):
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     semantic_version: Mapped[str] = mapped_column(String(40), nullable=False)
     status: Mapped[ModelStatus] = mapped_column(Enum(ModelStatus), default=ModelStatus.DRAFT)
+    task_type: Mapped[RecognitionTaskType] = mapped_column(
+        Enum(RecognitionTaskType),
+        default=RecognitionTaskType.WORD_ISOLATED,
+        nullable=False,
+    )
+    input_modality: Mapped[InputModality] = mapped_column(
+        Enum(InputModality),
+        default=InputModality.LANDMARK_SEQUENCE,
+        nullable=False,
+    )
     architecture: Mapped[str] = mapped_column(String(80), default="", nullable=False)
     dataset_version_id: Mapped[str | None] = mapped_column(
         ForeignKey("dataset_versions.id"), nullable=True
     )
     feature_schema_version: Mapped[str] = mapped_column(String(40), default="1.0.0", nullable=False)
+    source_dataset_versions: Mapped[list[object]] = mapped_column(
+        JSON, default=list, nullable=False
+    )
+    supported_classes: Mapped[list[object]] = mapped_column(JSON, default=list, nullable=False)
     vocabulary_size: Mapped[int] = mapped_column(default=0, nullable=False)
     description: Mapped[str] = mapped_column(Text, default="", nullable=False)
     labels_json: Mapped[list[object]] = mapped_column(JSON, default=list, nullable=False)

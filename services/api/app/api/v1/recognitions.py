@@ -9,20 +9,29 @@ from app.api.deps import get_optional_current_user
 from app.core.config import get_settings
 from app.core.errors import ApiError
 from app.db.session import get_db
-from app.models.enums import ConfidenceLevel, CorrectionType, RecognitionDecision, RecognitionStatus
+from app.models.enums import (
+    ConfidenceLevel,
+    CorrectionType,
+    InputModality,
+    RecognitionDecision,
+    RecognitionStatus,
+    RecognitionTaskType,
+)
 from app.models.recognition import RecognitionPrediction, RecognitionSession, UserCorrection
 from app.models.sign import ModelVersion, Sign
 from app.models.user import User
 from app.schemas.recognition import (
     ActiveModelResponse,
+    AlphabetRecognitionRequest,
     ConfirmRecognitionRequest,
     CorrectRecognitionRequest,
     LandmarkRecognitionRequest,
     PredictionResponse,
     RecognitionMockRequest,
+    RecognitionModeResponse,
     RecognitionResponse,
 )
-from app.services.inference_client import predict_mock, predict_sequence
+from app.services.inference_client import predict_alphabet, predict_mock, predict_sequence
 
 from .signs import sign_to_response
 
@@ -98,6 +107,84 @@ def enrich_and_store_predictions(
     return enriched
 
 
+def active_model_response(
+    model: ModelVersion | None, task_type: RecognitionTaskType
+) -> ActiveModelResponse:
+    if model is None:
+        if task_type == RecognitionTaskType.ALPHABET_STATIC:
+            return ActiveModelResponse(
+                id=None,
+                name="opensign-mosl-alphabet-unavailable",
+                semantic_version="0.0.0",
+                status="NOT_TRAINED",
+                task_type=task_type.value,
+                input_modality=InputModality.LANDMARK_SEQUENCE.value,
+                architecture="landmark-mlp-planned",
+                vocabulary_size=0,
+                feature_schema_version=get_settings().feature_schema_version,
+                source_dataset_versions=["kaggle_moroccan_lsm_alphabet:UNVERIFIED"],
+                supported_classes=[],
+                metrics_json={},
+                thresholds_json={"unknown_threshold": 0.65},
+                is_active=False,
+            )
+        return ActiveModelResponse(
+            id=None,
+            name="opensign-darija-landmark-mock",
+            semantic_version="0.2.0",
+            status="MOCK_ONLY",
+            task_type=task_type.value,
+            input_modality=InputModality.LANDMARK_SEQUENCE.value,
+            architecture="mock",
+            vocabulary_size=10,
+            feature_schema_version=get_settings().feature_schema_version,
+            source_dataset_versions=["opensign-darija-pilot:0.1.0"],
+            supported_classes=[],
+            metrics_json={},
+            thresholds_json={"unknown_threshold": 0.6},
+            is_active=False,
+        )
+    return ActiveModelResponse(
+        id=model.id,
+        name=model.name,
+        semantic_version=model.semantic_version,
+        status=model.status.value,
+        task_type=model.task_type.value,
+        input_modality=model.input_modality.value,
+        architecture=model.architecture,
+        vocabulary_size=model.vocabulary_size,
+        feature_schema_version=model.feature_schema_version,
+        source_dataset_versions=model.source_dataset_versions,
+        supported_classes=model.supported_classes,
+        metrics_json=model.metrics_json,
+        thresholds_json=model.thresholds_json,
+        is_active=model.is_active,
+    )
+
+
+modes_router = APIRouter(tags=["recognition-modes"])
+
+
+@modes_router.get("/recognition-modes", response_model=list[RecognitionModeResponse])
+def recognition_modes() -> list[RecognitionModeResponse]:
+    return [
+        RecognitionModeResponse(
+            id="word",
+            task_type=RecognitionTaskType.WORD_ISOLATED.value,
+            label="Reconnaître un signe",
+            description="Utilise les mouvements des mains, du visage et du corps.",
+            endpoint="/api/v1/recognitions/word",
+        ),
+        RecognitionModeResponse(
+            id="alphabet",
+            task_type=RecognitionTaskType.ALPHABET_STATIC.value,
+            label="Épeler un mot",
+            description="Reconnaît les lettres une par une; ce n’est pas une traduction complète.",
+            endpoint="/api/v1/recognitions/alphabet",
+        ),
+    ]
+
+
 def quality_score(payload: LandmarkRecognitionRequest) -> float:
     return round(
         (
@@ -156,6 +243,52 @@ async def create_recognition(
         confidence_level=ConfidenceLevel(result.confidence_level),
         processing_time_ms=result.processing_time_ms,
         quality_score=quality_score(payload),
+    )
+    db.add(session)
+    db.flush()
+    result.recognition_id = session.id
+    result.predictions = enrich_and_store_predictions(db, session, result)
+    db.commit()
+    return result
+
+
+@router.post("/word", response_model=RecognitionResponse)
+async def create_word_recognition(
+    payload: LandmarkRecognitionRequest,
+    request: Request,
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User | None, Depends(get_optional_current_user)],
+) -> RecognitionResponse:
+    return await create_recognition(payload, request, db, current_user)
+
+
+@router.post("/alphabet", response_model=RecognitionResponse)
+async def create_alphabet_recognition(
+    payload: AlphabetRecognitionRequest,
+    request: Request,
+    db: Annotated[Session, Depends(get_db)],
+    current_user: Annotated[User | None, Depends(get_optional_current_user)],
+) -> RecognitionResponse:
+    assert_payload_size(request)
+    check_rate_limit(
+        current_user.id
+        if current_user
+        else payload.anonymous_session_id
+        or (request.client.host if request.client else "guest")
+    )
+    result = await predict_alphabet(payload)
+    session = RecognitionSession(
+        user_id=current_user.id if current_user else None,
+        status=RecognitionStatus.COMPLETED,
+        completed_at=datetime.now(UTC),
+        feature_schema_version=result.feature_schema_version or payload.feature_schema_version,
+        inference_mode=result.inference_mode,
+        model_name=result.model_name,
+        model_version=result.model_version,
+        decision=RecognitionDecision(result.decision),
+        confidence_level=ConfidenceLevel(result.confidence_level),
+        processing_time_ms=result.processing_time_ms,
+        quality_score=round(sum(payload.presence_mask) / len(payload.presence_mask), 4),
     )
     db.add(session)
     db.flush()
@@ -285,30 +418,14 @@ models_router = APIRouter(prefix="/models", tags=["models"])
 
 
 @models_router.get("/active", response_model=ActiveModelResponse)
-def active_model(db: Annotated[Session, Depends(get_db)]) -> ActiveModelResponse:
-    model = db.scalar(select(ModelVersion).where(ModelVersion.is_active.is_(True)))
-    if model is None:
-        return ActiveModelResponse(
-            id=None,
-            name="opensign-darija-landmark-mock",
-            semantic_version="0.2.0",
-            status="MOCK_ONLY",
-            architecture="mock",
-            vocabulary_size=10,
-            feature_schema_version=get_settings().feature_schema_version,
-            metrics_json={},
-            thresholds_json={"unknown_threshold": 0.6},
-            is_active=False,
+def active_model(
+    db: Annotated[Session, Depends(get_db)],
+    task_type: RecognitionTaskType = RecognitionTaskType.WORD_ISOLATED,
+) -> ActiveModelResponse:
+    model = db.scalar(
+        select(ModelVersion).where(
+            ModelVersion.is_active.is_(True),
+            ModelVersion.task_type == task_type,
         )
-    return ActiveModelResponse(
-        id=model.id,
-        name=model.name,
-        semantic_version=model.semantic_version,
-        status=model.status.value,
-        architecture=model.architecture,
-        vocabulary_size=model.vocabulary_size,
-        feature_schema_version=model.feature_schema_version,
-        metrics_json=model.metrics_json,
-        thresholds_json=model.thresholds_json,
-        is_active=model.is_active,
     )
+    return active_model_response(model, task_type)

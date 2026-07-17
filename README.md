@@ -119,8 +119,23 @@ make dataset-build
 make dataset-validate
 make dataset-prepare
 make dataset-stats
+make dataset-validate-licenses
+make dataset-download-kaggle-alphabet
+make dataset-import-mendeley
+make dataset-audit-external
+make dataset-build-alphabet
+make dataset-build-mosl-words
+make dataset-check-duplicates
 make cleanup-uploads
 ```
+
+Sources publiques externes:
+
+- Kaggle `walidlasseg/moroccan-sign-language-lsm-alphabet-dataset`: source `ALPHABET_STATIC`, desactivee tant que la licence officielle Kaggle n’est pas verifiee.
+- Mendeley Data `10.17632/23phgyt3mt.1`: source `WORD_ISOLATED`, licence CC BY 4.0.
+- ScienceDirect `10.1016/j.dib.2025.112395`: reference documentaire du dataset Mendeley, non comptee comme dataset distinct.
+
+Les credentials Kaggle restent hors Git via `KAGGLE_USERNAME`, `KAGGLE_KEY` ou `~/.kaggle/kaggle.json`. Les archives, images, videos, landmarks volumineux, modeles et credentials restent hors Git sous `data/`.
 
 Documentation:
 
@@ -158,6 +173,13 @@ Documentation:
 - `make dataset-validate`: valide le manifeste local.
 - `make dataset-prepare`: prepare un index de sequences.
 - `make dataset-stats`: calcule les statistiques locales.
+- `make dataset-validate-licenses`: verifie les gates de licence et la non-duplication ScienceDirect/Mendeley.
+- `make dataset-download-kaggle-alphabet`: recupere les metadonnees Kaggle et bloque si la licence est absente/incompatible.
+- `make dataset-import-mendeley`: prepare l'import Mendeley; utilisez ensuite `import_local_archive` avec l'archive locale.
+- `make dataset-audit-external`: produit les rapports d'audit structurel externes.
+- `make dataset-build-alphabet`: construit un manifest alphabet separe.
+- `make dataset-build-mosl-words`: construit un manifest video mots separe.
+- `make dataset-check-duplicates`: detecte les doublons inter-sources.
 - `make dataset-validate-training`: refuse l’entrainement si le dataset n’est pas valide.
 - `make ml-baseline`: entraine la baseline quand le dataset est valide.
 - `make ml-train`: lance l’entrainement GRU quand le dataset est valide.
@@ -195,6 +217,8 @@ Voir `docs/roadmap.md`.
 La page `/app/recognition` demande explicitement l’autorisation camera. MediaPipe Holistic extrait visage, mains et haut du corps dans le navigateur. Aucune video, image, capture canvas ou audio n’est envoyee au backend. Seuls des landmarks compacts et normalises sont transmis a `POST /api/v1/recognitions`.
 
 Le modele de reconnaissance reste en mode mock par defaut (`INFERENCE_MODE=mock`). En `INFERENCE_MODE=real`, le service inference exige un artefact ONNX valide et retourne 503 si le modele est absent.
+
+La page `/app/recognition` propose deux modes separes: reconnaissance de signe isole et alphabet/epellation. L'epellation construit un mot lettre par lettre avec confirmation; elle n'est pas presentee comme une traduction complete.
 
 ## Modele IA
 

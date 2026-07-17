@@ -535,6 +535,14 @@ def add_item(
         source = MessageItemSource.MANUAL_INPUT
         if not label:
             raise ApiError("MANUAL_TEXT_REQUIRED", "Texte manuel requis.", 422)
+    elif item_type in {
+        MessageItemType.FINGERSPELLED_LETTER,
+        MessageItemType.FINGERSPELLED_WORD,
+    }:
+        source = MessageItemSource.FINGERSPELLING
+        if not label:
+            raise ApiError("FINGERSPELLED_TEXT_REQUIRED", "Texte épelé requis.", 422)
+        metadata["fingerspelling"] = True
     elif item_type == MessageItemType.PUNCTUATION:
         source = MessageItemSource.MANUAL_INPUT
         label = label or "."

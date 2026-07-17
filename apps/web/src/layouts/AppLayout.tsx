@@ -8,6 +8,7 @@ const appItems = [
   ['/app/messages', 'Messages'],
   ['/app/settings', 'Parametres'],
   ['/admin/reviews/linguistic', 'Review'],
+  ['/admin/datasets/external', 'Datasets publics'],
   ['/admin/models', 'Modeles'],
   ['/admin/linguistics', 'Linguistique'],
   ['/admin/speech', 'Speech'],

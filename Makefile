@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads speech-install speech-download-model speech-verify-model speech-test speech-test-backend speech-test-frontend speech-test-e2e speech-benchmark speech-cleanup speech-voices speech-health logs-speech clean
+.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare dataset-download-kaggle-alphabet dataset-import-mendeley dataset-audit-external dataset-build-alphabet dataset-build-mosl-words dataset-map-labels dataset-validate-licenses dataset-check-duplicates dataset-extract-word-landmarks train-alphabet evaluate-alphabet export-alphabet-onnx train-external-words evaluate-external-words test-external-datasets test-recognition-modes test-browser-alphabet logs-datasets ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads speech-install speech-download-model speech-verify-model speech-test speech-test-backend speech-test-frontend speech-test-e2e speech-benchmark speech-cleanup speech-voices speech-health logs-speech clean
 
 install:
 	cd apps/web && npm install
@@ -85,6 +85,62 @@ dataset-stats:
 
 dataset-prepare:
 	$(PYTHON) -m ml.preprocessing.prepare_sequences
+
+dataset-download-kaggle-alphabet:
+	$(PYTHON) -m ml.datasets.external.download_kaggle --dataset walidlasseg/moroccan-sign-language-lsm-alphabet-dataset --output data/raw/external/kaggle-lsm-alphabet
+
+dataset-import-mendeley:
+	$(PYTHON) -m ml.datasets.external.download_mendeley --dataset-id 23phgyt3mt --version 1 --output data/raw/external/mendeley-mosl-v1
+
+dataset-audit-external:
+	$(PYTHON) -m ml.datasets.external.audit --root data/raw/external --output data/reports
+
+dataset-build-alphabet:
+	$(PYTHON) -m ml.datasets.alphabet.manifest_builder
+	$(PYTHON) -m ml.datasets.alphabet.split_builder
+
+dataset-build-mosl-words:
+	$(PYTHON) -m ml.datasets.mosl_words.manifest_builder
+	$(PYTHON) -m ml.datasets.mosl_words.validator
+
+dataset-map-labels:
+	@echo "Use /admin/datasets/external/alphabet-labels and /admin/datasets/external/word-labels for human mapping."
+
+dataset-validate-licenses:
+	$(PYTHON) -m ml.datasets.external.validate_licenses
+
+dataset-check-duplicates:
+	$(PYTHON) -m ml.datasets.external.check_duplicates
+
+dataset-extract-word-landmarks:
+	$(PYTHON) -m ml.datasets.mosl_words.landmark_extractor --source mendeley_mosl_v1 --feature-schema 1.0.0 --target-frames 30
+
+train-alphabet:
+	@echo "Alphabet training is blocked until Kaggle license and labels are verified."
+
+evaluate-alphabet:
+	@echo "No alphabet model metrics exist until training is run on a verified dataset."
+
+export-alphabet-onnx:
+	@echo "No alphabet ONNX export exists until a verified alphabet model is trained."
+
+train-external-words:
+	@echo "External word training requires audited Mendeley videos, approved labels, and selected vocabulary."
+
+evaluate-external-words:
+	@echo "No external word metrics exist until training is run."
+
+test-external-datasets:
+	PYTHONPATH=. $(PYTHON) -m pytest ml/tests/test_external_datasets.py
+
+test-recognition-modes:
+	cd services/api && ./.venv/bin/pytest tests/test_recognition_modes.py
+
+test-browser-alphabet:
+	cd apps/web && npm run test:e2e -- alphabet.spec.ts
+
+logs-datasets:
+	docker compose logs -f api inference nginx minio
 
 ml-baseline:
 	$(PYTHON) -m ml.training.train_baseline --dataset-version 0.1.0

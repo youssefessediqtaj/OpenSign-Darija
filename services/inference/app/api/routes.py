@@ -1,7 +1,12 @@
 from fastapi import APIRouter, HTTPException
 
 from app.core.config import get_settings
-from app.schemas.prediction import LandmarkSequenceRequest, PredictionResponse, PredictMockRequest
+from app.schemas.prediction import (
+    AlphabetPredictionRequest,
+    LandmarkSequenceRequest,
+    PredictionResponse,
+    PredictMockRequest,
+)
 from app.services.model_loader import model_loader
 from app.services.prediction_service import PredictionService
 
@@ -55,8 +60,21 @@ def predict_mock(payload: PredictMockRequest) -> PredictionResponse:
 
 @router.post("/predict", response_model=PredictionResponse)
 def predict(payload: LandmarkSequenceRequest) -> PredictionResponse:
+    return predict_word(payload)
+
+
+@router.post("/predict/word", response_model=PredictionResponse)
+def predict_word(payload: LandmarkSequenceRequest) -> PredictionResponse:
     try:
         return prediction_service.predict_sequence(payload)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
+
+
+@router.post("/predict/alphabet", response_model=PredictionResponse)
+def predict_alphabet(payload: AlphabetPredictionRequest) -> PredictionResponse:
+    try:
+        return prediction_service.predict_alphabet(payload)
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 

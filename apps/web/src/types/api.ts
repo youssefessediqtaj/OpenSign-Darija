@@ -77,14 +77,27 @@ export type RecognitionResponse = {
   processing_time_ms: number;
 };
 
+export type RecognitionMode = {
+  id: 'word' | 'alphabet';
+  task_type: 'WORD_ISOLATED' | 'ALPHABET_STATIC' | 'CONTINUOUS_SIGNING';
+  label: string;
+  description: string;
+  endpoint: string;
+  active: boolean;
+};
+
 export type ActiveModel = {
   id?: string | null;
   name: string;
   semantic_version: string;
   status: string;
+  task_type: string;
+  input_modality: string;
   architecture: string;
   vocabulary_size: number;
   feature_schema_version: string;
+  source_dataset_versions: unknown[];
+  supported_classes: unknown[];
   metrics_json: Record<string, unknown>;
   thresholds_json: Record<string, unknown>;
   is_active: boolean;

@@ -6,6 +6,7 @@ import numpy as np
 from app.core.config import get_settings
 from app.models.mock_model import MockInferenceModel
 from app.schemas.prediction import (
+    AlphabetPredictionRequest,
     LandmarkSequenceRequest,
     ModelInfo,
     PredictionItem,
@@ -109,5 +110,48 @@ class PredictionService:
             unknown_probability=round(
                 max(0.02, 1 - top_confidence - second_confidence - third_confidence), 2
             ),
+            processing_time_ms=max(1, int((perf_counter() - started) * 1000)),
+        )
+
+    def predict_alphabet(self, payload: AlphabetPredictionRequest) -> PredictionResponse:
+        started = perf_counter()
+        settings = get_settings()
+        if settings.inference_mode == "real":
+            raise RuntimeError("alphabet model not loaded")
+        labels = [
+            "ARABIC_LETTER_ALEF",
+            "ARABIC_LETTER_BAA",
+            "ARABIC_LETTER_TAA",
+            "ARABIC_LETTER_THAA",
+            "ARABIC_LETTER_JEEM",
+        ]
+        visible = sum(payload.presence_mask) / len(payload.presence_mask)
+        seed = int(sum(abs(item) for item in payload.features) * 1000) + payload.stability_frames
+        base_index = seed % len(labels)
+        top_confidence = round(min(0.86, max(0.52, 0.56 + visible * 0.2)), 2)
+        decision = "known" if top_confidence >= 0.65 else "uncertain"
+        return PredictionResponse(
+            request_id=str(uuid4()),
+            sequence_id=str(payload.sequence_id),
+            model=ModelInfo(name="opensign-mosl-alphabet-mock", version="0.1.0"),
+            feature_schema_version=settings.feature_schema_version,
+            inference_mode=settings.inference_mode,
+            status="completed",
+            decision=decision,
+            confidence_level="medium" if decision == "known" else "low",
+            predictions=[
+                PredictionItem(label=labels[base_index], confidence=top_confidence, rank=1),
+                PredictionItem(
+                    label=labels[(base_index + 1) % len(labels)],
+                    confidence=round(max(0.05, 0.18 - visible * 0.03), 2),
+                    rank=2,
+                ),
+                PredictionItem(
+                    label=labels[(base_index + 2) % len(labels)],
+                    confidence=round(max(0.03, 0.1 - visible * 0.02), 2),
+                    rank=3,
+                ),
+            ],
+            unknown_probability=round(max(0.02, 1 - top_confidence), 2),
             processing_time_ms=max(1, int((perf_counter() - started) * 1000)),
         )

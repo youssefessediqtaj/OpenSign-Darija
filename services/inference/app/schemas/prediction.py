@@ -34,6 +34,31 @@ class PredictionResponse(BaseModel):
     processing_time_ms: int = Field(ge=0)
 
 
+class AlphabetPredictionRequest(BaseModel):
+    sequence_id: UUID
+    captured_at: str = Field(min_length=10, max_length=40)
+    feature_schema_version: str = Field(pattern="^1\\.0\\.0$")
+    hand: str = Field(default="unknown", pattern="^(left|right|unknown)$")
+    features: list[float] = Field(min_length=63, max_length=63)
+    presence_mask: list[int] = Field(min_length=21, max_length=21)
+    stability_frames: int = Field(default=0, ge=0, le=120)
+    anonymous_session_id: str | None = Field(default=None, max_length=80)
+
+    @field_validator("features")
+    @classmethod
+    def finite_features(cls, value: list[float]) -> list[float]:
+        if any(not isfinite(item) or abs(item) > 20 for item in value):
+            raise ValueError("features must be finite and within range")
+        return value
+
+    @field_validator("presence_mask")
+    @classmethod
+    def binary_mask(cls, value: list[int]) -> list[int]:
+        if any(item not in (0, 1) for item in value):
+            raise ValueError("presence_mask must contain only 0 or 1")
+        return value
+
+
 class CompactFrame(BaseModel):
     index: int = Field(ge=0, le=59)
     timestamp_ms: int = Field(ge=0, le=10_000)

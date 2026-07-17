@@ -22,6 +22,11 @@ htmlcov/
 .idea/
 .vscode/
 data/
+!data/
+data/*
+!data/README.md
+!data/reports/
+data/reports/*
 minio-data/
 postgres-data/
 redis-data/

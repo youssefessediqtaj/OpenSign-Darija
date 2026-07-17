@@ -1,10 +1,32 @@
 import { apiRequest } from '../../../lib/api';
-import type { RecognitionResponse } from '../../../types/api';
+import type { ActiveModel, RecognitionMode, RecognitionResponse } from '../../../types/api';
 import type { CompactLandmarkSequencePayload } from '../types/sequence.types';
 
 export const landmarkRecognitionApi = {
+  modes: () => apiRequest<RecognitionMode[]>('/api/v1/recognition-modes'),
+  activeModel: (taskType: 'ALPHABET_STATIC' | 'WORD_ISOLATED') =>
+    apiRequest<ActiveModel>(`/api/v1/models/active?task_type=${taskType}`),
   submitSequence: (payload: CompactLandmarkSequencePayload) =>
     apiRequest<RecognitionResponse>('/api/v1/recognitions', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  submitWordSequence: (payload: CompactLandmarkSequencePayload) =>
+    apiRequest<RecognitionResponse>('/api/v1/recognitions/word', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    }),
+  submitAlphabet: (payload: {
+    sequence_id: string;
+    captured_at: string;
+    feature_schema_version: '1.0.0';
+    hand: 'left' | 'right' | 'unknown';
+    features: number[];
+    presence_mask: number[];
+    stability_frames: number;
+    anonymous_session_id?: string;
+  }) =>
+    apiRequest<RecognitionResponse>('/api/v1/recognitions/alphabet', {
       method: 'POST',
       body: JSON.stringify(payload),
     }),

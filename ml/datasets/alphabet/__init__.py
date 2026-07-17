@@ -1,0 +1,1 @@
+"""Static alphabet dataset pipeline."""

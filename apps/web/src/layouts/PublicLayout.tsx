@@ -7,6 +7,7 @@ const navItems = [
   ['/demo', 'Demo'],
   ['/signs', 'Signes'],
   ['/about', 'A propos'],
+  ['/about/data-sources', 'Sources'],
   ['/accessibility', 'Accessibilite'],
 ];
 

@@ -18,6 +18,8 @@ import {
   PrivacySettingsPage,
 } from '../pages/ContributionPages';
 import { DemoPage } from '../pages/DemoPage';
+import { DataSourcesPage } from '../pages/DataSourcesPage';
+import { ExternalDatasetsAdminPage } from '../pages/ExternalDatasetsAdminPage';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
 import { LinguisticsAdminPage } from '../pages/LinguisticsAdminPage';
@@ -45,6 +47,7 @@ export function AppRoutes() {
         <Route path="demo" element={<DemoPage />} />
         <Route path="signs" element={<SignsPage />} />
         <Route path="about" element={<SimplePage title="A propos">OpenSign Darija prepare une plateforme open source pour l’accessibilite en Darija et Langue des Signes Marocaine.</SimplePage>} />
+        <Route path="about/data-sources" element={<DataSourcesPage />} />
         <Route path="privacy" element={<SimplePage title="Confidentialite">Aucune donnee biometrique ni video reelle n’est collectee dans cette phase initiale.</SimplePage>} />
         <Route path="accessibility" element={<SimplePage title="Accessibilite">L’interface privilegie les contrastes, la navigation clavier, les labels explicites et la reduction des animations.</SimplePage>} />
         <Route path="login" element={<LoginPage />} />
@@ -74,6 +77,11 @@ export function AppRoutes() {
           <Route path="reviews/linguistic" element={<LinguisticReviewPage />} />
           <Route path="reviews/ml" element={<MlReviewPage />} />
           <Route path="datasets" element={<DatasetAdminPage />} />
+          <Route path="datasets/external" element={<ExternalDatasetsAdminPage />} />
+          <Route path="datasets/external/kaggle-alphabet" element={<ExternalDatasetsAdminPage labelMode="alphabet" />} />
+          <Route path="datasets/external/mendeley-words" element={<ExternalDatasetsAdminPage labelMode="words" />} />
+          <Route path="datasets/external/alphabet-labels" element={<ExternalDatasetsAdminPage labelMode="alphabet" />} />
+          <Route path="datasets/external/word-labels" element={<ExternalDatasetsAdminPage labelMode="words" />} />
           <Route path="models" element={<ModelAdminPage />} />
           <Route path="linguistics" element={<LinguisticsAdminPage />} />
           <Route path="speech" element={<SpeechAdminPage />} />

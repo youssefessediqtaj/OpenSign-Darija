@@ -7,6 +7,7 @@
 - 2026-07-16T23:07Z [USER] Phase 4 requires first real recognition-model infrastructure: training/evaluation/export/registry pipeline, signer-independent guards, unknown/calibration logic, ONNX inference integration, admin model activation, frontend uncertainty states, and honest blocking when the dataset is invalid.
 - 2026-07-17T02:58Z [USER] Phase 5 requires a controlled Darija message builder from confirmed signs/manual items with semantic concepts, deterministic linguistic generation, editing, history/favorites, speech mock contract, docs, automated tests, Docker/browser/log verification, and no untraceable hallucinated content.
 - 2026-07-17T16:43Z [USER] Phase 6 requires Darija speech synthesis architecture, browser playback controls, secure MinIO audio cache, signed URLs, retention cleanup, browser fallback, tests, Docker/browser/log verification, and honest limits.
+- 2026-07-17T17:45Z [USER] Phase 7 requires integrating public Moroccan Sign Language datasets with strict separation of Kaggle alphabet images (`ALPHABET_STATIC`) and Mendeley MoSL videos (`WORD_ISOLATED`), license gates, source registry, external import/audit tooling, multi-task model routing, frontend modes/fingerspelling, attribution, tests, and honest blocking where raw archives are unavailable.
 
 ## [DECISIONS]
 - 2026-07-16T15:30Z [ASSUMPTION] Current workspace is effectively empty; all project files will be created under `/Users/mac/Desktop/Project/OpenSigne-Darija` to avoid touching unrelated parent Git working tree changes.
@@ -22,6 +23,8 @@
 - 2026-07-17T02:58Z [CODE] Speech is an explicit mock service returning `not_implemented`; no fake audio is generated.
 - 2026-07-17T16:43Z [CODE] Supersedes prior speech mock: phase 6 uses internal `services/speech` with provider abstraction, deterministic local experimental waveform provider `local-darija`, Arabic fallback voice, Darija normalization, WAV validation, and no external TTS API or voice cloning.
 - 2026-07-17T16:43Z [CODE] Speech audio is stored in private MinIO bucket `opensign-speech-audio` under UUID object paths; PostgreSQL stores hashes/metadata/object keys, not full text or audio bytes; Redis currently has no persisted audio/cache keys in MVP.
+- 2026-07-17T17:45Z [CODE] Phase 7 never merges static alphabet images and isolated word videos; `ModelVersion` now carries `task_type`, `input_modality`, `source_dataset_versions`, and `supported_classes`, and active models are selected per recognition task.
+- 2026-07-17T17:45Z [CODE] Kaggle alphabet source is registered but disabled with license `TO_VERIFY`; Mendeley MoSL v1 is registered as the only data source for DOI `10.17632/23phgyt3mt.1`, CC BY 4.0, while ScienceDirect DOI `10.1016/j.dib.2025.112395` is documentation-only and not counted as a dataset.
 
 ## [PROGRESS]
 - 2026-07-16T15:30Z [TOOL] Created required monorepo directory structure for apps, services, packages, ML, infrastructure, docs, and CI.
@@ -41,6 +44,9 @@
 - 2026-07-17T02:58Z [CODE] Browser inspection found and fixed a finalize race: finalization now saves current final fields before `/finalize`, and generation no longer performs a delayed GET that can overwrite immediate manual edits.
 - 2026-07-17T16:43Z [CODE] Added speech SQLAlchemy models/migration, seeded voices, API speech endpoints, speech client, MinIO byte upload/signed URL support, expired-audio cleanup job, Docker `speech-worker`, Make targets, frontend speech feature/player/fallback/admin page, and speech documentation/model card.
 - 2026-07-17T16:43Z [CODE] Removed remaining disabled “Parler — bientôt disponible” UI in message toolbar/detail and replaced detail playback with the real `SpeechButton`.
+- 2026-07-17T17:45Z [CODE] Added external source registry, safe archive import, license validation, audit/duplicate scripts, separate `ml/datasets/alphabet` and `ml/datasets/mosl_words` pipelines, Makefile targets, dataset README, attribution docs, third-party notice, and alphabet/Mendeley dataset/model cards.
+- 2026-07-17T17:45Z [CODE] Added external dataset SQLAlchemy models/migration, seed data, admin external dataset endpoints, recognition modes endpoint, `/recognitions/alphabet`, `/recognitions/word`, inference `/predict/alphabet`, `/predict/word`, and `FINGERSPELLED_WORD` message items.
+- 2026-07-17T17:45Z [CODE] Added frontend recognition mode selector, fingerspelling builder, public `/about/data-sources`, admin `/admin/datasets/external*` pages, and tests for source attribution/fingerspelling.
 
 ## [DISCOVERIES]
 - 2026-07-16T15:30Z [TOOL] `git status` from the workspace reports many changes in parent directories; these are unrelated to this project and must be ignored.
@@ -61,6 +67,8 @@
 - 2026-07-17T16:43Z [TOOL] Speech migration initially failed in Docker because PostgreSQL enum `speechgenerationstatus` was created twice; fixed migration to create the enum once and use `create_type=False` for the table column.
 - 2026-07-17T16:43Z [TOOL] MinIO signed URL validation initially used HEAD and returned 403; GET range returned `206 Partial Content` with `Content-Type: audio/wav`, matching browser audio behavior.
 - 2026-07-17T16:43Z [TOOL] Browser Playwright inspection showed console/page errors empty, speech API calls 200, audio GET range 206, signed audio URL without Darija text, and localStorage only `opensign.guestSessionId`.
+- 2026-07-17T17:45Z [TOOL] Official/source web inspection: Mendeley page lists MoSL v1, DOI `10.17632/23phgyt3mt.1`, contributors, 2,199 videos, and CC BY 4.0; Kaggle page is visible but license metadata was not verified in this environment, so training remains blocked.
+- 2026-07-17T17:45Z [TOOL] Docker startup initially failed because PostgreSQL enum `externaldatasetprovider` used lowercase values while SQLAlchemy wrote enum names; fixed model enum persistence to store provider values (`kaggle`, `mendeley`), after which API seeded sources successfully.
 
 ## [OUTCOMES]
 - 2026-07-16T15:50Z [TOOL] Verified: frontend lint/build/Vitest/Playwright pass; API pytest/Ruff/MyPy pass; inference pytest/Ruff/MyPy pass; local API endpoints for version, health, register, login, auth/me, signs, and mock recognition work.
@@ -75,3 +83,6 @@
 - 2026-07-17T02:58Z [TOOL] Runtime checks passed for `/api/v1/health`, `/api/v1/linguistics/version`, `/api/v1/linguistics/concepts`, speech `/health` and `/prepare`, and full guest message flow create/add/generate/edit/finalize/history through Nginx.
 - 2026-07-17T16:43Z [TOOL] Phase 6 verified: API full pytest `29 passed` plus Ruff/MyPy; speech pytest `4 passed` plus Ruff/MyPy; inference pytest/Ruff/MyPy pass; frontend speech Vitest `2 passed`, lint, and build pass; Docker Compose healthy with API/Postgres/Redis/MinIO/inference/speech/speech-worker/web/Nginx.
 - 2026-07-17T16:43Z [TOOL] Runtime speech flow through Nginx generated WAV audio for finalized guest message, uploaded to MinIO, returned signed URL, replayed in Chromium via `<audio>`, and cache hit worked on repeated generation; 20-call benchmark mean `123.78 ms`, median `78.5 ms`, p95 `303.77 ms`.
+- 2026-07-17T17:45Z [TOOL] Phase 7 verified: API `33 passed` plus Ruff/MyPy; inference `10 passed` plus Ruff/MyPy; speech `4 passed` plus Ruff/MyPy; ML `11 passed`; frontend Vitest `25 passed`, lint, build; Playwright recognition camera `5 passed`; Docker Compose healthy on Nginx `8081`.
+- 2026-07-17T17:45Z [TOOL] Runtime checks passed for `/api/v1/recognition-modes`, `/models/active?task_type=ALPHABET_STATIC`, `/models/active?task_type=WORD_ISOLATED`, `POST /recognitions/alphabet`, public `/about/data-sources`, license validation, external audit with zero local files, and duplicate check. Chromium inspection found attribution and alphabet UI visible, model requests 200, console/page errors empty, and no dataset/credential values in localStorage.
+- 2026-07-17T17:45Z [TOOL] Remaining real-data outcomes are UNCONFIRMED because Kaggle/Mendeley raw archives were not downloaded locally: no real file counts, class counts, signer mapping, MediaPipe extraction metrics, model training, ONNX export, or real accuracy/F1/latency metrics.

@@ -6,6 +6,7 @@ import httpx
 from app.core.config import get_settings
 from app.core.errors import ApiError
 from app.schemas.recognition import (
+    AlphabetRecognitionRequest,
     LandmarkRecognitionRequest,
     PredictionResponse,
     RecognitionResponse,
@@ -64,8 +65,14 @@ async def predict_mock(frames_count: int) -> RecognitionResponse:
 
 
 async def predict_sequence(payload: LandmarkRecognitionRequest) -> RecognitionResponse:
+    return await predict_sequence_for_task(payload, "word")
+
+
+async def predict_sequence_for_task(
+    payload: LandmarkRecognitionRequest, task_endpoint: str
+) -> RecognitionResponse:
     settings = get_settings()
-    url = f"{settings.inference_service_url.rstrip('/')}/predict"
+    url = f"{settings.inference_service_url.rstrip('/')}/predict/{task_endpoint}"
     try:
         async with httpx.AsyncClient(timeout=settings.inference_timeout_seconds) as client:
             response = await client.post(url, json=payload.model_dump(mode="json"))
@@ -115,5 +122,73 @@ async def predict_sequence(payload: LandmarkRecognitionRequest) -> RecognitionRe
         raise ApiError(
             "INFERENCE_UNAVAILABLE",
             "Le moteur de reconnaissance est temporairement indisponible.",
+            503,
+        ) from exc
+
+
+async def predict_alphabet(payload: AlphabetRecognitionRequest) -> RecognitionResponse:
+    settings = get_settings()
+    url = f"{settings.inference_service_url.rstrip('/')}/predict/alphabet"
+    try:
+        async with httpx.AsyncClient(timeout=settings.inference_timeout_seconds) as client:
+            response = await client.post(url, json=payload.model_dump(mode="json"))
+            if response.status_code == 422:
+                raise ApiError(
+                    "FEATURE_SCHEMA_MISMATCH",
+                    "Le format des landmarks de main n’est pas compatible.",
+                    422,
+                    {"feature_schema_version": payload.feature_schema_version},
+                )
+            if response.status_code in {404, 409, 503}:
+                raise ApiError(
+                    "ALPHABET_MODEL_UNAVAILABLE",
+                    "Le modèle alphabet est indisponible.",
+                    503,
+                )
+            response.raise_for_status()
+            data = response.json()
+            return RecognitionResponse(
+                request_id=data["request_id"],
+                sequence_id=data.get("sequence_id"),
+                status=data["status"],
+                model_name=data["model"]["name"],
+                model_version=data["model"]["version"],
+                feature_schema_version=data.get("feature_schema_version"),
+                inference_mode=data.get("inference_mode", "real"),
+                decision=data.get("decision", "known"),
+                confidence_level=data.get("confidence_level", "high"),
+                predictions=[PredictionResponse(**item) for item in data["predictions"]],
+                unknown_probability=data["unknown_probability"],
+                processing_time_ms=data["processing_time_ms"],
+            )
+    except ApiError:
+        raise
+    except (httpx.HTTPError, KeyError, TypeError) as exc:
+        logger.warning(
+            "alphabet inference call failed",
+            extra={"error": exc.__class__.__name__, "sequence_id": str(payload.sequence_id)},
+        )
+        if settings.inference_mode == "mock" and settings.app_env != "production":
+            return RecognitionResponse(
+                request_id=str(uuid4()),
+                sequence_id=str(payload.sequence_id),
+                status="completed",
+                model_name="opensign-mosl-alphabet-mock-fallback",
+                model_version="0.1.0",
+                feature_schema_version=payload.feature_schema_version,
+                inference_mode="mock",
+                decision="known",
+                confidence_level="medium",
+                predictions=[
+                    PredictionResponse(label="ARABIC_LETTER_ALEF", confidence=0.72, rank=1),
+                    PredictionResponse(label="ARABIC_LETTER_BAA", confidence=0.16, rank=2),
+                    PredictionResponse(label="ARABIC_LETTER_TAA", confidence=0.08, rank=3),
+                ],
+                unknown_probability=0.04,
+                processing_time_ms=1,
+            )
+        raise ApiError(
+            "INFERENCE_UNAVAILABLE",
+            "Le moteur alphabet est indisponible.",
             503,
         ) from exc

@@ -23,9 +23,13 @@ def to_model_response(model: ModelVersion) -> ActiveModelResponse:
         name=model.name,
         semantic_version=model.semantic_version,
         status=model.status.value,
+        task_type=model.task_type.value,
+        input_modality=model.input_modality.value,
         architecture=model.architecture,
         vocabulary_size=model.vocabulary_size,
         feature_schema_version=model.feature_schema_version,
+        source_dataset_versions=model.source_dataset_versions,
+        supported_classes=model.supported_classes,
         metrics_json=model.metrics_json,
         thresholds_json=model.thresholds_json,
         is_active=model.is_active,
@@ -99,7 +103,7 @@ def activate_model(
         raise ApiError("MODEL_ARTIFACT_INCOMPLETE", "Artefacts modele incomplets.", 409)
     for active in db.scalars(
         select(ModelVersion).where(
-            ModelVersion.name == model.name, ModelVersion.is_active.is_(True)
+            ModelVersion.task_type == model.task_type, ModelVersion.is_active.is_(True)
         )
     ):
         active.is_active = False
