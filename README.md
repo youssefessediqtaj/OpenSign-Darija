@@ -9,7 +9,7 @@ Phase actuelle: camera web reelle avec extraction locale de landmarks, plateform
 - `apps/web`: frontend React, TypeScript, Vite, Tailwind, TanStack Query, Zustand, i18next.
 - `services/api`: API publique FastAPI, auth JWT/Argon2, SQLAlchemy, Alembic, PostgreSQL, Redis.
 - `services/inference`: service FastAPI interne avec prediction mock compatible backend.
-- `services/speech`: service mock reserve pour une future synthese vocale.
+- `services/speech`: service interne de synthese vocale experimentale avec provider local, normalisation Darija et fallback arabe explicite.
 - `ml`: scripts de manifestes dataset, validation, statistiques, preparation de sequences, et espaces reserves pour entrainement/evaluation.
 - `infrastructure/nginx`: gateway public vers web et `/api`.
 
@@ -173,6 +173,9 @@ Documentation:
 - `make test-messages-frontend`: teste les composants messages.
 - `make test-messages-e2e`: teste le parcours navigateur messages.
 - `make logs-messages`: suit les logs API, speech et Nginx.
+- `make speech-test`: teste le service speech.
+- `make speech-health`: verifie le statut speech via Nginx et le service interne.
+- `make speech-cleanup`: nettoie les audios speech expires.
 - `make benchmark-inference`: mesure 20 appels inference locaux.
 - `make cleanup-uploads`: dry-run de nettoyage des uploads orphelins.
 - `make clean`: supprime les artefacts locaux.
@@ -221,6 +224,10 @@ Documentation:
 - `docs/message-history.md`
 - `docs/message-privacy.md`
 - `docs/speech-contract.md`
+- `docs/speech-architecture.md`
+- `docs/speech-provider.md`
+- `docs/browser-speech-fallback.md`
+- `SPEECH_MODEL_CARD.md`
 
 ## Consentements Dataset
 

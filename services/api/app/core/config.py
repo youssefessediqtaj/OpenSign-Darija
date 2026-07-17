@@ -45,7 +45,27 @@ class Settings(BaseSettings):
     message_history_enabled: bool = True
     guest_message_ttl_minutes: int = 120
     speech_service_url: str = "http://speech:8010"
-    speech_mode: str = "mock"
+    speech_mode: str = "local"
+    speech_provider: str = "local_darija"
+    speech_model_path: str | None = None
+    speech_model_bucket: str = "opensign-speech-models"
+    speech_model_version: str = "opensign-tone-v1"
+    speech_default_voice_id: str = "darija-default"
+    speech_fallback_provider: str = "local_arabic_fallback"
+    speech_device: str = "cpu"
+    speech_max_text_length: int = 500
+    speech_max_sentences: int = 5
+    speech_max_concurrent_generations: int = 2
+    speech_generation_timeout_seconds: int = 20
+    speech_cache_ttl_seconds: int = 3600
+    speech_guest_audio_ttl_seconds: int = 3600
+    speech_user_audio_ttl_seconds: int = 86400
+    speech_audio_format: str = "wav"
+    speech_sample_rate: int = 22050
+    speech_model_checksum_required: bool = False
+    speech_enable_browser_fallback: bool = True
+    speech_audio_bucket: str = "opensign-speech-audio"
+    speech_signed_url_ttl_seconds: int = 900
 
 
 @lru_cache

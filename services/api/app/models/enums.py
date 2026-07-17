@@ -239,6 +239,16 @@ class MessageRevisionChangeType(StrEnum):
     FINALIZED = "FINALIZED"
 
 
+class SpeechGenerationStatus(StrEnum):
+    CREATED = "CREATED"
+    QUEUED = "QUEUED"
+    PROCESSING = "PROCESSING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    EXPIRED = "EXPIRED"
+    DELETED = "DELETED"
+
+
 class LinguisticStatus(StrEnum):
     HIGH = "HIGH"
     MEDIUM = "MEDIUM"

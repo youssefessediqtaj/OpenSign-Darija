@@ -32,6 +32,7 @@ from app.models.linguistics import (
 )
 from app.models.message import Message, MessageItem
 from app.models.sign import ModelVersion, Sign, SignCategory
+from app.models.speech import SpeechVoice
 from app.models.user import Role, User, UserRole
 from app.security.passwords import hash_password
 
@@ -348,6 +349,31 @@ MESSAGE_TEMPLATES = [
     ),
 ]
 
+SPEECH_VOICES = [
+    (
+        "darija-default",
+        "local-darija",
+        "opensign-tone-ary-ma-1",
+        "Voix synthétique expérimentale en Darija",
+        "ary-MA",
+        "ary-MA",
+        "opensign-tone-v1",
+        {"license": "Apache-2.0 project code; no external weights bundled"},
+        True,
+    ),
+    (
+        "arabic-fallback",
+        "local-arabic-fallback",
+        "opensign-tone-ar-1",
+        "Voix arabe de secours",
+        "ar",
+        "ar",
+        "opensign-tone-v1",
+        {"license": "Apache-2.0 project code; not a native Darija voice"},
+        False,
+    ),
+]
+
 
 def seed() -> None:
     Base.metadata.create_all(bind=engine)
@@ -431,6 +457,35 @@ def seed() -> None:
                         full_text=full_text,
                         language=language,
                         is_active=True,
+                    )
+                )
+
+        for (
+            voice_id,
+            provider,
+            voice_code,
+            display_name,
+            language,
+            locale,
+            model_version,
+            license_info,
+            is_default,
+        ) in SPEECH_VOICES:
+            voice = db.get(SpeechVoice, voice_id)
+            if voice is None:
+                db.add(
+                    SpeechVoice(
+                        id=voice_id,
+                        provider=provider,
+                        voice_code=voice_code,
+                        display_name=display_name,
+                        language=language,
+                        locale=locale,
+                        model_version=model_version,
+                        license_info=license_info,
+                        is_active=True,
+                        is_default=is_default,
+                        is_experimental=True,
                     )
                 )
 

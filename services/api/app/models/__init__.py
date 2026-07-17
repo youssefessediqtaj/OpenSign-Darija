@@ -21,6 +21,7 @@ from app.models.linguistics import (
 from app.models.message import Message, MessageItem, MessageRevision
 from app.models.recognition import RecognitionPrediction, RecognitionSession
 from app.models.sign import ModelVersion, Sign, SignCategory
+from app.models.speech import SpeechGeneration, SpeechVoice
 from app.models.user import Role, User, UserRole
 
 __all__ = [
@@ -49,6 +50,8 @@ __all__ = [
     "SemanticConcept",
     "SignSemanticMapping",
     "SignCategory",
+    "SpeechGeneration",
+    "SpeechVoice",
     "User",
     "UserRole",
 ]

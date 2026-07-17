@@ -23,7 +23,6 @@ export function MessageToolbar({ onManualWord, onPunctuation, onGenerate, onFina
       <div className="mt-3 flex flex-wrap gap-2">
         <Button onClick={onGenerate} disabled={generating}>{generating ? 'Création de la phrase en Darija…' : 'Générer la phrase'}</Button>
         <Button variant="secondary" onClick={onFinalize}>Finaliser le message</Button>
-        <Button variant="secondary" disabled>Parler — bientôt disponible</Button>
       </div>
     </section>
   );

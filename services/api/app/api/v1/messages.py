@@ -14,11 +14,13 @@ from app.models.enums import (
     MessageItemType,
     MessageRevisionChangeType,
     MessageStatus,
+    SpeechGenerationStatus,
 )
 from app.models.linguistics import SemanticConcept, SignSemanticMapping
 from app.models.message import Message, MessageItem, MessageRevision
 from app.models.recognition import RecognitionSession, UserCorrection
 from app.models.sign import Sign
+from app.models.speech import SpeechGeneration
 from app.models.user import User
 from app.schemas.messages import (
     AddMessageItemRequest,
@@ -38,6 +40,7 @@ from app.schemas.messages import (
 from app.services.linguistics import LinguisticEngine
 from app.services.linguistics.engine import GenerationInput
 from app.services.linguistics.validation import validate_text_length
+from app.services.object_storage import ObjectStorage
 
 router = APIRouter(prefix="/messages", tags=["messages"])
 
@@ -356,6 +359,15 @@ def delete_message(
     assert_message_access(message, current_user, x_anonymous_session_id, write=True)
     message.status = MessageStatus.DELETED
     message.deleted_at = datetime.now(UTC)
+    for generation in db.scalars(
+        select(SpeechGeneration).where(SpeechGeneration.message_id == message.id)
+    ).all():
+        if generation.audio_object_key:
+            ObjectStorage().delete_object(
+                get_settings().speech_audio_bucket, generation.audio_object_key
+            )
+        generation.status = SpeechGenerationStatus.DELETED
+        generation.deleted_at = datetime.now(UTC)
     db.commit()
     return {"status": "deleted", "message_id": message_id}
 

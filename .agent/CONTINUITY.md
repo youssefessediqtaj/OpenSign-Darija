@@ -6,6 +6,7 @@
 - 2026-07-16T20:47Z [USER] Phase 3 requires Moroccan dataset collection workflow: separate consent management, contributor profiles, campaigns, uploads to object storage, linguistic/ML review gates, admin dataset version/export tools, docs, tests, and Docker verification.
 - 2026-07-16T23:07Z [USER] Phase 4 requires first real recognition-model infrastructure: training/evaluation/export/registry pipeline, signer-independent guards, unknown/calibration logic, ONNX inference integration, admin model activation, frontend uncertainty states, and honest blocking when the dataset is invalid.
 - 2026-07-17T02:58Z [USER] Phase 5 requires a controlled Darija message builder from confirmed signs/manual items with semantic concepts, deterministic linguistic generation, editing, history/favorites, speech mock contract, docs, automated tests, Docker/browser/log verification, and no untraceable hallucinated content.
+- 2026-07-17T16:43Z [USER] Phase 6 requires Darija speech synthesis architecture, browser playback controls, secure MinIO audio cache, signed URLs, retention cleanup, browser fallback, tests, Docker/browser/log verification, and honest limits.
 
 ## [DECISIONS]
 - 2026-07-16T15:30Z [ASSUMPTION] Current workspace is effectively empty; all project files will be created under `/Users/mac/Desktop/Project/OpenSigne-Darija` to avoid touching unrelated parent Git working tree changes.
@@ -19,6 +20,8 @@
 - 2026-07-17T02:58Z [CODE] Phase 5 uses a deterministic backend linguistic engine and seeded/demo linguistic data; it never calls an external LLM or third-party translation service.
 - 2026-07-17T02:58Z [CODE] Guest messages are keyed by `X-Anonymous-Session-Id` and frontend localStorage stores only `opensign.guestSessionId`; backend TTL cleanup for guest messages is still UNCONFIRMED.
 - 2026-07-17T02:58Z [CODE] Speech is an explicit mock service returning `not_implemented`; no fake audio is generated.
+- 2026-07-17T16:43Z [CODE] Supersedes prior speech mock: phase 6 uses internal `services/speech` with provider abstraction, deterministic local experimental waveform provider `local-darija`, Arabic fallback voice, Darija normalization, WAV validation, and no external TTS API or voice cloning.
+- 2026-07-17T16:43Z [CODE] Speech audio is stored in private MinIO bucket `opensign-speech-audio` under UUID object paths; PostgreSQL stores hashes/metadata/object keys, not full text or audio bytes; Redis currently has no persisted audio/cache keys in MVP.
 
 ## [PROGRESS]
 - 2026-07-16T15:30Z [TOOL] Created required monorepo directory structure for apps, services, packages, ML, infrastructure, docs, and CI.
@@ -36,6 +39,8 @@
 - 2026-07-17T02:58Z [CODE] Added React message builder/history/favorites/detail routes, message feature components/hooks/services/store/types/tests, recognition-to-message actions, guest route access, and read-only linguistics admin page.
 - 2026-07-17T02:58Z [CODE] Added `services/speech` mock FastAPI service, Docker Compose wiring, Makefile targets, and docs for message builder, semantic concepts, linguistic engine, Darija conventions, privacy/history, speech contract, and manual checks.
 - 2026-07-17T02:58Z [CODE] Browser inspection found and fixed a finalize race: finalization now saves current final fields before `/finalize`, and generation no longer performs a delayed GET that can overwrite immediate manual edits.
+- 2026-07-17T16:43Z [CODE] Added speech SQLAlchemy models/migration, seeded voices, API speech endpoints, speech client, MinIO byte upload/signed URL support, expired-audio cleanup job, Docker `speech-worker`, Make targets, frontend speech feature/player/fallback/admin page, and speech documentation/model card.
+- 2026-07-17T16:43Z [CODE] Removed remaining disabled “Parler — bientôt disponible” UI in message toolbar/detail and replaced detail playback with the real `SpeechButton`.
 
 ## [DISCOVERIES]
 - 2026-07-16T15:30Z [TOOL] `git status` from the workspace reports many changes in parent directories; these are unrelated to this project and must be ignored.
@@ -53,6 +58,9 @@
 - 2026-07-17T02:58Z [TOOL] In-app Browser backend `iab` was unavailable (`agent.browsers.list()` returned `[]`), so manual browser inspection used local Playwright Chromium against Docker Nginx on `localhost:8081`.
 - 2026-07-17T02:58Z [TOOL] Final Chromium inspection after fixes: `/api/v1/messages`, `/items`, `/generate`, `PATCH /messages/{id}`, `/finalize`, and history list all returned 200; console/page errors were empty; localStorage only contained `opensign.guestSessionId`.
 - 2026-07-17T02:58Z [TOOL] Docker logs after final inspection show message-builder API/Nginx requests in 200 and no message bodies; older 422 finalize entries in the same log window were from pre-fix diagnostic runs.
+- 2026-07-17T16:43Z [TOOL] Speech migration initially failed in Docker because PostgreSQL enum `speechgenerationstatus` was created twice; fixed migration to create the enum once and use `create_type=False` for the table column.
+- 2026-07-17T16:43Z [TOOL] MinIO signed URL validation initially used HEAD and returned 403; GET range returned `206 Partial Content` with `Content-Type: audio/wav`, matching browser audio behavior.
+- 2026-07-17T16:43Z [TOOL] Browser Playwright inspection showed console/page errors empty, speech API calls 200, audio GET range 206, signed audio URL without Darija text, and localStorage only `opensign.guestSessionId`.
 
 ## [OUTCOMES]
 - 2026-07-16T15:50Z [TOOL] Verified: frontend lint/build/Vitest/Playwright pass; API pytest/Ruff/MyPy pass; inference pytest/Ruff/MyPy pass; local API endpoints for version, health, register, login, auth/me, signs, and mock recognition work.
@@ -65,3 +73,5 @@
 - 2026-07-16T23:07Z [TOOL] `make dataset-validate-training` intentionally exits nonzero with errors: status `UNCONFIRMED`, zero examples, no eligible pilot classes; real training/evaluation metrics remain UNCONFIRMED.
 - 2026-07-17T02:58Z [TOOL] Phase 5 verified: API `24 passed` plus Ruff/MyPy; inference `9 passed` plus Ruff/MyPy; frontend Vitest `21 passed`, lint, build, and Playwright `8 passed`; Docker Compose healthy with Nginx on `8081`.
 - 2026-07-17T02:58Z [TOOL] Runtime checks passed for `/api/v1/health`, `/api/v1/linguistics/version`, `/api/v1/linguistics/concepts`, speech `/health` and `/prepare`, and full guest message flow create/add/generate/edit/finalize/history through Nginx.
+- 2026-07-17T16:43Z [TOOL] Phase 6 verified: API full pytest `29 passed` plus Ruff/MyPy; speech pytest `4 passed` plus Ruff/MyPy; inference pytest/Ruff/MyPy pass; frontend speech Vitest `2 passed`, lint, and build pass; Docker Compose healthy with API/Postgres/Redis/MinIO/inference/speech/speech-worker/web/Nginx.
+- 2026-07-17T16:43Z [TOOL] Runtime speech flow through Nginx generated WAV audio for finalized guest message, uploaded to MinIO, returned signed URL, replayed in Chromium via `<audio>`, and cache hit worked on repeated generation; 20-call benchmark mean `123.78 ms`, median `78.5 ms`, p95 `303.77 ms`.

@@ -1,17 +1,26 @@
 # Speech Contract
 
-Phase 5 ne genere aucun audio.
+Phase 6 genere un audio experimental local pour les messages finalises.
 
-Contrat prepare:
+Service interne:
 
 ```json
 {
-  "message_id": "uuid",
   "text": "بغيت الما",
   "language": "ary-MA",
-  "voice": "default",
-  "speed": 1.0
+  "voice_id": "darija-default",
+  "speed": 1.0,
+  "output_format": "wav"
 }
 ```
 
-L'endpoint API `POST /api/v1/messages/{message_id}/speech/prepare` et le service `speech` retournent `not_implemented`.
+Endpoints publics principaux:
+
+- `GET /api/v1/speech/voices`
+- `GET /api/v1/speech/status`
+- `POST /api/v1/messages/{message_id}/speech`
+- `GET /api/v1/messages/{message_id}/speech/{generation_id}`
+- `POST /api/v1/messages/{message_id}/speech/{generation_id}/refresh-url`
+- `DELETE /api/v1/messages/{message_id}/speech/{generation_id}`
+
+Le service speech reste interne au reseau Docker.

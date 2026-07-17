@@ -34,6 +34,7 @@ import { RecognitionPage } from '../pages/RecognitionPage';
 import { SignsPage } from '../pages/SignsPage';
 import { SimplePage } from '../pages/SimplePage';
 import { SettingsPage } from '../pages/SettingsPage';
+import { SpeechAdminPage } from '../pages/SpeechAdminPage';
 import { ProtectedRoute } from './ProtectedRoute';
 
 export function AppRoutes() {
@@ -75,6 +76,9 @@ export function AppRoutes() {
           <Route path="datasets" element={<DatasetAdminPage />} />
           <Route path="models" element={<ModelAdminPage />} />
           <Route path="linguistics" element={<LinguisticsAdminPage />} />
+          <Route path="speech" element={<SpeechAdminPage />} />
+          <Route path="speech/voices" element={<SpeechAdminPage />} />
+          <Route path="speech/generations" element={<SpeechAdminPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

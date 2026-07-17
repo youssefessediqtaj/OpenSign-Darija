@@ -1,11 +1,12 @@
 PYTHON ?= python3
 
-.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads clean
+.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads speech-install speech-download-model speech-verify-model speech-test speech-test-backend speech-test-frontend speech-test-e2e speech-benchmark speech-cleanup speech-voices speech-health logs-speech clean
 
 install:
 	cd apps/web && npm install
 	cd services/api && $(PYTHON) -m venv .venv && . .venv/bin/activate && pip install -e ".[dev]"
 	cd services/inference && $(PYTHON) -m venv .venv && . .venv/bin/activate && pip install -e ".[dev]"
+	cd services/speech && $(PYTHON) -m venv .venv && . .venv/bin/activate && pip install -e ".[dev]"
 
 dev:
 	docker compose up postgres redis minio inference api web
@@ -32,6 +33,7 @@ test:
 	$(MAKE) test-frontend
 	$(MAKE) test-backend
 	cd services/inference && pytest
+	cd services/speech && pytest
 
 test-backend:
 	cd services/api && pytest
@@ -149,6 +151,45 @@ linguistic-validate: test-linguistics
 
 logs-messages:
 	docker compose logs -f api speech nginx
+
+speech-install:
+	cd services/speech && $(PYTHON) -m venv .venv && . .venv/bin/activate && pip install -e ".[dev]"
+
+speech-download-model:
+	@echo "No external speech model is downloaded in phase 6 MVP; local provider has no bundled weights."
+
+speech-verify-model:
+	cd services/speech && .venv/bin/python -c "from app.providers.registry import ProviderRegistry; assert ProviderRegistry().ready(); print('speech model metadata verified')"
+
+speech-test:
+	cd services/speech && .venv/bin/pytest
+	cd services/speech && .venv/bin/ruff check app tests
+	cd services/speech && .venv/bin/mypy app
+
+speech-test-backend:
+	cd services/api && .venv/bin/pytest tests/test_speech_audio.py
+
+speech-test-frontend:
+	cd apps/web && npm test -- --run src/features/speech/tests/speech-player.test.tsx
+
+speech-test-e2e:
+	cd apps/web && npm run test:e2e -- messages.spec.ts
+
+speech-benchmark:
+	$(PYTHON) scripts/benchmark_speech.py
+
+speech-cleanup:
+	docker compose exec -T api python -m app.jobs.cleanup_expired_audio
+
+speech-voices:
+	curl -sS http://localhost:8081/api/v1/speech/voices
+
+speech-health:
+	curl -sS http://localhost:8081/api/v1/speech/status && echo
+	docker compose exec -T speech python -c "import urllib.request; print(urllib.request.urlopen('http://localhost:8010/ready').read().decode())"
+
+logs-speech:
+	docker compose logs -f speech speech-worker api nginx
 
 benchmark-inference:
 	$(PYTHON) scripts/benchmark_inference.py

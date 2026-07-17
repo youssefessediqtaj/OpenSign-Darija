@@ -13,6 +13,7 @@ from app.api.v1 import (
     recognitions,
     reviews,
     signs,
+    speech,
     system,
 )
 
@@ -23,6 +24,7 @@ api_router.include_router(signs.router)
 api_router.include_router(recognitions.router)
 api_router.include_router(recognitions.models_router)
 api_router.include_router(messages.router)
+api_router.include_router(speech.router)
 api_router.include_router(linguistics.router)
 api_router.include_router(consents.router)
 api_router.include_router(contributors.router)

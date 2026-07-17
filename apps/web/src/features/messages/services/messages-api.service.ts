@@ -18,7 +18,7 @@ export function getGuestSessionId() {
   return created;
 }
 
-function guestHeaders() {
+export function guestHeaders() {
   return { 'X-Anonymous-Session-Id': getGuestSessionId() };
 }
 

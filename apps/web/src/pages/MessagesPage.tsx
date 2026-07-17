@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
-import { Button } from '../components/Button';
 import { MessageBuilder } from '../features/messages/components/MessageBuilder';
 import { MessageHistoryList } from '../features/messages/components/MessageHistoryList';
 import { useCurrentMessage } from '../features/messages/hooks/useCurrentMessage';
 import { messagesApi } from '../features/messages/services/messages-api.service';
+import { SpeechButton } from '../features/speech/components/SpeechButton';
 
 export function MessagesHomePage() {
   return (
@@ -41,7 +41,6 @@ export function MessageEditPage() {
 export function MessageDetailPage() {
   const { messageId } = useParams();
   const { message, loading, error } = useCurrentMessage(messageId);
-  const [speech, setSpeech] = useState<string | null>(null);
   if (loading) return <p>Chargement du message…</p>;
   if (error) return <p className="rounded-md bg-red-50 p-3 text-red-800">{error}</p>;
   if (!message) return <p>Message introuvable.</p>;
@@ -54,7 +53,6 @@ export function MessageDetailPage() {
         </div>
         <div className="flex gap-2">
           <Link className="rounded-md bg-teal-700 px-4 py-2 text-white" to={`/app/messages/${message.id}/edit`}>Modifier</Link>
-          <Button variant="secondary" disabled onClick={async () => setSpeech((await messagesApi.speech(message.id)).message)}>Parler — bientôt disponible</Button>
         </div>
       </div>
       <section className="rounded-md border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
@@ -62,7 +60,7 @@ export function MessageDetailPage() {
         <p className="mt-3 text-lg">{message.final_darija_latin || message.generated_darija_latin}</p>
         <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{message.final_french || message.generated_french}</p>
       </section>
-      {speech && <p className="rounded-md bg-slate-100 p-3 text-sm dark:bg-slate-800">{speech}</p>}
+      <SpeechButton message={message} />
     </div>
   );
 }

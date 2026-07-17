@@ -181,6 +181,42 @@ export type MessageRevision = {
   created_at: string;
 };
 
+export type SpeechVoice = {
+  id: string;
+  provider: string;
+  display_name: string;
+  language: string;
+  locale: string;
+  model_version: string;
+  license_info: Record<string, unknown>;
+  is_default: boolean;
+  is_active: boolean;
+  is_experimental: boolean;
+};
+
+export type SpeechGenerationAudio = {
+  url: string;
+  mime_type: string;
+  duration_ms: number;
+  file_size_bytes: number;
+  expires_at: string;
+};
+
+export type SpeechGeneration = {
+  generation_id: string;
+  status: string;
+  cache_hit: boolean;
+  estimated_mode: string;
+  audio?: SpeechGenerationAudio | null;
+  voice?: SpeechVoice | null;
+  provider?: { name: string; model_version: string } | null;
+  fallback_used: boolean;
+  requested_language: string;
+  synthesis_language: string;
+  expires_at?: string | null;
+  error_code?: string | null;
+};
+
 export type VersionResponse = {
   service: string;
   version: string;

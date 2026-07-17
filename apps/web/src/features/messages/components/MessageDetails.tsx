@@ -1,4 +1,5 @@
 import type { Message } from '../../../types/api';
+import { SpeechButton } from '../../speech/components/SpeechButton';
 import { MessageLanguageTabs } from './MessageLanguageTabs';
 import { ShareMessageButton } from './ShareMessageButton';
 
@@ -14,6 +15,9 @@ export function MessageDetails({ message }: { message: Message }) {
       </div>
       <div className="mt-4">
         <MessageLanguageTabs message={message} />
+      </div>
+      <div className="mt-4">
+        <SpeechButton message={message} />
       </div>
     </section>
   );

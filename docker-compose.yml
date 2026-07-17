@@ -57,7 +57,25 @@ services:
       MESSAGE_HISTORY_ENABLED: ${MESSAGE_HISTORY_ENABLED:-true}
       GUEST_MESSAGE_TTL_MINUTES: ${GUEST_MESSAGE_TTL_MINUTES:-120}
       SPEECH_SERVICE_URL: http://speech:8010
-      SPEECH_MODE: ${SPEECH_MODE:-mock}
+      SPEECH_MODE: ${SPEECH_MODE:-local}
+      SPEECH_PROVIDER: ${SPEECH_PROVIDER:-local_darija}
+      SPEECH_MODEL_BUCKET: ${SPEECH_MODEL_BUCKET:-opensign-speech-models}
+      SPEECH_MODEL_VERSION: ${SPEECH_MODEL_VERSION:-opensign-tone-v1}
+      SPEECH_DEFAULT_VOICE_ID: ${SPEECH_DEFAULT_VOICE_ID:-darija-default}
+      SPEECH_FALLBACK_PROVIDER: ${SPEECH_FALLBACK_PROVIDER:-local_arabic_fallback}
+      SPEECH_MAX_TEXT_LENGTH: ${SPEECH_MAX_TEXT_LENGTH:-500}
+      SPEECH_MAX_SENTENCES: ${SPEECH_MAX_SENTENCES:-5}
+      SPEECH_MAX_CONCURRENT_GENERATIONS: ${SPEECH_MAX_CONCURRENT_GENERATIONS:-2}
+      SPEECH_GENERATION_TIMEOUT_SECONDS: ${SPEECH_GENERATION_TIMEOUT_SECONDS:-20}
+      SPEECH_CACHE_TTL_SECONDS: ${SPEECH_CACHE_TTL_SECONDS:-3600}
+      SPEECH_GUEST_AUDIO_TTL_SECONDS: ${SPEECH_GUEST_AUDIO_TTL_SECONDS:-3600}
+      SPEECH_USER_AUDIO_TTL_SECONDS: ${SPEECH_USER_AUDIO_TTL_SECONDS:-86400}
+      SPEECH_AUDIO_FORMAT: ${SPEECH_AUDIO_FORMAT:-wav}
+      SPEECH_SAMPLE_RATE: ${SPEECH_SAMPLE_RATE:-22050}
+      SPEECH_MODEL_CHECKSUM_REQUIRED: ${SPEECH_MODEL_CHECKSUM_REQUIRED:-false}
+      SPEECH_ENABLE_BROWSER_FALLBACK: ${SPEECH_ENABLE_BROWSER_FALLBACK:-true}
+      SPEECH_AUDIO_BUCKET: ${SPEECH_AUDIO_BUCKET:-opensign-speech-audio}
+      SPEECH_SIGNED_URL_TTL_SECONDS: ${SPEECH_SIGNED_URL_TTL_SECONDS:-900}
     depends_on:
       postgres:
         condition: service_healthy
@@ -97,7 +115,17 @@ services:
   speech:
     build: ./services/speech
     environment:
-      SPEECH_MODE: ${SPEECH_MODE:-mock}
+      SPEECH_MODE: ${SPEECH_MODE:-local}
+      SPEECH_PROVIDER: ${SPEECH_PROVIDER:-local_darija}
+      SPEECH_MODEL_VERSION: ${SPEECH_MODEL_VERSION:-opensign-tone-v1}
+      SPEECH_DEFAULT_VOICE_ID: ${SPEECH_DEFAULT_VOICE_ID:-darija-default}
+      SPEECH_FALLBACK_PROVIDER: ${SPEECH_FALLBACK_PROVIDER:-local_arabic_fallback}
+      SPEECH_MAX_TEXT_LENGTH: ${SPEECH_MAX_TEXT_LENGTH:-500}
+      SPEECH_MAX_SENTENCES: ${SPEECH_MAX_SENTENCES:-5}
+      SPEECH_MAX_CONCURRENT_GENERATIONS: ${SPEECH_MAX_CONCURRENT_GENERATIONS:-2}
+      SPEECH_GENERATION_TIMEOUT_SECONDS: ${SPEECH_GENERATION_TIMEOUT_SECONDS:-20}
+      SPEECH_AUDIO_FORMAT: ${SPEECH_AUDIO_FORMAT:-wav}
+      SPEECH_SAMPLE_RATE: ${SPEECH_SAMPLE_RATE:-22050}
     expose:
       - "8010"
     healthcheck:
@@ -105,6 +133,28 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  speech-worker:
+    build: ./services/api
+    command: ["sh", "-c", "while true; do python -m app.jobs.cleanup_expired_audio; sleep 60; done"]
+    environment:
+      APP_ENV: ${APP_ENV:-development}
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-opensign}:${POSTGRES_PASSWORD:-opensign_dev_password}@postgres:5432/${POSTGRES_DB:-opensign}
+      MINIO_ENDPOINT: minio:9000
+      MINIO_PUBLIC_ENDPOINT: ${MINIO_PUBLIC_ENDPOINT:-localhost:9000}
+      MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY:-opensign}
+      MINIO_SECRET_KEY: ${MINIO_SECRET_KEY:-opensign_dev_password}
+      MINIO_SECURE: "false"
+      SPEECH_AUDIO_BUCKET: ${SPEECH_AUDIO_BUCKET:-opensign-speech-audio}
+    depends_on:
+      api:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
   postgres:
     image: postgres:16-alpine
