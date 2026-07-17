@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset dataset-build dataset-validate dataset-stats dataset-prepare cleanup-uploads clean
+.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e benchmark-inference cleanup-uploads clean
 
 install:
 	cd apps/web && npm install
@@ -73,11 +73,59 @@ dataset-build:
 dataset-validate:
 	$(PYTHON) -m ml.datasets.validate_dataset
 
+dataset-validate-training:
+	$(PYTHON) -m ml.datasets.validate_training_dataset --dataset-version 0.1.0
+
 dataset-stats:
 	$(PYTHON) -m ml.datasets.generate_statistics
 
 dataset-prepare:
 	$(PYTHON) -m ml.preprocessing.prepare_sequences
+
+ml-baseline:
+	$(PYTHON) -m ml.training.train_baseline --dataset-version 0.1.0
+
+ml-train:
+	$(PYTHON) -m ml.training.train --config ml/configs/gru.yaml --dataset-version 0.1.0
+
+ml-evaluate:
+	$(PYTHON) -m ml.evaluation.evaluate --artifact-dir ml/artifacts/opensign-pilot-gru/0.1.0
+
+ml-export-onnx:
+	$(PYTHON) -m ml.export.export_onnx --checkpoint ml/artifacts/opensign-pilot-gru/0.1.0/model.pt --output ml/artifacts/opensign-pilot-gru/0.1.0/model.onnx
+
+ml-validate-onnx:
+	$(PYTHON) -m ml.export.validate_onnx --checkpoint ml/artifacts/opensign-pilot-gru/0.1.0/model.pt --onnx ml/artifacts/opensign-pilot-gru/0.1.0/model.onnx
+
+ml-register-model:
+	$(PYTHON) -m ml.export.register_model --artifact-dir ml/artifacts/opensign-pilot-gru/0.1.0
+
+model-list:
+	curl -sS http://localhost:8081/api/v1/models/active
+
+model-activate:
+	@test -n "$(MODEL_ID)" || (echo "Usage: make model-activate MODEL_ID=<id>" && exit 1)
+	@test -n "$(TOKEN)" || (echo "Usage: make model-activate MODEL_ID=<id> TOKEN=<admin-jwt>" && exit 1)
+	curl -sS -X POST -H "Authorization: Bearer $(TOKEN)" http://localhost:8081/api/v1/admin/models/$(MODEL_ID)/activate
+
+model-rollback:
+	@test -n "$(MODEL_ID)" || (echo "Usage: make model-rollback MODEL_ID=<id>" && exit 1)
+	@test -n "$(TOKEN)" || (echo "Usage: make model-rollback MODEL_ID=<id> TOKEN=<admin-jwt>" && exit 1)
+	curl -sS -X POST -H "Authorization: Bearer $(TOKEN)" http://localhost:8081/api/v1/admin/models/$(MODEL_ID)/rollback
+
+inference-test test-inference:
+	cd services/inference && .venv/bin/pytest
+	cd services/inference && .venv/bin/ruff check app tests
+	cd services/inference && .venv/bin/mypy app
+
+test-ml:
+	PYTHONPATH=. services/inference/.venv/bin/pytest ml/tests
+
+test-recognition-e2e:
+	cd apps/web && npm run test:e2e -- recognition-camera.spec.ts
+
+benchmark-inference:
+	$(PYTHON) scripts/benchmark_inference.py
 
 cleanup-uploads:
 	docker compose exec -T api python -m app.jobs.cleanup_orphan_uploads

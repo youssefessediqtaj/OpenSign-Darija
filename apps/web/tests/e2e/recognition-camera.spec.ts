@@ -92,7 +92,9 @@ test('mock camera can capture and render a simulated result', async ({ page }) =
   await expect(page.getByRole('button', { name: /Terminer/i })).toBeVisible({ timeout: 5000 });
   await page.waitForTimeout(900);
   await page.getByRole('button', { name: /Terminer/i }).click();
-  await expect(page.getByText(/Resultat de demonstration/i)).toBeVisible();
+  await expect(
+    page.getByText('Reconnaissance expérimentale d’un vocabulaire limité.', { exact: true }),
+  ).toBeVisible();
 });
 
 test('too short sequence is rejected locally', async ({ page }) => {

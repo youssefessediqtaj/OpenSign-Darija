@@ -58,6 +58,7 @@ export type RecognitionPrediction = {
   confidence: number;
   rank: number;
   sign?: Sign;
+  is_unknown?: boolean;
 };
 
 export type RecognitionResponse = {
@@ -68,9 +69,25 @@ export type RecognitionResponse = {
   model_name: string;
   model_version: string;
   feature_schema_version?: string;
+  inference_mode?: 'mock' | 'real';
+  decision?: 'known' | 'uncertain' | 'unknown';
+  confidence_level?: 'high' | 'medium' | 'low';
   predictions: RecognitionPrediction[];
   unknown_probability: number;
   processing_time_ms: number;
+};
+
+export type ActiveModel = {
+  id?: string | null;
+  name: string;
+  semantic_version: string;
+  status: string;
+  architecture: string;
+  vocabulary_size: number;
+  feature_schema_version: string;
+  metrics_json: Record<string, unknown>;
+  thresholds_json: Record<string, unknown>;
+  is_active: boolean;
 };
 
 export type VersionResponse = {

@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import JSON, Boolean, DateTime, Enum, ForeignKey, String, Text
+from sqlalchemy import JSON, Boolean, DateTime, Enum, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db.base import Base
@@ -63,12 +63,24 @@ class ModelVersion(Base):
     name: Mapped[str] = mapped_column(String(120), nullable=False)
     semantic_version: Mapped[str] = mapped_column(String(40), nullable=False)
     status: Mapped[ModelStatus] = mapped_column(Enum(ModelStatus), default=ModelStatus.DRAFT)
+    architecture: Mapped[str] = mapped_column(String(80), default="", nullable=False)
+    dataset_version_id: Mapped[str | None] = mapped_column(
+        ForeignKey("dataset_versions.id"), nullable=True
+    )
+    feature_schema_version: Mapped[str] = mapped_column(String(40), default="1.0.0", nullable=False)
     vocabulary_size: Mapped[int] = mapped_column(default=0, nullable=False)
     description: Mapped[str] = mapped_column(Text, default="", nullable=False)
+    labels_json: Mapped[list[object]] = mapped_column(JSON, default=list, nullable=False)
     metrics_json: Mapped[dict[str, object]] = mapped_column(JSON, default=dict, nullable=False)
+    thresholds_json: Mapped[dict[str, object]] = mapped_column(JSON, default=dict, nullable=False)
+    calibration_json: Mapped[dict[str, object]] = mapped_column(JSON, default=dict, nullable=False)
     artifact_path: Mapped[str] = mapped_column(String(255), default="", nullable=False)
+    checksum: Mapped[str] = mapped_column(String(64), default="", nullable=False)
+    size_bytes: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(UTC)
     )
     activated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    validated_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)
+    archived_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True), nullable=True)

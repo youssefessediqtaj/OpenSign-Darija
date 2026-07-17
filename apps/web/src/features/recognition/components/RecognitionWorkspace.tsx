@@ -132,7 +132,7 @@ export function RecognitionWorkspace() {
       <div className="mb-5">
         <h1 className="text-3xl font-bold">Reconnaissance camera</h1>
         <p className="mt-2 text-slate-700 dark:text-slate-300">
-          Capture manuelle de landmarks. Le modele de reconnaissance reste simule.
+          Reconnaissance expérimentale d’un vocabulaire limité. OpenSign Darija peut se tromper. Vérifiez toujours le résultat avant de l’utiliser.
         </p>
       </div>
       <RecognitionInstructions />
@@ -194,7 +194,7 @@ export function RecognitionWorkspace() {
           <PredictionPanel result={submission.data ?? null} />
           {submission.isError && (
             <p className="rounded-md border border-coral bg-red-50 p-3 text-sm text-coral" role="alert">
-              Le service n’a pas repondu. Vous pouvez reessayer.
+              Le moteur de reconnaissance est temporairement indisponible. Vous pouvez réessayer ou consulter les signes supportés.
             </p>
           )}
         </div>

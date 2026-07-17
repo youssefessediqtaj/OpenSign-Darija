@@ -7,3 +7,4 @@ mc mb --ignore-existing "local/${MINIO_PRIVATE_LANDMARK_BUCKET:-opensign-private
 mc mb --ignore-existing "local/${MINIO_THUMBNAIL_BUCKET:-opensign-review-thumbnails}"
 mc mb --ignore-existing "local/${MINIO_DATASET_EXPORT_BUCKET:-opensign-dataset-exports}"
 mc mb --ignore-existing "local/${MINIO_REFERENCE_ASSET_BUCKET:-opensign-reference-assets}"
+mc mb --ignore-existing "local/${MINIO_MODEL_ARTIFACT_BUCKET:-opensign-model-artifacts}"

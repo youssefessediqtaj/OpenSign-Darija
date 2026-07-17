@@ -9,6 +9,7 @@ import type {
   ContributorProfile,
   DatasetContribution,
   DatasetVersion,
+  ActiveModel,
   UploadSession,
 } from '../types/api';
 
@@ -85,4 +86,8 @@ export const datasetApi = {
       }),
     }),
   buildDataset: (id: string) => apiRequest<DatasetVersion>(`/api/v1/admin/datasets/${id}/build`, { method: 'POST' }),
+  activeModel: () => apiRequest<ActiveModel>('/api/v1/models/active'),
+  models: () => apiRequest<ActiveModel[]>('/api/v1/admin/models'),
+  activateModel: (id: string) => apiRequest<ActiveModel>(`/api/v1/admin/models/${id}/activate`, { method: 'POST' }),
+  rollbackModel: (id: string) => apiRequest<ActiveModel>(`/api/v1/admin/models/${id}/rollback`, { method: 'POST' }),
 };

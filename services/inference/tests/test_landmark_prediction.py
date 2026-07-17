@@ -52,6 +52,9 @@ def test_predict_sequence_top_three_and_schema_version() -> None:
     body = response.json()
     assert body["model"]["version"] == "0.2.0"
     assert body["feature_schema_version"] == "1.0.0"
+    assert body["inference_mode"] == "mock"
+    assert body["decision"] in {"known", "uncertain"}
+    assert body["confidence_level"] in {"high", "medium"}
     assert [item["rank"] for item in body["predictions"]] == [1, 2, 3]
     assert (
         sum(item["confidence"] for item in body["predictions"]) + body["unknown_probability"]

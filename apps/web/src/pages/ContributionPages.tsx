@@ -323,6 +323,73 @@ export function DatasetAdminPage() {
   );
 }
 
+export function ModelAdminPage() {
+  const allowed = useRole('ML_REVIEWER', 'ADMIN');
+  const queryClient = useQueryClient();
+  const active = useQuery({ queryKey: ['active-model'], queryFn: datasetApi.activeModel, enabled: allowed });
+  const models = useQuery({ queryKey: ['models'], queryFn: datasetApi.models, enabled: allowed });
+  const activate = useMutation({
+    mutationFn: datasetApi.activateModel,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['models'] });
+      queryClient.invalidateQueries({ queryKey: ['active-model'] });
+    },
+  });
+  const rollback = useMutation({
+    mutationFn: datasetApi.rollbackModel,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['models'] });
+      queryClient.invalidateQueries({ queryKey: ['active-model'] });
+    },
+  });
+  if (!allowed) return <Navigate to="/app" replace />;
+  return (
+    <section className="space-y-5">
+      <h1 className="text-3xl font-bold">Modeles de reconnaissance</h1>
+      <article className="rounded-lg border bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <h2 className="text-xl font-semibold">Modele actif</h2>
+        <p>{active.data?.name ?? 'Chargement'} {active.data?.semantic_version}</p>
+        <p className="text-sm text-slate-600 dark:text-slate-300">
+          Statut {active.data?.status ?? '—'}, vocabulaire {active.data?.vocabulary_size ?? 0}, schema {active.data?.feature_schema_version ?? '—'}
+        </p>
+      </article>
+      {models.data?.map((model) => (
+        <article key={model.id ?? model.name} className="rounded-lg border bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <h2 className="text-xl font-semibold">{model.name} {model.semantic_version}</h2>
+              <p>{model.status} — {model.architecture} — {model.vocabulary_size} classe(s)</p>
+              <p className="text-sm">Top-1: {String(model.metrics_json.accuracy_top1 ?? 'UNCONFIRMED')} | Macro F1: {String(model.metrics_json.macro_f1 ?? 'UNCONFIRMED')}</p>
+            </div>
+            <div className="flex gap-2">
+              {model.id && <ModelActions modelId={model.id} canActivate={model.status === 'READY'} onActivate={activate.mutate} onRollback={rollback.mutate} />}
+            </div>
+          </div>
+        </article>
+      ))}
+    </section>
+  );
+}
+
+function ModelActions({
+  modelId,
+  canActivate,
+  onActivate,
+  onRollback,
+}: {
+  modelId: string;
+  canActivate: boolean;
+  onActivate: (modelId: string) => void;
+  onRollback: (modelId: string) => void;
+}) {
+  return (
+    <>
+      <Button disabled={!canActivate} onClick={() => onActivate(modelId)}>Activer</Button>
+      <Button variant="secondary" onClick={() => onRollback(modelId)}>Rollback</Button>
+    </>
+  );
+}
+
 export function LandmarkReplay() {
   return (
     <div className="mt-3 rounded-md border bg-slate-950 p-3 text-white" aria-label="Visualiseur de landmarks">

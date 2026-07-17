@@ -2,7 +2,7 @@
 
 OpenSign Darija est une application web open source visant a preparer la reconnaissance de signes de la Langue des Signes Marocaine, la construction de phrases en Darija et une future lecture vocale.
 
-Phase actuelle: camera web reelle avec extraction locale de landmarks pour la reconnaissance, plus une plateforme MVP de collecte dataset avec consentements, profils contributeurs, reviews, stockage MinIO et exports manifestes. Le modele IA entraine, la synthese vocale et la capture camera reelle integree au flux dataset ne sont pas encore inclus.
+Phase actuelle: camera web reelle avec extraction locale de landmarks, plateforme MVP de collecte dataset, et infrastructure phase 4 pour le premier modele reel (validation dataset, baseline, GRU, calibration, export ONNX, registre, inference real/mock). Aucun modele reel n’est entraine ni actif tant que le dataset local n’est pas valide.
 
 ## Architecture
 
@@ -157,6 +157,17 @@ Documentation:
 - `make dataset-validate`: valide le manifeste local.
 - `make dataset-prepare`: prepare un index de sequences.
 - `make dataset-stats`: calcule les statistiques locales.
+- `make dataset-validate-training`: refuse l’entrainement si le dataset n’est pas valide.
+- `make ml-baseline`: entraine la baseline quand le dataset est valide.
+- `make ml-train`: lance l’entrainement GRU quand le dataset est valide.
+- `make ml-evaluate`: lit les metriques d’artefact.
+- `make ml-export-onnx`: exporte un checkpoint valide en ONNX.
+- `make ml-validate-onnx`: valide checksum/parite ONNX.
+- `make ml-register-model`: verifie un dossier d’artefacts modele.
+- `make model-list`: affiche le modele actif public.
+- `make inference-test`: teste le service inference.
+- `make test-ml`: lance les tests ML synthétiques.
+- `make benchmark-inference`: mesure 20 appels inference locaux.
 - `make cleanup-uploads`: dry-run de nettoyage des uploads orphelins.
 - `make clean`: supprime les artefacts locaux.
 
@@ -174,7 +185,21 @@ Voir `docs/roadmap.md`.
 
 La page `/app/recognition` demande explicitement l’autorisation camera. MediaPipe Holistic extrait visage, mains et haut du corps dans le navigateur. Aucune video, image, capture canvas ou audio n’est envoyee au backend. Seuls des landmarks compacts et normalises sont transmis a `POST /api/v1/recognitions`.
 
-Le modele de reconnaissance est encore simule.
+Le modele de reconnaissance reste en mode mock par defaut (`INFERENCE_MODE=mock`). En `INFERENCE_MODE=real`, le service inference exige un artefact ONNX valide et retourne 503 si le modele est absent.
+
+## Modele IA
+
+Voir `MODEL_CARD.md` et:
+
+- `docs/model-training.md`
+- `docs/model-evaluation.md`
+- `docs/signer-independent-testing.md`
+- `docs/unknown-detection.md`
+- `docs/model-calibration.md`
+- `docs/onnx-export.md`
+- `docs/model-registry.md`
+- `docs/model-activation.md`
+- `docs/inference-service.md`
 
 ## Consentements Dataset
 

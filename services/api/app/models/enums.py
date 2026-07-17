@@ -27,7 +27,11 @@ class RiskLevel(StrEnum):
 
 class ModelStatus(StrEnum):
     DRAFT = "DRAFT"
+    TRAINING = "TRAINING"
+    EVALUATING = "EVALUATING"
     VALIDATING = "VALIDATING"
+    READY = "READY"
+    REJECTED = "REJECTED"
     ACTIVE = "ACTIVE"
     ARCHIVED = "ARCHIVED"
     FAILED = "FAILED"
@@ -39,6 +43,26 @@ class RecognitionStatus(StrEnum):
     COMPLETED = "COMPLETED"
     UNCERTAIN = "UNCERTAIN"
     FAILED = "FAILED"
+
+
+class RecognitionDecision(StrEnum):
+    KNOWN = "known"
+    UNCERTAIN = "uncertain"
+    UNKNOWN = "unknown"
+
+
+class ConfidenceLevel(StrEnum):
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
+
+class CorrectionType(StrEnum):
+    CONFIRMED_TOP_1 = "CONFIRMED_TOP_1"
+    SELECTED_ALTERNATIVE = "SELECTED_ALTERNATIVE"
+    SELECTED_OTHER_SIGN = "SELECTED_OTHER_SIGN"
+    MARKED_UNKNOWN = "MARKED_UNKNOWN"
+    MANUAL_TEXT = "MANUAL_TEXT"
 
 
 class DominantHand(StrEnum):

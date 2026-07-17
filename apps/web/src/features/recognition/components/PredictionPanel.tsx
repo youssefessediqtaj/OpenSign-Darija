@@ -17,22 +17,49 @@ export function PredictionPanel({ result }: { result: RecognitionResponse | null
   }
 
   const top = result.predictions[0];
+  if (!top) {
+    return (
+      <aside className="rounded-md border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900" aria-live="polite">
+        <p className="text-sm font-semibold text-coral">Reconnaissance expérimentale d’un vocabulaire limité.</p>
+        <h2 className="mt-3 text-xl font-semibold">Aucune prediction disponible.</h2>
+        <p className="mt-3 text-sm text-slate-600 dark:text-slate-300">
+          Le moteur a repondu sans proposition exploitable. Recommencez la capture ou reessayez plus tard.
+        </p>
+      </aside>
+    );
+  }
   const selected = result.predictions.find((prediction) => prediction.prediction_id === selectedPredictionId) ?? top;
-  const isSensitive = ['MEDICAL', 'EMERGENCY'].includes(top.sign?.risk_level ?? '') || ['douleur', 'medecin', 'urgence'].includes(top.label);
+  const decision = result.decision ?? 'known';
+  const confidenceLevel = result.confidence_level ?? 'high';
+  const isSensitive = ['MEDICAL', 'EMERGENCY', 'SENSITIVE'].includes(top.sign?.risk_level ?? '') || ['douleur', 'medecin', 'urgence', 'EMERGENCY'].includes(top.label);
+  const title =
+    decision === 'unknown'
+      ? 'Signe non reconnu avec suffisamment de certitude.'
+      : decision === 'uncertain'
+        ? 'Le modele hesite. Verifiez les propositions.'
+        : 'Signe propose';
 
   return (
     <aside className="rounded-md border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900" aria-live="polite">
-      <p className="text-sm font-semibold text-coral">Resultat de demonstration — le modele reel n’est pas encore integre.</p>
-      <h2 className="mt-3 text-xl font-semibold">Signe propose</h2>
+      <p className="text-sm font-semibold text-coral">Reconnaissance expérimentale d’un vocabulaire limité.</p>
+      {result.inference_mode === 'mock' && (
+        <p className="mt-2 text-sm font-medium text-amber-700">Mode developpement: resultat simule.</p>
+      )}
+      <h2 className="mt-3 text-xl font-semibold">{title}</h2>
       <div className="mt-4 rounded-md bg-slate-50 p-4 dark:bg-slate-800">
         <p className="text-2xl font-bold">{selected.sign?.french_translation ?? selected.label}</p>
         <p className="mt-2 text-2xl" lang="ar" dir="rtl">{selected.sign?.darija_arabic ?? '—'}</p>
         <p className="text-slate-700 dark:text-slate-300">{selected.sign?.darija_latin ?? selected.label}</p>
-        <p className="mt-2 text-sm">Confiance: {Math.round(selected.confidence * 100)} %</p>
+        <p className="mt-2 text-sm">Confiance {confidenceLevel}: {Math.round(selected.confidence * 100)} %</p>
       </div>
+      {decision === 'unknown' && (
+        <p className="mt-3 rounded-md border border-slate-300 bg-slate-50 p-3 text-sm text-slate-800">
+          Le mouvement ne correspond pas avec suffisamment de certitude au vocabulaire actuel. Recommencez, choisissez une suggestion ou signalez un signe manquant.
+        </p>
+      )}
       {isSensitive && (
         <p className="mt-3 rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-950">
-          Ce resultat doit etre verifie. OpenSign Darija ne remplace pas un interprete professionnel ou un avis medical.
+          Vérifiez ce résultat avant de l’utiliser. OpenSign Darija ne remplace pas un interprète professionnel.
         </p>
       )}
       <h3 className="mt-5 font-semibold">Top 3</h3>
@@ -48,8 +75,15 @@ export function PredictionPanel({ result }: { result: RecognitionResponse | null
           </button>
         ))}
       </div>
+      <dl className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-600 dark:text-slate-300">
+        <dt>Modele</dt><dd>{result.model_name}</dd>
+        <dt>Version</dt><dd>{result.model_version}</dd>
+        <dt>Schema</dt><dd>{result.feature_schema_version ?? '—'}</dd>
+        <dt>Latence</dt><dd>{result.processing_time_ms} ms</dd>
+      </dl>
       <div className="mt-4 flex flex-wrap gap-2">
         <Button
+          disabled={decision === 'unknown' || !selected.prediction_id}
           onClick={async () => {
             if (result.recognition_id && selected.prediction_id) {
               await landmarkRecognitionApi.confirm(result.recognition_id, selected.prediction_id);
@@ -65,10 +99,10 @@ export function PredictionPanel({ result }: { result: RecognitionResponse | null
             if (result.recognition_id && selected.sign?.id) {
               await landmarkRecognitionApi.correct(result.recognition_id, selected.sign.id, 'none_of_these');
             }
-            setFeedback('Aucun de ces signes signale.');
+            setFeedback('Correction envoyee.');
           }}
         >
-          Aucun de ces signes
+          Choisir cette proposition
         </Button>
       </div>
       {feedback && <p className="mt-3 text-sm font-medium text-cedar">{feedback}</p>}

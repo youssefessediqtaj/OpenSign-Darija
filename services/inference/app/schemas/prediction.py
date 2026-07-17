@@ -17,6 +17,7 @@ class PredictionItem(BaseModel):
     label: str
     confidence: float = Field(ge=0, le=1)
     rank: int = Field(ge=1)
+    is_unknown: bool = False
 
 
 class PredictionResponse(BaseModel):
@@ -24,7 +25,10 @@ class PredictionResponse(BaseModel):
     sequence_id: str | None = None
     model: ModelInfo
     feature_schema_version: str = "1.0.0"
+    inference_mode: str = "mock"
     status: str
+    decision: str = "known"
+    confidence_level: str = "high"
     predictions: list[PredictionItem]
     unknown_probability: float = Field(ge=0, le=1)
     processing_time_ms: int = Field(ge=0)

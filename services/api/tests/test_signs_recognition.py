@@ -65,6 +65,14 @@ def test_landmark_recognition_creates_session_without_storing_landmarks(client: 
     assert body["sequence_id"] == "123e4567-e89b-12d3-a456-426614174000"
     assert len(body["predictions"]) == 3
     assert "frames" not in body
+    assert body["inference_mode"] == "mock"
+    detail = client.get(f"/api/v1/recognitions/{body['recognition_id']}")
+    assert detail.status_code == 200
+    confirm = client.post(
+        f"/api/v1/recognitions/{body['recognition_id']}/confirm",
+        json={"prediction_id": body["predictions"][0]["prediction_id"]},
+    )
+    assert confirm.status_code == 200
 
 
 def test_landmark_recognition_rejects_empty_sequence(client: TestClient) -> None:
@@ -91,3 +99,17 @@ def test_landmark_recognition_rejects_infinite_coordinates(client: TestClient) -
         headers={"Content-Type": "application/json"},
     )
     assert response.status_code == 422
+
+
+def test_active_model_falls_back_to_mock_metadata(client: TestClient) -> None:
+    response = client.get("/api/v1/models/active")
+    assert response.status_code == 200
+    body = response.json()
+    assert body["name"]
+    assert body["feature_schema_version"] == "1.0.0"
+    assert "metrics_json" in body
+
+
+def test_admin_models_requires_auth(client: TestClient) -> None:
+    response = client.get("/api/v1/admin/models")
+    assert response.status_code == 403 or response.status_code == 401

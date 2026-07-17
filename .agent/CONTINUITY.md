@@ -4,6 +4,7 @@
 - 2026-07-16T15:30Z [USER] Initialize OpenSign Darija phase 1 as a professional monorepo with React/Vite frontend, FastAPI API, FastAPI inference mock service, PostgreSQL, Redis, MinIO, Docker, tests, docs, and CI.
 - 2026-07-16T16:32Z [USER] Phase 2 requires real browser camera capture, MediaPipe Holistic landmark extraction, local normalization, backend landmark-only recognition, simulated inference, tests, performance measurement, and documentation.
 - 2026-07-16T20:47Z [USER] Phase 3 requires Moroccan dataset collection workflow: separate consent management, contributor profiles, campaigns, uploads to object storage, linguistic/ML review gates, admin dataset version/export tools, docs, tests, and Docker verification.
+- 2026-07-16T23:07Z [USER] Phase 4 requires first real recognition-model infrastructure: training/evaluation/export/registry pipeline, signer-independent guards, unknown/calibration logic, ONNX inference integration, admin model activation, frontend uncertainty states, and honest blocking when the dataset is invalid.
 
 ## [DECISIONS]
 - 2026-07-16T15:30Z [ASSUMPTION] Current workspace is effectively empty; all project files will be created under `/Users/mac/Desktop/Project/OpenSigne-Darija` to avoid touching unrelated parent Git working tree changes.
@@ -12,6 +13,8 @@
 - 2026-07-16T16:32Z [CODE] Recognition payloads contain compact torso-normalized landmarks only; backend stores recognition session metadata and predictions, not video, images, audio, canvas exports, or complete landmark sequences.
 - 2026-07-16T20:47Z [CODE] Phase 3 stores dataset artifacts in MinIO buckets and persists only metadata/checksums/object keys in PostgreSQL; exports use anonymous contributor public IDs and split by contributor.
 - 2026-07-16T20:47Z [CODE] Dataset contribution frontend is MVP synthetic-landmark capture; real camera MediaPipe extraction remains implemented in `/app/recognition` and is not yet wired into dataset capture.
+- 2026-07-16T23:07Z [CODE] Phase 4 does not train or activate a real model because `artifacts/datasets/manifest.json` has zero items and training validation reports dataset status `UNCONFIRMED`; mock mode remains explicit development/test behavior only.
+- 2026-07-16T23:07Z [CODE] Real inference mode must fail closed when no ONNX model is available; the API no longer silently falls back to mock outside explicit mock mode.
 
 ## [PROGRESS]
 - 2026-07-16T15:30Z [TOOL] Created required monorepo directory structure for apps, services, packages, ML, infrastructure, docs, and CI.
@@ -23,6 +26,8 @@
 - 2026-07-16T20:47Z [CODE] Added dataset SQLAlchemy models, Alembic migration `20260716_0002`, consent/contributor/campaign/contribution/review/admin dataset routers, MinIO storage helper, cleanup job, seed data, API tests, and route docs.
 - 2026-07-16T20:47Z [CODE] Added contribution/review/admin frontend pages, auth token injection, seeded user role loading on login, dataset API client, consent unit test, and Playwright consent smoke test.
 - 2026-07-16T20:47Z [CODE] Added ML dataset scripts (`build_manifest`, `validate_dataset`, `prepare_sequences`, `generate_statistics`), Makefile targets, dataset docs, and `DATASET_CARD.md`.
+- 2026-07-16T23:07Z [CODE] Added ML configs, dataset integrity/split validation, baseline and GRU/LSTM training scaffolds, evaluation/calibration/unknown detection, ONNX export/parity/registration scripts, ML tests, `MODEL_CARD.md`, and model lifecycle docs.
+- 2026-07-16T23:07Z [CODE] Added inference ONNX loader/model metadata/readiness endpoints, API model registry/admin routes and recognition persistence metadata, frontend uncertainty/unknown/mock indicators, active model admin page, and model artifact storage bucket config.
 
 ## [DISCOVERIES]
 - 2026-07-16T15:30Z [TOOL] `git status` from the workspace reports many changes in parent directories; these are unrelated to this project and must be ignored.
@@ -35,6 +40,8 @@
 - 2026-07-16T16:48Z [TOOL] Docker daemon became available after launching Docker Desktop with `open -a Docker`; `8080` was occupied by a `com.docker` listener, so Compose failed until Nginx was moved to host port `8081`.
 - 2026-07-16T20:47Z [TOOL] Host `python` is unavailable (`command not found`), so Makefile root dataset targets now default to `PYTHON ?= python3`; generated `artifacts/` are ignored.
 - 2026-07-16T20:47Z [TOOL] Host Postgres on localhost did not match Docker credentials for cleanup dry-run; cleanup target now executes inside the API container and returned `matched: 0`.
+- 2026-07-16T23:07Z [TOOL] Docker build initially hit PyPI read timeouts on API/inference dependencies; Dockerfiles now set longer pip timeout/retries.
+- 2026-07-16T23:07Z [TOOL] Postgres migration `20260716_0003` initially failed because enum types were created twice; migration now reuses existing Postgres enum types and SQLAlchemy stores lowercase recognition/confidence enum values.
 
 ## [OUTCOMES]
 - 2026-07-16T15:50Z [TOOL] Verified: frontend lint/build/Vitest/Playwright pass; API pytest/Ruff/MyPy pass; inference pytest/Ruff/MyPy pass; local API endpoints for version, health, register, login, auth/me, signs, and mock recognition work.
@@ -42,3 +49,6 @@
 - 2026-07-16T16:48Z [TOOL] Docker Compose now builds/starts successfully; `docker compose ps` reports API/Postgres/Redis/inference healthy, Nginx on `0.0.0.0:8081`, and HTTP checks pass for `/`, `/api/v1/version`, and `/api/v1/health`.
 - 2026-07-16T16:51Z [TOOL] Rebuilt/recreated Docker `web` and `nginx`; `POST http://localhost:8081/api/v1/recognitions/mock` returns 200, served JS bundle contains no `/api/api`, and `/api/v1/version` still returns API version.
 - 2026-07-16T20:47Z [TOOL] Phase 3 verified: API pytest/Ruff/MyPy pass; inference pytest/Ruff/MyPy pass; frontend Vitest/lint/build pass; Playwright e2e pass; dataset Make targets pass; Docker Compose rebuild/start healthy; Nginx checks pass for `/`, `/api/v1/version`, `/api/v1/health`, `/api/v1/contribution-campaigns`, contributor login, `/auth/me`, and `/consents/templates`.
+- 2026-07-16T23:07Z [TOOL] Phase 4 infrastructure verified: API `17 passed` plus Ruff/MyPy; inference `9 passed` plus Ruff/MyPy; frontend Vitest `18 passed`, lint, build, and Playwright `7 passed`; ML tests `5 passed`; Docker Compose healthy with Nginx on `8081`.
+- 2026-07-16T23:07Z [TOOL] Runtime checks passed for `/api/v1/version`, `/api/v1/health`, `/api/v1/models/active`, `/api/v1/recognitions/mock`, persisted `/api/v1/recognitions`, inference `/health`, `/ready`, `/model`, and `/predict`; API mock benchmark via Nginx p50 `12.62 ms`, p95 `18.72 ms`, max `39.64 ms`.
+- 2026-07-16T23:07Z [TOOL] `make dataset-validate-training` intentionally exits nonzero with errors: status `UNCONFIRMED`, zero examples, no eligible pilot classes; real training/evaluation metrics remain UNCONFIRMED.

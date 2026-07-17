@@ -24,8 +24,10 @@
 
 - `POST /api/v1/recognitions/mock`
 - `POST /api/v1/recognitions`
+- `GET /api/v1/recognitions/{recognition_id}`
 - `POST /api/v1/recognitions/{recognition_id}/confirm`
 - `POST /api/v1/recognitions/{recognition_id}/correct`
+- `GET /api/v1/models/active`
 
 `POST /api/v1/recognitions` accepts compact normalized landmark sequences only. It does not accept images, video, audio, or raw camera frames.
 
@@ -76,6 +78,17 @@ Linguistic review requires `LINGUIST_REVIEWER` or `ADMIN`. ML review requires `M
 - `POST /api/v1/admin/datasets/{dataset_version_id}/archive`
 
 Admin exports include approved, non-revoked, upload-confirmed recordings only. Export manifests use anonymous contributor IDs and must not include email or auth user IDs.
+
+## Admin Models
+
+- `GET /api/v1/admin/models`
+- `GET /api/v1/admin/models/{model_id}`
+- `POST /api/v1/admin/models/{model_id}/validate`
+- `POST /api/v1/admin/models/{model_id}/activate`
+- `POST /api/v1/admin/models/{model_id}/archive`
+- `POST /api/v1/admin/models/{model_id}/rollback`
+
+Model activation requires `ML_REVIEWER` or `ADMIN`. The model must be `READY` and include artifact metadata. No mock model is silently activated in production.
 
 Format d’erreur:
 

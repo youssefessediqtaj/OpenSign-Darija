@@ -8,6 +8,7 @@ const appItems = [
   ['/app/messages', 'Messages'],
   ['/app/settings', 'Parametres'],
   ['/admin/reviews/linguistic', 'Review'],
+  ['/admin/models', 'Modeles'],
 ];
 
 export function AppLayout() {

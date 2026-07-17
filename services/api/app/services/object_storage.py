@@ -8,6 +8,7 @@ PRIVATE_LANDMARK_BUCKET = "opensign-private-landmarks"
 THUMBNAIL_BUCKET = "opensign-review-thumbnails"
 DATASET_EXPORT_BUCKET = "opensign-dataset-exports"
 REFERENCE_ASSET_BUCKET = "opensign-reference-assets"
+MODEL_ARTIFACT_BUCKET = "opensign-model-artifacts"
 
 DATASET_BUCKETS = [
     PRIVATE_VIDEO_BUCKET,
@@ -15,6 +16,7 @@ DATASET_BUCKETS = [
     THUMBNAIL_BUCKET,
     DATASET_EXPORT_BUCKET,
     REFERENCE_ASSET_BUCKET,
+    MODEL_ARTIFACT_BUCKET,
 ]
 
 

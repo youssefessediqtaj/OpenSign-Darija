@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     jwt_access_token_expire_minutes: int = 30
     jwt_refresh_token_expire_days: int = 7
     inference_service_url: str = "http://localhost:8001"
+    inference_mode: str = "mock"
     inference_timeout_seconds: float = 3
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:5173"])
     recognition_max_frames: int = 60

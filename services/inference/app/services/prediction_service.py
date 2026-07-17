@@ -12,6 +12,7 @@ from app.schemas.prediction import (
     PredictionResponse,
 )
 from app.services.interfaces import InferenceModel, ModelRegistry
+from app.services.model_loader import model_loader
 
 
 class StaticModelRegistry(ModelRegistry):
@@ -38,7 +39,10 @@ class PredictionService:
             request_id=str(uuid4()),
             model=ModelInfo(name=settings.model_name, version=settings.model_version),
             feature_schema_version=settings.feature_schema_version,
+            inference_mode=settings.inference_mode,
             status="completed",
+            decision="known",
+            confidence_level="high",
             predictions=predictions,
             unknown_probability=0.03,
             processing_time_ms=elapsed_ms,
@@ -46,6 +50,26 @@ class PredictionService:
 
     def predict_sequence(self, payload: LandmarkSequenceRequest) -> PredictionResponse:
         started = perf_counter()
+        settings = get_settings()
+        if settings.inference_mode == "real":
+            if model_loader.model is None:
+                raise RuntimeError(model_loader.error or "model not loaded")
+            predictions, decision, confidence_level, unknown_probability = (
+                model_loader.model.predict(payload)
+            )
+            return PredictionResponse(
+                request_id=str(uuid4()),
+                sequence_id=str(payload.sequence_id),
+                model=ModelInfo(name=settings.model_name, version=settings.model_version),
+                feature_schema_version=settings.feature_schema_version,
+                inference_mode="real",
+                status="completed",
+                decision=decision,
+                confidence_level=confidence_level,
+                predictions=predictions,
+                unknown_probability=round(unknown_probability, 4),
+                processing_time_ms=max(1, int((perf_counter() - started) * 1000)),
+            )
         labels = [
             "oui",
             "non",
@@ -68,13 +92,15 @@ class PredictionService:
         top_confidence = round(min(0.82, max(0.62, 0.65 + movement * 0.12 + hand_ratio * 0.05)), 2)
         second_confidence = round(max(0.08, 0.16 - movement * 0.03), 2)
         third_confidence = round(max(0.04, 0.08 - hand_ratio * 0.02), 2)
-        settings = get_settings()
         return PredictionResponse(
             request_id=str(uuid4()),
             sequence_id=str(payload.sequence_id),
             model=ModelInfo(name=settings.model_name, version=settings.model_version),
             feature_schema_version=settings.feature_schema_version,
+            inference_mode=settings.inference_mode,
             status="completed",
+            decision="known" if top_confidence >= 0.7 else "uncertain",
+            confidence_level="high" if top_confidence >= 0.75 else "medium",
             predictions=[
                 PredictionItem(label=first, confidence=top_confidence, rank=1),
                 PredictionItem(label=second, confidence=second_confidence, rank=2),

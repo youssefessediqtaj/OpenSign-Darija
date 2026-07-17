@@ -14,6 +14,7 @@ import {
   DatasetAdminPage,
   LinguisticReviewPage,
   MlReviewPage,
+  ModelAdminPage,
   PrivacySettingsPage,
 } from '../pages/ContributionPages';
 import { DemoPage } from '../pages/DemoPage';
@@ -58,6 +59,7 @@ export function AppRoutes() {
           <Route path="reviews/linguistic" element={<LinguisticReviewPage />} />
           <Route path="reviews/ml" element={<MlReviewPage />} />
           <Route path="datasets" element={<DatasetAdminPage />} />
+          <Route path="models" element={<ModelAdminPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

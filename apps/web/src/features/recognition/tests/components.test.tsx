@@ -40,12 +40,17 @@ describe('recognition components', () => {
           status: 'completed',
           model_name: 'mock',
           model_version: '0.2.0',
+          inference_mode: 'mock',
+          decision: 'known',
+          confidence_level: 'high',
           predictions: [{ prediction_id: 'pred', label: 'aide', confidence: 0.79, rank: 1 }],
           unknown_probability: 0.03,
           processing_time_ms: 10,
         }}
       />,
     );
-    expect(screen.getByText(/Resultat de demonstration/i)).toBeInTheDocument();
+    expect(screen.getByText(/Reconnaissance expérimentale/i)).toBeInTheDocument();
+    expect(screen.getByText(/Mode developpement/i)).toBeInTheDocument();
+    expect(screen.getByText('0.2.0')).toBeInTheDocument();
   });
 });

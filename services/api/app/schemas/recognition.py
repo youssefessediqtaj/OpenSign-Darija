@@ -17,6 +17,7 @@ class PredictionResponse(BaseModel):
     confidence: float = Field(ge=0, le=1)
     rank: int = Field(ge=1)
     sign: SignResponse | None = None
+    is_unknown: bool = False
 
 
 class RecognitionResponse(BaseModel):
@@ -27,6 +28,9 @@ class RecognitionResponse(BaseModel):
     model_name: str
     model_version: str
     feature_schema_version: str | None = None
+    inference_mode: str = "mock"
+    decision: str = "known"
+    confidence_level: str = "high"
     predictions: list[PredictionResponse]
     unknown_probability: float = Field(ge=0, le=1)
     processing_time_ms: int = Field(ge=0)
@@ -82,6 +86,19 @@ class LandmarkRecognitionRequest(BaseModel):
         return self
 
 
+class ActiveModelResponse(BaseModel):
+    id: str | None = None
+    name: str
+    semantic_version: str
+    status: str
+    architecture: str
+    vocabulary_size: int
+    feature_schema_version: str
+    metrics_json: dict[str, object] = Field(default_factory=dict)
+    thresholds_json: dict[str, object] = Field(default_factory=dict)
+    is_active: bool
+
+
 class ConfirmRecognitionRequest(BaseModel):
     prediction_id: UUID
 
@@ -89,3 +106,4 @@ class ConfirmRecognitionRequest(BaseModel):
 class CorrectRecognitionRequest(BaseModel):
     correct_sign_id: UUID | None = None
     reason: str = Field(default="wrong_prediction", max_length=80)
+    comment: str | None = Field(default=None, max_length=500)
