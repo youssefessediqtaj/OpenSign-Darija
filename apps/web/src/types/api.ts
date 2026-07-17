@@ -90,6 +90,97 @@ export type ActiveModel = {
   is_active: boolean;
 };
 
+export type SemanticConcept = {
+  id: string;
+  code: string;
+  name_fr: string;
+  name_en: string;
+  concept_type: string;
+  is_active: boolean;
+};
+
+export type LinguisticTemplate = {
+  id: string;
+  code: string;
+  name_fr: string;
+  name_ar: string;
+  name_en: string;
+  category: string;
+  risk_level: string;
+  version: string;
+  is_active: boolean;
+};
+
+export type MessageItem = {
+  id: string;
+  position: number;
+  item_type: string;
+  sign_id?: string | null;
+  semantic_concept_id?: string | null;
+  semantic_concept_code?: string | null;
+  recognition_session_id?: string | null;
+  source: string;
+  display_label: string;
+  metadata: Record<string, unknown>;
+  created_at: string;
+};
+
+export type Message = {
+  id: string;
+  user_id?: string | null;
+  anonymous_session_id?: string | null;
+  status: 'DRAFT' | 'GENERATING' | 'READY' | 'COMPLETED' | 'ARCHIVED' | 'DELETED';
+  title?: string | null;
+  raw_semantic_sequence: unknown[];
+  generated_darija_arabic?: string | null;
+  generated_darija_latin?: string | null;
+  generated_french?: string | null;
+  generated_english?: string | null;
+  final_darija_arabic?: string | null;
+  final_darija_latin?: string | null;
+  final_french?: string | null;
+  final_english?: string | null;
+  generation_strategy: string;
+  generation_version: string;
+  generation_metadata: Record<string, unknown>;
+  is_favorite: boolean;
+  item_count: number;
+  risk_level: 'NORMAL' | 'SENSITIVE' | 'MEDICAL' | 'LEGAL' | 'FINANCIAL' | 'EMERGENCY';
+  items: MessageItem[];
+  created_at: string;
+  updated_at: string;
+  completed_at?: string | null;
+};
+
+export type MessageList = {
+  items: Message[];
+  total: number;
+  limit: number;
+  offset: number;
+};
+
+export type GenerationResponse = {
+  message_id: string;
+  generation_version: string;
+  strategy: string;
+  semantic_sequence: string[];
+  result: Record<string, string>;
+  template?: string | null;
+  linguistic_status: 'HIGH' | 'MEDIUM' | 'LOW' | 'INCOMPLETE' | 'AMBIGUOUS';
+  system_insertions: string[];
+  warnings: string[];
+  alternatives: Array<Record<string, string>>;
+};
+
+export type MessageRevision = {
+  id: string;
+  revision_number: number;
+  change_type: string;
+  before_snapshot: Record<string, unknown>;
+  after_snapshot: Record<string, unknown>;
+  created_at: string;
+};
+
 export type VersionResponse = {
   service: string;
   version: string;

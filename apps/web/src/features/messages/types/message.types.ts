@@ -1,0 +1,15 @@
+export type BuilderState =
+  | 'EMPTY'
+  | 'DRAFT'
+  | 'ADDING_ITEM'
+  | 'SAVING'
+  | 'SAVED'
+  | 'GENERATING'
+  | 'GENERATED'
+  | 'INCOMPLETE'
+  | 'AMBIGUOUS'
+  | 'EDITING'
+  | 'FINALIZING'
+  | 'COMPLETED'
+  | 'ERROR'
+  | 'OFFLINE';

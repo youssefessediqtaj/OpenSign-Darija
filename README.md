@@ -2,14 +2,14 @@
 
 OpenSign Darija est une application web open source visant a preparer la reconnaissance de signes de la Langue des Signes Marocaine, la construction de phrases en Darija et une future lecture vocale.
 
-Phase actuelle: camera web reelle avec extraction locale de landmarks, plateforme MVP de collecte dataset, et infrastructure phase 4 pour le premier modele reel (validation dataset, baseline, GRU, calibration, export ONNX, registre, inference real/mock). Aucun modele reel n’est entraine ni actif tant que le dataset local n’est pas valide.
+Phase actuelle: camera web reelle avec extraction locale de landmarks, plateforme MVP de collecte dataset, infrastructure phase 4 pour le premier modele reel, et constructeur de messages Darija controle. Aucun modele reel n’est entraine ni actif tant que le dataset local n’est pas valide.
 
 ## Architecture
 
 - `apps/web`: frontend React, TypeScript, Vite, Tailwind, TanStack Query, Zustand, i18next.
 - `services/api`: API publique FastAPI, auth JWT/Argon2, SQLAlchemy, Alembic, PostgreSQL, Redis.
 - `services/inference`: service FastAPI interne avec prediction mock compatible backend.
-- `services/speech`: espace reserve pour une future synthese vocale.
+- `services/speech`: service mock reserve pour une future synthese vocale.
 - `ml`: scripts de manifestes dataset, validation, statistiques, preparation de sequences, et espaces reserves pour entrainement/evaluation.
 - `infrastructure/nginx`: gateway public vers web et `/api`.
 
@@ -153,6 +153,7 @@ Documentation:
 - `make migrate`: applique Alembic.
 - `make seed`: charge les donnees initiales.
 - `make seed-dataset`: charge les donnees initiales et dataset.
+- `make seed-linguistics`: charge concepts, mappings, dictionnaire et templates de demonstration.
 - `make dataset-build`: construit un manifeste local.
 - `make dataset-validate`: valide le manifeste local.
 - `make dataset-prepare`: prepare un index de sequences.
@@ -167,6 +168,11 @@ Documentation:
 - `make model-list`: affiche le modele actif public.
 - `make inference-test`: teste le service inference.
 - `make test-ml`: lance les tests ML synthétiques.
+- `make test-linguistics`: teste le moteur linguistique controle.
+- `make test-messages-backend`: teste les endpoints messages.
+- `make test-messages-frontend`: teste les composants messages.
+- `make test-messages-e2e`: teste le parcours navigateur messages.
+- `make logs-messages`: suit les logs API, speech et Nginx.
 - `make benchmark-inference`: mesure 20 appels inference locaux.
 - `make cleanup-uploads`: dry-run de nettoyage des uploads orphelins.
 - `make clean`: supprime les artefacts locaux.
@@ -200,6 +206,21 @@ Voir `MODEL_CARD.md` et:
 - `docs/model-registry.md`
 - `docs/model-activation.md`
 - `docs/inference-service.md`
+
+## Messages Darija
+
+La page `/app/messages` permet de construire un message depuis des signes confirmes, des mots manuels marques comme tels, un moteur linguistique deterministe et une edition finale separee.
+
+Documentation:
+
+- `docs/message-builder.md`
+- `docs/semantic-concepts.md`
+- `docs/linguistic-engine.md`
+- `docs/darija-writing-conventions.md`
+- `docs/darija-latin-conventions.md`
+- `docs/message-history.md`
+- `docs/message-privacy.md`
+- `docs/speech-contract.md`
 
 ## Consentements Dataset
 

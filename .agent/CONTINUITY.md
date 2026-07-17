@@ -5,6 +5,7 @@
 - 2026-07-16T16:32Z [USER] Phase 2 requires real browser camera capture, MediaPipe Holistic landmark extraction, local normalization, backend landmark-only recognition, simulated inference, tests, performance measurement, and documentation.
 - 2026-07-16T20:47Z [USER] Phase 3 requires Moroccan dataset collection workflow: separate consent management, contributor profiles, campaigns, uploads to object storage, linguistic/ML review gates, admin dataset version/export tools, docs, tests, and Docker verification.
 - 2026-07-16T23:07Z [USER] Phase 4 requires first real recognition-model infrastructure: training/evaluation/export/registry pipeline, signer-independent guards, unknown/calibration logic, ONNX inference integration, admin model activation, frontend uncertainty states, and honest blocking when the dataset is invalid.
+- 2026-07-17T02:58Z [USER] Phase 5 requires a controlled Darija message builder from confirmed signs/manual items with semantic concepts, deterministic linguistic generation, editing, history/favorites, speech mock contract, docs, automated tests, Docker/browser/log verification, and no untraceable hallucinated content.
 
 ## [DECISIONS]
 - 2026-07-16T15:30Z [ASSUMPTION] Current workspace is effectively empty; all project files will be created under `/Users/mac/Desktop/Project/OpenSigne-Darija` to avoid touching unrelated parent Git working tree changes.
@@ -15,6 +16,9 @@
 - 2026-07-16T20:47Z [CODE] Dataset contribution frontend is MVP synthetic-landmark capture; real camera MediaPipe extraction remains implemented in `/app/recognition` and is not yet wired into dataset capture.
 - 2026-07-16T23:07Z [CODE] Phase 4 does not train or activate a real model because `artifacts/datasets/manifest.json` has zero items and training validation reports dataset status `UNCONFIRMED`; mock mode remains explicit development/test behavior only.
 - 2026-07-16T23:07Z [CODE] Real inference mode must fail closed when no ONNX model is available; the API no longer silently falls back to mock outside explicit mock mode.
+- 2026-07-17T02:58Z [CODE] Phase 5 uses a deterministic backend linguistic engine and seeded/demo linguistic data; it never calls an external LLM or third-party translation service.
+- 2026-07-17T02:58Z [CODE] Guest messages are keyed by `X-Anonymous-Session-Id` and frontend localStorage stores only `opensign.guestSessionId`; backend TTL cleanup for guest messages is still UNCONFIRMED.
+- 2026-07-17T02:58Z [CODE] Speech is an explicit mock service returning `not_implemented`; no fake audio is generated.
 
 ## [PROGRESS]
 - 2026-07-16T15:30Z [TOOL] Created required monorepo directory structure for apps, services, packages, ML, infrastructure, docs, and CI.
@@ -28,6 +32,10 @@
 - 2026-07-16T20:47Z [CODE] Added ML dataset scripts (`build_manifest`, `validate_dataset`, `prepare_sequences`, `generate_statistics`), Makefile targets, dataset docs, and `DATASET_CARD.md`.
 - 2026-07-16T23:07Z [CODE] Added ML configs, dataset integrity/split validation, baseline and GRU/LSTM training scaffolds, evaluation/calibration/unknown detection, ONNX export/parity/registration scripts, ML tests, `MODEL_CARD.md`, and model lifecycle docs.
 - 2026-07-16T23:07Z [CODE] Added inference ONNX loader/model metadata/readiness endpoints, API model registry/admin routes and recognition persistence metadata, frontend uncertainty/unknown/mock indicators, active model admin page, and model artifact storage bucket config.
+- 2026-07-17T02:58Z [CODE] Added message/linguistic SQLAlchemy models, Alembic migration `20260717_0004`, message and linguistic API routers, controlled generation service modules, seed concepts/mappings/entries/templates, and message API tests.
+- 2026-07-17T02:58Z [CODE] Added React message builder/history/favorites/detail routes, message feature components/hooks/services/store/types/tests, recognition-to-message actions, guest route access, and read-only linguistics admin page.
+- 2026-07-17T02:58Z [CODE] Added `services/speech` mock FastAPI service, Docker Compose wiring, Makefile targets, and docs for message builder, semantic concepts, linguistic engine, Darija conventions, privacy/history, speech contract, and manual checks.
+- 2026-07-17T02:58Z [CODE] Browser inspection found and fixed a finalize race: finalization now saves current final fields before `/finalize`, and generation no longer performs a delayed GET that can overwrite immediate manual edits.
 
 ## [DISCOVERIES]
 - 2026-07-16T15:30Z [TOOL] `git status` from the workspace reports many changes in parent directories; these are unrelated to this project and must be ignored.
@@ -42,6 +50,9 @@
 - 2026-07-16T20:47Z [TOOL] Host Postgres on localhost did not match Docker credentials for cleanup dry-run; cleanup target now executes inside the API container and returned `matched: 0`.
 - 2026-07-16T23:07Z [TOOL] Docker build initially hit PyPI read timeouts on API/inference dependencies; Dockerfiles now set longer pip timeout/retries.
 - 2026-07-16T23:07Z [TOOL] Postgres migration `20260716_0003` initially failed because enum types were created twice; migration now reuses existing Postgres enum types and SQLAlchemy stores lowercase recognition/confidence enum values.
+- 2026-07-17T02:58Z [TOOL] In-app Browser backend `iab` was unavailable (`agent.browsers.list()` returned `[]`), so manual browser inspection used local Playwright Chromium against Docker Nginx on `localhost:8081`.
+- 2026-07-17T02:58Z [TOOL] Final Chromium inspection after fixes: `/api/v1/messages`, `/items`, `/generate`, `PATCH /messages/{id}`, `/finalize`, and history list all returned 200; console/page errors were empty; localStorage only contained `opensign.guestSessionId`.
+- 2026-07-17T02:58Z [TOOL] Docker logs after final inspection show message-builder API/Nginx requests in 200 and no message bodies; older 422 finalize entries in the same log window were from pre-fix diagnostic runs.
 
 ## [OUTCOMES]
 - 2026-07-16T15:50Z [TOOL] Verified: frontend lint/build/Vitest/Playwright pass; API pytest/Ruff/MyPy pass; inference pytest/Ruff/MyPy pass; local API endpoints for version, health, register, login, auth/me, signs, and mock recognition work.
@@ -52,3 +63,5 @@
 - 2026-07-16T23:07Z [TOOL] Phase 4 infrastructure verified: API `17 passed` plus Ruff/MyPy; inference `9 passed` plus Ruff/MyPy; frontend Vitest `18 passed`, lint, build, and Playwright `7 passed`; ML tests `5 passed`; Docker Compose healthy with Nginx on `8081`.
 - 2026-07-16T23:07Z [TOOL] Runtime checks passed for `/api/v1/version`, `/api/v1/health`, `/api/v1/models/active`, `/api/v1/recognitions/mock`, persisted `/api/v1/recognitions`, inference `/health`, `/ready`, `/model`, and `/predict`; API mock benchmark via Nginx p50 `12.62 ms`, p95 `18.72 ms`, max `39.64 ms`.
 - 2026-07-16T23:07Z [TOOL] `make dataset-validate-training` intentionally exits nonzero with errors: status `UNCONFIRMED`, zero examples, no eligible pilot classes; real training/evaluation metrics remain UNCONFIRMED.
+- 2026-07-17T02:58Z [TOOL] Phase 5 verified: API `24 passed` plus Ruff/MyPy; inference `9 passed` plus Ruff/MyPy; frontend Vitest `21 passed`, lint, build, and Playwright `8 passed`; Docker Compose healthy with Nginx on `8081`.
+- 2026-07-17T02:58Z [TOOL] Runtime checks passed for `/api/v1/health`, `/api/v1/linguistics/version`, `/api/v1/linguistics/concepts`, speech `/health` and `/prepare`, and full guest message flow create/add/generate/edit/finalize/history through Nginx.

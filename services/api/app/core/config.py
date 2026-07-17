@@ -34,6 +34,18 @@ class Settings(BaseSettings):
     dataset_presigned_url_expire_seconds: int = 600
     dataset_max_recordings_per_contribution: int = 8
     dataset_cleanup_draft_days: int = 14
+    linguistic_engine_mode: str = "controlled"
+    linguistic_engine_version: str = "1.0.0"
+    linguistic_dictionary_version: str = "demo-1.0.0"
+    linguistic_template_version: str = "demo-1.0.0"
+    message_max_items: int = 30
+    message_max_text_length: int = 1200
+    message_max_revisions: int = 80
+    message_autosave_delay_ms: int = 800
+    message_history_enabled: bool = True
+    guest_message_ttl_minutes: int = 120
+    speech_service_url: str = "http://speech:8010"
+    speech_mode: str = "mock"
 
 
 @lru_cache

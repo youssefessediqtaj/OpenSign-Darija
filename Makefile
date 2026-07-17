@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e benchmark-inference cleanup-uploads clean
+.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads clean
 
 install:
 	cd apps/web && npm install
@@ -67,6 +67,8 @@ seed:
 
 seed-dataset: seed
 
+seed-linguistics: seed
+
 dataset-build:
 	$(PYTHON) -m ml.datasets.build_manifest
 
@@ -123,6 +125,30 @@ test-ml:
 
 test-recognition-e2e:
 	cd apps/web && npm run test:e2e -- recognition-camera.spec.ts
+
+test-linguistics:
+	cd services/api && ./.venv/bin/pytest tests/test_messages_linguistics.py
+
+test-messages-backend: test-linguistics
+
+test-messages-frontend:
+	cd apps/web && npm test -- --run src/features/messages/tests/components.test.tsx
+
+test-messages-e2e:
+	cd apps/web && npm run test:e2e -- messages.spec.ts
+
+test-browser-messages: test-messages-e2e
+
+message-demo:
+	curl -sS http://localhost:8081/api/v1/linguistics/version
+
+linguistic-export:
+	curl -sS http://localhost:8081/api/v1/linguistics/concepts
+
+linguistic-validate: test-linguistics
+
+logs-messages:
+	docker compose logs -f api speech nginx
 
 benchmark-inference:
 	$(PYTHON) scripts/benchmark_inference.py

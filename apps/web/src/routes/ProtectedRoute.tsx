@@ -5,7 +5,7 @@ import { useAuthStore } from '../stores/authStore';
 export function ProtectedRoute() {
   const location = useLocation();
   const tokens = useAuthStore((state) => state.tokens);
-  if (location.pathname === '/app/recognition') {
+  if (location.pathname === '/app/recognition' || location.pathname.startsWith('/app/messages')) {
     return <Outlet />;
   }
   if (!tokens) {

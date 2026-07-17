@@ -12,11 +12,25 @@ from app.models.dataset import (
 from app.models.enums import (
     CampaignStatus,
     DatasetVersionStatus,
+    LinguisticAssetStatus,
+    LinguisticLanguage,
+    LinguisticRegister,
+    LinguisticScript,
+    MessageItemSource,
+    MessageItemType,
     ModelStatus,
     RiskLevel,
+    SemanticConceptType,
     SignStatus,
     UserRoleName,
 )
+from app.models.linguistics import (
+    LinguisticEntry,
+    MessageTemplate,
+    SemanticConcept,
+    SignSemanticMapping,
+)
+from app.models.message import Message, MessageItem
 from app.models.sign import ModelVersion, Sign, SignCategory
 from app.models.user import Role, User, UserRole
 from app.security.passwords import hash_password
@@ -196,6 +210,144 @@ CONSENT_TEMPLATES = [
     ),
 ]
 
+CONCEPTS = [
+    ("AFFIRMATION_YES", "oui", "yes", SemanticConceptType.AFFIRMATION),
+    ("NEGATION_NO", "non", "no", SemanticConceptType.NEGATION),
+    ("REQUEST_HELP", "demande d'aide", "request help", SemanticConceptType.ACTION),
+    ("OBJECT_WATER", "eau", "water", SemanticConceptType.OBJECT),
+    ("PERSON_DOCTOR", "medecin", "doctor", SemanticConceptType.PERSON),
+    ("HEALTH_PAIN", "douleur", "pain", SemanticConceptType.HEALTH),
+    ("POLITENESS_THANKS", "merci", "thanks", SemanticConceptType.POLITENESS),
+    ("ACTION_WANT", "vouloir", "want", SemanticConceptType.ACTION),
+    ("QUESTION_WHERE", "ou", "where", SemanticConceptType.QUESTION),
+    ("EMERGENCY_ALERT", "urgence", "emergency", SemanticConceptType.EMERGENCY),
+]
+
+SIGN_CONCEPTS = {
+    "YES": "AFFIRMATION_YES",
+    "NO": "NEGATION_NO",
+    "HELP": "REQUEST_HELP",
+    "WATER": "OBJECT_WATER",
+    "DOCTOR": "PERSON_DOCTOR",
+    "PAIN": "HEALTH_PAIN",
+    "THANKS": "POLITENESS_THANKS",
+    "WANT": "ACTION_WANT",
+    "WHERE": "QUESTION_WHERE",
+    "EMERGENCY": "EMERGENCY_ALERT",
+}
+
+LINGUISTIC_ENTRIES = {
+    "AFFIRMATION_YES": ("إيه", "iyeh", "oui", "yes"),
+    "NEGATION_NO": ("لا", "la", "non", "no"),
+    "REQUEST_HELP": ("عاونوني", "awnouni", "aidez-moi", "help me"),
+    "OBJECT_WATER": ("الما", "lma", "de l'eau", "water"),
+    "PERSON_DOCTOR": ("الطبيب", "tbib", "le medecin", "the doctor"),
+    "HEALTH_PAIN": ("الألم", "lalam", "douleur", "pain"),
+    "POLITENESS_THANKS": ("شكرا", "shukran", "merci", "thank you"),
+    "ACTION_WANT": ("بغيت", "bghit", "je veux", "I want"),
+    "QUESTION_WHERE": ("فين", "fin", "ou", "where"),
+    "EMERGENCY_ALERT": ("مستعجل", "mestaajel", "urgence", "emergency"),
+}
+
+MESSAGE_TEMPLATES = [
+    (
+        "WANT_OBJECT",
+        "Je veux un objet",
+        "بغيت حاجة",
+        "I want an object",
+        "needs",
+        RiskLevel.NORMAL,
+        {
+            "required": ["ACTION_WANT", "OBJECT"],
+            "optional": [],
+            "darija_arabic": "{action} {object}",
+            "darija_latin": "{action_latin} {object_latin}",
+            "french": "Je veux {object}.",
+            "english": "I want {object}.",
+        },
+    ),
+    (
+        "WHERE_PERSON",
+        "Ou est la personne",
+        "فين كاين الشخص",
+        "Where is the person",
+        "question",
+        RiskLevel.NORMAL,
+        {
+            "required": ["QUESTION_WHERE", "PERSON"],
+            "optional": [],
+            "darija_arabic": "{question} كاين {person}",
+            "darija_latin": "{question_latin} kayn {person_latin}",
+            "french": "Ou est {person} ?",
+            "english": "Where is {person}?",
+        },
+    ),
+    (
+        "PERSON_WHERE",
+        "Personne ou",
+        "الشخص فين",
+        "Person where",
+        "question",
+        RiskLevel.NORMAL,
+        {
+            "required": ["QUESTION_WHERE", "PERSON"],
+            "optional": [],
+            "darija_arabic": "{person} {question}",
+            "darija_latin": "{person_latin} {question_latin}",
+            "french": "{person}, ou ?",
+            "english": "{person}, where?",
+        },
+    ),
+    (
+        "REQUEST_HELP",
+        "Demander de l'aide",
+        "طلب المساعدة",
+        "Request help",
+        "needs",
+        RiskLevel.SENSITIVE,
+        {
+            "required": ["REQUEST_HELP"],
+            "optional": [],
+            "darija_arabic": "{request}",
+            "darija_latin": "{request_latin}",
+            "french": "Aidez-moi.",
+            "english": "Help me.",
+        },
+    ),
+    (
+        "HEALTH_TERM",
+        "Terme de sante",
+        "كلمة صحية",
+        "Health term",
+        "health",
+        RiskLevel.MEDICAL,
+        {
+            "required": ["HEALTH"],
+            "optional": [],
+            "darija_arabic": "{health}",
+            "darija_latin": "{health_latin}",
+            "french": "{health}.",
+            "english": "{health}.",
+        },
+    ),
+    (
+        "EMERGENCY_ALERT",
+        "Urgence",
+        "حالة مستعجلة",
+        "Emergency",
+        "emergency",
+        RiskLevel.EMERGENCY,
+        {
+            "required": ["EMERGENCY_ALERT"],
+            "optional": [],
+            "darija_arabic": "{emergency}",
+            "darija_latin": "{emergency_latin}",
+            "french": "Urgence.",
+            "english": "Emergency.",
+        },
+    ),
+]
+
 
 def seed() -> None:
     Base.metadata.create_all(bind=engine)
@@ -302,14 +454,115 @@ def seed() -> None:
             db.add(campaign)
             db.flush()
         signs_by_code = {sign.code: sign for sign in db.scalars(select(Sign)).all()}
+        concept_by_code: dict[str, SemanticConcept] = {}
+        for code, name_fr, name_en, concept_type in CONCEPTS:
+            concept = db.scalar(select(SemanticConcept).where(SemanticConcept.code == code))
+            if concept is None:
+                concept = SemanticConcept(
+                    code=code,
+                    name_fr=name_fr,
+                    name_en=name_en,
+                    description=(
+                        "Donnee linguistique de demonstration; validation communautaire requise."
+                    ),
+                    concept_type=concept_type,
+                    is_active=True,
+                )
+                db.add(concept)
+                db.flush()
+            concept_by_code[code] = concept
+
+        for sign_code, concept_code in SIGN_CONCEPTS.items():
+            sign = signs_by_code.get(sign_code)
+            concept = concept_by_code.get(concept_code)
+            if sign and concept:
+                existing = db.scalar(
+                    select(SignSemanticMapping).where(
+                        SignSemanticMapping.sign_id == sign.id,
+                        SignSemanticMapping.semantic_concept_id == concept.id,
+                    )
+                )
+                if existing is None:
+                    db.add(
+                        SignSemanticMapping(
+                            sign_id=sign.id,
+                            semantic_concept_id=concept.id,
+                            priority=10,
+                            context="demo-primary",
+                            is_default=True,
+                        )
+                    )
+
+        for concept_code, (darija_ar, darija_latin, french, english) in LINGUISTIC_ENTRIES.items():
+            concept = concept_by_code[concept_code]
+            entries = [
+                (LinguisticLanguage.DARIJA, LinguisticScript.ARABIC, darija_ar, "default"),
+                (LinguisticLanguage.DARIJA, LinguisticScript.LATIN, darija_latin, "default"),
+                (
+                    LinguisticLanguage.DARIJA,
+                    LinguisticScript.LATIN_ARABIZI,
+                    darija_latin.replace("a", "a").replace("awnouni", "3awnouni"),
+                    "arabizi",
+                ),
+                (LinguisticLanguage.FRENCH, LinguisticScript.LATIN, french, "default"),
+                (LinguisticLanguage.ENGLISH, LinguisticScript.LATIN, english, "default"),
+            ]
+            for language, script, value, variant in entries:
+                existing_entry = db.scalar(
+                    select(LinguisticEntry).where(
+                        LinguisticEntry.semantic_concept_id == concept.id,
+                        LinguisticEntry.language == language,
+                        LinguisticEntry.script == script,
+                        LinguisticEntry.variant == variant,
+                    )
+                )
+                if existing_entry is None:
+                    db.add(
+                        LinguisticEntry(
+                            semantic_concept_id=concept.id,
+                            language=language,
+                            script=script,
+                            value=value,
+                            variant=variant,
+                            register=LinguisticRegister.NEUTRAL,
+                            is_default=True,
+                            is_active=True,
+                        )
+                    )
+
+        for (
+            code,
+            name_fr,
+            name_ar,
+            name_en,
+            template_category,
+            risk,
+            structure,
+        ) in MESSAGE_TEMPLATES:
+            if not db.scalar(select(MessageTemplate).where(MessageTemplate.code == code)):
+                db.add(
+                    MessageTemplate(
+                        code=code,
+                        name_fr=name_fr,
+                        name_ar=name_ar,
+                        name_en=name_en,
+                        category=template_category,
+                        template_structure=structure,
+                        risk_level=risk,
+                        status=LinguisticAssetStatus.ACTIVE,
+                        version="demo-1.0.0",
+                        is_active=True,
+                    )
+                )
+
         for sign in signs_by_code.values():
-            existing = db.scalar(
+            existing_campaign_sign = db.scalar(
                 select(CampaignSign).where(
                     CampaignSign.campaign_id == campaign.id,
                     CampaignSign.sign_id == sign.id,
                 )
             )
-            if existing is None:
+            if existing_campaign_sign is None:
                 db.add(
                     CampaignSign(
                         campaign_id=campaign.id,
@@ -353,6 +606,40 @@ def seed() -> None:
                     created_by=admin.id,
                 )
             )
+        if admin:
+            demo_message = db.scalar(select(Message).where(Message.title == "Demo - besoin d'eau"))
+            if demo_message is None:
+                demo_message = Message(
+                    user_id=admin.id,
+                    title="Demo - besoin d'eau",
+                    raw_semantic_sequence=["ACTION_WANT", "OBJECT_WATER"],
+                    generated_darija_arabic="بغيت الما",
+                    generated_darija_latin="bghit lma",
+                    generated_french="Je veux de l'eau.",
+                    generated_english="I want water.",
+                    final_darija_arabic="بغيت الما",
+                    final_darija_latin="bghit lma",
+                    final_french="Je veux de l'eau.",
+                    final_english="I want water.",
+                    generation_metadata={"demo": True, "template": "WANT_OBJECT"},
+                    is_favorite=True,
+                )
+                db.add(demo_message)
+                db.flush()
+                for position, concept_code in enumerate(["ACTION_WANT", "OBJECT_WATER"], start=1):
+                    sign_code = "WANT" if concept_code == "ACTION_WANT" else "WATER"
+                    db.add(
+                        MessageItem(
+                            message_id=demo_message.id,
+                            position=position,
+                            item_type=MessageItemType.CONFIRMED_SIGN,
+                            sign_id=signs_by_code[sign_code].id,
+                            semantic_concept_id=concept_by_code[concept_code].id,
+                            source=MessageItemSource.TEMPLATE,
+                            display_label=concept_by_code[concept_code].name_fr,
+                            metadata_json={"demo": True},
+                        )
+                    )
         db.commit()
 
 

@@ -9,6 +9,7 @@ const appItems = [
   ['/app/settings', 'Parametres'],
   ['/admin/reviews/linguistic', 'Review'],
   ['/admin/models', 'Modeles'],
+  ['/admin/linguistics', 'Linguistique'],
 ];
 
 export function AppLayout() {

@@ -1,12 +1,16 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../../../components/Button';
+import { getOrCreateDraft, messagesApi } from '../../messages/services/messages-api.service';
 import type { RecognitionResponse } from '../../../types/api';
 import { landmarkRecognitionApi } from '../services/recognition-api.service';
 
 export function PredictionPanel({ result }: { result: RecognitionResponse | null }) {
   const [selectedPredictionId, setSelectedPredictionId] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [confirmed, setConfirmed] = useState(false);
+  const navigate = useNavigate();
   if (!result) {
     return (
       <aside className="rounded-md border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900">
@@ -87,6 +91,7 @@ export function PredictionPanel({ result }: { result: RecognitionResponse | null
           onClick={async () => {
             if (result.recognition_id && selected.prediction_id) {
               await landmarkRecognitionApi.confirm(result.recognition_id, selected.prediction_id);
+              setConfirmed(true);
               setFeedback('Prediction confirmee.');
             }
           }}
@@ -98,11 +103,43 @@ export function PredictionPanel({ result }: { result: RecognitionResponse | null
           onClick={async () => {
             if (result.recognition_id && selected.sign?.id) {
               await landmarkRecognitionApi.correct(result.recognition_id, selected.sign.id, 'none_of_these');
+              setConfirmed(true);
             }
             setFeedback('Correction envoyee.');
           }}
         >
           Choisir cette proposition
+        </Button>
+        <Button
+          variant="secondary"
+          disabled={!confirmed || !result.recognition_id}
+          onClick={async () => {
+            if (!result.recognition_id) return;
+            const draft = await getOrCreateDraft();
+            const updated = await messagesApi.addItem(draft.id, {
+              recognition_session_id: result.recognition_id,
+              idempotency_key: `recognition-${result.recognition_id}`,
+            });
+            setFeedback('Signe ajoute au message.');
+            navigate(`/app/messages/${updated.id}/edit`);
+          }}
+        >
+          Ajouter au message
+        </Button>
+        <Button
+          variant="secondary"
+          disabled={!confirmed || !result.recognition_id}
+          onClick={async () => {
+            if (!result.recognition_id) return;
+            const draft = await messagesApi.create('Message depuis reconnaissance');
+            const updated = await messagesApi.addItem(draft.id, {
+              recognition_session_id: result.recognition_id,
+              idempotency_key: `recognition-${result.recognition_id}`,
+            });
+            navigate(`/app/messages/${updated.id}/edit`);
+          }}
+        >
+          Créer un nouveau message
         </Button>
       </div>
       {feedback && <p className="mt-3 text-sm font-medium text-cedar">{feedback}</p>}

@@ -20,6 +20,15 @@ import {
 import { DemoPage } from '../pages/DemoPage';
 import { HomePage } from '../pages/HomePage';
 import { LoginPage } from '../pages/LoginPage';
+import { LinguisticsAdminPage } from '../pages/LinguisticsAdminPage';
+import {
+  MessageDetailPage,
+  MessageEditPage,
+  MessageFavoritesPage,
+  MessageHistoryPage,
+  MessagesHomePage,
+  NewMessagePage,
+} from '../pages/MessagesPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { RecognitionPage } from '../pages/RecognitionPage';
 import { SignsPage } from '../pages/SignsPage';
@@ -44,7 +53,12 @@ export function AppRoutes() {
         <Route path="app" element={<AppLayout />}>
           <Route index element={<AppDashboardPage />} />
           <Route path="recognition" element={<RecognitionPage />} />
-          <Route path="messages" element={<SimplePage title="Messages">Construction de messages Darija prevue pour une prochaine phase.</SimplePage>} />
+          <Route path="messages" element={<MessagesHomePage />} />
+          <Route path="messages/new" element={<NewMessagePage />} />
+          <Route path="messages/history" element={<MessageHistoryPage />} />
+          <Route path="messages/favorites" element={<MessageFavoritesPage />} />
+          <Route path="messages/:messageId" element={<MessageDetailPage />} />
+          <Route path="messages/:messageId/edit" element={<MessageEditPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="settings/privacy" element={<PrivacySettingsPage />} />
           <Route path="contribute" element={<ContributePage />} />
@@ -60,6 +74,7 @@ export function AppRoutes() {
           <Route path="reviews/ml" element={<MlReviewPage />} />
           <Route path="datasets" element={<DatasetAdminPage />} />
           <Route path="models" element={<ModelAdminPage />} />
+          <Route path="linguistics" element={<LinguisticsAdminPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

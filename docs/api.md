@@ -31,6 +31,37 @@
 
 `POST /api/v1/recognitions` accepts compact normalized landmark sequences only. It does not accept images, video, audio, or raw camera frames.
 
+## Messages
+
+- `POST /api/v1/messages`
+- `GET /api/v1/messages`
+- `GET /api/v1/messages/{message_id}`
+- `PATCH /api/v1/messages/{message_id}`
+- `DELETE /api/v1/messages/{message_id}`
+- `POST /api/v1/messages/{message_id}/archive`
+- `POST /api/v1/messages/{message_id}/duplicate`
+- `POST /api/v1/messages/{message_id}/favorite`
+- `DELETE /api/v1/messages/{message_id}/favorite`
+- `POST /api/v1/messages/{message_id}/items`
+- `PATCH /api/v1/messages/{message_id}/items/{item_id}`
+- `DELETE /api/v1/messages/{message_id}/items/{item_id}`
+- `POST /api/v1/messages/{message_id}/items/reorder`
+- `POST /api/v1/messages/{message_id}/generate`
+- `GET /api/v1/messages/{message_id}/generation`
+- `POST /api/v1/messages/{message_id}/regenerate`
+- `POST /api/v1/messages/{message_id}/finalize`
+- `GET /api/v1/messages/{message_id}/revisions`
+- `POST /api/v1/messages/{message_id}/revisions/{revision_id}/restore`
+- `POST /api/v1/messages/{message_id}/speech/prepare`
+
+Guest requests must send `X-Anonymous-Session-Id`. Recognition-derived items require an existing confirmation or correction.
+
+## Linguistics
+
+- `GET /api/v1/linguistics/concepts`
+- `GET /api/v1/linguistics/templates`
+- `GET /api/v1/linguistics/version`
+
 ## Dataset Contribution
 
 - `GET /api/v1/consents/templates`
