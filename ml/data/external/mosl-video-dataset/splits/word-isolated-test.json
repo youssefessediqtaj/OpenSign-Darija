@@ -1,0 +1,882 @@
+[
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/ً (إِشَارَة 2).mp4",
+    "label_key": "",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "ً",
+    "sha256": "6e8917d775489aea46ec98b434752ee124fbf2cfc1f67cc4a57553ac1c2dc752",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/ّ (إِشَارَة 1).mp4",
+    "label_key": "",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "ّ",
+    "sha256": "03d17c9dd6e37312cbd89f77326c2d0778e89fa517d93f2c2c6705711bcda33c",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/10 (إِشَارَة 1).mp4",
+    "label_key": "10",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "10",
+    "sha256": "c5dffe025390b275461e251e524755ed021c452efd36934e3c0b40f1427cd930",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/1000 (إِشَارَة 3).mp4",
+    "label_key": "1000",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "1000",
+    "sha256": "da80360da17dd7e0cdc081cc2307bf07d10cc0845f6da142eae516cf62211463",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/10000 (إِشَارَة 3).mp4",
+    "label_key": "10000",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "10000",
+    "sha256": "2a53344cb657db061caf16d9b9aa48a7169b72827d397aadccc26c7e1bd84acf",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/100000 (إِشَارَة 3).mp4",
+    "label_key": "100000",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "100000",
+    "sha256": "cead6c56977062078daad49de187f827a41a9177b52429827288e137b8d12081",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/1000000 (إِشَارَة 1).mp4",
+    "label_key": "1000000",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "1000000",
+    "sha256": "dae06e7a20d6a24deb092b33c8acab9c9b1199bbeda10878bee810198eed0254",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/11 (إِشَارَة 5).mp4",
+    "label_key": "11",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "11",
+    "sha256": "d72baba21f83e4b3d9a441d930a61719ca4192d9b60c9746b5e3b122a4c2f8d5",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/12 (إِشَارَة 4).mp4",
+    "label_key": "12",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "12",
+    "sha256": "b01c22bae13e7bd7321434203f2e5196830bcefb7651f7e30a08830b07f3a527",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/13 (إِشَارَة 2).mp4",
+    "label_key": "13",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "13",
+    "sha256": "3e193ccab71daab755028eb241399363f6b5632c7a9835776d64df0b7651c3a7",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/14 (إِشَارَة 1).mp4",
+    "label_key": "14",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "14",
+    "sha256": "d0d9ad1f68f8aca2170d9024bcbf3c4887678a1ccfa409db2a60ce773c94a19e",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/15 (إِشَارَة 3).mp4",
+    "label_key": "15",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "15",
+    "sha256": "235f803e052334af6f45a0f4a4adf5edbc6e54fe7cf82777bfad855c776c8e34",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 5).mp4",
+    "label_key": "16",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "16",
+    "sha256": "853777ddd8a2817ffac0a1e02cc7f8dfb074b48bbf91dfe1dd04bed9fa3f94de",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 6).mp4",
+    "label_key": "17",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "17",
+    "sha256": "770f0047679f62d4dc3c50c6b46ca54204323195f4936eeb5aa93c1b9b95ce3e",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 6).mp4",
+    "label_key": "18",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "18",
+    "sha256": "67dfb9ffc0c94cee3e5959707144ab2a31464516f0d8bfa7f303039f11957c79",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 3).mp4",
+    "label_key": "19",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "19",
+    "sha256": "b75860060efe2e05d7042a13c50fa57a6f0aa0b170423cd126d196bb91aa5262",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَبٌ (إِشَارَة 4).mp4",
+    "label_key": "اب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَبٌ",
+    "sha256": "e963c53744d4b1f5b9c4f68f9f86ae7c8cc7c054f004baa1f2bb032c1d0b9070",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَبْجَدِيَّةٌ (إِشَارَة 2).mp4",
+    "label_key": "ابجدية",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَبْجَدِيَّةٌ",
+    "sha256": "8a6d9870a520b14a0ec0f1ea1081c25fc9b8e170fc2e71ca17159c6d78a6caa5",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/أَبْرِيل (إِشَارَة 3).mp4",
+    "label_key": "ابريل",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَبْرِيل",
+    "sha256": "4cd4c32d68834d4218ddcd7875ed81a032603916779f813744455cb167cf1a06",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/اِتِّحَادٌ (إِشَارَة 1).mp4",
+    "label_key": "اتحاد",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "اِتِّحَادٌ",
+    "sha256": "3d2e3c49e92ecd815397566e4fcb6fee653812f02501e912f39a114329393afc",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَثَاثٌ (إِشَارَة 1).mp4",
+    "label_key": "اثاث",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَثَاثٌ",
+    "sha256": "a8ec15d5fc59dd217b98b2966dd5f4d7dde3132dee81c32628f9ad42a8249ee8",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَثْنَاءَ (إِشَارَة 1).mp4",
+    "label_key": "اثناء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَثْنَاءَ",
+    "sha256": "321516a350a8b4e13013a3e7c2d75b51cd296e4dfa08b48095fba837d7d88126",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/اِجْتِمَاعٌ (إِشَارَة 3).mp4",
+    "label_key": "اجتماع",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "اِجْتِمَاعٌ",
+    "sha256": "17e4651fe28adf877588b2bdb8e0015d223d5525845fdac21afdb8539d1e81cb",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَجَّلَ (إِشَارَة 2).mp4",
+    "label_key": "اجل",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَجَّلَ",
+    "sha256": "889eb5cdb195d4f5b26c4936334bb10cc2cc162622d06603de4216e7f875647d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَجْنَبِي (إِشَارَة 3).mp4",
+    "label_key": "اجنبي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَجْنَبِي",
+    "sha256": "c66373b292d1b337fc7544ba2f7a37f2f31bba381447c71398f0d0fb0a38754c",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَجْهَشَ (بِالْبُكَاءِ) (إِشَارَة 3).mp4",
+    "label_key": "اجهش_بالبكاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَجْهَشَ (بِالْبُكَاءِ)",
+    "sha256": "df290fb4039813737d81d0a32e0ce562b8d11d92ae8b00d6eba9c227fff3aa07",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَحَبَّ (إِشَارَة 5).mp4",
+    "label_key": "احب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَحَبَّ",
+    "sha256": "91a94128b88fb783ce465bae4ca9bcbc3db1c16f556ef1bce03667ac380609ea",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/اِحْتَفَظَ (إِشَارَة 1).mp4",
+    "label_key": "احتفظ",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "اِحْتَفَظَ",
+    "sha256": "9430d7c8446378d2b9515fefad0716ec3af4eb632534aedb99adf19a8b786151",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَحْمَقُ (إِشَارَة 2).mp4",
+    "label_key": "احمق",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَحْمَقُ",
+    "sha256": "8fefc8b6336af6c4563b5e760a4394570b5b12a817e7b053a1a0d9a3e3ece4f1",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَخِيرٌ (إِشَارَة 2).mp4",
+    "label_key": "اخير",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَخِيرٌ",
+    "sha256": "b3b3a6d39492b55ce4511749382b4d61e088d12e272bf3b51cb6c516d6aaaff8",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/إِذاً.mp4",
+    "label_key": "اذا",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "إِذاً",
+    "sha256": "580eab9e42984bef39a3f5e3cf5be681ee0fa2d09ae3d0e2826af43caa5e8a1b",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَرْبِطَةُ الحِذَاءِ (إِشَارَة 3).mp4",
+    "label_key": "اربطة_الحذاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَرْبِطَةُ الحِذَاءِ",
+    "sha256": "84eb39e7956b5d14d7b0f2699c3766e1865d284a1a59cd3b08af558ea5e5427c",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/اِرْتَاحَ (إِشَارَة 1).mp4",
+    "label_key": "ارتاح",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "اِرْتَاحَ",
+    "sha256": "443323658129302b12d25c7d06312c0ff4df72ba722a0eace1f7f8fdae974406",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَرْكَانُ الْإِسْلاَمِ (إِشَارَة 3).mp4",
+    "label_key": "اركان_الاسلام",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَرْكَانُ الْإِسْلاَمِ",
+    "sha256": "51d801369f9ed8fcbc1327596814d8d10cd92545f566555989f4e515711d9bcc",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَرْنَبٌ (إِشَارَة 3).mp4",
+    "label_key": "ارنب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَرْنَبٌ",
+    "sha256": "5441e5bdf2db4430171d0e87e28fbca674f03b23a6142c591c91fd85aa113308",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَزْرَقُ (إِشَارَة 1).mp4",
+    "label_key": "ازرق",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَزْرَقُ",
+    "sha256": "e30ea70a7412ed9f276711c756c67794bc891219334e0f39f26532ca4db75687",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أُسْتَاذٌ (إِشَارَة 2).mp4",
+    "label_key": "استاذ",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أُسْتَاذٌ",
+    "sha256": "6bc79081585cfa5bd8f5096c772ee5ec0b513f5f8702b96d5da1585c916871c3",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/إِسْكَافِيٌّ (إِشَارَة 1).mp4",
+    "label_key": "اسكافي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "إِسْكَافِيٌّ",
+    "sha256": "159aa9333d88c091586edb8c499c57e3d9d914557ca50b2c8f62f4c7fbcbe06d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَسْوَدُ (إِشَارَة 1).mp4",
+    "label_key": "اسود",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَسْوَدُ",
+    "sha256": "a224ff06ace75c990acf92c958c357544f2634d97e44dc2c4208674b0bf9a51b",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَعْزَبُ (إِشَارَة 2).mp4",
+    "label_key": "اعزب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَعْزَبُ",
+    "sha256": "a76a48fdb17090eb992bc8037b743734ce0f8fe1fd28c07823f8e0733d0e2f95",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/إِفْرِيقْيَا (إِشَارَة 3).mp4",
+    "label_key": "افريقيا",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "إِفْرِيقْيَا",
+    "sha256": "389d8fa1bf17875055ff085bb251e790969a6cc8fd99b4be21228b2974968234",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَقْسَمَ (إِشَارَة 2).mp4",
+    "label_key": "اقسم",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَقْسَمَ",
+    "sha256": "7b0a1269c077ab816ed4adea65d3ab557a40f3f463f33b90303e9a82d9a1f523",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/أُكْتُوبَر (إِشَارَة 1).mp4",
+    "label_key": "اكتوبر",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أُكْتُوبَر",
+    "sha256": "d5ef51271a2edcc384bbc4062ed7fd73b99f96a0b926e53667182c3d2a5a1fe3",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/الآخِرَةُ (إِشَارَة 2).mp4",
+    "label_key": "الاخرة",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الآخِرَةُ",
+    "sha256": "bc7131c79a5ffe969f3a75e322192030a44809622272e751adddc5cc427154d0",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/الأَرْبِعَاءُ (إِشَارَة 2).mp4",
+    "label_key": "الاربعاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الأَرْبِعَاءُ",
+    "sha256": "43e5fc54e99c641c8c3b794c6cada6a241d52163e4ef1537ce093163c0d769bd",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/الإِمَارَاتُ العَرَبِيَّةُ المُتَّحِدَةُ (إِشَارَة 1).mp4",
+    "label_key": "الامارات_العربية_المتحدة",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الإِمَارَاتُ العَرَبِيَّةُ المُتَّحِدَةُ",
+    "sha256": "38661ecc0432380aa49f0537988c8cb7d823985c96fabc93d50ccbf463ba32e2",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/البِطَاقَةُ الوَطَنِيَّةُ (إِشَارَة 3).mp4",
+    "label_key": "البطاقة_الوطنية",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "البِطَاقَةُ الوَطَنِيَّةُ",
+    "sha256": "a8c010526ed494f5b7c65e22a1e1842b86b46e7a3930af9a571a3c407a3ac9ab",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/الثُّلاَثَاء (إِشَارَة 2).mp4",
+    "label_key": "الثلاثاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الثُّلاَثَاء",
+    "sha256": "810eab84dcfb57a5639dcbf6759b2aaa7756e6604ae8b862716b8bf138d6510f",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/الرَّبِيع (إِشَارَة 4).mp4",
+    "label_key": "الربيع",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الرَّبِيع",
+    "sha256": "2ad7e07a4cffe6d4b7cf8a69d037e82a0ebc417b62d0553dfc41d9a03bbd726d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/الشِّتَاء (إِشَارَة 1).mp4",
+    "label_key": "الشتاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الشِّتَاء",
+    "sha256": "c0d7d9f40ce97dab8fa783e1aa303412742fa4d1650e8e50bc3aaefb6d449d26",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/الصَّيْف (إِشَارَة 1).mp4",
+    "label_key": "الصيف",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "الصَّيْف",
+    "sha256": "95efb92c59c4584ee42ec9a18bd6c722cfe07b52f411b7282008ccb8fa1c5aec",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/القِبْلَةُ (إِشَارَة 2).mp4",
+    "label_key": "القبلة",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "القِبْلَةُ",
+    "sha256": "65ec600cc6f7f30900f4d81aa5fa8180d69c60aa71e663279bd8edf085191f84",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/اللهُ (إِشَارَة 1).mp4",
+    "label_key": "الله",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "اللهُ",
+    "sha256": "25f058b954c3b20027cfc5be117c5a54c43db10b57f7d1e577071339fc9e51d2",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/إِلَى (إِشَارَة 2).mp4",
+    "label_key": "الي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "إِلَى",
+    "sha256": "a1cff2c7cc7cf3afbf0f7a3752462a7d9cc9c8149ac2367b1041bd66e5d5e273",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أُمٌّ (إِشَارَة 4).mp4",
+    "label_key": "ام",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أُمٌّ",
+    "sha256": "383c2b063df6e44f457b0e74d691311e2d92d34d13d6e7f175afdbfc9aa7ee37",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَمَامَ (إِشَارَة 2).mp4",
+    "label_key": "امام",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَمَامَ",
+    "sha256": "58219929dcf083a859f7420a10ee5099b5d88274238fd39f831d1b77ecb3a823",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/أَمْعَاءٌ (إِشَارَة 3).mp4",
+    "label_key": "امعاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَمْعَاءٌ",
+    "sha256": "104322b5cc3e861c155827259dd21d3f69300a0335b6a9ea44bc87606311ac53",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/إِمْلاَءٌ (إِشَارَة 1).mp4",
+    "label_key": "املاء",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "إِمْلاَءٌ",
+    "sha256": "6128eb1fe3ad81b00efdbf9a4c3489ab88e64d2cb0848ba2e41c45094cde77d1",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Pronouns/أَنْتِ.mp4",
+    "label_key": "انت",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَنْتِ",
+    "sha256": "11c3b18a2a1a4c83509026e1d1927ed8e630667db1e292ad1b9bcab71f12ae82",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Pronouns/أَنْتُمْ (إِشَارَة 1).mp4",
+    "label_key": "انتم",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "أَنْتُمْ",
+    "sha256": "1445b4f2bfc6a7753a653cc10f8b4c08d19028cd1f32759b516002e633cdbbad",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/إِيمَانٌ (إِشَارَة 3).mp4",
+    "label_key": "ايمان",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "إِيمَانٌ",
+    "sha256": "c40e019fdad75eb34b9651a587803cca18288ea5ad12012bc26a1e69f6f01a3c",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/بَعَثَ (إِشَارَة 3).mp4",
+    "label_key": "بعث",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "بَعَثَ",
+    "sha256": "df537be05ccefc4e16afddc8318a6ae17954f1bc4ec8129ca1624b796f2a72ca",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/بَعْدَ (إِشَارَة 1).mp4",
+    "label_key": "بعد",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "بَعْدَ",
+    "sha256": "47a89341ff3995096df101af78ab14361fbdcc6db66e863a6114c1e6fbe854f4",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/بِيتْزَا (إِشَارَة 1).mp4",
+    "label_key": "بيتزا",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "بِيتْزَا",
+    "sha256": "527fd99dfd8448733edab773a1b88665e3644b6ec4c91ff6360d841b8e60010d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/حِمَارٌ وَحْشِيٌّ (إِشَارَة 1).mp4",
+    "label_key": "حمار_وحشي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "حِمَارٌ وَحْشِيٌّ",
+    "sha256": "0cd8947c5ea51ad5992fed8e3a5ea47fec77924434c3428fccdf154ad97b2a52",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/خَدَعَ (إِشَارَة 2).mp4",
+    "label_key": "خدع",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "خَدَعَ",
+    "sha256": "262f241526408b98ac62572e2fd9b1d8522ff877ab2bdecfd68e38f22c6bb444",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/خَرَجَ (إِشَارَة 3).mp4",
+    "label_key": "خرج",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "خَرَجَ",
+    "sha256": "02f428eaf7e1a5bc145c2604ed9a5b3002f3eb9dcc5b45cf515e274103f60b03",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/دُجَنْبِر (إِشَارَة 1).mp4",
+    "label_key": "دجنبر",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "دُجَنْبِر",
+    "sha256": "f894c3d081b8ab23a2c0f1d218e17b2c543cdab8bc34ca992f2e1f512bc133f6",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/دَرَسَ (إِشَارَة 2).mp4",
+    "label_key": "درس",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "دَرَسَ",
+    "sha256": "82cd9ae93627c646c5de5e45e76b30a30cc73400e622bc3e560cf9c32f82eb96",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/دِفَاعٌ (إِشَارَة 1).mp4",
+    "label_key": "دفاع",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "دِفَاعٌ",
+    "sha256": "6ac4b3e5856fc166e1e239d4c8807dfce9fd863a3bbda270a5a480acf5a4969d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/دَفْتَرٌ (إِشَارَة 2).mp4",
+    "label_key": "دفتر",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "دَفْتَرٌ",
+    "sha256": "ab54e745a84e48108520eec30999b896a6cbabe3ef7bef41897083766765f542",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/دَمٌ (إِشَارَة 1).mp4",
+    "label_key": "دم",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "دَمٌ",
+    "sha256": "cceb9f92ae8b815974505d5a08c8a0d8f9cca2687a7cd3ba1d5cebedde333c89",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/ذَهَبٌ (إِشَارَة 2).mp4",
+    "label_key": "ذهب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "ذَهَبٌ",
+    "sha256": "c264dc76a097b10ca225de947ca1979e4f69a7c0cacb5a51bfd9cfe7d070e9a7",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/زَرَعَ (إِشَارَة 2).mp4",
+    "label_key": "زرع",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "زَرَعَ",
+    "sha256": "6746311f07993e28678e219bc7dbbe661792c368ff6e89335c3412b821624ed2",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/سُوقٌ (إِشَارَة 2).mp4",
+    "label_key": "سوق",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "سُوقٌ",
+    "sha256": "d50985d3d983c2b552f4de1d1a9ed247b149c5bb6ef9d09bf768f2fba16d6d06",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/شَبِيهٌ (إِشَارَة 1).mp4",
+    "label_key": "شبيه",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "شَبِيهٌ",
+    "sha256": "c057ddf51aaa962e4724038fe93bfabbe9f4f12713ebb98fc06444236595db5a",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/شُرْطِيٌّ (إِشَارَة 4).mp4",
+    "label_key": "شرطي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "شُرْطِيٌّ",
+    "sha256": "ac3ddb3384c005b1c1efec30e62eaedde7a457e6c6278121b7ca7b3f1a11603d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/صَبَاحُ الْخَيْرِ (إِشَارَة 1).mp4",
+    "label_key": "صباح_الخير",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "صَبَاحُ الْخَيْرِ",
+    "sha256": "b8eb3850cc37b6bc12f453ba553e8d79ea60079ec254e36d4ff07ba37f30a0d9",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/طَحِينٌ (إِشَارَة 3).mp4",
+    "label_key": "طحين",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "طَحِينٌ",
+    "sha256": "6afbfbff83dd8ef13a83599a0278422040486da6c208cba2219a7c2b8f79b4e1",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/عَالَمٌ (إِشَارَة 2).mp4",
+    "label_key": "عالم",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "عَالَمٌ",
+    "sha256": "2424c1391d0f94faafb241c3fe44e21b656c2ccd2bf298f50240e9b868ea1a64",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/عُنْوَانٌ (إِشَارَة 3).mp4",
+    "label_key": "عنوان",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "عُنْوَانٌ",
+    "sha256": "52ab657d315090ad014a4511e41155c30ec312b8ceccef52ddfd652231186281",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/عِيدٌ (إِشَارَة 3).mp4",
+    "label_key": "عيد",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "عِيدٌ",
+    "sha256": "5359a81d6dd87d820cab1f16c629a0b5832f31046e30d82135391171f88c2716",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/غَاضِبٌ (إِشَارَة 1).mp4",
+    "label_key": "غاضب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "غَاضِبٌ",
+    "sha256": "3ae716b4002a44fc9aa1ecac9729f0e2280173e4c7b8ada07cf00a66703e8cdc",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/غُشْت (إِشَارَة 3).mp4",
+    "label_key": "غشت",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "غُشْت",
+    "sha256": "fa0453ac33afeaedcd84ca9125104e9f30047f71aa29d42f6667d71944aae2d4",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/غُلاَمٌ (إِشَارَة 2).mp4",
+    "label_key": "غلام",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "غُلاَمٌ",
+    "sha256": "12eef429197884d4af8f5c3cea22944b22781369df9975a1682d53c3955477fb",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/غَنِيٌّ (إِشَارَة 1).mp4",
+    "label_key": "غني",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "غَنِيٌّ",
+    "sha256": "043b2fd00ea7775b9467a728ade06916a3bdd0103849d57a543e9a09fdce826f",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/فَرَاوْلَة (إِشَارَة 3).mp4",
+    "label_key": "فراولة",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "فَرَاوْلَة",
+    "sha256": "564cfb09dd32320176db1458aa8b9400aa2a2cb770c560eec63438dae60b0f9c",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/فِعْلٌ (إِشَارَة 2).mp4",
+    "label_key": "فعل",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "فِعْلٌ",
+    "sha256": "848a9f9a75c6629893676df201fc74c27a78d64c8d177655c72d9d79151558ab",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/قَالَ (إِشَارَة 3).mp4",
+    "label_key": "قال",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "قَالَ",
+    "sha256": "5b003bff182b075b7def12bca046615eb309b86cf1571b4d31e90de77da247db",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/قَدْ (إِشَارَة 1).mp4",
+    "label_key": "قد",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "قَدْ",
+    "sha256": "282d9af6b68a5bf7130a1dec9ab6eb9d15cbc9d4ea5c9c91ee7078dfef0d33a9",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/قَرِيبٌ (أَهْلٌ) (إِشَارَة 2).mp4",
+    "label_key": "قريب_اهل",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "قَرِيبٌ (أَهْلٌ)",
+    "sha256": "c268cc8b304519ab8274a16df07d34281850c512f27af6d83d4148022f1fca49",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/لَوَّنَ (إِشَارَة 1).mp4",
+    "label_key": "لون",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "لَوَّنَ",
+    "sha256": "bd1a79b17681d74a3196f64a9cfe8f2132214203db7f41877398a55fe09d1ea1",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/مَارِس (إِشَارَة 3).mp4",
+    "label_key": "مارس",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مَارِس",
+    "sha256": "d9e3a71c3b00a22240cb3bbfac256b7f307f66f30945b5e605c5b69abed40333",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/مَاي (إِشَارَة 3).mp4",
+    "label_key": "ماي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مَاي",
+    "sha256": "ffe0ae1210083a2cebfa282afe70192c9779a75ff28938d66b399c3a6e96022e",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مُتْعَبٌ (إِشَارَة 2).mp4",
+    "label_key": "متعب",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مُتْعَبٌ",
+    "sha256": "3d55e92e83ef55b469a324211fad0ccb7a81c10d6d04eb21fe424be1dcd53e77",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مَدْرَسَةٌ (إِشَارَة 2).mp4",
+    "label_key": "مدرسة",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مَدْرَسَةٌ",
+    "sha256": "8bf529295673d3c303eeb52bd114550ae26f58896a6a2cc93132fcfc29a4941f",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مُدُنُ الصَّفِيحِ (إِشَارَة 3).mp4",
+    "label_key": "مدن_الصفيح",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مُدُنُ الصَّفِيحِ",
+    "sha256": "7935e6afe327474b7ed2a9f89f5b706d79b12e4440b94be123121a89c85dd32a",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مِرْحَاضٌ (إِشَارَة 1).mp4",
+    "label_key": "مرحاض",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مِرْحَاضٌ",
+    "sha256": "0757f149d0805c2d29814563a161864e9461a5741ba6d1b2b6a8318229aa79fb",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مَشْغُولٌ (إِشَارَة 3).mp4",
+    "label_key": "مشغول",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مَشْغُولٌ",
+    "sha256": "161abab6e308d475a8c91e01d57a462faf7d76bbab7723c5acf486dd681f4b5b",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مُفَتِّشٌ (تَرْبَوِيٌّ) (إِشَارَة 2).mp4",
+    "label_key": "مفتش_تربوي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مُفَتِّشٌ (تَرْبَوِيٌّ)",
+    "sha256": "bda619b82fbe4e6fb682a41efb35218ce7254df3736ea8c59905426907d0cd78",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مُمَرِّضَةٌ (إِشَارَة 2).mp4",
+    "label_key": "ممرضة",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مُمَرِّضَةٌ",
+    "sha256": "22cad602713ef285178c92b8ad181b1edf9f6f43e383ab3c76b757c80c0b801b",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/مَنْ (إِشَارَة 2).mp4",
+    "label_key": "من",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "مَنْ",
+    "sha256": "449eb9bf5cb7b182d409b6992899794a1348ba239c81732acbd30d359c78bd0d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/نَادِي (إِشَارَة 1).mp4",
+    "label_key": "نادي",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "نَادِي",
+    "sha256": "326a64d4d3c8fe6032793e11f0ef99bcde7c268eadda8b7d8cd3e07beaa7bdea",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/نَحِيفٌ (إِشَارَة 3).mp4",
+    "label_key": "نحيف",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "نَحِيفٌ",
+    "sha256": "6660dfbcbaf2b7b96bcad8ab295e98578e15ea86999440de952d552020b88214",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/نَصَحَ (إِشَارَة 2).mp4",
+    "label_key": "نصح",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "نَصَحَ",
+    "sha256": "b1c8be1850af941897873fce9949a54b379f5e35430627005809e567f1e77de1",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/نِظَامٌ (إِشَارَة 2).mp4",
+    "label_key": "نظام",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "نِظَامٌ",
+    "sha256": "2358808c8c2eaae516482d623ef2734942528cc892dff983ee26eeb968d2ec2a",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/هَدِيَّةٌ (إِشَارَة 2).mp4",
+    "label_key": "هدية",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "هَدِيَّةٌ",
+    "sha256": "7c31d216914753961b9ea94641155b993816035e30d5a1e4225bd29fb2f555d4",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/يُولْيُوز (إِشَارَة 3).mp4",
+    "label_key": "يوليوز",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "يُولْيُوز",
+    "sha256": "bf918ce66c5d7d5e9872b88dec8bac50a090420dff5288205d456ed5cbf4e29f",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Diverse/يَوْمٌ (إِشَارَة 1).mp4",
+    "label_key": "يوم",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "يَوْمٌ",
+    "sha256": "7a3590185fbda159dac2b45876639d0262dc71729b86a2e921cc2c948fec8871",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_days_months_seasons/يُونْيُو (إِشَارَة 3).mp4",
+    "label_key": "يونيو",
+    "mode": "WORD_ISOLATED",
+    "normalized_label_ar": "يُونْيُو",
+    "sha256": "0bb7f0b5ca47bb75142d9db64f01416837c607654fad5a4b79a3e0e34bebe47a",
+    "split": "test"
+  }
+]

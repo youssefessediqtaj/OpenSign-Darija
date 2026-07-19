@@ -1,6 +1,6 @@
 PYTHON ?= python3
 
-.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare dataset-download-kaggle-alphabet dataset-import-mendeley dataset-audit-external dataset-build-alphabet dataset-build-mosl-words dataset-map-labels dataset-validate-licenses dataset-check-duplicates dataset-extract-word-landmarks train-alphabet evaluate-alphabet export-alphabet-onnx train-external-words evaluate-external-words test-external-datasets test-recognition-modes test-browser-alphabet logs-datasets ml-baseline ml-train ml-evaluate ml-export-onnx ml-validate-onnx ml-register-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads speech-install speech-download-model speech-verify-model speech-test speech-test-backend speech-test-frontend speech-test-e2e speech-benchmark speech-cleanup speech-voices speech-health logs-speech clean
+.PHONY: install dev up down logs logs-api logs-worker logs-storage test test-backend test-frontend test-dataset test-e2e test-browser lint format migrate seed seed-dataset seed-linguistics dataset-build dataset-validate dataset-validate-training dataset-stats dataset-prepare dataset-download-kaggle-alphabet dataset-import-mendeley dataset-audit-external dataset-build-alphabet dataset-build-mosl-words dataset-map-labels dataset-validate-licenses dataset-check-duplicates dataset-extract-word-landmarks train-alphabet evaluate-alphabet export-alphabet-onnx train-external-words evaluate-external-words test-external-datasets test-recognition-modes test-browser-alphabet logs-datasets ml-install ml-download-mediapipe ml-inventory-nested-mosl ml-verify-mosl-migration ml-final-deletion-verification ml-dataset-import ml-dataset-scan ml-dataset-validate ml-dataset-split ml-preprocess-mosl ml-validate-mosl-artifacts ml-prepare-word-training-manifest ml-train-smoke ml-validate-word-smoke-model ml-register-word-smoke-model ml-activate-word-smoke ml-train-word ml-evaluate-word ml-export-word ml-package-word ml-register-word-model model-list model-activate model-rollback inference-test test-ml test-inference test-recognition-e2e test-linguistics test-messages-backend test-messages-frontend test-messages-e2e test-browser-messages message-demo linguistic-export linguistic-validate logs-messages benchmark-inference cleanup-uploads speech-install speech-download-model speech-verify-model speech-test speech-test-backend speech-test-frontend speech-test-e2e speech-benchmark speech-cleanup speech-voices speech-health logs-speech clean
 
 install:
 	cd apps/web && npm install
@@ -32,13 +32,13 @@ logs-storage:
 test:
 	$(MAKE) test-frontend
 	$(MAKE) test-backend
-	cd services/inference && pytest
-	cd services/speech && pytest
+	$(MAKE) test-inference
+	cd services/speech && .venv/bin/pytest
 
 test-backend:
-	cd services/api && pytest
-	cd services/api && ruff check app tests
-	cd services/api && mypy app
+	cd services/api && .venv/bin/python -m pytest
+	cd services/api && .venv/bin/ruff check app tests
+	cd services/api && .venv/bin/mypy app
 
 test-frontend:
 	cd apps/web && npm test -- --run
@@ -111,6 +111,73 @@ dataset-validate-licenses:
 
 dataset-check-duplicates:
 	$(PYTHON) -m ml.datasets.external.check_duplicates
+
+ml-download-mediapipe:
+	$(PYTHON) -m ml.datasets.mosl_video.download_mediapipe_model
+
+ml-inventory-nested-mosl:
+	@test -n "$(MOSL_SOURCE_ROOT)" || { echo "Set MOSL_SOURCE_ROOT to the local source project root."; exit 2; }
+	$(PYTHON) -m ml.datasets.mosl_video.source_inventory --source-root "$(MOSL_SOURCE_ROOT)"
+
+ml-verify-mosl-migration:
+	@test -n "$(MOSL_SOURCE_DATASET_ROOT)" || { echo "Set MOSL_SOURCE_DATASET_ROOT to the local source video root."; exit 2; }
+	$(PYTHON) -m ml.datasets.mosl_video.migration_verification --source-root "$(MOSL_SOURCE_DATASET_ROOT)"
+
+ml-final-deletion-verification:
+	$(PYTHON) -m ml.datasets.mosl_video.final_deletion_verification $(if $(MOSL_VALIDATION_SUMMARY),--validation-summary "$(MOSL_VALIDATION_SUMMARY)",)
+
+ml-install:
+	$(PYTHON) -m venv ml/.venv
+	ml/.venv/bin/python -m pip install --upgrade pip
+	ml/.venv/bin/python -m pip install -r ml/requirements-train.txt
+
+ml-dataset-import:
+	@test -n "$(MOSL_SOURCE_DATASET_ROOT)" || { echo "Set MOSL_SOURCE_DATASET_ROOT to the local source video root."; exit 2; }
+	$(PYTHON) -m ml.datasets.mosl_video.importer --source "$(MOSL_SOURCE_DATASET_ROOT)"
+
+ml-dataset-scan:
+	$(PYTHON) -m ml.datasets.mosl_video.scan
+
+ml-dataset-validate: ml-dataset-scan
+
+ml-dataset-split:
+	$(PYTHON) -m ml.datasets.mosl_video.split_builder
+
+ml-preprocess-mosl:
+	services/inference/.venv/bin/python -m ml.datasets.mosl_video.preprocess
+
+ml-validate-mosl-artifacts:
+	services/inference/.venv/bin/python -m ml.datasets.mosl_video.validate_processed_artifacts
+
+ml-prepare-word-training-manifest:
+	$(PYTHON) -m ml.datasets.mosl_video.training_manifest
+
+ml-train-smoke:
+	$(MAKE) ml-prepare-word-training-manifest
+	ml/.venv/bin/python -m ml.training.train_mosl_word --manifest artifacts/datasets/mosl-word-isolated-v1/manifest.json --output-dir artifacts/models/mosl-word-smoke-v1 --epochs 2
+
+ml-validate-word-smoke-model:
+	ml/.venv/bin/python -m ml.export.validate_mosl_word_smoke --artifact-dir artifacts/models/mosl-word-smoke-v1
+
+ml-register-word-smoke-model: ml-validate-word-smoke-model
+	cd services/api && PYTHONPATH=.:../.. .venv/bin/python -m app.tools.register_mosl_word_smoke --artifact-dir ../../artifacts/models/mosl-word-smoke-v1
+
+ml-activate-word-smoke: ml-validate-word-smoke-model
+	cd services/api && PYTHONPATH=.:../.. .venv/bin/python -m app.tools.activate_mosl_word_smoke --artifact-dir ../../artifacts/models/mosl-word-smoke-v1
+
+ml-train-word:
+	$(PYTHON) -m ml.training.train --config ml/configs/mosl-word-isolated-baseline-v1.yaml --dataset-version source-import-v1 --output-dir ml/artifacts/mosl-word-gru-v1/full
+
+ml-evaluate-word:
+	$(PYTHON) -m ml.evaluation.evaluate --artifact-dir ml/artifacts/mosl-word-gru-v1/full
+
+ml-export-word:
+	$(PYTHON) -m ml.export.export_onnx --checkpoint ml/artifacts/mosl-word-gru-v1/full/model.pt --output ml/artifacts/mosl-word-gru-v1/full/model.onnx
+
+ml-package-word:
+	$(PYTHON) -m ml.export.package_model --artifact-dir ml/artifacts/mosl-word-gru-v1/full
+
+ml-register-word-model: ml-register-word-smoke-model
 
 dataset-extract-word-landmarks:
 	$(PYTHON) -m ml.datasets.mosl_words.landmark_extractor --source mendeley_mosl_v1 --feature-schema 1.0.0 --target-frames 30

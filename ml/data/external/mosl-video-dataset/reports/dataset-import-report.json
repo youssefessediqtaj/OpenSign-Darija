@@ -1,0 +1,16 @@
+{
+  "checksum_mismatch_count": 0,
+  "checksum_mismatches": [],
+  "corrupt_or_unreadable_video_count": 0,
+  "destination_video_count": 2216,
+  "duplicate_checksum_count": 19,
+  "manifest_sha256": "558241beba4b6d0b31ab2a3a22ff584a3f47274f3a57aed153dd0bf149d73d62",
+  "matching_checksum_count": 2216,
+  "missing_file_count": 0,
+  "missing_files": [],
+  "source_video_count": 2216,
+  "total_size_after": 222795265,
+  "total_size_before": 222795265,
+  "unexpected_file_count": 0,
+  "unexpected_files": []
+}

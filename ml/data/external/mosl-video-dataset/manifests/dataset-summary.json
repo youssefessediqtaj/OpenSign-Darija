@@ -1,0 +1,40 @@
+{
+  "category_counts": {
+    "Days_Months_Seasons": 59,
+    "Diverse": 1941,
+    "Letters": 71,
+    "Numbers": 130,
+    "Pronouns": 15
+  },
+  "corrupt_or_unreadable_video_count": 0,
+  "dataset_source": "mosl-video-dataset",
+  "dataset_version": "source-import-v1",
+  "duplicate_checksum_count": 19,
+  "duplicate_checksums": {
+    "03a12b49daef5a72dd8e6d7ef9dddcec085496aa5aada54dfb07a38cda6f5ac6": 3,
+    "05b7db67329444982c5881e2cfa57e02da33230c1e6921d844d14b5bccb5a8e2": 3,
+    "3667c8346184fd60cd91985faa1327a684e9143e5d0098a83cefcc7a156485b6": 3,
+    "787b1b93ca59c11cd03449fe60aecf08277dcce2d8c3d8ad3e1a4cefd329a0e8": 3,
+    "79eb168d0f16851fb694ed18ab23bc9a4cd4c1aea6ed492e31585f4ae7548aa3": 4,
+    "b5ff93fea168184c6da2364f36469be3ffd7a79e5fa2882105bc92f1b42436eb": 3,
+    "c5b28cc3a642f69d9bc86da52356b0e123649868e775499935917c3c3f1aa6ac": 3,
+    "cca02f7b33565cd0369067e2c1dbeee9d5923e63aa0a7f76ffedbeda3bc12a6f": 3,
+    "d432a196f8575d1f46d09ce7e4ab7cdcd9da930ca54fa9b7dd37a423a6856a4a": 2,
+    "dc14a98bcb5b8a28a61b7c2ed3fb635399297de8f14bb916609d72d6b4406e8d": 2
+  },
+  "invalid_label_count": 15,
+  "manifest_sha256": "558241beba4b6d0b31ab2a3a22ff584a3f47274f3a57aed153dd0bf149d73d62",
+  "mode_counts": {
+    "ALPHABET_STATIC": 71,
+    "WORD_ISOLATED": 2145
+  },
+  "readable_video_count": 2216,
+  "singleton_class_count": 1155,
+  "total_size_bytes": 222795265,
+  "unique_checksum_count": 2197,
+  "unique_normalized_label_count": 1592,
+  "validation_errors": {
+    "label_parse_empty": 15
+  },
+  "video_count": 2216
+}

@@ -129,6 +129,21 @@ make dataset-check-duplicates
 make cleanup-uploads
 ```
 
+Dataset video MoSL local integre:
+
+```bash
+MOSL_SOURCE_DATASET_ROOT=/path/to/source/videos make ml-dataset-import
+make ml-dataset-scan
+make ml-dataset-split
+make ml-install
+make ml-download-mediapipe
+make ml-preprocess-mosl
+make ml-validate-mosl-artifacts
+make ml-validate-word-smoke-model
+```
+
+Les videos brutes sont conservees localement sous `ml/data/external/mosl-video-dataset/raw/` et restent hors Git. Le modele MoSL actuel est un smoke model developpement seulement, pas un modele production. Voir `docs/datasets/mosl-video-dataset.md`, `docs/integrations/mosl-integration.md`, `docs/integrations/nested-mosl-removal-plan.md`, `docs/ml/landmark-schema-v1.md`, `docs/ml/mosl-preprocessing.md` et `docs/reports/mosl-native-integration-final-report.md`.
+
 Sources publiques externes:
 
 - Kaggle `walidlasseg/moroccan-sign-language-lsm-alphabet-dataset`: source `ALPHABET_STATIC`, desactivee tant que la licence officielle Kaggle n’est pas verifiee.
@@ -180,6 +195,19 @@ Documentation:
 - `make dataset-build-alphabet`: construit un manifest alphabet separe.
 - `make dataset-build-mosl-words`: construit un manifest video mots separe.
 - `make dataset-check-duplicates`: detecte les doublons inter-sources.
+- `make ml-dataset-import`: importe le dataset video MoSL local vers la structure native; requiert `MOSL_SOURCE_DATASET_ROOT`.
+- `make ml-verify-mosl-migration`: verifie les checksums source/native; requiert `MOSL_SOURCE_DATASET_ROOT`.
+- `make ml-inventory-nested-mosl`: inventorie une source locale; requiert `MOSL_SOURCE_ROOT`.
+- `make ml-dataset-scan`: regenere les manifestes video MoSL.
+- `make ml-dataset-split`: genere les splits separes word/alphabet.
+- `make ml-install`: cree `ml/.venv` avec les dependances PyTorch/ONNX de training, separees du runtime inference.
+- `make ml-download-mediapipe`: installe le modele MediaPipe Tasks requis pour le preprocessing local.
+- `make ml-preprocess-mosl`: extrait les landmarks MediaPipe vers des caches `.npz`.
+- `make ml-validate-mosl-artifacts`: valide les caches `.npz` contre le manifeste.
+- `make ml-validate-word-smoke-model`: valide le package ONNX smoke MoSL.
+- `make ml-register-word-smoke-model`: enregistre le smoke model sans l'activer.
+- `make ml-activate-word-smoke`: active le smoke model uniquement si `APP_ENV=development` et `ALLOW_SMOKE_MODEL_ACTIVATION=true`.
+- `make ml-final-deletion-verification`: produit le rapport de gate avant toute suppression du projet source imbrique.
 - `make dataset-validate-training`: refuse l’entrainement si le dataset n’est pas valide.
 - `make ml-baseline`: entraine la baseline quand le dataset est valide.
 - `make ml-train`: lance l’entrainement GRU quand le dataset est valide.

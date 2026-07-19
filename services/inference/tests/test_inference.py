@@ -45,7 +45,7 @@ def test_mock_prediction_format_and_top_three() -> None:
 
 
 def test_explicit_word_and_alphabet_routes() -> None:
-    sequence = {
+    legacy_sequence = {
         "sequence_id": "123e4567-e89b-12d3-a456-426614174000",
         "captured_at": "2026-07-17T12:00:00Z",
         "duration_ms": 1600,
@@ -69,8 +69,39 @@ def test_explicit_word_and_alphabet_routes() -> None:
             "movement_score": 0.5,
         },
     }
+    sequence = {
+        "sequence_id": "123e4567-e89b-12d3-a456-426614174000",
+        "captured_at": "2026-07-17T12:00:00Z",
+        "recognition_mode": "WORD_ISOLATED",
+        "duration_ms": 1600,
+        "source_fps": 15,
+        "target_frame_count": 60,
+        "landmark_count": 75,
+        "coordinate_count": 3,
+        "coordinate_format": "shoulder_centered_v1",
+        "feature_schema_version": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+        "frames": [
+            {
+                "index": index,
+                "timestamp_ms": index * 33,
+                "landmarks": [[0.1, 0.0, 0.0] for _ in range(75)],
+                "presence_mask": [1] * 75,
+            }
+            for index in range(60)
+        ],
+        "quality": {
+            "detected_hand_ratio": 1,
+            "detected_face_ratio": 0,
+            "detected_pose_ratio": 1,
+            "missing_frame_ratio": 0,
+            "movement_score": 0.5,
+        },
+    }
     word = client.post("/predict/word", json=sequence)
     assert word.status_code == 200
+    assert word.json()["feature_schema_version"] == "OPEN_SIGNE_LANDMARK_SCHEMA_V1"
+    legacy_word = client.post("/predict/word", json=legacy_sequence)
+    assert legacy_word.status_code == 422
     alphabet = client.post(
         "/predict/alphabet",
         json={

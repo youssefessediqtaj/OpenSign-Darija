@@ -10,6 +10,7 @@ from app.schemas.recognition import (
     LandmarkRecognitionRequest,
     PredictionResponse,
     RecognitionResponse,
+    WordLandmarkRecognitionRequest,
 )
 
 logger = logging.getLogger(__name__)
@@ -64,12 +65,14 @@ async def predict_mock(frames_count: int) -> RecognitionResponse:
     return fallback_prediction()
 
 
-async def predict_sequence(payload: LandmarkRecognitionRequest) -> RecognitionResponse:
+async def predict_sequence(
+    payload: LandmarkRecognitionRequest | WordLandmarkRecognitionRequest,
+) -> RecognitionResponse:
     return await predict_sequence_for_task(payload, "word")
 
 
 async def predict_sequence_for_task(
-    payload: LandmarkRecognitionRequest, task_endpoint: str
+    payload: LandmarkRecognitionRequest | WordLandmarkRecognitionRequest, task_endpoint: str
 ) -> RecognitionResponse:
     settings = get_settings()
     url = f"{settings.inference_service_url.rstrip('/')}/predict/{task_endpoint}"

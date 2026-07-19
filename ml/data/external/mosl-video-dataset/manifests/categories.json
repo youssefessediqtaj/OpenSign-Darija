@@ -1,0 +1,27 @@
+[
+  {
+    "source_folder": "mosl_videos_dataset_Diverse",
+    "display_name": "Diverse",
+    "mode": "WORD_ISOLATED"
+  },
+  {
+    "source_folder": "mosl_videos_dataset_Letters",
+    "display_name": "Letters",
+    "mode": "ALPHABET_STATIC"
+  },
+  {
+    "source_folder": "mosl_videos_dataset_Numbers",
+    "display_name": "Numbers",
+    "mode": "WORD_ISOLATED"
+  },
+  {
+    "source_folder": "mosl_videos_dataset_Pronouns",
+    "display_name": "Pronouns",
+    "mode": "WORD_ISOLATED"
+  },
+  {
+    "source_folder": "mosl_videos_dataset_days_months_seasons",
+    "display_name": "Days_Months_Seasons",
+    "mode": "WORD_ISOLATED"
+  }
+]

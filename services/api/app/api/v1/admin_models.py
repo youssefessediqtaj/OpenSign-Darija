@@ -6,6 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.api.deps import require_roles
+from app.core.config import get_settings
 from app.core.errors import ApiError
 from app.db.session import get_db
 from app.models.dataset import AuditLog
@@ -94,11 +95,21 @@ def activate_model(
     ],
     db: Annotated[Session, Depends(get_db)],
 ) -> ActiveModelResponse:
+    settings = get_settings()
     model = db.get(ModelVersion, model_id)
     if model is None:
         raise ApiError("NOT_FOUND", "Modele introuvable.", 404)
-    if model.status != ModelStatus.READY:
-        raise ApiError("MODEL_NOT_READY", "Seul un modele READY peut etre active.", 409)
+    is_dev_smoke_model = model.status == ModelStatus.VALIDATED_SMOKE
+    smoke_activation_allowed = (
+        settings.app_env == "development" and settings.allow_smoke_model_activation
+    )
+    if model.status != ModelStatus.READY and not (is_dev_smoke_model and smoke_activation_allowed):
+        raise ApiError(
+            "MODEL_NOT_READY",
+            "Seul un modele READY peut etre active; "
+            "les modeles smoke exigent le mode developpement.",
+            409,
+        )
     if not model.artifact_path or not model.checksum:
         raise ApiError("MODEL_ARTIFACT_INCOMPLETE", "Artefacts modele incomplets.", 409)
     for active in db.scalars(
@@ -107,10 +118,12 @@ def activate_model(
         )
     ):
         active.is_active = False
-        active.status = ModelStatus.ARCHIVED
+        if active.status != ModelStatus.VALIDATED_SMOKE:
+            active.status = ModelStatus.ARCHIVED
         active.archived_at = datetime.now(UTC)
     model.is_active = True
-    model.status = ModelStatus.ACTIVE
+    if model.status == ModelStatus.READY:
+        model.status = ModelStatus.ACTIVE
     model.activated_at = datetime.now(UTC)
     db.add(
         AuditLog(

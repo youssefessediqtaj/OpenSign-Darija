@@ -9,7 +9,7 @@ services:
         VITE_CAMERA_DEFAULT_WIDTH: ${VITE_CAMERA_DEFAULT_WIDTH:-1280}
         VITE_CAMERA_DEFAULT_HEIGHT: ${VITE_CAMERA_DEFAULT_HEIGHT:-720}
         VITE_CAMERA_DEFAULT_FPS: ${VITE_CAMERA_DEFAULT_FPS:-30}
-        VITE_LANDMARK_TARGET_FRAMES: ${VITE_LANDMARK_TARGET_FRAMES:-30}
+        VITE_LANDMARK_TARGET_FRAMES: ${VITE_LANDMARK_TARGET_FRAMES:-60}
         VITE_ENABLE_LANDMARK_OVERLAY: ${VITE_ENABLE_LANDMARK_OVERLAY:-true}
         VITE_ENABLE_PERFORMANCE_METRICS: ${VITE_ENABLE_PERFORMANCE_METRICS:-false}
     depends_on:
@@ -32,8 +32,9 @@ services:
       REDIS_URL: redis://redis:6379/0
       INFERENCE_SERVICE_URL: http://inference:8001
       INFERENCE_MODE: ${INFERENCE_MODE:-mock}
+      ALLOW_SMOKE_MODEL_ACTIVATION: ${ALLOW_SMOKE_MODEL_ACTIVATION:-false}
       RECOGNITION_MAX_FRAMES: ${RECOGNITION_MAX_FRAMES:-60}
-      RECOGNITION_MAX_PAYLOAD_BYTES: ${RECOGNITION_MAX_PAYLOAD_BYTES:-262144}
+      RECOGNITION_MAX_PAYLOAD_BYTES: ${RECOGNITION_MAX_PAYLOAD_BYTES:-1500000}
       RECOGNITION_MIN_DURATION_MS: ${RECOGNITION_MIN_DURATION_MS:-500}
       RECOGNITION_MAX_DURATION_MS: ${RECOGNITION_MAX_DURATION_MS:-8000}
       RECOGNITION_RATE_LIMIT: ${RECOGNITION_RATE_LIMIT:-30}
@@ -100,10 +101,19 @@ services:
     environment:
       FEATURE_SCHEMA_VERSION: ${FEATURE_SCHEMA_VERSION:-1.0.0}
       INFERENCE_MODE: ${INFERENCE_MODE:-mock}
+      MODEL_NAME: ${MODEL_NAME:-opensign-darija-landmark-mock}
+      MODEL_VERSION: ${MODEL_VERSION:-0.2.0}
+      MODEL_PATH: ${MODEL_PATH:-}
+      LABELS_PATH: ${LABELS_PATH:-}
+      THRESHOLDS_PATH: ${THRESHOLDS_PATH:-}
+      CALIBRATION_PATH: ${CALIBRATION_PATH:-}
+      ACTIVE_MODEL_ID: ${ACTIVE_MODEL_ID:-}
       MODEL_BUCKET: ${MODEL_BUCKET:-opensign-model-artifacts}
       MODEL_CACHE_DIR: ${MODEL_CACHE_DIR:-/tmp/opensign-model-cache}
       MODEL_MAX_SIZE_BYTES: ${MODEL_MAX_SIZE_BYTES:-50000000}
       ONNX_EXECUTION_PROVIDER: ${ONNX_EXECUTION_PROVIDER:-CPUExecutionProvider}
+    volumes:
+      - ./artifacts/models:/workspace/artifacts/models:ro
     expose:
       - "8001"
     healthcheck:
@@ -111,6 +121,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  ml-trainer:
+    image: python:3.12-slim
+    profiles: ["ml"]
+    working_dir: /workspace
+    command: ["bash", "-lc", "python -m pip install -r ml/requirements-train.txt && python -m ml.datasets.mosl_video.training_manifest"]
+    environment:
+      MEDIAPIPE_HOLISTIC_MODEL_PATH: /workspace/ml/assets/mediapipe/holistic_landmarker.task
+    volumes:
+      - ./:/workspace
 
   speech:
     build: ./services/speech

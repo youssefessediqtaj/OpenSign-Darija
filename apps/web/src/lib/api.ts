@@ -5,21 +5,28 @@ import type { ApiErrorPayload } from '../types/api';
 export class ApiError extends Error {
   code: string;
   details: Record<string, unknown>;
+  status?: number;
 
-  constructor(message: string, code = 'API_ERROR', details: Record<string, unknown> = {}) {
+  constructor(
+    message: string,
+    code = 'API_ERROR',
+    details: Record<string, unknown> = {},
+    status?: number,
+  ) {
     super(message);
     this.name = 'ApiError';
     this.code = code;
     this.details = details;
+    this.status = status;
   }
 }
 
 async function parseError(response: Response): Promise<ApiError> {
   try {
     const payload = (await response.json()) as ApiErrorPayload;
-    return new ApiError(payload.error.message, payload.error.code, payload.error.details);
+    return new ApiError(payload.error.message, payload.error.code, payload.error.details, response.status);
   } catch {
-    return new ApiError('Une erreur technique est survenue.', 'HTTP_ERROR', { status: response.status });
+    return new ApiError('Une erreur technique est survenue.', 'HTTP_ERROR', { status: response.status }, response.status);
   }
 }
 

@@ -1,0 +1,170 @@
+[
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ء (إِشَارَة 1).mp4",
+    "label_key": "ء",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ء",
+    "sha256": "01a7c58b4dffa2584266fb79c96b33be5e3360b07e2b899aa1b0523b037047a9",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/إ (إِشَارَة 1).mp4",
+    "label_key": "ا",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "إ",
+    "sha256": "791d35319858d53f95c6838fbc0909f46701aafdaa0d180182fa6dd886084551",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ب (إِشَارَة 1).mp4",
+    "label_key": "ب",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ب",
+    "sha256": "d1b9b959ef02c355a597b02c237de694d105e6f40d5f2749e3b3b4a40a30cb87",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ة (إِشَارَة 2).mp4",
+    "label_key": "ة",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ة",
+    "sha256": "ec32ffee0557f100af0ff85f0e83f0fedddf0d70d19d9d6bba8f2404c49b08dd",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ت (إِشَارَة 1).mp4",
+    "label_key": "ت",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ت",
+    "sha256": "3fc7758da0c9b87090212ae223a1a60529b49295eee63bbd899cbb821cf795b0",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ج (إِشَارَة 3).mp4",
+    "label_key": "ج",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ج",
+    "sha256": "e5af0f799b2cb80d946e683e159e579006f51b3b5d6d65cc34dfd52f4af9700c",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ح (إِشَارَة 1).mp4",
+    "label_key": "ح",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ح",
+    "sha256": "476ce387b3e0dc134dbcf4d81b810b091e44f0d58328a0a8f762ce52df68482c",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/خ (إِشَارَة 1).mp4",
+    "label_key": "خ",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "خ",
+    "sha256": "1f81058f186b8071c2ad7ffc15c5687ebd4c29930ff8baf12a53455134aa8a31",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ر (إِشَارَة 1).mp4",
+    "label_key": "ر",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ر",
+    "sha256": "970e1745b91494178dcafa80fb7cc33f5f835dfde33014634d6f13a13159a1d2",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ز (إِشَارَة 1).mp4",
+    "label_key": "ز",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ز",
+    "sha256": "d6e8612c0c32b0e71cc92a279ed92a1be6c12819a5f54006e3256db6f84ff9f0",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/س (إِشَارَة 2).mp4",
+    "label_key": "س",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "س",
+    "sha256": "53132d6fab2f5520b771e647c003071006f7c683d37c5da7234ef6f39a61ea64",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ش (إِشَارَة 2).mp4",
+    "label_key": "ش",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ش",
+    "sha256": "868fc9bb4d471d4c8708518a72f635ce1f042013789615a6a136c44d72dc1b25",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ط (إِشَارَة 2).mp4",
+    "label_key": "ط",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ط",
+    "sha256": "3da515fe093627b5acc885ef6f1cb36e808846ecb01e34414cd4c816f138f0e6",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/غ (إِشَارَة 1).mp4",
+    "label_key": "غ",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "غ",
+    "sha256": "b56c4c2991187a8263b1f7dde7667518df526db86712258a9b8c98da2b41c07f",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ك (إِشَارَة 1).mp4",
+    "label_key": "ك",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ك",
+    "sha256": "395ea97b0b11fdb462a89a199f91af762129641977604950a20b9c3d51cade9b",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/لا (إِشَارَة 2).mp4",
+    "label_key": "لا",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "لا",
+    "sha256": "2f8575dcc9217826723dfd78d4e6e6867cfe881cb515d0acfb6c7cfc8a35391c",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/م (إِشَارَة 2).mp4",
+    "label_key": "م",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "م",
+    "sha256": "fe6a4924571b19c21a19c0113ff927be4c940a8a6b7575319424c736d650ad17",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ن (إِشَارَة 1).mp4",
+    "label_key": "ن",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ن",
+    "sha256": "8c2ecb327f3a09c26ef297bd3a43635db0232030b1a1b8a358dd1a0b1891379d",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ؤ.mp4",
+    "label_key": "و",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ؤ",
+    "sha256": "bd35555212b4ea6401fc320d3e787ded63eb532870eb471363a9008ac53521f5",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ى.mp4",
+    "label_key": "ي",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ى",
+    "sha256": "83f948a064f9675b48088e0caf10f62ea6af89a1e43297bac5de5b24681b249d",
+    "split": "validation"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/يَا (إِشَارَة 2).mp4",
+    "label_key": "يا",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "يَا",
+    "sha256": "d73359eaa3d12bbad42f563667ec63b9a751dc942db52f3355777c9cc9fed65d",
+    "split": "validation"
+  }
+]

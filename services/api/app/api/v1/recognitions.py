@@ -30,6 +30,7 @@ from app.schemas.recognition import (
     RecognitionMockRequest,
     RecognitionModeResponse,
     RecognitionResponse,
+    WordLandmarkRecognitionRequest,
 )
 from app.services.inference_client import predict_alphabet, predict_mock, predict_sequence
 
@@ -51,7 +52,9 @@ def check_rate_limit(key: str) -> None:
 
 
 def rate_limit_key(
-    current_user: User | None, payload: LandmarkRecognitionRequest, request: Request
+    current_user: User | None,
+    payload: LandmarkRecognitionRequest | WordLandmarkRecognitionRequest,
+    request: Request,
 ) -> str:
     if current_user:
         return current_user.id
@@ -185,7 +188,7 @@ def recognition_modes() -> list[RecognitionModeResponse]:
     ]
 
 
-def quality_score(payload: LandmarkRecognitionRequest) -> float:
+def quality_score(payload: LandmarkRecognitionRequest | WordLandmarkRecognitionRequest) -> float:
     return round(
         (
             payload.quality.detected_hand_ratio * 0.45
@@ -254,12 +257,33 @@ async def create_recognition(
 
 @router.post("/word", response_model=RecognitionResponse)
 async def create_word_recognition(
-    payload: LandmarkRecognitionRequest,
+    payload: WordLandmarkRecognitionRequest,
     request: Request,
     db: Annotated[Session, Depends(get_db)],
     current_user: Annotated[User | None, Depends(get_optional_current_user)],
 ) -> RecognitionResponse:
-    return await create_recognition(payload, request, db, current_user)
+    assert_payload_size(request)
+    check_rate_limit(rate_limit_key(current_user, payload, request))
+    result = await predict_sequence(payload)
+    session = RecognitionSession(
+        user_id=current_user.id if current_user else None,
+        status=RecognitionStatus.COMPLETED,
+        completed_at=datetime.now(UTC),
+        feature_schema_version=result.feature_schema_version or payload.feature_schema_version,
+        inference_mode=result.inference_mode,
+        model_name=result.model_name,
+        model_version=result.model_version,
+        decision=RecognitionDecision(result.decision),
+        confidence_level=ConfidenceLevel(result.confidence_level),
+        processing_time_ms=result.processing_time_ms,
+        quality_score=quality_score(payload),
+    )
+    db.add(session)
+    db.flush()
+    result.recognition_id = session.id
+    result.predictions = enrich_and_store_predictions(db, session, result)
+    db.commit()
+    return result
 
 
 @router.post("/alphabet", response_model=RecognitionResponse)

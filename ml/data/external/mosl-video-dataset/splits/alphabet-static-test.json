@@ -1,0 +1,90 @@
+[
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ء (إِشَارَة 3).mp4",
+    "label_key": "ء",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ء",
+    "sha256": "c52eb4b04b2ccb956ca3212ef3f985c3fa4284a501d28f2e312dfffd6d6026af",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/آ (إِشَارَة 1).mp4",
+    "label_key": "ا",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "آ",
+    "sha256": "53b587733e47d579e57028a295cbdd952c4cb8edf623a86576eace84dc0b17f5",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ج (إِشَارَة 1).mp4",
+    "label_key": "ج",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ج",
+    "sha256": "105ad4f2f478591cf3be90b247df9c3e138e94fc34c651b95b2168327e0dd31d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ر (إِشَارَة 3).mp4",
+    "label_key": "ر",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ر",
+    "sha256": "d8a756d7187d499431db43a9f615452d6ca4ce55da06ccdcd05722f239286440",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ز (إِشَارَة 3).mp4",
+    "label_key": "ز",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ز",
+    "sha256": "0713abce5e5153ba2b05f61dae071d4a82b0cb60088273f6b4fc0394a6a2c252",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/س (إِشَارَة 3).mp4",
+    "label_key": "س",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "س",
+    "sha256": "570d2c06f30c3b7110b32ab89cd22568e2e0c8306ef1bfbaae84b2afcb7ee0a0",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ش (إِشَارَة 1).mp4",
+    "label_key": "ش",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ش",
+    "sha256": "def9cb9ffec35392584e7686d7101762915e181f690d443dc4b980c9c2c944b7",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/لاَ.mp4",
+    "label_key": "لا",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "لاَ",
+    "sha256": "59f18b44cfd4b87f1ed83e128b5befbeda79ef9d53e0b8fb511c3fd9e10e737b",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ن (إِشَارَة 3).mp4",
+    "label_key": "ن",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ن",
+    "sha256": "c37638712cdcf9c10f02b6312bb25748f4dc82f4317281aac0686749247648fc",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/و (إِشَارَة 1).mp4",
+    "label_key": "و",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "و",
+    "sha256": "f046e2713c3322150ab842da766dd9367e62cf64bc6a48486e7f3d339aeb013d",
+    "split": "test"
+  },
+  {
+    "current_relative_path": "raw/mosl_videos_dataset_Letters/ئ.mp4",
+    "label_key": "ي",
+    "mode": "ALPHABET_STATIC",
+    "normalized_label_ar": "ئ",
+    "sha256": "96d84ba13d3463fefc57ef3329323dd1881f01c65d18d2fb797b0899060f7c59",
+    "split": "test"
+  }
+]

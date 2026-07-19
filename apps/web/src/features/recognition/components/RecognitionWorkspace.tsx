@@ -21,8 +21,9 @@ import { useLandmarkRecorder } from '../hooks/useLandmarkRecorder';
 import { useRecognitionCapture } from '../hooks/useRecognitionCapture';
 import { useRecognitionSubmission } from '../hooks/useRecognitionSubmission';
 import { setPreferredCameraDeviceId } from '../services/camera.service';
+import { evaluateWordCaptureGate } from '../services/capture-state.service';
 import { FEATURE_SCHEMA_VERSION, compactFrame } from '../services/landmark-normalizer.service';
-import { landmarkRecognitionApi } from '../services/recognition-api.service';
+import { landmarkRecognitionApi, recognitionErrorMessage } from '../services/recognition-api.service';
 import { useRecognitionStore } from '../stores/recognition.store';
 import type { FramingEvaluation } from '../types/framing.types';
 import type { HolisticFrame } from '../types/landmark.types';
@@ -91,8 +92,18 @@ export function RecognitionWorkspace() {
   const startLandmarker = landmarker.start;
 
   const isCameraActive = Boolean(camera.stream);
-  const canCapture = evaluation.isReady && isCameraActive && recorder.phase !== 'capturing';
   const isSubmitting = submission.isPending || recorder.phase === 'submitting';
+  const isMockCamera = location.search.includes('mockCamera');
+  const captureGate = evaluateWordCaptureGate({
+    mode,
+    cameraReady: isCameraActive,
+    detectorStatus: landmarker.status,
+    evaluation,
+    recorderPhase: recorder.phase,
+    isSubmitting,
+    mockCamera: isMockCamera,
+  });
+  const canCapture = captureGate.canCapture;
   const countdown = useRecognitionCapture(startRecording);
 
   const startCamera = useCallback(async () => {
@@ -122,10 +133,18 @@ export function RecognitionWorkspace() {
     try {
       await submission.mutateAsync(payload);
       recorder.markComplete();
-    } catch {
-      recorder.markError('Le backend est indisponible. Reessayez sans fermer la camera.');
+    } catch (error) {
+      recorder.markError(recognitionErrorMessage(error));
     }
   }, [recorder, submission]);
+
+  const beginWordCapture = useCallback(() => {
+    if (!captureGate.canCapture) {
+      recorder.markError(captureGate.reason ?? 'La capture n’est pas prete.');
+      return;
+    }
+    countdown.beginCountdown();
+  }, [captureGate.canCapture, captureGate.reason, countdown, recorder]);
 
   const engineStatus = useMemo(() => {
     if (landmarker.status === 'loading') return 'Chargement du moteur de detection...';
@@ -247,7 +266,7 @@ export function RecognitionWorkspace() {
             isSubmitting={isSubmitting}
             onStartCamera={startCamera}
             onStopCamera={stopCamera}
-            onStartCapture={countdown.beginCountdown}
+            onStartCapture={beginWordCapture}
             onFinishCapture={finishCapture}
             onCancelCapture={() => {
               countdown.cancelCountdown();
@@ -260,6 +279,11 @@ export function RecognitionWorkspace() {
             <div className="rounded-md border border-coral bg-red-50 p-3 text-sm text-coral" role="alert">
               {recorder.validationErrors.join(' ')}
             </div>
+          )}
+          {mode === 'word' && captureGate.reason && !recorder.validationErrors.length && (
+            <p className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800" role="status">
+              {captureGate.reason}
+            </p>
           )}
         </div>
         <div className="space-y-4">
@@ -283,9 +307,9 @@ export function RecognitionWorkspace() {
               {alphabetError}
             </p>
           )}
-          {submission.isError && mode === 'word' && (
+          {submission.isError && mode === 'word' && recorder.validationErrors.length === 0 && (
             <p className="rounded-md border border-coral bg-red-50 p-3 text-sm text-coral" role="alert">
-              Le moteur de reconnaissance est temporairement indisponible. Vous pouvez réessayer ou consulter les signes supportés.
+              {recognitionErrorMessage(submission.error)}
             </p>
           )}
         </div>

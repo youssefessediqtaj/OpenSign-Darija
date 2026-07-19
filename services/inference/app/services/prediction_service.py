@@ -11,6 +11,7 @@ from app.schemas.prediction import (
     ModelInfo,
     PredictionItem,
     PredictionResponse,
+    WordLandmarkSequenceRequest,
 )
 from app.services.interfaces import InferenceModel, ModelRegistry
 from app.services.model_loader import model_loader
@@ -49,7 +50,9 @@ class PredictionService:
             processing_time_ms=elapsed_ms,
         )
 
-    def predict_sequence(self, payload: LandmarkSequenceRequest) -> PredictionResponse:
+    def predict_sequence(
+        self, payload: LandmarkSequenceRequest | WordLandmarkSequenceRequest
+    ) -> PredictionResponse:
         started = perf_counter()
         settings = get_settings()
         if settings.inference_mode == "real":
@@ -97,7 +100,7 @@ class PredictionService:
             request_id=str(uuid4()),
             sequence_id=str(payload.sequence_id),
             model=ModelInfo(name=settings.model_name, version=settings.model_version),
-            feature_schema_version=settings.feature_schema_version,
+            feature_schema_version=payload.feature_schema_version,
             inference_mode=settings.inference_mode,
             status="completed",
             decision="known" if top_confidence >= 0.7 else "uncertain",
@@ -134,7 +137,7 @@ class PredictionService:
             request_id=str(uuid4()),
             sequence_id=str(payload.sequence_id),
             model=ModelInfo(name="opensign-mosl-alphabet-mock", version="0.1.0"),
-            feature_schema_version=settings.feature_schema_version,
+            feature_schema_version=payload.feature_schema_version,
             inference_mode=settings.inference_mode,
             status="completed",
             decision=decision,

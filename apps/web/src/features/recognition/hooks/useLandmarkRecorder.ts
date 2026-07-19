@@ -2,8 +2,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { HolisticFrame } from '../types/landmark.types';
 import type { CapturePhase } from '../types/recognition.types';
-import { createLandmarkSequence, toCompactPayload, validateCompactPayload } from '../services/sequence-validator.service';
-import type { CompactLandmarkSequencePayload, LandmarkSequence } from '../types/sequence.types';
+import {
+  createLandmarkSequence,
+  toWordLandmarkPayload,
+  validateWordRecognitionPayloadV1,
+  wordValidationErrorMessage,
+} from '../services/sequence-validator.service';
+import type { LandmarkSequence, WordLandmarkSequencePayload } from '../types/sequence.types';
 
 export function useLandmarkRecorder(anonymousSessionId: string) {
   const bufferRef = useRef<HolisticFrame[]>([]);
@@ -12,6 +17,7 @@ export function useLandmarkRecorder(anonymousSessionId: string) {
   const [phase, setPhase] = useState<CapturePhase>('idle');
   const [sequence, setSequence] = useState<LandmarkSequence | null>(null);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [diagnostics, setDiagnostics] = useState<Record<string, number>>({});
 
   useEffect(() => {
     phaseRef.current = phase;
@@ -29,6 +35,7 @@ export function useLandmarkRecorder(anonymousSessionId: string) {
     bufferRef.current = [];
     startedAtRef.current = new Date().toISOString();
     setValidationErrors([]);
+    setDiagnostics({});
     setSequence(null);
     phaseRef.current = 'capturing';
     setPhase('capturing');
@@ -39,11 +46,12 @@ export function useLandmarkRecorder(anonymousSessionId: string) {
     startedAtRef.current = null;
     setSequence(null);
     setValidationErrors([]);
+    setDiagnostics({});
     phaseRef.current = 'idle';
     setPhase('idle');
   }, []);
 
-  const finish = useCallback((): CompactLandmarkSequencePayload | null => {
+  const finish = useCallback((): WordLandmarkSequencePayload | null => {
     phaseRef.current = 'validating';
     setPhase('validating');
     const nextSequence = createLandmarkSequence(
@@ -51,8 +59,18 @@ export function useLandmarkRecorder(anonymousSessionId: string) {
       startedAtRef.current ?? new Date().toISOString(),
     );
     setSequence(nextSequence);
-    const payload = toCompactPayload(nextSequence, anonymousSessionId);
-    const errors = nextSequence.quality.valid ? validateCompactPayload(payload) : nextSequence.quality.warnings;
+    const payload = toWordLandmarkPayload(nextSequence, anonymousSessionId);
+    const validation = validateWordRecognitionPayloadV1(payload, {
+      rawFrameCount: nextSequence.rawFrameCount,
+      validFrameCount: nextSequence.validFrameCount,
+    });
+    setDiagnostics({
+      rawFrameCount: nextSequence.rawFrameCount,
+      validFrameCount: nextSequence.validFrameCount,
+      outputFrameCount: validation.diagnostics.outputFrameCount,
+      payloadByteSize: validation.diagnostics.payloadByteSize ?? 0,
+    });
+    const errors = validation.errors.map(wordValidationErrorMessage);
     setValidationErrors(errors);
     bufferRef.current = [];
     if (errors.length > 0) {
@@ -79,6 +97,7 @@ export function useLandmarkRecorder(anonymousSessionId: string) {
     phase,
     sequence,
     validationErrors,
+    diagnostics,
     frameCount: bufferRef.current.length,
     addFrame,
     start,

@@ -6,6 +6,7 @@ from app.schemas.prediction import (
     LandmarkSequenceRequest,
     PredictionResponse,
     PredictMockRequest,
+    WordLandmarkSequenceRequest,
 )
 from app.services.model_loader import model_loader
 from app.services.prediction_service import PredictionService
@@ -60,11 +61,14 @@ def predict_mock(payload: PredictMockRequest) -> PredictionResponse:
 
 @router.post("/predict", response_model=PredictionResponse)
 def predict(payload: LandmarkSequenceRequest) -> PredictionResponse:
-    return predict_word(payload)
+    try:
+        return prediction_service.predict_sequence(payload)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 @router.post("/predict/word", response_model=PredictionResponse)
-def predict_word(payload: LandmarkSequenceRequest) -> PredictionResponse:
+def predict_word(payload: WordLandmarkSequenceRequest) -> PredictionResponse:
     try:
         return prediction_service.predict_sequence(payload)
     except RuntimeError as exc:

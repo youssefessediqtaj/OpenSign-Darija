@@ -10,6 +10,7 @@ playwright-report/
 test-results/
 .venv/
 venv/
+ml/.venv/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
@@ -27,6 +28,11 @@ data/*
 !data/README.md
 !data/reports/
 data/reports/*
+ml/data/external/mosl-video-dataset/raw/
+ml/data/external/mosl-video-dataset/processed/
+ml/data/external/mosl-video-dataset/quarantine/
+ml/data/external/mosl-video-dataset/assets/
+ml/assets/mediapipe/*.task
 minio-data/
 postgres-data/
 redis-data/

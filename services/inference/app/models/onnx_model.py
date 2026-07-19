@@ -7,7 +7,11 @@ import numpy as np
 
 from app.core.config import get_settings
 from app.models.model_metadata import ModelMetadata
-from app.schemas.prediction import LandmarkSequenceRequest, PredictionItem
+from app.schemas.prediction import (
+    LandmarkSequenceRequest,
+    PredictionItem,
+    WordLandmarkSequenceRequest,
+)
 
 
 class OnnxModel:
@@ -23,17 +27,17 @@ class OnnxModel:
         labels_path = Path(settings.labels_path or "")
         if not labels_path.exists():
             raise FileNotFoundError("labels.json is required")
-        thresholds_path = Path(settings.thresholds_path or "")
-        calibration_path = Path(settings.calibration_path or "")
+        thresholds_path = Path(settings.thresholds_path) if settings.thresholds_path else None
+        calibration_path = Path(settings.calibration_path) if settings.calibration_path else None
         labels = json.loads(labels_path.read_text(encoding="utf-8"))
         thresholds = (
             json.loads(thresholds_path.read_text(encoding="utf-8"))
-            if thresholds_path.exists()
+            if thresholds_path and thresholds_path.exists()
             else {}
         )
         calibration = (
             json.loads(calibration_path.read_text(encoding="utf-8"))
-            if calibration_path.exists()
+            if calibration_path and calibration_path.exists()
             else {}
         )
         if not isinstance(labels, list) or not labels:
@@ -59,15 +63,31 @@ class OnnxModel:
         )
 
     def predict(
-        self, payload: LandmarkSequenceRequest
+        self, payload: LandmarkSequenceRequest | WordLandmarkSequenceRequest
     ) -> tuple[list[PredictionItem], str, str, float]:
-        features = np.asarray([frame.features for frame in payload.frames], dtype=np.float32)[
-            None, :, :
-        ]
-        mask = np.asarray([frame.presence_mask for frame in payload.frames], dtype=np.float32)[
-            None, :, :
-        ]
-        logits = self.session.run(None, {"features": features, "presence_mask": mask})[0][0]
+        input_names = {item.name for item in self.session.get_inputs()}
+        if "landmarks" in input_names:
+            if not isinstance(payload, WordLandmarkSequenceRequest):
+                raise ValueError("OPEN_SIGNE_LANDMARK_SCHEMA_V1 payload required")
+            landmarks = np.asarray(
+                [frame.landmarks for frame in payload.frames],
+                dtype=np.float32,
+            )[None, :, :, :]
+            if np.isnan(landmarks).any() or np.isinf(landmarks).any():
+                raise ValueError("landmarks contain NaN or infinity")
+            logits = self.session.run(None, {"landmarks": landmarks})[0][0]
+        else:
+            if not isinstance(payload, LandmarkSequenceRequest):
+                raise ValueError("legacy 1.0.0 payload required")
+            features = np.asarray(
+                [frame.features for frame in payload.frames],
+                dtype=np.float32,
+            )[None, :, :]
+            mask = np.asarray(
+                [frame.presence_mask for frame in payload.frames],
+                dtype=np.float32,
+            )[None, :, :]
+            logits = self.session.run(None, {"features": features, "presence_mask": mask})[0][0]
         temperature = max(self.metadata.calibration["temperature"], 1e-6)
         scaled = logits / temperature
         scaled -= scaled.max()

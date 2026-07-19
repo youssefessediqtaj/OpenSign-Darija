@@ -9,7 +9,7 @@ export const env = {
   cameraDefaultWidth: Number(import.meta.env.VITE_CAMERA_DEFAULT_WIDTH ?? 1280),
   cameraDefaultHeight: Number(import.meta.env.VITE_CAMERA_DEFAULT_HEIGHT ?? 720),
   cameraDefaultFps: Number(import.meta.env.VITE_CAMERA_DEFAULT_FPS ?? 30),
-  landmarkTargetFrames: Number(import.meta.env.VITE_LANDMARK_TARGET_FRAMES ?? 30),
+  landmarkTargetFrames: Number(import.meta.env.VITE_LANDMARK_TARGET_FRAMES ?? 60),
   enableLandmarkOverlay: import.meta.env.VITE_ENABLE_LANDMARK_OVERLAY !== 'false',
   enablePerformanceMetrics: import.meta.env.VITE_ENABLE_PERFORMANCE_METRICS === 'true',
 };
