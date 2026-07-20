@@ -13,9 +13,9 @@ from app.providers.registry import ProviderRegistry
 
 
 class SynthesisService:
-    def __init__(self) -> None:
+    def __init__(self, registry: ProviderRegistry | None = None) -> None:
         self.settings = get_settings()
-        self.registry = ProviderRegistry()
+        self.registry = registry or ProviderRegistry()
 
     def synthesize(self, request: SynthesisRequest) -> SynthesisResult:
         validate_text(

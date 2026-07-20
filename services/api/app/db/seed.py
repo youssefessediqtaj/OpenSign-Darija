@@ -1,5 +1,3 @@
-from typing import Any
-
 from sqlalchemy import select
 
 from app.db.base import Base
@@ -10,14 +8,10 @@ from app.models.dataset import (
     ConsentTemplate,
     ContributorProfile,
     DatasetVersion,
-    ExternalDatasetSource,
 )
 from app.models.enums import (
     CampaignStatus,
     DatasetVersionStatus,
-    ExternalDatasetLicenseStatus,
-    ExternalDatasetProvider,
-    ExternalDatasetSourceStatus,
     InputModality,
     LinguisticAssetStatus,
     LinguisticLanguage,
@@ -382,55 +376,6 @@ SPEECH_VOICES = [
     ),
 ]
 
-EXTERNAL_DATASET_SOURCES: list[dict[str, Any]] = [
-    {
-        "code": "kaggle_moroccan_lsm_alphabet",
-        "name": "Moroccan Sign Language (LSM) Alphabet Dataset",
-        "provider": ExternalDatasetProvider.KAGGLE,
-        "version": "UNCONFIRMED",
-        "doi": None,
-        "task_type": RecognitionTaskType.ALPHABET_STATIC,
-        "modality": InputModality.IMAGE,
-        "license": "UNCONFIRMED",
-        "license_status": ExternalDatasetLicenseStatus.TO_VERIFY,
-        "status": ExternalDatasetSourceStatus.LICENSE_PENDING,
-        "source_metadata": {
-            "owner": "walidlasseg",
-            "dataset_slug": "moroccan-sign-language-lsm-alphabet-dataset",
-            "url": "https://www.kaggle.com/datasets/walidlasseg/moroccan-sign-language-lsm-alphabet-dataset",
-            "enabled": False,
-            "reason": "Kaggle license must be verified through official metadata before training.",
-        },
-    },
-    {
-        "code": "mendeley_mosl_v1",
-        "name": "A Dataset for Moroccan Sign Language (MoSL)",
-        "provider": ExternalDatasetProvider.MENDELEY,
-        "version": "1",
-        "doi": "10.17632/23phgyt3mt.1",
-        "task_type": RecognitionTaskType.WORD_ISOLATED,
-        "modality": InputModality.VIDEO,
-        "license": "CC-BY-4.0",
-        "license_status": ExternalDatasetLicenseStatus.VERIFIED,
-        "status": ExternalDatasetSourceStatus.DOWNLOAD_READY,
-        "source_metadata": {
-            "dataset_id": "23phgyt3mt",
-            "article_doi": "10.1016/j.dib.2025.112395",
-            "documentation_source": "ScienceDirect",
-            "data_source": "Mendeley Data",
-            "url": "https://data.mendeley.com/datasets/23phgyt3mt/1",
-            "article_url": "https://www.sciencedirect.com/science/article/pii/S2352340925011084",
-            "contributors": [
-                "FATIMA BEN ZAID",
-                "Mohamed BENADDY",
-                "Abdelbasset BOUKDIR",
-            ],
-            "enabled": True,
-        },
-    },
-]
-
-
 def seed() -> None:
     Base.metadata.create_all(bind=engine)
     with SessionLocal() as db:
@@ -544,15 +489,6 @@ def seed() -> None:
                         is_experimental=True,
                     )
                 )
-
-        for source_config in EXTERNAL_DATASET_SOURCES:
-            source = db.scalar(
-                select(ExternalDatasetSource).where(
-                    ExternalDatasetSource.code == source_config["code"]
-                )
-            )
-            if source is None:
-                db.add(ExternalDatasetSource(**source_config))
 
         campaign = db.scalar(
             select(CollectionCampaign).where(CollectionCampaign.slug == "pilot-lsm-maroc-10")

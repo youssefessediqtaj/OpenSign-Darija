@@ -2,10 +2,7 @@ from fastapi import APIRouter, HTTPException
 
 from app.core.config import get_settings
 from app.schemas.prediction import (
-    AlphabetPredictionRequest,
-    LandmarkSequenceRequest,
     PredictionResponse,
-    PredictMockRequest,
     WordLandmarkSequenceRequest,
 )
 from app.services.model_loader import model_loader
@@ -49,41 +46,14 @@ def model() -> dict[str, str | bool]:
         "name": settings.model_name,
         "version": settings.model_version,
         "status": "active" if model_loader.state == "READY" else model_loader.state,
-        "mock": settings.inference_mode == "mock",
+        "mock": False,
         "feature_schema_version": settings.feature_schema_version,
     }
-
-
-@router.post("/predict/mock", response_model=PredictionResponse)
-def predict_mock(payload: PredictMockRequest) -> PredictionResponse:
-    return prediction_service.predict_mock(payload.frames_count)
-
-
-@router.post("/predict", response_model=PredictionResponse)
-def predict(payload: LandmarkSequenceRequest) -> PredictionResponse:
-    try:
-        return prediction_service.predict_sequence(payload)
-    except RuntimeError as exc:
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
 
 
 @router.post("/predict/word", response_model=PredictionResponse)
 def predict_word(payload: WordLandmarkSequenceRequest) -> PredictionResponse:
     try:
-        return prediction_service.predict_sequence(payload)
+        return prediction_service.predict_word(payload)
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
-
-
-@router.post("/predict/alphabet", response_model=PredictionResponse)
-def predict_alphabet(payload: AlphabetPredictionRequest) -> PredictionResponse:
-    try:
-        return prediction_service.predict_alphabet(payload)
-    except RuntimeError as exc:
-        raise HTTPException(status_code=503, detail=str(exc)) from exc
-
-
-@router.post("/admin/reload-model")
-def reload_model() -> dict[str, str | None]:
-    model_loader.reload()
-    return {"state": model_loader.state, "error": model_loader.error}

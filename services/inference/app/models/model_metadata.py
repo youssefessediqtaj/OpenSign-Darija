@@ -12,5 +12,6 @@ class ModelMetadata:
     feature_schema_version: str
     dataset_version: str | None
     labels: list[str]
+    label_ar_by_key: dict[str, str]
     thresholds: dict[str, float]
     calibration: dict[str, float]

@@ -1,28 +1,28 @@
 import os
-from collections.abc import Generator
+from collections.abc import Iterator
 
 import pytest
 from fastapi.testclient import TestClient
 
-os.environ["DATABASE_URL"] = "sqlite:///./test_opensign.sqlite3"
-os.environ["REDIS_URL"] = "redis://localhost:6399/0"
-os.environ["INFERENCE_SERVICE_URL"] = "http://localhost:8999"
+os.environ["APP_ENV"] = "test"
+os.environ["DATABASE_URL"] = "postgresql+psycopg://unused:unused@127.0.0.1:1/unused"
+os.environ["REDIS_URL"] = "redis://127.0.0.1:1/0"
+os.environ["MINIO_ENDPOINT"] = "127.0.0.1:1"
+os.environ["INFERENCE_SERVICE_URL"] = "http://127.0.0.1:8999"
+os.environ["SPEECH_SERVICE_URL"] = "http://127.0.0.1:8998"
 
-from app.db.base import Base  # noqa: E402
-from app.db.seed import seed  # noqa: E402
-from app.db.session import engine  # noqa: E402
 from app.main import app  # noqa: E402
-
-
-@pytest.fixture(autouse=True)
-def reset_database() -> Generator[None, None, None]:
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
-    seed()
-    yield
-    Base.metadata.drop_all(bind=engine)
 
 
 @pytest.fixture
 def client() -> TestClient:
     return TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def clear_recognition_rate_limits() -> Iterator[None]:
+    from app.api.v1.recognitions import rate_limit_bucket
+
+    rate_limit_bucket.clear()
+    yield
+    rate_limit_bucket.clear()

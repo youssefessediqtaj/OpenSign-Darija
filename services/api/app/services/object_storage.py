@@ -29,7 +29,7 @@ class ObjectStorage:
         self.settings = get_settings()
 
     def _client(self, endpoint: str) -> Any:
-        from minio import Minio  # type: ignore[import-not-found]
+        from minio import Minio  
 
         return Minio(
             endpoint,

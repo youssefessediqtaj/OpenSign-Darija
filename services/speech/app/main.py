@@ -1,12 +1,22 @@
-from fastapi import FastAPI, HTTPException
+from typing import Annotated
+
+from fastapi import Depends, FastAPI, HTTPException
 
 from app.core.config import get_settings
-from app.models.synthesis_request import LegacySpeechPrepareRequest, SynthesisRequest
-from app.models.synthesis_result import LegacySpeechPrepareResponse, SynthesisResult
+from app.models.synthesis_request import SynthesisRequest
+from app.models.synthesis_result import SynthesisResult
 from app.providers.registry import ProviderRegistry
 from app.services.synthesis_service import SynthesisService
 
 app = FastAPI(title="OpenSign Darija Speech")
+
+
+def get_provider_registry() -> ProviderRegistry:
+    return ProviderRegistry()
+
+
+def get_synthesis_service() -> SynthesisService:
+    return SynthesisService()
 
 
 @app.get("/health")
@@ -17,8 +27,9 @@ def health() -> dict[str, str]:
 
 
 @app.get("/ready")
-def ready() -> dict[str, object]:
-    registry = ProviderRegistry()
+def ready(
+    registry: Annotated[ProviderRegistry, Depends(get_provider_registry)],
+) -> dict[str, object]:
     is_ready = registry.ready()
     if not is_ready:
         raise HTTPException(status_code=503, detail={"status": "FAILED"})
@@ -32,34 +43,20 @@ def version() -> dict[str, str]:
 
 
 @app.get("/voices")
-def voices() -> dict[str, object]:
-    return {"voices": [voice.model_dump() for voice in ProviderRegistry().list_voices()]}
+def voices(
+    registry: Annotated[ProviderRegistry, Depends(get_provider_registry)],
+) -> dict[str, object]:
+    return {"voices": [voice.model_dump() for voice in registry.list_voices()]}
 
 
 @app.post("/synthesize", response_model=SynthesisResult)
-def synthesize(payload: SynthesisRequest) -> SynthesisResult:
+def synthesize(
+    payload: SynthesisRequest,
+    service: Annotated[SynthesisService, Depends(get_synthesis_service)],
+) -> SynthesisResult:
     try:
-        return SynthesisService().synthesize(payload)
+        return service.synthesize(payload)
     except ValueError as exc:
         code = str(exc)
         status = 404 if code == "VOICE_NOT_FOUND" else 422
         raise HTTPException(status_code=status, detail={"code": code}) from exc
-
-
-@app.get("/generations/{generation_id}")
-def generation(generation_id: str) -> dict[str, str]:
-    return {"generation_id": generation_id, "status": "ephemeral"}
-
-
-@app.post("/admin/reload-model")
-def reload_model() -> dict[str, str]:
-    return {"status": "reloaded", "mode": get_settings().speech_mode}
-
-
-@app.post("/prepare", response_model=LegacySpeechPrepareResponse)
-def prepare(payload: LegacySpeechPrepareRequest) -> LegacySpeechPrepareResponse:
-    return LegacySpeechPrepareResponse(
-        status="ready",
-        message="Le service speech reel est disponible via /synthesize.",
-        contract=payload.model_dump(),
-    )

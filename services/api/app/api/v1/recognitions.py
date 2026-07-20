@@ -1,40 +1,12 @@
 from datetime import UTC, datetime
-from typing import Annotated
+from time import perf_counter
 
-from fastapi import APIRouter, Depends, Request
-from sqlalchemy import select
-from sqlalchemy.orm import Session, selectinload
+from fastapi import APIRouter, Request
 
-from app.api.deps import get_optional_current_user
 from app.core.config import get_settings
 from app.core.errors import ApiError
-from app.db.session import get_db
-from app.models.enums import (
-    ConfidenceLevel,
-    CorrectionType,
-    InputModality,
-    RecognitionDecision,
-    RecognitionStatus,
-    RecognitionTaskType,
-)
-from app.models.recognition import RecognitionPrediction, RecognitionSession, UserCorrection
-from app.models.sign import ModelVersion, Sign
-from app.models.user import User
-from app.schemas.recognition import (
-    ActiveModelResponse,
-    AlphabetRecognitionRequest,
-    ConfirmRecognitionRequest,
-    CorrectRecognitionRequest,
-    LandmarkRecognitionRequest,
-    PredictionResponse,
-    RecognitionMockRequest,
-    RecognitionModeResponse,
-    RecognitionResponse,
-    WordLandmarkRecognitionRequest,
-)
-from app.services.inference_client import predict_alphabet, predict_mock, predict_sequence
-
-from .signs import sign_to_response
+from app.schemas.recognition import PublicRecognitionResponse, WordLandmarkRecognitionRequest
+from app.services.inference_client import predict_sequence
 
 router = APIRouter(prefix="/recognitions", tags=["recognitions"])
 rate_limit_bucket: dict[str, list[float]] = {}
@@ -51,18 +23,10 @@ def check_rate_limit(key: str) -> None:
     rate_limit_bucket[key] = entries
 
 
-def rate_limit_key(
-    current_user: User | None,
-    payload: LandmarkRecognitionRequest | WordLandmarkRecognitionRequest,
-    request: Request,
-) -> str:
-    if current_user:
-        return current_user.id
-    if payload.anonymous_session_id:
-        return payload.anonymous_session_id
+def rate_limit_key(request: Request) -> str:
     if request.client:
         return request.client.host
-    return "guest"
+    return "unknown-client"
 
 
 def assert_payload_size(request: Request) -> None:
@@ -77,379 +41,63 @@ def assert_payload_size(request: Request) -> None:
         )
 
 
-def enrich_and_store_predictions(
-    db: Session, session: RecognitionSession, result: RecognitionResponse
-) -> list[PredictionResponse]:
-    signs = db.scalars(select(Sign).options(selectinload(Sign.category))).all()
-    by_slug = {sign.slug: sign for sign in signs}
-    by_meaning = {sign.canonical_meaning: sign for sign in signs}
-    enriched: list[PredictionResponse] = []
-    for prediction in result.predictions:
-        sign = by_slug.get(prediction.label) or by_meaning.get(prediction.label)
-        stored = RecognitionPrediction(
-            recognition_session_id=session.id,
-            sign_id=sign.id if sign else None,
-            predicted_label=prediction.label,
-            confidence=prediction.confidence,
-            rank=prediction.rank,
-            is_unknown=result.decision == "unknown",
-            model_version=result.model_version,
-        )
-        db.add(stored)
-        db.flush()
-        enriched.append(
-            PredictionResponse(
-                prediction_id=stored.id,
-                label=prediction.label,
-                confidence=prediction.confidence,
-                rank=prediction.rank,
-                sign=sign_to_response(sign) if sign else None,
-                is_unknown=result.decision == "unknown",
-            )
-        )
-    return enriched
+def word_quality_rejection(payload: WordLandmarkRecognitionRequest) -> str | None:
+    settings = get_settings()
+    if not settings.recognition_min_duration_ms <= payload.duration_ms <= (
+        settings.recognition_max_duration_ms
+    ):
+        return "invalid_duration"
+    if not payload.segmentation_reliable:
+        return "unreliable_segmentation"
+    if payload.quality.detected_hand_ratio < settings.recognition_min_hand_ratio:
+        return "insufficient_hand_visibility"
+    if payload.quality.missing_frame_ratio > settings.recognition_max_missing_frame_ratio:
+        return "excessive_missing_frames"
+    if payload.quality.detected_pose_ratio < 0.2:
+        return "insufficient_pose_visibility"
+    visible_hand_frames = sum(any(frame.presence_mask[33:]) for frame in payload.frames)
+    usable_frames = min(payload.usable_frame_count, visible_hand_frames)
+    if usable_frames < settings.recognition_min_usable_frames:
+        return "insufficient_usable_frames"
+    if (
+        payload.segmentation_kind == "dynamic"
+        and payload.quality.movement_score < settings.recognition_min_dynamic_movement
+    ):
+        return "insufficient_dynamic_movement"
+    return None
 
 
-def active_model_response(
-    model: ModelVersion | None, task_type: RecognitionTaskType
-) -> ActiveModelResponse:
-    if model is None:
-        if task_type == RecognitionTaskType.ALPHABET_STATIC:
-            return ActiveModelResponse(
-                id=None,
-                name="opensign-mosl-alphabet-unavailable",
-                semantic_version="0.0.0",
-                status="NOT_TRAINED",
-                task_type=task_type.value,
-                input_modality=InputModality.LANDMARK_SEQUENCE.value,
-                architecture="landmark-mlp-planned",
-                vocabulary_size=0,
-                feature_schema_version=get_settings().feature_schema_version,
-                source_dataset_versions=["kaggle_moroccan_lsm_alphabet:UNVERIFIED"],
-                supported_classes=[],
-                metrics_json={},
-                thresholds_json={"unknown_threshold": 0.65},
-                is_active=False,
-            )
-        return ActiveModelResponse(
-            id=None,
-            name="opensign-darija-landmark-mock",
-            semantic_version="0.2.0",
-            status="MOCK_ONLY",
-            task_type=task_type.value,
-            input_modality=InputModality.LANDMARK_SEQUENCE.value,
-            architecture="mock",
-            vocabulary_size=10,
-            feature_schema_version=get_settings().feature_schema_version,
-            source_dataset_versions=["opensign-darija-pilot:0.1.0"],
-            supported_classes=[],
-            metrics_json={},
-            thresholds_json={"unknown_threshold": 0.6},
-            is_active=False,
-        )
-    return ActiveModelResponse(
-        id=model.id,
-        name=model.name,
-        semantic_version=model.semantic_version,
-        status=model.status.value,
-        task_type=model.task_type.value,
-        input_modality=model.input_modality.value,
-        architecture=model.architecture,
-        vocabulary_size=model.vocabulary_size,
-        feature_schema_version=model.feature_schema_version,
-        source_dataset_versions=model.source_dataset_versions,
-        supported_classes=model.supported_classes,
-        metrics_json=model.metrics_json,
-        thresholds_json=model.thresholds_json,
-        is_active=model.is_active,
+def public_unknown(started: float, confidence: float = 0.0) -> PublicRecognitionResponse:
+    return PublicRecognitionResponse(
+        status="unknown",
+        label_key=None,
+        label_ar=None,
+        confidence=round(max(0.0, min(1.0, confidence)), 4),
+        unknown=True,
+        latency_ms=max(0, round((perf_counter() - started) * 1000)),
     )
 
 
-modes_router = APIRouter(tags=["recognition-modes"])
-
-
-@modes_router.get("/recognition-modes", response_model=list[RecognitionModeResponse])
-def recognition_modes() -> list[RecognitionModeResponse]:
-    return [
-        RecognitionModeResponse(
-            id="word",
-            task_type=RecognitionTaskType.WORD_ISOLATED.value,
-            label="Reconnaître un signe",
-            description="Utilise les mouvements des mains, du visage et du corps.",
-            endpoint="/api/v1/recognitions/word",
-        ),
-        RecognitionModeResponse(
-            id="alphabet",
-            task_type=RecognitionTaskType.ALPHABET_STATIC.value,
-            label="Épeler un mot",
-            description="Reconnaît les lettres une par une; ce n’est pas une traduction complète.",
-            endpoint="/api/v1/recognitions/alphabet",
-        ),
-    ]
-
-
-def quality_score(payload: LandmarkRecognitionRequest | WordLandmarkRecognitionRequest) -> float:
-    return round(
-        (
-            payload.quality.detected_hand_ratio * 0.45
-            + payload.quality.detected_pose_ratio * 0.2
-            + payload.quality.detected_face_ratio * 0.1
-            + payload.quality.movement_score * 0.2
-            + (1 - payload.quality.missing_frame_ratio) * 0.05
-        ),
-        4,
-    )
-
-
-@router.post("/mock", response_model=RecognitionResponse)
-async def mock_recognition(
-    payload: RecognitionMockRequest, db: Annotated[Session, Depends(get_db)]
-) -> RecognitionResponse:
-    result = await predict_mock(payload.frames_count)
-    session = RecognitionSession(
-        status=RecognitionStatus.COMPLETED,
-        inference_mode=result.inference_mode,
-        model_name=result.model_name,
-        model_version=result.model_version,
-        feature_schema_version=result.feature_schema_version
-        or get_settings().feature_schema_version,
-        decision=RecognitionDecision(result.decision),
-        confidence_level=ConfidenceLevel(result.confidence_level),
-        processing_time_ms=result.processing_time_ms,
-    )
-    db.add(session)
-    db.flush()
-    result.predictions = enrich_and_store_predictions(db, session, result)
-    db.commit()
-    return result
-
-
-@router.post("", response_model=RecognitionResponse)
-async def create_recognition(
-    payload: LandmarkRecognitionRequest,
-    request: Request,
-    db: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[User | None, Depends(get_optional_current_user)],
-) -> RecognitionResponse:
-    assert_payload_size(request)
-    check_rate_limit(rate_limit_key(current_user, payload, request))
-    result = await predict_sequence(payload)
-    session = RecognitionSession(
-        user_id=current_user.id if current_user else None,
-        status=RecognitionStatus.COMPLETED,
-        completed_at=datetime.now(UTC),
-        feature_schema_version=result.feature_schema_version or payload.feature_schema_version,
-        inference_mode=result.inference_mode,
-        model_name=result.model_name,
-        model_version=result.model_version,
-        decision=RecognitionDecision(result.decision),
-        confidence_level=ConfidenceLevel(result.confidence_level),
-        processing_time_ms=result.processing_time_ms,
-        quality_score=quality_score(payload),
-    )
-    db.add(session)
-    db.flush()
-    result.recognition_id = session.id
-    result.predictions = enrich_and_store_predictions(db, session, result)
-    db.commit()
-    return result
-
-
-@router.post("/word", response_model=RecognitionResponse)
+@router.post("/word", response_model=PublicRecognitionResponse)
 async def create_word_recognition(
     payload: WordLandmarkRecognitionRequest,
     request: Request,
-    db: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[User | None, Depends(get_optional_current_user)],
-) -> RecognitionResponse:
+) -> PublicRecognitionResponse:
+    started = perf_counter()
     assert_payload_size(request)
-    check_rate_limit(rate_limit_key(current_user, payload, request))
+    check_rate_limit(rate_limit_key(request))
+    if word_quality_rejection(payload) is not None:
+        return public_unknown(started)
     result = await predict_sequence(payload)
-    session = RecognitionSession(
-        user_id=current_user.id if current_user else None,
-        status=RecognitionStatus.COMPLETED,
-        completed_at=datetime.now(UTC),
-        feature_schema_version=result.feature_schema_version or payload.feature_schema_version,
-        inference_mode=result.inference_mode,
-        model_name=result.model_name,
-        model_version=result.model_version,
-        decision=RecognitionDecision(result.decision),
-        confidence_level=ConfidenceLevel(result.confidence_level),
-        processing_time_ms=result.processing_time_ms,
-        quality_score=quality_score(payload),
+    top = min(result.predictions, key=lambda item: item.rank) if result.predictions else None
+    confidence = top.confidence if top else max(0.0, 1.0 - result.unknown_probability)
+    if result.decision != "known" or top is None or not top.label_ar:
+        return public_unknown(started, confidence)
+    return PublicRecognitionResponse(
+        status="recognized",
+        label_key=top.label,
+        label_ar=top.label_ar,
+        confidence=round(top.confidence, 4),
+        unknown=False,
+        latency_ms=max(0, round((perf_counter() - started) * 1000)),
     )
-    db.add(session)
-    db.flush()
-    result.recognition_id = session.id
-    result.predictions = enrich_and_store_predictions(db, session, result)
-    db.commit()
-    return result
-
-
-@router.post("/alphabet", response_model=RecognitionResponse)
-async def create_alphabet_recognition(
-    payload: AlphabetRecognitionRequest,
-    request: Request,
-    db: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[User | None, Depends(get_optional_current_user)],
-) -> RecognitionResponse:
-    assert_payload_size(request)
-    check_rate_limit(
-        current_user.id
-        if current_user
-        else payload.anonymous_session_id
-        or (request.client.host if request.client else "guest")
-    )
-    result = await predict_alphabet(payload)
-    session = RecognitionSession(
-        user_id=current_user.id if current_user else None,
-        status=RecognitionStatus.COMPLETED,
-        completed_at=datetime.now(UTC),
-        feature_schema_version=result.feature_schema_version or payload.feature_schema_version,
-        inference_mode=result.inference_mode,
-        model_name=result.model_name,
-        model_version=result.model_version,
-        decision=RecognitionDecision(result.decision),
-        confidence_level=ConfidenceLevel(result.confidence_level),
-        processing_time_ms=result.processing_time_ms,
-        quality_score=round(sum(payload.presence_mask) / len(payload.presence_mask), 4),
-    )
-    db.add(session)
-    db.flush()
-    result.recognition_id = session.id
-    result.predictions = enrich_and_store_predictions(db, session, result)
-    db.commit()
-    return result
-
-
-@router.get("/{recognition_id}", response_model=RecognitionResponse)
-def get_recognition(
-    recognition_id: str,
-    db: Annotated[Session, Depends(get_db)],
-    current_user: Annotated[User | None, Depends(get_optional_current_user)],
-) -> RecognitionResponse:
-    session = db.scalar(
-        select(RecognitionSession)
-        .options(selectinload(RecognitionSession.predictions))
-        .where(RecognitionSession.id == recognition_id)
-    )
-    if session is None:
-        raise ApiError("NOT_FOUND", "Session de reconnaissance introuvable.", 404)
-    if session.user_id and (current_user is None or current_user.id != session.user_id):
-        raise ApiError("FORBIDDEN", "Acces refuse a cette session.", 403)
-    predictions = []
-    for prediction in sorted(session.predictions, key=lambda item: item.rank):
-        sign = (
-            db.scalar(
-                select(Sign)
-                .options(selectinload(Sign.category))
-                .where(Sign.id == prediction.sign_id)
-            )
-            if prediction.sign_id
-            else None
-        )
-        predictions.append(
-            PredictionResponse(
-                prediction_id=prediction.id,
-                label=prediction.predicted_label,
-                confidence=prediction.confidence,
-                rank=prediction.rank,
-                sign=sign_to_response(sign) if sign else None,
-                is_unknown=prediction.is_unknown,
-            )
-        )
-    return RecognitionResponse(
-        recognition_id=session.id,
-        request_id=session.id,
-        status=session.status.value.lower(),
-        model_name=session.model_name,
-        model_version=session.model_version,
-        feature_schema_version=session.feature_schema_version,
-        inference_mode=session.inference_mode,
-        decision=session.decision.value if session.decision else "known",
-        confidence_level=session.confidence_level.value if session.confidence_level else "high",
-        predictions=predictions,
-        unknown_probability=max(0.0, 1.0 - predictions[0].confidence) if predictions else 1.0,
-        processing_time_ms=session.processing_time_ms,
-    )
-
-
-@router.post("/{recognition_id}/confirm")
-def confirm_recognition(
-    recognition_id: str,
-    payload: ConfirmRecognitionRequest,
-    db: Annotated[Session, Depends(get_db)],
-) -> dict[str, str]:
-    prediction = db.scalar(
-        select(RecognitionPrediction).where(
-            RecognitionPrediction.id == str(payload.prediction_id),
-            RecognitionPrediction.recognition_session_id == recognition_id,
-        )
-    )
-    if prediction is None:
-        raise ApiError("NOT_FOUND", "Prediction introuvable.", 404)
-    correction_type = (
-        CorrectionType.CONFIRMED_TOP_1
-        if prediction.rank == 1
-        else CorrectionType.SELECTED_ALTERNATIVE
-    )
-    db.add(
-        UserCorrection(
-            recognition_session_id=recognition_id,
-            selected_sign_id=prediction.sign_id,
-            correction_type=correction_type,
-        )
-    )
-    db.commit()
-    return {"status": "confirmed", "recognition_id": recognition_id, "prediction_id": prediction.id}
-
-
-@router.post("/{recognition_id}/correct")
-def correct_recognition(
-    recognition_id: str,
-    payload: CorrectRecognitionRequest,
-    db: Annotated[Session, Depends(get_db)],
-) -> dict[str, str | None]:
-    session = db.scalar(select(RecognitionSession).where(RecognitionSession.id == recognition_id))
-    if session is None:
-        raise ApiError("NOT_FOUND", "Session de reconnaissance introuvable.", 404)
-    if payload.correct_sign_id is not None:
-        sign = db.scalar(select(Sign).where(Sign.id == str(payload.correct_sign_id)))
-        if sign is None:
-            raise ApiError("NOT_FOUND", "Signe de correction introuvable.", 404)
-    db.add(
-        UserCorrection(
-            recognition_session_id=recognition_id,
-            selected_sign_id=str(payload.correct_sign_id) if payload.correct_sign_id else None,
-            correction_type=(
-                CorrectionType.SELECTED_OTHER_SIGN
-                if payload.correct_sign_id
-                else CorrectionType.MARKED_UNKNOWN
-            ),
-            comment=payload.comment or payload.reason,
-        )
-    )
-    db.commit()
-    return {
-        "status": "correction_received",
-        "recognition_id": recognition_id,
-        "correct_sign_id": str(payload.correct_sign_id) if payload.correct_sign_id else None,
-        "reason": payload.reason,
-    }
-
-
-models_router = APIRouter(prefix="/models", tags=["models"])
-
-
-@models_router.get("/active", response_model=ActiveModelResponse)
-def active_model(
-    db: Annotated[Session, Depends(get_db)],
-    task_type: RecognitionTaskType = RecognitionTaskType.WORD_ISOLATED,
-) -> ActiveModelResponse:
-    model = db.scalar(
-        select(ModelVersion).where(
-            ModelVersion.is_active.is_(True),
-            ModelVersion.task_type == task_type,
-        )
-    )
-    return active_model_response(model, task_type)

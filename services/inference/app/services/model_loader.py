@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from app.core.config import get_settings
 from app.models.onnx_model import OnnxModel
 
 
@@ -9,15 +8,9 @@ class ModelLoader:
         self.model: OnnxModel | None = None
         self.state = "STARTING"
         self.error: str | None = None
-        self.reload()
+        self._load()
 
-    def reload(self) -> None:
-        settings = get_settings()
-        if settings.inference_mode == "mock":
-            self.state = "READY"
-            self.error = None
-            self.model = None
-            return
+    def _load(self) -> None:
         self.state = "MODEL_LOADING"
         try:
             self.model = OnnxModel()

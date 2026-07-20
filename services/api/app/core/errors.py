@@ -3,7 +3,6 @@ from typing import Any
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
-from sqlalchemy.exc import IntegrityError
 
 
 class ApiError(Exception):
@@ -48,11 +47,4 @@ def install_error_handlers(app: FastAPI) -> None:
                 "Les donnees envoyees sont invalides.",
                 {"errors": safe_validation_errors(exc)},
             ),
-        )
-
-    @app.exception_handler(IntegrityError)
-    async def integrity_error_handler(_: Request, __: IntegrityError) -> JSONResponse:
-        return JSONResponse(
-            status_code=409,
-            content=error_payload("CONFLICT", "La ressource existe deja."),
         )

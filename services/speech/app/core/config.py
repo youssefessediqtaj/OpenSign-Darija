@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     speech_mode: str = "local"
     speech_provider: str = "local_darija"
-    speech_model_version: str = "opensign-tone-v1"
+    speech_model_version: str = "opensign-system-arabic-v1"
     speech_default_voice_id: str = "darija-default"
     speech_fallback_provider: str = "local_arabic_fallback"
     speech_max_text_length: int = 500

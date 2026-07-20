@@ -10,28 +10,6 @@ class SpeechServiceClient:
     def __init__(self) -> None:
         self.settings = get_settings()
 
-    def voices(self) -> list[dict[str, Any]]:
-        try:
-            response = httpx.get(
-                f"{self.settings.speech_service_url}/voices",
-                timeout=self.settings.speech_generation_timeout_seconds,
-            )
-            response.raise_for_status()
-            data = response.json()
-            voices = data.get("voices", [])
-            return voices if isinstance(voices, list) else []
-        except httpx.HTTPError as exc:
-            raise ApiError(
-                "SPEECH_SERVICE_UNAVAILABLE", "Le service vocal est indisponible.", 503
-            ) from exc
-
-    def status(self) -> bool:
-        try:
-            response = httpx.get(f"{self.settings.speech_service_url}/ready", timeout=2)
-            return response.status_code == 200
-        except httpx.HTTPError:
-            return False
-
     def synthesize(
         self, text: str, language: str, voice_id: str, speed: float, output_format: str
     ) -> dict[str, Any]:

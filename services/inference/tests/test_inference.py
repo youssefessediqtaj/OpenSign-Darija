@@ -1,75 +1,45 @@
+from collections.abc import Iterator
+
+import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
-from app.services.prediction_service import PredictionService
+from app.schemas.prediction import PredictionItem, WordLandmarkSequenceRequest
+from app.services.model_loader import model_loader
 
 client = TestClient(app)
 
 
-def test_health_check() -> None:
-    response = client.get("/health")
-    assert response.status_code == 200
-    assert response.json()["status"] == "healthy"
-    assert response.json()["state"] == "READY"
+class FakeRuntimeModel:
+    def predict(
+        self,
+        payload: WordLandmarkSequenceRequest,
+    ) -> tuple[list[PredictionItem], str, str, float]:
+        assert len(payload.frames) == 60
+        return (
+            [
+                PredictionItem(label="help", label_ar="عاونّي", confidence=0.91, rank=1),
+                PredictionItem(label="water", label_ar="ما", confidence=0.06, rank=2),
+            ],
+            "known",
+            "high",
+            0.09,
+        )
 
 
-def test_ready() -> None:
-    response = client.get("/ready")
-    assert response.status_code == 200
-    assert response.json()["status"] == "ready"
+@pytest.fixture(autouse=True)
+def restore_model_loader(monkeypatch: pytest.MonkeyPatch) -> Iterator[None]:
+    original_model = model_loader.model
+    original_state = model_loader.state
+    original_error = model_loader.error
+    yield
+    monkeypatch.setattr(model_loader, "model", original_model)
+    monkeypatch.setattr(model_loader, "state", original_state)
+    monkeypatch.setattr(model_loader, "error", original_error)
 
 
-def test_version() -> None:
-    response = client.get("/version")
-    assert response.status_code == 200
-    assert response.json()["version"] == "0.1.0"
-
-
-def test_model_endpoint_is_mock() -> None:
-    response = client.get("/model")
-    assert response.status_code == 200
-    assert response.json()["mock"] is True
-    assert response.json()["feature_schema_version"] == "1.0.0"
-
-
-def test_mock_prediction_format_and_top_three() -> None:
-    response = client.post("/predict/mock", json={"frames_count": 42})
-    assert response.status_code == 200
-    body = response.json()
-    assert body["status"] == "completed"
-    assert body["inference_mode"] == "mock"
-    assert body["decision"] == "known"
-    assert len(body["predictions"]) == 3
-    assert [item["rank"] for item in body["predictions"]] == [1, 2, 3]
-    assert all(0 <= item["confidence"] <= 1 for item in body["predictions"])
-
-
-def test_explicit_word_and_alphabet_routes() -> None:
-    legacy_sequence = {
-        "sequence_id": "123e4567-e89b-12d3-a456-426614174000",
-        "captured_at": "2026-07-17T12:00:00Z",
-        "duration_ms": 1600,
-        "source_fps": 15,
-        "target_frame_count": 1,
-        "coordinate_format": "torso_normalized_v1",
-        "feature_schema_version": "1.0.0",
-        "frames": [
-            {
-                "index": 0,
-                "timestamp_ms": 0,
-                "features": [0.1] * 63,
-                "presence_mask": [1] * 21,
-            }
-        ],
-        "quality": {
-            "detected_hand_ratio": 1,
-            "detected_face_ratio": 1,
-            "detected_pose_ratio": 1,
-            "missing_frame_ratio": 0,
-            "movement_score": 0.5,
-        },
-    }
-    sequence = {
+def valid_word_payload() -> dict[str, object]:
+    return {
         "sequence_id": "123e4567-e89b-12d3-a456-426614174000",
         "captured_at": "2026-07-17T12:00:00Z",
         "recognition_mode": "WORD_ISOLATED",
@@ -96,29 +66,73 @@ def test_explicit_word_and_alphabet_routes() -> None:
             "missing_frame_ratio": 0,
             "movement_score": 0.5,
         },
+        "segmentation_kind": "dynamic",
+        "segmentation_reliable": True,
+        "usable_frame_count": 60,
     }
-    word = client.post("/predict/word", json=sequence)
-    assert word.status_code == 200
-    assert word.json()["feature_schema_version"] == "OPEN_SIGNE_LANDMARK_SCHEMA_V1"
-    legacy_word = client.post("/predict/word", json=legacy_sequence)
-    assert legacy_word.status_code == 422
-    alphabet = client.post(
-        "/predict/alphabet",
-        json={
-            "sequence_id": "123e4567-e89b-12d3-a456-426614174000",
-            "captured_at": "2026-07-17T12:00:00Z",
-            "feature_schema_version": "1.0.0",
-            "hand": "right",
-            "features": [0.1] * 63,
-            "presence_mask": [1] * 21,
-            "stability_frames": 8,
-        },
-    )
-    assert alphabet.status_code == 200
-    assert alphabet.json()["model"]["name"] == "opensign-mosl-alphabet-mock"
 
 
-def test_prediction_service_confidence_values() -> None:
-    result = PredictionService().predict_mock(100)
-    assert result.predictions[0].confidence > result.predictions[1].confidence
-    assert result.unknown_probability == 0.03
+def test_openapi_exposes_only_core_inference_routes() -> None:
+    paths = app.openapi()["paths"]
+    assert set(paths) == {"/health", "/ready", "/version", "/model", "/predict/word"}
+    assert set(paths["/predict/word"]) == {"post"}
+
+
+def test_runtime_fails_closed_without_a_loaded_model(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(model_loader, "model", None)
+    monkeypatch.setattr(model_loader, "state", "MODEL_NOT_FOUND")
+    monkeypatch.setattr(model_loader, "error", "MODEL_PATH is required")
+
+    health = client.get("/health")
+    assert health.status_code == 200
+    assert health.json()["status"] == "degraded"
+    assert health.json()["state"] == "MODEL_NOT_FOUND"
+
+    ready = client.get("/ready")
+    assert ready.status_code == 503
+    assert ready.json()["detail"]["state"] == "MODEL_NOT_FOUND"
+
+    prediction = client.post("/predict/word", json=valid_word_payload())
+    assert prediction.status_code == 503
+    assert prediction.json()["detail"] == "MODEL_PATH is required"
+
+
+def test_version_and_real_model_metadata() -> None:
+    assert client.get("/version").json()["version"] == "0.1.0"
+    body = client.get("/model").json()
+    assert body["name"] == "mosl-isolated-sign-v1"
+    assert body["version"] == "1.0.0"
+    assert body["mock"] is False
+    assert body["feature_schema_version"] == "OPEN_SIGNE_LANDMARK_SCHEMA_V1"
+
+
+def test_word_prediction_uses_explicit_runtime_injection(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(model_loader, "model", FakeRuntimeModel())
+    monkeypatch.setattr(model_loader, "state", "READY")
+    monkeypatch.setattr(model_loader, "error", None)
+
+    response = client.post("/predict/word", json=valid_word_payload())
+    assert response.status_code == 200, response.text
+    body = response.json()
+    assert body["inference_mode"] == "real"
+    assert body["feature_schema_version"] == "OPEN_SIGNE_LANDMARK_SCHEMA_V1"
+    assert body["decision"] == "known"
+    assert body["predictions"][0]["label_ar"] == "عاونّي"
+    assert [item["rank"] for item in body["predictions"]] == [1, 2]
+
+
+@pytest.mark.parametrize(
+    "path",
+    ["/predict", "/predict/mock", "/predict/alphabet", "/admin/reload-model"],
+)
+def test_removed_inference_routes_return_not_found(path: str) -> None:
+    assert client.post(path, json={}).status_code == 404
+
+
+@pytest.mark.parametrize("extra_field", ["raw_video", "image", "audio"])
+def test_word_route_rejects_raw_media(extra_field: str) -> None:
+    payload = valid_word_payload()
+    payload[extra_field] = "forbidden"
+    assert client.post("/predict/word", json=payload).status_code == 422

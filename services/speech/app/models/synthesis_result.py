@@ -25,9 +25,3 @@ class SynthesisResult(BaseModel):
     normalization_version: str
     audio_base64: str
     audio: AudioMetadata
-
-
-class LegacySpeechPrepareResponse(BaseModel):
-    status: str
-    message: str
-    contract: dict[str, object]

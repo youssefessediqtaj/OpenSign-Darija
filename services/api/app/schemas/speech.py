@@ -1,63 +1,25 @@
-from datetime import datetime
+from typing import Literal
 
-from pydantic import BaseModel, Field
-
-
-class SpeechVoiceResponse(BaseModel):
-    id: str
-    provider: str
-    display_name: str
-    language: str
-    locale: str
-    model_version: str
-    license_info: dict[str, object]
-    is_default: bool
-    is_active: bool
-    is_experimental: bool
+from pydantic import BaseModel, ConfigDict, Field
 
 
-class SpeechVoicesResponse(BaseModel):
-    voices: list[SpeechVoiceResponse]
+class SignSpeechRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    label_key: str = Field(min_length=1, max_length=240)
 
 
-class SpeechStatusResponse(BaseModel):
-    mode: str
-    service_available: bool
-    browser_fallback_enabled: bool
-    voices_available: int
-
-
-class SpeechGenerationRequest(BaseModel):
-    voice_id: str = "darija-default"
-    speed: float = Field(default=1.0, ge=0.75, le=1.5)
-    format: str = "wav"
-    text_source: str = "final_darija_arabic"
-    sensitive_confirmed: bool = False
-
-
-class SpeechAudioResponse(BaseModel):
+class SignSpeechAudioResponse(BaseModel):
     url: str
     mime_type: str
-    duration_ms: int
-    file_size_bytes: int
-    expires_at: datetime
+    duration_ms: int = Field(ge=0)
+    file_size_bytes: int = Field(ge=0)
 
 
-class SpeechProviderResponse(BaseModel):
-    name: str
-    model_version: str
-
-
-class SpeechGenerationResponse(BaseModel):
+class SignSpeechResponse(BaseModel):
     generation_id: str
-    status: str
-    cache_hit: bool
-    estimated_mode: str = "synchronous"
-    audio: SpeechAudioResponse | None = None
-    voice: SpeechVoiceResponse | None = None
-    provider: SpeechProviderResponse | None = None
+    status: Literal["completed"]
+    label_key: str
+    label_ar: str
+    audio: SignSpeechAudioResponse
     fallback_used: bool = False
-    requested_language: str = "ary-MA"
-    synthesis_language: str = "ary-MA"
-    expires_at: datetime | None = None
-    error_code: str | None = None
