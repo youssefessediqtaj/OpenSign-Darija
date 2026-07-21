@@ -24,6 +24,20 @@ http://localhost:8081/app/recognition
 
 The application is anonymous and requires no account.
 
+### Application Preview
+
+#### Camera activation
+
+![OpenSigne Darija camera activation interface](docs/images/recognition-camera-inactive.png)
+
+*The recognition page before camera activation.*
+
+#### Live recognition
+
+![OpenSigne Darija live camera recognition interface](docs/images/recognition-camera-active.png)
+
+*The camera is active and the application is ready to detect a sign automatically.*
+
 The public interface contains only:
 
 * the OpenSigne Darija application name;
