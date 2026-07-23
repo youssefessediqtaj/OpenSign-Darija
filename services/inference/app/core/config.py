@@ -1,5 +1,6 @@
 from functools import lru_cache
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -17,6 +18,8 @@ class Settings(BaseSettings):
     calibration_path: str | None = None
     model_checksum_required: bool = True
     model_max_size_bytes: int = 50_000_000
+    model_warmup_enabled: bool = True
+    inference_max_concurrent_requests: int = Field(default=4, ge=1, le=32)
     onnx_execution_provider: str = "CPUExecutionProvider"
 
 

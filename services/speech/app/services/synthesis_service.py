@@ -1,21 +1,21 @@
 import base64
 import hashlib
 import uuid
+from threading import BoundedSemaphore
 
-from app.audio.validator import validate_wav
 from app.core.config import get_settings
-from app.models.synthesis_request import SynthesisRequest
-from app.models.synthesis_result import AudioMetadata, SynthesisResult
-from app.preprocessing.darija_normalizer import normalize_darija
-from app.preprocessing.validation import validate_text
-from app.providers.base import SynthesisInput
-from app.providers.registry import ProviderRegistry
+from app.providers.local import LocalSpeechProvider, SpeechProvider, SynthesisInput
+from app.schemas.synthesis import AudioMetadata, SynthesisRequest, SynthesisResult
+from app.services.audio_validation import validate_wav
+from app.services.text_normalization import normalize_darija
+from app.services.text_validation import validate_text
 
 
 class SynthesisService:
-    def __init__(self, registry: ProviderRegistry | None = None) -> None:
+    def __init__(self, provider: SpeechProvider | None = None) -> None:
         self.settings = get_settings()
-        self.registry = registry or ProviderRegistry()
+        self.provider = provider or LocalSpeechProvider()
+        self._capacity = BoundedSemaphore(self.settings.speech_max_concurrent_generations)
 
     def synthesize(self, request: SynthesisRequest) -> SynthesisResult:
         validate_text(
@@ -31,18 +31,24 @@ class SynthesisService:
             self.settings.speech_max_text_length,
             self.settings.speech_max_sentences,
         )
-        if request.output_format not in self.settings.allowed_formats:
-            raise ValueError("UNSUPPORTED_FORMAT")
-        provider = self.registry.provider_for_voice(request.voice_id)
-        output = provider.synthesize(
-            SynthesisInput(
-                text=normalized.normalized_text,
-                language=request.language,
-                voice_id=request.voice_id,
-                speed=request.speed,
-                output_format=request.output_format,
+        if request.voice_id not in {
+            voice.id for voice in self.provider.list_voices() if voice.is_active
+        }:
+            raise ValueError("VOICE_NOT_FOUND")
+        if not self._capacity.acquire(blocking=False):
+            raise ValueError("SPEECH_BUSY")
+        try:
+            output = self.provider.synthesize(
+                SynthesisInput(
+                    text=normalized.normalized_text,
+                    language=request.language,
+                    voice_id=request.voice_id,
+                    speed=request.speed,
+                    output_format=request.output_format,
+                )
             )
-        )
+        finally:
+            self._capacity.release()
         validation = validate_wav(output.audio_bytes)
         original_hash = hashlib.sha256(request.text.encode("utf-8")).hexdigest()
         normalized_hash = hashlib.sha256(normalized.normalized_text.encode("utf-8")).hexdigest()

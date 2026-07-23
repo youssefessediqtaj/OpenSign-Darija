@@ -6,11 +6,13 @@ from io import BytesIO
 import pytest
 from fastapi.testclient import TestClient
 
-from app.main import app, get_provider_registry, get_synthesis_service
-from app.models.voice import Voice
-from app.preprocessing.darija_normalizer import normalize_darija
-from app.providers.base import SpeechProvider, SynthesisInput, SynthesisOutput
+from app.api.routes import get_speech_provider
+from app.core.config import get_settings
+from app.main import app
+from app.providers.local import SynthesisInput, SynthesisOutput
+from app.schemas.synthesis import SynthesisRequest, Voice
 from app.services.synthesis_service import SynthesisService
+from app.services.text_normalization import normalize_darija
 
 client = TestClient(app)
 
@@ -27,7 +29,7 @@ def make_test_wav(sample_rate: int = 22_050) -> tuple[bytes, int]:
     return output.getvalue(), duration_ms
 
 
-class InjectedSpeechProvider(SpeechProvider):
+class InjectedSpeechProvider:
     def is_ready(self) -> bool:
         return True
 
@@ -60,12 +62,9 @@ class InjectedSpeechProvider(SpeechProvider):
 
     def synthesize(self, request: SynthesisInput) -> SynthesisOutput:
         assert request.text
-        audio, duration_ms = make_test_wav()
+        audio, _ = make_test_wav()
         return SynthesisOutput(
             audio_bytes=audio,
-            sample_rate=22_050,
-            duration_ms=duration_ms,
-            format="wav",
             provider="test-arabic",
             model_version="test-only",
             synthesis_language="ar-MA",
@@ -73,27 +72,10 @@ class InjectedSpeechProvider(SpeechProvider):
         )
 
 
-class InjectedProviderRegistry:
-    def __init__(self) -> None:
-        self.provider = InjectedSpeechProvider()
-
-    def list_voices(self) -> list[Voice]:
-        return self.provider.list_voices()
-
-    def provider_for_voice(self, voice_id: str) -> SpeechProvider:
-        if voice_id not in {voice.id for voice in self.list_voices()}:
-            raise ValueError("VOICE_NOT_FOUND")
-        return self.provider
-
-    def ready(self) -> bool:
-        return True
-
-
 @pytest.fixture(autouse=True)
 def inject_test_runtime() -> Iterator[None]:
-    registry = InjectedProviderRegistry()
-    app.dependency_overrides[get_provider_registry] = lambda: registry
-    app.dependency_overrides[get_synthesis_service] = lambda: SynthesisService(registry=registry)
+    provider = InjectedSpeechProvider()
+    app.dependency_overrides[get_speech_provider] = lambda: provider
     yield
     app.dependency_overrides.clear()
 
@@ -174,3 +156,23 @@ def test_rejects_empty_too_long_or_unknown_voice() -> None:
 )
 def test_removed_speech_routes_return_not_found(method: str, path: str) -> None:
     assert client.request(method, path, json={}).status_code == 404
+
+
+def test_synthesis_service_rejects_work_above_its_concurrency_bound() -> None:
+    service = SynthesisService(provider=InjectedSpeechProvider())
+    capacity = get_settings().speech_max_concurrent_generations
+    for _ in range(capacity):
+        assert service._capacity.acquire(blocking=False)
+    try:
+        with pytest.raises(ValueError, match="SPEECH_BUSY"):
+            service.synthesize(
+                SynthesisRequest(
+                    text="ما",
+                    language="ar-MA",
+                    voice_id="darija-default",
+                    output_format="wav",
+                )
+            )
+    finally:
+        for _ in range(capacity):
+            service._capacity.release()

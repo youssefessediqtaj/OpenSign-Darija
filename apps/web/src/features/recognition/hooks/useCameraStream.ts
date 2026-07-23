@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { requestCameraStream, stopCameraStream } from '../services/camera.service';
+import { requestCameraStream, stopCameraStream } from '../services/camera';
 
 export function useCameraStream(onError: (error: unknown) => void) {
   const [stream, setStream] = useState<MediaStream | null>(null);

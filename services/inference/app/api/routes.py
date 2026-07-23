@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException
 
 from app.core.config import get_settings
+from app.runtime.model_loader import model_loader
+from app.runtime.prediction import PredictionService
 from app.schemas.prediction import (
     PredictionResponse,
     WordLandmarkSequenceRequest,
 )
-from app.services.model_loader import model_loader
-from app.services.prediction_service import PredictionService
 
 router = APIRouter()
 prediction_service = PredictionService()

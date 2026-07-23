@@ -7,7 +7,7 @@ import numpy as np
 import pytest
 
 from app.core.config import get_settings
-from app.models.onnx_model import OnnxModel
+from app.model_package.onnx_model import OnnxModel
 from app.schemas.prediction import WordLandmarkSequenceRequest
 
 RUNTIME_FILES = (
@@ -234,6 +234,7 @@ def test_real_model_loads_complete_package_and_returns_arabic(
     monkeypatch.setattr(ort, "InferenceSession", FakeInferenceSession)
 
     model = OnnxModel()
+    model.warmup()
     predictions, decision, confidence_level, unknown_probability = model.predict(
         WordLandmarkSequenceRequest(**valid_word_payload())
     )

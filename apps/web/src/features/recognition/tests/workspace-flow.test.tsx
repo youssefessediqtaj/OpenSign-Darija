@@ -3,8 +3,11 @@ import { useCallback, useState } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { RecognitionWorkspace } from '../components/RecognitionWorkspace';
-import { createAutomaticTestFrame } from '../services/holistic.service';
-import type { HolisticFrame } from '../types/landmark.types';
+import type { HolisticFrame } from '../domain/landmarks';
+import {
+  AUTOMATIC_TEST_SEQUENCE_FRAME_COUNT,
+  createAutomaticTestFrame,
+} from '../services/holistic';
 
 const mocks = vi.hoisted(() => ({
   frameSink: { current: null as ((frame: HolisticFrame) => void) | null },
@@ -46,16 +49,16 @@ vi.mock('../hooks/useHolisticLandmarker', () => ({
   },
 }));
 
-vi.mock('../services/recognition-api.service', () => ({
+vi.mock('../services/recognition-api', () => ({
   landmarkRecognitionApi: { submitWordSequence: mocks.submitWord },
   recognitionErrorMessage: () => 'Reconnaissance indisponible.',
 }));
 
-vi.mock('../../speech/services/speech-api.service', () => ({
+vi.mock('../services/speech-api', () => ({
   speechApi: { createForSign: mocks.createSpeech },
 }));
 
-vi.mock('../../speech/services/browser-speech.service', () => ({
+vi.mock('../services/browser-speech', () => ({
   speakWithBrowser: mocks.browserSpeak,
 }));
 
@@ -114,7 +117,7 @@ describe('RecognitionWorkspace automatic flow', () => {
 
     act(() => {
       document.querySelector('audio')?.dispatchEvent(new Event('ended'));
-      for (let index = 48; index < 112; index += 1) {
+      for (let index = 48; index < AUTOMATIC_TEST_SEQUENCE_FRAME_COUNT; index += 1) {
         mocks.frameSink.current?.(createAutomaticTestFrame(index, timestampBase + index * 70));
       }
     });

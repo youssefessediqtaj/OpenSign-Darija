@@ -1,8 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
-import { AutomaticSignSegmenter } from '../services/automatic-segmentation.service';
-import { createAutomaticTestFrame, createSyntheticFrame } from '../services/holistic.service';
-import type { RecognitionFlowState, SegmentedSign } from '../types/recognition-flow.types';
+import { AutomaticSignSegmenter } from '../domain/automatic-segmentation';
+import {
+  AUTOMATIC_TEST_SEQUENCE_FRAME_COUNT,
+  createAutomaticTestFrame,
+  createSyntheticFrame,
+} from '../services/holistic';
+import type { RecognitionFlowState, SegmentedSign } from '../state/recognition-flow';
 
 describe('AutomaticSignSegmenter', () => {
   it('stays waiting when hands are absent or stationary at rest', () => {
@@ -93,7 +97,7 @@ describe('AutomaticSignSegmenter', () => {
     let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
     const segments: SegmentedSign[] = [];
 
-    for (let index = 0; index < 125; index += 1) {
+    for (let index = 0; index < AUTOMATIC_TEST_SEQUENCE_FRAME_COUNT; index += 1) {
       const timestamp = index * 70;
       const event = segmenter.ingest(createAutomaticTestFrame(index, timestamp), state);
       if (event.type === 'started') state = 'CAPTURING';

@@ -87,7 +87,7 @@ def fake_synthesize(
 def test_direct_sign_speech_resolves_arabic_and_returns_playable_audio(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     calls: list[dict[str, object]] = []
 
@@ -117,7 +117,7 @@ def test_direct_sign_speech_resolves_arabic_and_returns_playable_audio(
 def test_direct_sign_speech_rejects_unsupported_or_user_supplied_text(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     def must_not_run(self, **kwargs):
         raise AssertionError("unsupported signs must not reach speech synthesis")
@@ -136,7 +136,7 @@ def test_direct_sign_speech_rejects_unsupported_or_user_supplied_text(
 def test_direct_sign_speech_falls_back_from_moroccan_arabic_to_arabic(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     calls: list[tuple[str, str]] = []
 
@@ -156,7 +156,7 @@ def test_direct_sign_speech_falls_back_from_moroccan_arabic_to_arabic(
 def test_direct_sign_speech_failure_is_a_separate_request_failure(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     def fail(self, **kwargs):
         raise ApiError("SPEECH_SERVICE_UNAVAILABLE", "speech unavailable", 503)
@@ -170,7 +170,7 @@ def test_direct_sign_speech_failure_is_a_separate_request_failure(
 def test_direct_sign_speech_rejects_invalid_upstream_audio(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     monkeypatch.setattr(SpeechServiceClient, "synthesize", lambda self, **kwargs: {})
     response = client.post("/api/v1/speech/sign", json={"label_key": "help"})
@@ -181,7 +181,7 @@ def test_direct_sign_speech_rejects_invalid_upstream_audio(
 def test_direct_sign_speech_fails_closed_without_a_local_catalog(
     client: TestClient, monkeypatch: pytest.MonkeyPatch, tmp_path: Path
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     monkeypatch.setenv("SUPPORTED_SIGNS_PATH", str(tmp_path / "missing.json"))
     get_settings.cache_clear()
@@ -200,7 +200,7 @@ def test_direct_sign_speech_rejects_catalog_checksum_tampering(
     monkeypatch: pytest.MonkeyPatch,
     verified_model_package: Path,
 ) -> None:
-    from app.services.speech.client import SpeechServiceClient
+    from app.clients.speech import SpeechServiceClient
 
     verified_model_package.write_text(
         verified_model_package.read_text(encoding="utf-8").replace("عاونّي", "نص مزور"),

@@ -2,7 +2,7 @@ PYTHON ?= python3
 
 .PHONY: install ml-install dev up down logs logs-api logs-inference logs-speech \
 	test test-all test-backend test-inference test-ml speech-test test-frontend test-e2e \
-	lint format ml-dataset-scan ml-dataset-audit ml-preprocess-mosl \
+	test-architecture lint format ml-dataset-scan ml-dataset-audit ml-preprocess-mosl \
 	ml-validate-mosl-artifacts ml-train-v1 ml-validate-model benchmark-inference \
 	benchmark-speech compose-check
 
@@ -38,6 +38,7 @@ logs-speech:
 	docker compose logs -f speech
 
 test:
+	$(MAKE) test-architecture
 	$(MAKE) test-backend
 	$(MAKE) test-inference
 	$(MAKE) test-ml
@@ -73,6 +74,9 @@ test-frontend:
 
 test-e2e:
 	cd apps/web && npm run test:e2e
+
+test-architecture:
+	services/api/.venv/bin/python -m pytest tests/test_architecture_contracts.py
 
 lint:
 	cd apps/web && npm run lint

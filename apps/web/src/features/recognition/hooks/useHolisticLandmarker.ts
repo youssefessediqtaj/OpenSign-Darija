@@ -1,9 +1,11 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { createAutomaticTestFrame, loadHolisticLandmarker, resultToFrame } from '../services/holistic.service';
-import type { HolisticFrame } from '../types/landmark.types';
+import type { HolisticFrame } from '../domain/landmarks';
+import { createAutomaticTestFrame, loadHolisticLandmarker, resultToFrame } from '../services/holistic';
 
-const DETECTOR_TARGET_FPS = 20;
+// 24 FPS quantizes to every third frame on a 60 Hz display, leaving enough
+// headroom for the measured capture cadence to remain at or above 15 FPS.
+const DETECTOR_TARGET_FPS = 24;
 
 export function useHolisticLandmarker(
   videoRef: React.RefObject<HTMLVideoElement>,
@@ -64,8 +66,6 @@ export function useHolisticLandmarker(
         return;
       }
     }
-    // A target above 15 avoids requestAnimationFrame quantization dropping the
-    // effective detector cadence below the 15 FPS product target.
     const minInterval = 1000 / DETECTOR_TARGET_FPS;
     const tick = (timestamp: number) => {
       if (!runningRef.current || runIdRef.current !== runId) return;
