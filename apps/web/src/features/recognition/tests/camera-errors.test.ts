@@ -6,7 +6,7 @@ describe('camera errors', () => {
   it('maps permission denied errors', () => {
     vi.stubGlobal('navigator', { mediaDevices: { getUserMedia: vi.fn() } });
     expect(mapCameraError(new DOMException('denied', 'NotAllowedError'))).toBe('PERMISSION_DENIED');
-    expect(cameraErrorMessage('PERMISSION_DENIED')).toMatch(/refuse/i);
+    expect(cameraErrorMessage('PERMISSION_DENIED')).toMatch(/refusé/i);
   });
 
   it('maps missing devices', () => {

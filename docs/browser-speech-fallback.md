@@ -1,11 +1,10 @@
-# Browser Speech Fallback
+# Browser speech fallback
 
-The browser fallback uses `window.speechSynthesis` only when local speech generation fails and the user accepts the fallback.
+When service WAV playback cannot start, the active recognition loop tries
+`window.speechSynthesis` with an Arabic voice (`ar-MA`, then `ar`). This is automatic
+because camera activation is the originating user gesture. Browser/OS voice availability
+and autoplay behavior vary.
 
-Displayed warning:
-
-```text
-La voix Darija n’est pas disponible. Une voix arabe du navigateur sera utilisée.
-```
-
-Voice filtering prefers `ary-MA`, `ar-MA`, then `ar`. Availability and pronunciation vary by operating system and browser. The fallback is not presented as a Darija-native voice and is not guaranteed offline.
+If both paths fail, the Arabic result remains visible, `Audio indisponible` is shown, and
+the optional repeat action can retry. Failure never converts a recognized result to an
+error or causes duplicate automatic speech.

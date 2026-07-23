@@ -1,26 +1,18 @@
-# Speech Contract
+# Sign speech contract
 
-Phase 6 genere un audio experimental local pour les messages finalises.
+Public request:
 
-Service interne:
+```http
+POST /api/v1/speech/sign
+Content-Type: application/json
 
-```json
-{
-  "text": "بغيت الما",
-  "language": "ary-MA",
-  "voice_id": "darija-default",
-  "speed": 1.0,
-  "output_format": "wav"
-}
+{"label_key":"سوق"}
 ```
 
-Endpoints publics principaux:
+Only a key present in the active model package is accepted. The API owns the Arabic text
+mapping and sends the private service a bounded synthesis request with locale `ar-MA`,
+voice `darija-default`, speed `1.0`, and WAV output. It retries with locale `ar` and
+`arabic-fallback` only after a provider error.
 
-- `GET /api/v1/speech/voices`
-- `GET /api/v1/speech/status`
-- `POST /api/v1/messages/{message_id}/speech`
-- `GET /api/v1/messages/{message_id}/speech/{generation_id}`
-- `POST /api/v1/messages/{message_id}/speech/{generation_id}/refresh-url`
-- `DELETE /api/v1/messages/{message_id}/speech/{generation_id}`
-
-Le service speech reste interne au reseau Docker.
+The compact response contains the label, completion state, fallback flag, and WAV data
+URL with duration/size. Unknown extra request fields and unsupported labels are rejected.

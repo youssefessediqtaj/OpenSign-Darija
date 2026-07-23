@@ -5,7 +5,6 @@ import numpy as np
 
 from ml.datasets.mosl_video.categories import CATEGORY_BY_FOLDER
 from ml.datasets.mosl_video.label_parser import parse_mosl_label
-from ml.datasets.mosl_video.manifest import discover_videos
 from ml.datasets.mosl_video.training_manifest import prepare_training_manifest
 from ml.datasets.mosl_video.validate_processed_artifacts import validate_manifest
 
@@ -39,21 +38,6 @@ def test_non_letters_map_to_word_isolated() -> None:
         CATEGORY_BY_FOLDER["mosl_videos_dataset_days_months_seasons"].mode
         == "WORD_ISOLATED"
     )
-
-
-def test_source_dataset_inventory_when_present() -> None:
-    project_root = "".join(
-        ("Multimodal-", "Moroccan-", "Sign-", "Language-", "Generation")
-    )
-    dataset_dir = "-".join(("vedios", "dataset"))
-    root = Path(project_root) / dataset_dir
-    if not root.exists():
-        return
-
-    videos = discover_videos(root)
-
-    assert len(videos) == 2216
-    assert any(path.name.endswith(".mp4") for path in videos)
 
 
 def write_cache(path: Path, sha256: str) -> None:

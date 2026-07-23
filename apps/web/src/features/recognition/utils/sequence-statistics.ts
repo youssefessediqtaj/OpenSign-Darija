@@ -29,6 +29,12 @@ export function calculateSequenceQuality(frames: HolisticFrame[], durationMs: nu
   ).length;
   const faceFrames = frames.filter((frame) => frame.metadata.faceDetected).length;
   const poseFrames = frames.filter((frame) => frame.metadata.poseDetected).length;
+  const missingFrames = frames.filter(
+    (frame) =>
+      !frame.metadata.poseDetected &&
+      !frame.metadata.leftHandDetected &&
+      !frame.metadata.rightHandDetected,
+  ).length;
   const movement = movementScore(frames);
   const averageProcessingMs =
     total === 0
@@ -63,7 +69,7 @@ export function calculateSequenceQuality(frames: HolisticFrame[], durationMs: nu
     detectedFaceRatio,
     detectedPoseRatio,
     averageProcessingFps,
-    missingFrameRatio: total === 0 ? 1 : 0,
+    missingFrameRatio: total === 0 ? 1 : ratio(missingFrames, total),
     movementScore: movement,
     warnings,
   };

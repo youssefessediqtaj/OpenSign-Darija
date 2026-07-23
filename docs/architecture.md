@@ -1,35 +1,28 @@
-# Architecture
+# Core architecture
 
-OpenSign Darija est organise en monorepo afin de garder des contrats clairs entre interface web, API publique, inference IA et futurs modules mobiles.
-
-## Flux
+OpenSigne Darija is a deliberately small stateless runtime:
 
 ```text
-Frontend web
-  -> Backend API
-  -> Service inference interne
-  -> Service speech interne
+browser camera
+  -> local MediaPipe Holistic landmarks
+  -> automatic isolated-sign segmenter
+  -> public FastAPI word endpoint
+  -> private ONNX Runtime service
+  -> supported Arabic label or UNKNOWN
+  -> private offline speech service for a known label
+  -> browser playback, cooldown, next sign
 ```
 
-Le service d’inference n’est pas expose par Nginx. Toute politique d’authentification, validation, journalisation et controle des donnees passe par le backend principal.
+Nginx exposes the React application and `/api/`. Inference and speech are container-only
+services. The core API boots without PostgreSQL, Redis, MinIO, migrations, seed data, or
+authentication. Historical persistence modules remain unmounted on disk solely because
+deleting old tables/workflows without a migration would be destructive.
 
-## Services
+The active runtime services are web, API, inference, speech, and Nginx. The optional
+`ml` Compose profile runs a one-shot audit of data already present locally; it performs
+no runtime package or dataset download.
 
-- Web: experience React mobile-first, accessible, avec routes publiques et espace `/app` protege.
-- API: point d’entree public, auth JWT, donnees metier, seed, migrations et orchestration inference.
-- Inference: contrat IA isole, modele simule, interfaces pretes pour extraction landmarks, preprocessing, registre de modele et ONNX.
-- Speech: service interne de synthese vocale experimentale, normalisation Darija, provider local, validation audio et voix fallback arabe.
-- PostgreSQL: persistance applicative.
-- Redis: cache/session/rate limiting futur.
-- MinIO: stockage objet futur pour artefacts, jamais pour publication automatique de videos.
-- MinIO: stockage objet prive pour artefacts dataset, modeles et audios speech temporaires.
-
-## Camera Recognition
-
-The phase 2 flow is:
-
-```text
-Browser camera -> MediaPipe browser landmarks -> compact sequence -> API -> internal inference
-```
-
-The web app mirrors front-camera preview visually only. Internal landmark coordinates keep the MediaPipe anatomical left/right convention.
+The model package on disk is the sole activation source. API and inference read the same
+supported-sign mapping, and inference validates package checksums, schema, ONNX shapes,
+labels, Arabic mappings, and calibration before readiness. There is no public registry
+or model selector that can diverge from loaded weights.

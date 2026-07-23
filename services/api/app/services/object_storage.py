@@ -1,4 +1,5 @@
 from datetime import timedelta
+from importlib import import_module
 from typing import Any, cast
 
 from app.core.config import get_settings
@@ -29,9 +30,8 @@ class ObjectStorage:
         self.settings = get_settings()
 
     def _client(self, endpoint: str) -> Any:
-        from minio import Minio  
-
-        return Minio(
+        minio_module = import_module("minio")
+        return minio_module.Minio(
             endpoint,
             access_key=self.settings.minio_access_key,
             secret_key=self.settings.minio_secret_key,

@@ -1,13 +1,18 @@
-# Speech Architecture
-
-Phase 6 adds an internal speech path:
+# Automatic sign speech
 
 ```text
-Frontend -> Backend API -> Speech service -> MinIO signed URL
+known recognition -> browser sends supported label key
+                  -> public API resolves package Arabic label
+                  -> private offline speech service
+                  -> playable WAV data URL
+                  -> one automatic browser playback
 ```
 
-The browser never calls the internal speech service directly. The API verifies message ownership, finalization, risk confirmation, voice status, speed and format before synthesis.
+UNKNOWN never reaches speech. The browser cannot submit arbitrary text and never calls
+the speech container directly. The direct endpoint is stateless: no database, MinIO,
+signed URL, cache worker, voice selector, message ownership, or finalized-message flow is
+part of the recognition product.
 
-Current MVP synthesis is local and deterministic through `local-darija`. It is an experimental non-human synthetic voice used to validate the private audio pipeline. No voice cloning, microphone access, third-party TTS API, or automatic playback is used.
-
-The synchronous path is allowed for short messages. The database model stores statuses compatible with asynchronous workers: `CREATED`, `QUEUED`, `PROCESSING`, `COMPLETED`, `FAILED`, `EXPIRED`, `DELETED`.
+The service tries its Darija-facing Arabic system voice first and the explicit Arabic
+fallback second. If service audio generation or autoplay fails, browser Arabic speech is
+attempted. All failure paths preserve visible recognized text and enter cooldown.

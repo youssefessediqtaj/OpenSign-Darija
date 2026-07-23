@@ -1,60 +1,106 @@
+from __future__ import annotations
+
+import argparse
+import base64
 import json
 import statistics
 import time
 import urllib.error
 import urllib.request
+from datetime import UTC, datetime
+from pathlib import Path
+from typing import Any
+
+ROOT = Path(__file__).resolve().parents[1]
+SUPPORTED_SIGNS = ROOT / "artifacts/models/mosl-isolated-sign-v1/supported-signs.json"
+OUTPUT_REPORT = ROOT / "artifacts/reports/speech-runtime-benchmark.json"
 
 
-BASE_URL = "http://localhost:8081"
-ANON = "speech-benchmark-session"
+def supported_label(path: Path) -> tuple[str, str]:
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    signs = payload.get("signs", [])
+    if not signs:
+        raise RuntimeError("The selected model package has no supported signs")
+    return str(signs[0]["label_key"]), str(signs[0]["label_ar"])
 
 
-def request(path: str, method: str = "GET", payload: dict[str, object] | None = None) -> dict[str, object]:
-    data = json.dumps(payload).encode("utf-8") if payload is not None else None
-    req = urllib.request.Request(
-        f"{BASE_URL}{path}",
-        data=data,
-        method=method,
-        headers={"Content-Type": "application/json", "X-Anonymous-Session-Id": ANON},
+def percentile_95(values: list[float]) -> float:
+    return sorted(values)[max(0, int(len(values) * 0.95) - 1)]
+
+
+def request_speech(url: str, label_key: str) -> tuple[dict[str, Any], float]:
+    request = urllib.request.Request(
+        url,
+        data=json.dumps({"label_key": label_key}).encode("utf-8"),
+        method="POST",
+        headers={"Content-Type": "application/json"},
     )
-    with urllib.request.urlopen(req, timeout=20) as response:
-        return json.loads(response.read().decode("utf-8"))
-
-
-def prepare_message() -> str:
-    created = request("/api/v1/messages", "POST", {"anonymous_session_id": ANON, "title": "Speech benchmark"})
-    message_id = str(created["id"])
-    request(f"/api/v1/messages/{message_id}", "PATCH", {"final_darija_arabic": "بغيت الما"})
-    request(f"/api/v1/messages/{message_id}/finalize", "POST", {})
-    return message_id
+    started = time.perf_counter()
+    with urllib.request.urlopen(request, timeout=30) as response:
+        result: dict[str, Any] = json.loads(response.read().decode("utf-8"))
+    return result, (time.perf_counter() - started) * 1000
 
 
 def main() -> None:
-    message_id = prepare_message()
-    latencies: list[float] = []
-    for _ in range(20):
-        started = time.perf_counter()
-        request(
-            f"/api/v1/messages/{message_id}/speech",
-            "POST",
-            {"voice_id": "darija-default", "speed": 1.0, "format": "wav"},
-        )
-        latencies.append((time.perf_counter() - started) * 1000)
-    print(
-        json.dumps(
-            {
-                "count": len(latencies),
-                "mean_ms": round(statistics.mean(latencies), 2),
-                "median_ms": round(statistics.median(latencies), 2),
-                "p95_ms": round(sorted(latencies)[int(len(latencies) * 0.95) - 1], 2),
-            },
-            indent=2,
-        )
+    parser = argparse.ArgumentParser(description="Benchmark direct offline sign speech.")
+    parser.add_argument(
+        "--url", default="http://localhost:8081/api/v1/speech/sign"
     )
+    parser.add_argument("--requests", type=int, default=5)
+    parser.add_argument("--supported-signs", type=Path, default=SUPPORTED_SIGNS)
+    parser.add_argument("--output", type=Path, default=OUTPUT_REPORT)
+    args = parser.parse_args()
+    if args.requests < 1 or args.requests > 20:
+        raise SystemExit("--requests must be between 1 and 20")
+
+    label_key, expected_ar = supported_label(args.supported_signs)
+    latencies: list[float] = []
+    audio_sizes: list[int] = []
+    durations: list[int] = []
+    fallback_count = 0
+    try:
+        for _ in range(args.requests):
+            result, latency = request_speech(args.url, label_key)
+            if result.get("status") != "completed" or result.get("label_ar") != expected_ar:
+                raise RuntimeError(f"Unexpected speech response: {result}")
+            audio = result.get("audio")
+            if not isinstance(audio, dict) or not str(audio.get("url", "")).startswith(
+                "data:audio/wav;base64,"
+            ):
+                raise RuntimeError("Speech response did not contain playable WAV data")
+            encoded = str(audio["url"]).split(",", 1)[1]
+            decoded = base64.b64decode(encoded, validate=True)
+            if not decoded.startswith(b"RIFF") or b"WAVE" not in decoded[:16]:
+                raise RuntimeError("Speech payload is not a WAV file")
+            latencies.append(latency)
+            audio_sizes.append(len(decoded))
+            durations.append(int(audio.get("duration_ms", 0)))
+            fallback_count += int(bool(result.get("fallback_used")))
+    except (urllib.error.URLError, TimeoutError) as exc:
+        raise SystemExit(f"Real Docker speech API is unavailable at {args.url}: {exc}") from exc
+
+    report = {
+        "schema_version": "OPEN_SIGNE_SPEECH_BENCHMARK_V1",
+        "measured_at": datetime.now(UTC).isoformat(),
+        "url": args.url,
+        "requests": args.requests,
+        "label_key": label_key,
+        "label_ar": expected_ar,
+        "generation_latency_ms": {
+            "average": round(statistics.mean(latencies), 3),
+            "p50": round(statistics.median(latencies), 3),
+            "p95": round(percentile_95(latencies), 3),
+            "maximum": round(max(latencies), 3),
+        },
+        "average_audio_bytes": round(statistics.mean(audio_sizes), 1),
+        "average_audio_duration_ms": round(statistics.mean(durations), 1),
+        "fallback_count": fallback_count,
+        "playable_wav_count": len(audio_sizes),
+    }
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps(report, ensure_ascii=False, indent=2))
 
 
 if __name__ == "__main__":
-    try:
-        main()
-    except urllib.error.URLError as exc:
-        raise SystemExit(f"Speech benchmark requires Docker/Nginx at {BASE_URL}: {exc}") from exc
+    main()

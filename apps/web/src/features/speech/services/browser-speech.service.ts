@@ -6,7 +6,19 @@ export function compatibleBrowserVoices() {
   if (!browserSpeechSupported()) return [];
   return window.speechSynthesis
     .getVoices()
-    .filter((voice) => ['ary-MA', 'ar-MA', 'ar'].some((locale) => voice.lang.startsWith(locale)))
+    .filter((voice) => {
+      const language = voice.lang.toLowerCase();
+      return ['ary-ma', 'ar-ma', 'ar'].some((locale) => language.startsWith(locale));
+    })
+    .sort((left, right) => {
+      const priority = (language: string) => {
+        const normalized = language.toLowerCase();
+        if (normalized.startsWith('ar-ma')) return 0;
+        if (normalized.startsWith('ary-ma')) return 1;
+        return 2;
+      };
+      return priority(left.lang) - priority(right.lang);
+    })
     .map((voice) => ({ name: voice.name, lang: voice.lang, native: voice }));
 }
 

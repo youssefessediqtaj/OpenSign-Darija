@@ -1,8 +1,10 @@
-# Manual Recognition Testing
+# Physical-camera acceptance record
 
-Use this grid for real browser testing.
+Use the supported-sign list from the active package and click only camera activation.
 
-| Date | Model Version | Browser | Device | Expected Sign | Top-1 | Top-3 | Confidence | Latency | Decision | Correction | Console Error | Network Error | Note |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| Date | Browser/device | Expected supported sign | Automatic start/end | API result | Arabic shown | Speech once | Reset/second sign | Console/network | Note |
+|---|---|---|---|---|---|---|---|---|---|
 
-Current status: no real trained model is active, so manual testing can verify camera, MediaPipe, request flow, mock mode, and error handling, but not scientific model quality.
+Do not record Top-K in the public flow. Record UNKNOWN as UNKNOWN, not as a successful
+recognition. A test is not complete unless a person actually performs a supported sign
+in view of a physical camera; fake streams validate integration but not this gate.

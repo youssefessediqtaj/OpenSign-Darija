@@ -1,4 +1,5 @@
-import type { CompactFrame, HolisticFrame } from './landmark.types';
+import type { HolisticFrame } from './landmark.types';
+import type { SegmentationKind } from './recognition-flow.types';
 
 export type SequenceQuality = {
   valid: boolean;
@@ -17,30 +18,10 @@ export type LandmarkSequence = {
   startedAt: string;
   durationMs: number;
   sourceFps: number;
-  targetFrameCount: number;
   frames: HolisticFrame[];
   rawFrameCount: number;
   validFrameCount: number;
   quality: SequenceQuality;
-};
-
-export type CompactLandmarkSequencePayload = {
-  sequence_id: string;
-  captured_at: string;
-  duration_ms: number;
-  source_fps: number;
-  target_frame_count: number;
-  coordinate_format: 'torso_normalized_v1';
-  feature_schema_version: '1.0.0';
-  frames: CompactFrame[];
-  quality: {
-    detected_hand_ratio: number;
-    detected_face_ratio: number;
-    detected_pose_ratio: number;
-    missing_frame_ratio: number;
-    movement_score: number;
-  };
-  anonymous_session_id?: string;
 };
 
 export type MoslLandmarkFrame = {
@@ -61,12 +42,19 @@ export type WordLandmarkSequencePayload = {
   coordinate_count: 3;
   coordinate_format: 'shoulder_centered_v1';
   feature_schema_version: 'OPEN_SIGNE_LANDMARK_SCHEMA_V1';
+  segmentation_kind: SegmentationKind;
+  segmentation_reliable: boolean;
+  usable_frame_count: number;
   frames: MoslLandmarkFrame[];
-  quality: CompactLandmarkSequencePayload['quality'];
+  quality: {
+    detected_hand_ratio: number;
+    detected_face_ratio: number;
+    detected_pose_ratio: number;
+    missing_frame_ratio: number;
+    movement_score: number;
+  };
   anonymous_session_id?: string;
 };
-
-export type RecognitionSequencePayload = CompactLandmarkSequencePayload | WordLandmarkSequencePayload;
 
 export type WordRecognitionPayloadValidationCode =
   | 'invalid_sequence_id'
@@ -77,6 +65,9 @@ export type WordRecognitionPayloadValidationCode =
   | 'invalid_landmark_count'
   | 'invalid_coordinate_count'
   | 'invalid_coordinate_format'
+  | 'invalid_segmentation_kind'
+  | 'unreliable_segmentation'
+  | 'invalid_usable_frame_count'
   | 'invalid_duration'
   | 'invalid_source_fps'
   | 'invalid_quality'

@@ -27,14 +27,14 @@ export function mapCameraError(error: unknown): CameraErrorCode {
 
 export function cameraErrorMessage(code: CameraErrorCode): string {
   const messages: Record<CameraErrorCode, string> = {
-    UNSUPPORTED: "Ce navigateur ne permet pas d'utiliser la camera.",
-    INSECURE_CONTEXT: 'La camera necessite une connexion HTTPS ou localhost.',
-    PERMISSION_DENIED: "L'acces a la camera a ete refuse.",
-    NOT_FOUND: "Aucune camera compatible n'a ete detectee.",
-    IN_USE: 'La camera est utilisee par une autre application.',
-    CONSTRAINT_NOT_SUPPORTED: 'Cette camera ne supporte pas la qualite demandee.',
-    INTERRUPTED: 'Le flux camera a ete interrompu.',
-    SYSTEM_ERROR: 'Une erreur systeme a empeche l’ouverture de la camera.',
+    UNSUPPORTED: "Ce navigateur ne permet pas d’utiliser la caméra.",
+    INSECURE_CONTEXT: 'La caméra nécessite une connexion HTTPS ou localhost.',
+    PERMISSION_DENIED: "L’accès à la caméra a été refusé.",
+    NOT_FOUND: "Aucune caméra compatible n’a été détectée.",
+    IN_USE: 'La caméra est utilisée par une autre application.',
+    CONSTRAINT_NOT_SUPPORTED: 'Cette caméra ne supporte pas la qualité demandée.',
+    INTERRUPTED: 'Le flux caméra a été interrompu.',
+    SYSTEM_ERROR: 'Une erreur système a empêché l’ouverture de la caméra.',
   };
   return messages[code];
 }

@@ -1,6 +1,12 @@
 import { env } from '../config/env';
-import { useAuthStore } from '../stores/authStore';
-import type { ApiErrorPayload } from '../types/api';
+
+type ApiErrorPayload = {
+  error: {
+    code: string;
+    message: string;
+    details: Record<string, unknown>;
+  };
+};
 
 export class ApiError extends Error {
   code: string;
@@ -30,18 +36,31 @@ async function parseError(response: Response): Promise<ApiError> {
   }
 }
 
-export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const token = useAuthStore.getState().tokens?.access_token;
-  const response = await fetch(`${env.apiBaseUrl}${path}`, {
-    ...init,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...init.headers,
-    },
-  });
-  if (!response.ok) {
-    throw await parseError(response);
+async function request<T>(path: string, init: RequestInit): Promise<T> {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 15_000);
+  const abortFromCaller = () => controller.abort();
+  init.signal?.addEventListener('abort', abortFromCaller, { once: true });
+  if (init.signal?.aborted) controller.abort();
+  try {
+    const response = await fetch(`${env.apiBaseUrl}${path}`, {
+      ...init,
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        ...init.headers,
+      },
+    });
+    if (!response.ok) {
+      throw await parseError(response);
+    }
+    return (await response.json()) as T;
+  } finally {
+    window.clearTimeout(timeout);
+    init.signal?.removeEventListener('abort', abortFromCaller);
   }
-  return (await response.json()) as T;
+}
+
+export async function publicApiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
+  return request<T>(path, init);
 }

@@ -1,43 +1,28 @@
 # Development
 
-## Frontend
+## Full local verification
 
 ```bash
-cd apps/web
-npm install
-npm run dev
-npm test -- --run
-npm run build
+make install
+make ml-install
+make test
+make compose-check
 ```
 
-## Backend
+The frontend can be run alone with `npm run dev` from `apps/web`; set
+`VITE_API_BASE_URL=http://localhost:8000` only for that standalone mode. Docker uses an
+empty API base URL so browser requests stay same-origin through Nginx.
+
+## Services
 
 ```bash
-cd services/api
-python -m venv .venv
-. .venv/bin/activate
-pip install -e ".[dev]"
-alembic upgrade head
-python -m app.db.seed
-uvicorn app.main:app --reload
+cd services/inference && .venv/bin/uvicorn app.main:app --reload --port 8001
+cd services/speech && .venv/bin/uvicorn app.main:app --reload --port 8010
+cd services/api && .venv/bin/uvicorn app.main:app --reload --port 8000
+cd apps/web && npm run dev
 ```
 
-## Inference
-
-```bash
-cd services/inference
-python -m venv .venv
-. .venv/bin/activate
-pip install -e ".[dev]"
-uvicorn app.main:app --reload --port 8001
-```
-
-## MinIO Bucket
-
-Apres demarrage Docker, creez le bucket local si necessaire:
-
-```bash
-docker compose exec minio sh /workspace/infrastructure/scripts/create-minio-bucket.sh
-```
-
-Phase 1 ne stocke pas encore de videos.
+Real inference needs the environment paths from `.env.example` and a validated local
+package at `artifacts/models/mosl-isolated-sign-v1/`. The API is stateless and does not
+run migrations or seed data. PostgreSQL, Redis, MinIO, user accounts, and object-storage
+buckets are not part of the core development loop.

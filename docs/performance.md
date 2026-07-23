@@ -1,17 +1,29 @@
-# Performance
+# Performance evidence
 
-Run a synthetic payload measurement:
+Run the deterministic browser pipeline benchmark:
 
 ```bash
 cd apps/web
 npm run perf:recognition
 ```
 
-Current local synthetic result on this workspace:
+It writes `artifacts/reports/frontend-automatic-segmentation-benchmark.json`. The report
+measures segmenter computational throughput, 60-second rest false captures, two-sign
+state reset, held-pose suppression, exact V1 payload build time/size, and configured
+start/end/cooldown timing. These are synthetic-landmark measurements, not physical-camera
+accuracy claims.
 
-- 30 frames;
-- 63 features per frame;
-- payload size: 21,351 bytes;
-- synthetic payload construction: 1.427 ms.
+With Docker healthy, run:
 
-Real MediaPipe load time, FPS, memory use, and camera latency must be measured on target devices with a webcam enabled. Do not claim production FPS without those measurements.
+```bash
+make benchmark-inference
+make benchmark-speech
+```
+
+Those commands write public-API and offline-speech latency reports. The model package
+also contains direct ONNX average/P95 latency and parity evidence.
+
+Real MediaPipe FPS and drops, camera permission-to-ready time, sign-end-to-visible-text,
+text-to-audible time, physical rest false captures, and lighting/framing sensitivity must
+be measured with an actual target camera. Missing hardware evidence remains
+`UNCONFIRMED`; configured cadence is not reported as measured physical FPS.

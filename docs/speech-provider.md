@@ -1,17 +1,9 @@
-# Speech Provider
+# Offline speech providers
 
-Provider: `local-darija`
+`local-darija` and `local-arabic-fallback` use the same installed system speech engine;
+their distinction makes preferred vs fallback locale explicit. macOS uses `say -v Majed`
+and Docker installs `espeak-ng -v ar`. Arguments are passed directly without a shell.
 
-- Version: `opensign-tone-v1`
-- Source: this repository
-- License: Apache-2.0 project code
-- External model weights: none bundled
-- Languages: `ary-MA` display locale, generated as an experimental local waveform
-- Output: mono WAV, 22050 Hz
-- CPU/GPU: CPU only
-- Limits: not a natural Moroccan human voice; pronunciation quality is experimental
-- Commercial use: governed by the repository Apache-2.0 license
-
-Fallback provider: `local-arabic-fallback`, clearly labelled as Arabic fallback and not Darija native.
-
-A future neural TTS provider must include model checksum, model card, upstream license, weight license, attribution requirements and commercial-use status before activation.
+No voice weights, text, or audio are sent to an external provider. Temporary WAV files
+are deleted immediately after validation. The providers are experimental and must not be
+described as native Moroccan voices or used for cloning/impersonation.

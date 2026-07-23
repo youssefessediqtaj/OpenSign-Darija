@@ -5,16 +5,14 @@ import csv
 import hashlib
 import json
 import os
-import ssl
 from pathlib import Path
 from time import perf_counter
 from typing import Any
-from urllib.error import URLError
-from urllib.request import urlopen
 
 import numpy as np
 
 from ml.preprocessing.landmark_schema_v1 import (
+    SCHEMA_VERSION,
     normalize_frame,
     pad_or_truncate_sequence,
 )
@@ -45,10 +43,24 @@ def cache_valid(path: Path, source_sha256: str) -> bool:
     if not path.exists():
         return False
     try:
-        metadata = read_cache_metadata(path)
-        return (
-            metadata.get("source_sha256") == source_sha256
+        with np.load(path, allow_pickle=False) as data:
+            landmarks = data["landmarks"]
+            presence_mask = data["presence_mask"]
+            metadata = json.loads(str(data["metadata"].item()))
+        return bool(
+            isinstance(metadata, dict)
+            and metadata.get("source_sha256") == source_sha256
+            and metadata.get("schema_version") == SCHEMA_VERSION
             and metadata.get("preprocessing_version") == PREPROCESSING_VERSION
+            and metadata.get("frames") == 60
+            and metadata.get("landmarks_per_frame") == 75
+            and metadata.get("coordinates") == 3
+            and landmarks.shape == (60, 75, 3)
+            and presence_mask.shape == (60, 75)
+            and np.isfinite(landmarks).all()
+            and np.isfinite(presence_mask).all()
+            and np.count_nonzero(landmarks) > 0
+            and float(presence_mask[:, 33:].sum()) > 0.0
         )
     except Exception:
         return False
@@ -76,45 +88,18 @@ def landmarks_to_array(landmarks: object, expected: int) -> np.ndarray:
     return array
 
 
-DEFAULT_MEDIAPIPE_MODEL_URL = (
-    "https://storage.googleapis.com/mediapipe-models/holistic_landmarker/"
-    "holistic_landmarker/float16/1/holistic_landmarker.task"
-)
 DEFAULT_MEDIAPIPE_MODEL_PATH = Path("ml/assets/mediapipe/holistic_landmarker.task")
 PREPROCESSING_VERSION = "mediapipe_tasks_holistic_v1"
 
 
-def download_mediapipe_model(path: Path, model_url: str) -> Path:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    try:
-        with urlopen(model_url, timeout=60) as response:
-            path.write_bytes(response.read())
-    except (ssl.SSLCertVerificationError, URLError) as exc:
-        if isinstance(exc, URLError) and not isinstance(
-            exc.reason, ssl.SSLCertVerificationError
-        ):
-            raise
-        context = ssl._create_unverified_context()  # noqa: S323
-        with urlopen(model_url, timeout=60, context=context) as response:
-            path.write_bytes(response.read())
-    return path
-
-
-def resolve_mediapipe_model(
-    model_path: Path | None,
-    model_url: str,
-    *,
-    download_if_missing: bool = False,
-) -> Path:
+def resolve_mediapipe_model(model_path: Path | None) -> Path:
     path = model_path or DEFAULT_MEDIAPIPE_MODEL_PATH
     if path.exists():
         return path
-    if download_if_missing:
-        return download_mediapipe_model(path, model_url)
     raise FileNotFoundError(
-        "MediaPipe Holistic task model is missing. Run "
-        "`python -m ml.datasets.mosl_video.download_mediapipe_model` or pass "
-        "`--download-model-if-missing` explicitly."
+        "MediaPipe Holistic task model is missing. Provide the local asset with "
+        "`--mediapipe-model` or MEDIAPIPE_HOLISTIC_MODEL_PATH; preprocessing "
+        "never downloads assets."
     )
 
 
@@ -122,8 +107,6 @@ def process_video(
     video_path: Path,
     target_frames: int,
     mediapipe_model_path: Path | None = None,
-    mediapipe_model_url: str = DEFAULT_MEDIAPIPE_MODEL_URL,
-    download_model_if_missing: bool = False,
 ) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
     try:
         import cv2  # type: ignore[import-not-found]
@@ -143,11 +126,7 @@ def process_video(
     if not wanted:
         raise RuntimeError("video_has_no_frames")
 
-    model_path = resolve_mediapipe_model(
-        mediapipe_model_path,
-        mediapipe_model_url,
-        download_if_missing=download_model_if_missing,
-    )
+    model_path = resolve_mediapipe_model(mediapipe_model_path)
     options = vision.HolisticLandmarkerOptions(
         base_options=mp_python.BaseOptions(model_asset_path=str(model_path)),
         running_mode=vision.RunningMode.IMAGE,
@@ -334,8 +313,6 @@ def preprocess_manifest(
     target_frames: int = 60,
     limit: int | None = None,
     mediapipe_model_path: Path | None = None,
-    mediapipe_model_url: str = DEFAULT_MEDIAPIPE_MODEL_URL,
-    download_model_if_missing: bool = False,
     progress_every: int = 25,
 ) -> dict[str, Any]:
     records = load_manifest(manifest)
@@ -344,11 +321,7 @@ def preprocess_manifest(
     statuses: list[dict[str, Any]] = []
     started = perf_counter()
     selected = records[:limit] if limit else records
-    resolved_model_path = resolve_mediapipe_model(
-        mediapipe_model_path,
-        mediapipe_model_url,
-        download_if_missing=download_model_if_missing,
-    )
+    resolved_model_path = resolve_mediapipe_model(mediapipe_model_path)
     for record in selected:
         status = {
             "sha256": record["sha256"],
@@ -400,8 +373,6 @@ def preprocess_manifest(
                 video_path,
                 target_frames=target_frames,
                 mediapipe_model_path=resolved_model_path,
-                mediapipe_model_url=mediapipe_model_url,
-                download_model_if_missing=download_model_if_missing,
             )
             metadata = {
                 **metadata,
@@ -531,13 +502,6 @@ def main() -> None:
             else None
         ),
     )
-    parser.add_argument(
-        "--mediapipe-model-url",
-        default=os.environ.get(
-            "MEDIAPIPE_HOLISTIC_MODEL_URL", DEFAULT_MEDIAPIPE_MODEL_URL
-        ),
-    )
-    parser.add_argument("--download-model-if-missing", action="store_true")
     parser.add_argument("--progress-every", type=int, default=25)
     args = parser.parse_args()
     print(
@@ -550,8 +514,6 @@ def main() -> None:
                 target_frames=args.target_frames,
                 limit=args.limit,
                 mediapipe_model_path=args.mediapipe_model,
-                mediapipe_model_url=args.mediapipe_model_url,
-                download_model_if_missing=args.download_model_if_missing,
                 progress_every=args.progress_every,
             ),
             ensure_ascii=False,

@@ -1,14 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { requestCameraStream, stopCameraStream } from '../services/camera.service';
-import type { CameraQuality, PerformanceMode } from '../types/camera.types';
 
-export function useCameraStream(
-  deviceId: string | null,
-  quality: CameraQuality,
-  performanceMode: PerformanceMode,
-  onError: (error: unknown) => void,
-) {
+export function useCameraStream(onError: (error: unknown) => void) {
   const [stream, setStream] = useState<MediaStream | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
@@ -21,7 +15,7 @@ export function useCameraStream(
   const start = useCallback(async () => {
     stop();
     try {
-      const nextStream = await requestCameraStream(deviceId, quality, performanceMode);
+      const nextStream = await requestCameraStream();
       streamRef.current = nextStream;
       setStream(nextStream);
       return nextStream;
@@ -29,7 +23,7 @@ export function useCameraStream(
       onError(error);
       return null;
     }
-  }, [deviceId, onError, performanceMode, quality, stop]);
+  }, [onError, stop]);
 
   useEffect(() => stop, [stop]);
 

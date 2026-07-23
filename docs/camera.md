@@ -1,23 +1,18 @@
-# Camera
+# Camera lifecycle
 
-The camera is requested only after the user clicks `Activer la camera`.
+The browser requests camera permission only after `Activer la caméra`; it never requests
+microphone permission. Default constraints prefer a front-facing `1280 x 720`, 30 FPS
+stream. The preview is mirrored visually while anatomical left/right landmark blocks are
+kept in model order.
 
-## Permission
+Once granted, the application initializes MediaPipe and automatically enters
+`WAITING_FOR_SIGN`. There is no device/settings panel in the normal one-camera case. A
+small informational note appears only when multiple video inputs are detected; selection
+is otherwise automatic.
 
-The UI explains that video is processed locally, no video is recorded, and only motion landmarks are sent to the backend. The microphone is never requested.
+`Éteindre la caméra`, route teardown, or component teardown stops every media track,
+cancels animation frames/audio/timers, invalidates outstanding recognition work, resets
+the segmenter, and returns to `CAMERA_OFF`. Camera APIs require HTTPS outside localhost.
 
-## Constraints
-
-Default constraints request a user-facing camera with ideal 1280x720 at up to 30 FPS. Low-power modes reduce resolution and analysis frequency.
-
-## Selection And Stop
-
-After permission, `enumerateDevices()` lists available cameras. The selected device id is stored as a local preference. When the user leaves the page, stops the camera, changes session, or the tab is hidden, all video tracks are stopped with `track.stop()`.
-
-## HTTPS
-
-Browser camera APIs require HTTPS outside `localhost`.
-
-## Errors
-
-The UI maps browser errors to French user messages for denied permission, missing device, insecure context, camera in use, unsupported constraints, interruptions, and system failures.
+Permission denial, missing hardware, insecure context, device-in-use, and detector load
+errors are rendered as user-facing messages without revealing a manual capture fallback.

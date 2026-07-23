@@ -1,24 +1,38 @@
-# Dataset Card - Kaggle Moroccan LSM Alphabet
+# Historical Dataset Card - Kaggle Moroccan LSM Alphabet
 
-## Status
+## Current Status
 
-Registered, license pending. Not enabled for training.
+`HISTORICAL_INACTIVE`.
 
-## Source
+This card preserves source and license-review metadata from an earlier alphabet
+experiment. The source is not registered by the current runtime, no local
+downloader or importer exists, no alphabet route or mode is exposed, and the
+dataset is not used by active training.
+
+## Recorded Source
 
 - Provider: Kaggle
 - Dataset: `walidlasseg/moroccan-sign-language-lsm-alphabet-dataset`
-- Task: `ALPHABET_STATIC`
+- Historical task: `ALPHABET_STATIC`
 - Modality: static hand images
 
 ## License
 
-UNCONFIRMED. The pipeline must use official Kaggle metadata or CLI output before enabling training.
+UNCONFIRMED. Earlier code recorded the source as `TO_VERIFY`; this repository
+does not contain authoritative Kaggle license metadata. No training,
+redistribution, or other permission is inferred from this archival card.
 
-## Intended Use
+## Historical Intended Use
 
-Image or hand-landmark recognition of Moroccan Sign Language alphabet letters for fingerspelling.
+The source was evaluated as a possible input for Moroccan Sign Language alphabet
+or fingerspelling research. Alphabet recognition and fingerspelling are outside
+the current single isolated-sign product contract.
 
-## Limits
+## Known Limits
 
-No class count, signer split, or quality claim is made before local audit. Labels require linguistic review.
+- No Kaggle archive is part of the active local corpus.
+- No current class count, signer split, label quality, or model metric is claimed.
+- No downloader, archive importer, source registry, license gate, or alphabet
+  training pipeline remains active.
+- Any future reuse requires a new official-license review, local audit, linguistic
+  review, and explicit product-scope decision.

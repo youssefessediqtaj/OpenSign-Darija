@@ -14,7 +14,6 @@ export type FrameMetadata = {
   leftHandDetected: boolean;
   rightHandDetected: boolean;
   poseDetected: boolean;
-  averageLuminance: number;
 };
 
 export type HolisticFrame = {
@@ -25,11 +24,4 @@ export type HolisticFrame = {
   leftHand: NormalizedLandmark[];
   rightHand: NormalizedLandmark[];
   metadata: FrameMetadata;
-};
-
-export type CompactFrame = {
-  index: number;
-  timestamp_ms: number;
-  features: number[];
-  presence_mask: number[];
 };

@@ -1,19 +1,9 @@
-# Backend Log Checklist
-
-Use these commands while testing dataset collection:
+# API log checklist
 
 ```bash
-make logs-api
-make logs-storage
+docker compose logs api
 ```
 
-Check for:
-
-- `403 CONSENT_REQUIRED` when required consent is missing.
-- `403 VIDEO_CONSENT_REQUIRED` when a video upload is requested without video consent.
-- `403 FORBIDDEN` for reviewer/admin endpoints with the wrong role.
-- Successful `POST /api/v1/contributions/{id}/submit`.
-- Successful review decisions.
-- Successful admin dataset build and validation.
-
-Unexpected stack traces or object-storage errors should block dataset publication.
+Expect only health/version, `/recognitions/word`, and `/speech/sign` traffic. Block on
+tracebacks, DB/Redis/MinIO connection attempts, legacy routes returning non-404, payload
+logging, repeated speech for one segment, or inference/speech dependency failures.

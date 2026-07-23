@@ -1,33 +1,13 @@
-# Roadmap
+# Evidence-led next work
 
-## Phase 1
+The repository intentionally has one user process; new product features are out of scope
+until it is reliable.
 
-Architecture, infrastructure, auth initiale, signes demo et inference simulee.
+Priorities are collecting adequately licensed multi-signer repetitions for the five
+active signs, measuring physical-camera boundary/recognition performance across devices
+and conditions, reducing OOV false acceptance, and validating Arabic speech with Moroccan
+users. Vocabulary expansion requires at least independent train/validation/test examples
+and cannot reuse test results for selection.
 
-## Phase 2
-
-Acces reel a la camera et extraction MediaPipe Holistic.
-
-## Phase 3
-
-Creation du dataset avec consentement, licences dediees et protection des contributeurs.
-
-## Phase 4
-
-Premier modele de reconnaissance.
-
-## Phase 5
-
-Construction des messages Darija.
-
-## Phase 6
-
-Synthese vocale.
-
-## Phase 7
-
-Administration et contribution.
-
-## Phase 8
-
-Application mobile reutilisant les contrats et modules partages.
+Continuous signing, sentence translation, accounts, contribution portals, dataset
+downloads, model selection, and admin dashboards are not implied by this roadmap.

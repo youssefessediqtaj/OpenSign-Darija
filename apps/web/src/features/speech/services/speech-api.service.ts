@@ -1,42 +1,20 @@
-import { apiRequest } from '../../../lib/api';
-import type { SpeechGeneration, SpeechVoice } from '../../../types/api';
-import { guestHeaders } from '../../messages/services/messages-api.service';
+import { publicApiRequest } from '../../../lib/api';
 
-export type SpeechRequest = {
-  voice_id: string;
-  speed: number;
-  format: string;
-  text_source: string;
-  sensitive_confirmed?: boolean;
+export type SignSpeechResponse = {
+  generation_id: string;
+  status: string;
+  audio?: {
+    url: string;
+    mime_type: string;
+    duration_ms?: number;
+    expires_at?: string;
+  } | null;
 };
 
 export const speechApi = {
-  voices: () => apiRequest<{ voices: SpeechVoice[] }>('/api/v1/speech/voices'),
-  status: () =>
-    apiRequest<{
-      mode: string;
-      service_available: boolean;
-      browser_fallback_enabled: boolean;
-      voices_available: number;
-    }>('/api/v1/speech/status'),
-  create: (messageId: string, payload: SpeechRequest, idempotencyKey: string) =>
-    apiRequest<SpeechGeneration>(`/api/v1/messages/${messageId}/speech`, {
+  createForSign: (labelKey: string) =>
+    publicApiRequest<SignSpeechResponse>('/api/v1/speech/sign', {
       method: 'POST',
-      headers: { ...guestHeaders(), 'Idempotency-Key': idempotencyKey },
-      body: JSON.stringify(payload),
-    }),
-  get: (messageId: string, generationId: string) =>
-    apiRequest<SpeechGeneration>(`/api/v1/messages/${messageId}/speech/${generationId}`, {
-      headers: guestHeaders(),
-    }),
-  refreshUrl: (messageId: string, generationId: string) =>
-    apiRequest<SpeechGeneration>(
-      `/api/v1/messages/${messageId}/speech/${generationId}/refresh-url`,
-      { method: 'POST', headers: guestHeaders() },
-    ),
-  delete: (messageId: string, generationId: string) =>
-    apiRequest<{ status: string }>(`/api/v1/messages/${messageId}/speech/${generationId}`, {
-      method: 'DELETE',
-      headers: guestHeaders(),
+      body: JSON.stringify({ label_key: labelKey }),
     }),
 };

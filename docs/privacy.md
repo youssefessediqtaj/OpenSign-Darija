@@ -1,26 +1,14 @@
-# Privacy
+# Recognition privacy
 
-## Processed Locally
+The live camera stream and MediaPipe pixel processing stay in the browser. The core API
+receives only a transient normalized landmark sequence, presence masks, boundary
+metadata, and aggregate quality values. It does not persist the request or prediction.
 
-The browser processes the live camera stream locally to extract landmarks.
+Strict validation forbids raw video, JPEG/PNG frames, canvas exports, screenshots,
+base64 camera data, arbitrary audio, microphone data, and unknown extra fields. The
+browser never calls inference directly. Nginx sets `Permissions-Policy` to allow this
+origin's camera and deny microphone access.
 
-## Sent To Server
-
-Only compact normalized landmark features, presence masks, quality metrics, and anonymous/session metadata are sent.
-
-## Not Sent
-
-- raw video;
-- JPEG or PNG frames;
-- canvas exports;
-- audio;
-- screenshots;
-- full face mesh unless explicitly added in a future schema.
-
-## Stored
-
-The backend stores recognition session metadata and predictions. It does not store the full landmark sequence in PostgreSQL.
-
-## Sensitivity
-
-Landmarks are not fully anonymous. They describe body motion and can be sensitive, so future storage or dataset contribution must require explicit consent and a separate license.
+Landmarks still describe a person's body motion and should be treated as sensitive in
+transport and logs even though they are not raw pixels. The runtime does not turn camera
+sessions into dataset contributions and has no public contribution/import workflow.

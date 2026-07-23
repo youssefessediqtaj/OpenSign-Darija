@@ -27496,7 +27496,10 @@
     "movement_score": 0.5
   },
   "recognition_mode": "WORD_ISOLATED",
+  "segmentation_kind": "dynamic",
+  "segmentation_reliable": true,
   "sequence_id": "123e4567-e89b-42d3-a456-426614174001",
   "source_fps": 30,
-  "target_frame_count": 60
+  "target_frame_count": 60,
+  "usable_frame_count": 60
 }

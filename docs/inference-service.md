@@ -1,13 +1,17 @@
-# Inference Service
+# Internal inference service
 
-The inference service supports:
+The inference container is not exposed by Nginx. Its core routes are:
 
 - `GET /health`
 - `GET /ready`
 - `GET /version`
 - `GET /model`
-- `POST /predict`
-- `POST /predict/mock`
-- `POST /admin/reload-model`
+- `POST /predict/word`
 
-`INFERENCE_MODE=mock` is for development and tests. `INFERENCE_MODE=real` requires a local ONNX model path, labels, thresholds, and calibration files. If the real model is absent, `/ready` returns 503 and predictions fail instead of returning fake results.
+Normal Docker configuration is `INFERENCE_MODE=real`. Startup loads the complete local
+`mosl-isolated-sign-v1` package and fails readiness when its ONNX file, checksum,
+`60 x 75 x 3` input, output class count, labels, Arabic mappings, or calibration sidecar
+is absent or inconsistent. There is no automatic fallback to fake predictions.
+
+The API is the only caller. The browser cannot reach this service and receives only the
+compact recognized/UNKNOWN result after API quality checks.

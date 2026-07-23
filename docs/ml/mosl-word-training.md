@@ -1,67 +1,34 @@
-# MoSL Word Training
+# Local MoSL V1 training
 
-Date: 2026-07-19
-
-Commands:
-
-```bash
-make ml-prepare-word-training-manifest
-make ml-train-smoke
-make ml-validate-word-smoke-model
-make ml-register-word-smoke-model
-make ml-activate-word-smoke
-```
-
-The production-oriented aliases remain placeholders for a future full model workflow:
+Training uses only the native local dataset and its validated landmark caches. It does
+not download or import data.
 
 ```bash
-make ml-train-word
-make ml-evaluate-word
-make ml-export-word
-make ml-package-word
-make ml-register-word-model
+make ml-install
+make ml-dataset-audit
+make ml-validate-mosl-artifacts
+make ml-train-v1
+make ml-validate-model
 ```
 
-## Current Data State
+`ml-dataset-audit` verifies all 2,216 manifest rows, binary checksums, cache shape and
+finiteness, label counts, duplicate groups, deterministic splits, and the absence of
+split leakage. Existing valid `60 x 75 x 3` NPZ caches are reused. `ml-preprocess-mosl`
+is needed only for missing, invalid, or obsolete caches and uses the already-local
+MediaPipe task asset.
 
-- `WORD_ISOLATED` samples: 2,145
-- Processed word samples: 2,145
-- Eligible labels after full preprocessing: 108
-- Eligible samples: 372
-- Smoke subset labels from the manifest: `16`, `17`, `18`, `19`, `لون`
+`ml-train-v1` benchmarks on identical splits:
 
-## Smoke Model
+1. bidirectional GRU;
+2. temporal convolution plus GRU;
+3. lightweight Transformer encoder.
 
-The current validated model package is:
+The run uses deterministic seeds, balanced sampling/class weighting, gradient clipping,
+learning-rate scheduling, early stopping, recoverable checkpoints, and temporal/noise/
+frame-drop/scale/translation augmentation. Horizontal mirroring is intentionally absent.
 
-```text
-artifacts/models/mosl-word-smoke-v1/
-```
-
-Validation requires:
-
-- `model.onnx`
-- `labels.json`
-- `landmark-schema.json`
-- `preprocessing.json`
-- `metrics.json`
-- `onnx-validation.json`
-- `model-card.md`
-- `checksums.json`
-- `training-config.yaml`
-- `dataset-manifest-checksum.txt`
-
-Current ONNX contract:
-
-- Input: `landmarks`, shape `[batch, 60, 75, 3]`
-- Output: `logits`, shape `[batch, 2]`
-- Labels: `16`, `17`
-- ONNX parity max absolute difference: `4.470348358154297e-08`
-
-The smoke model may be registered and activated only for development validation with:
-
-```bash
-APP_ENV=development ALLOW_SMOKE_MODEL_ACTIVATION=true make ml-activate-word-smoke
-```
-
-It is not production-ready.
+The active vocabulary is selected by a declared validation-only policy before test
+metrics are revealed. The complete package is written to
+`artifacts/models/mosl-isolated-sign-v1/`; all final metrics and limitations belong in
+that directory's model card. The much older `mosl-word-smoke-v1` artifact is retained
+only as technical provenance and cannot be activated by the normal user process.

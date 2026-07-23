@@ -1,16 +1,14 @@
-# Manual Browser Testing
+# Manual browser check
 
-Manual checks to run before accepting a dataset release:
+1. Start the real Docker stack and open `http://localhost:8081/app/recognition`.
+2. Confirm there is no login, account, dashboard, mode, model, dataset, or external-source
+   navigation.
+3. Click only `Activer la caméra` and wait for detector readiness.
+4. Perform a supported sign, end naturally, and observe automatic recognition, Arabic
+   display, known-only speech, cooldown, and reset.
+5. Perform another sign without clicking a capture action.
+6. Inspect console and network: no blocking errors; no direct inference; no auth/external
+   request; no raw video/image/audio/microphone body.
 
-1. Start Docker with `docker compose up --build`.
-2. Open `http://localhost:8081`.
-3. Log in as `contributor@example.test`.
-4. Open `/app/contribute/consent` and confirm every checkbox starts unchecked.
-5. Grant only landmark consents and confirm video controls remain unavailable.
-6. Create a contribution and submit it.
-7. Log in as `linguist@example.test`, approve the linguistic review.
-8. Log in as `ml-reviewer@example.test`, approve the ML review.
-9. Log in as `admin@example.test`, build and validate a dataset version.
-10. Confirm the exported manifest has no email or auth user ID.
-
-Real camera/mobile checks are UNCONFIRMED until run on the target browser/device.
+Record unavailable hardware, missing sign performer, or unmeasured physical timings as
+`UNCONFIRMED` rather than substituting a synthetic result.

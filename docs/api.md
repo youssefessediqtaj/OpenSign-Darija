@@ -1,134 +1,82 @@
-# API
+# Core runtime API
 
-## Systeme
+Nginx exposes only the stateless API needed by automatic isolated-sign recognition. The
+public client does not need a token, account, model ID, or dataset choice.
 
-- `GET /health`
-- `GET /api/v1/health`
+## Public endpoints
+
 - `GET /api/v1/version`
+- `GET /api/v1/health`
+- `POST /api/v1/recognitions/word`
+- `POST /api/v1/speech/sign`
 
-## Auth
+The application also exposes `GET /health` as a container health alias. Historical
+account, contribution, message, dataset, model-registry, alphabet, mock-recognition, and
+manual confirmation modules are not mounted in the core runtime.
 
-- `POST /api/v1/auth/register`
-- `POST /api/v1/auth/login`
-- `POST /api/v1/auth/refresh`
-- `POST /api/v1/auth/logout`
-- `GET /api/v1/auth/me`
+## Word recognition
 
-## Signes
+`POST /api/v1/recognitions/word` accepts only JSON landmark data:
 
-- `GET /api/v1/signs?page=1&page_size=20&search=&category=`
-- `GET /api/v1/signs/{sign_id}`
-- `GET /api/v1/categories`
+- mode `WORD_ISOLATED`;
+- schema `OPEN_SIGNE_LANDMARK_SCHEMA_V1`;
+- exactly 60 sequential frames;
+- exactly 75 landmarks per frame;
+- exactly three finite coordinates per landmark;
+- binary 75-element presence mask;
+- duration, quality, and automatic-segmentation metadata.
 
-## Reconnaissance
+Unknown fields are forbidden. Consequently `video`, `image`, `audio`, blobs, base64
+camera data, and developer-only parameters return validation errors rather than being
+silently ignored. Nginx and the API enforce request size limits; the endpoint also has an
+anonymous rate limit.
 
-- `POST /api/v1/recognitions/mock`
-- `POST /api/v1/recognitions`
-- `GET /api/v1/recognitions/{recognition_id}`
-- `POST /api/v1/recognitions/{recognition_id}/confirm`
-- `POST /api/v1/recognitions/{recognition_id}/correct`
-- `GET /api/v1/models/active`
-
-`POST /api/v1/recognitions` accepts compact normalized landmark sequences only. It does not accept images, video, audio, or raw camera frames.
-
-## Messages
-
-- `POST /api/v1/messages`
-- `GET /api/v1/messages`
-- `GET /api/v1/messages/{message_id}`
-- `PATCH /api/v1/messages/{message_id}`
-- `DELETE /api/v1/messages/{message_id}`
-- `POST /api/v1/messages/{message_id}/archive`
-- `POST /api/v1/messages/{message_id}/duplicate`
-- `POST /api/v1/messages/{message_id}/favorite`
-- `DELETE /api/v1/messages/{message_id}/favorite`
-- `POST /api/v1/messages/{message_id}/items`
-- `PATCH /api/v1/messages/{message_id}/items/{item_id}`
-- `DELETE /api/v1/messages/{message_id}/items/{item_id}`
-- `POST /api/v1/messages/{message_id}/items/reorder`
-- `POST /api/v1/messages/{message_id}/generate`
-- `GET /api/v1/messages/{message_id}/generation`
-- `POST /api/v1/messages/{message_id}/regenerate`
-- `POST /api/v1/messages/{message_id}/finalize`
-- `GET /api/v1/messages/{message_id}/revisions`
-- `POST /api/v1/messages/{message_id}/revisions/{revision_id}/restore`
-- `POST /api/v1/messages/{message_id}/speech/prepare`
-
-Guest requests must send `X-Anonymous-Session-Id`. Recognition-derived items require an existing confirmation or correction.
-
-## Linguistics
-
-- `GET /api/v1/linguistics/concepts`
-- `GET /api/v1/linguistics/templates`
-- `GET /api/v1/linguistics/version`
-
-## Dataset Contribution
-
-- `GET /api/v1/consents/templates`
-- `GET /api/v1/consents/me`
-- `POST /api/v1/consents`
-- `POST /api/v1/consents/{consent_id}/revoke`
-- `GET /api/v1/contributors/me`
-- `POST /api/v1/contributors/me`
-- `PATCH /api/v1/contributors/me`
-- `GET /api/v1/contribution-campaigns`
-- `GET /api/v1/contribution-campaigns/{campaign_id}`
-- `GET /api/v1/contribution-campaigns/{campaign_id}/signs`
-- `POST /api/v1/contributions`
-- `GET /api/v1/contributions/me`
-- `GET /api/v1/contributions/{contribution_id}`
-- `PATCH /api/v1/contributions/{contribution_id}`
-- `DELETE /api/v1/contributions/{contribution_id}`
-- `POST /api/v1/contributions/{contribution_id}/recordings`
-- `GET /api/v1/contributions/{contribution_id}/recordings`
-- `DELETE /api/v1/contributions/{contribution_id}/recordings/{recording_id}`
-- `POST /api/v1/contributions/{contribution_id}/recordings/{recording_id}/upload-session`
-- `POST /api/v1/contributions/{contribution_id}/recordings/{recording_id}/confirm-upload`
-- `POST /api/v1/contributions/{contribution_id}/submit`
-- `POST /api/v1/contributions/{contribution_id}/revoke`
-
-## Reviews
-
-- `GET /api/v1/reviews/linguistic/queue`
-- `GET /api/v1/reviews/linguistic/{contribution_id}`
-- `POST /api/v1/reviews/linguistic/{contribution_id}/decision`
-- `GET /api/v1/reviews/ml/queue`
-- `GET /api/v1/reviews/ml/{contribution_id}`
-- `POST /api/v1/reviews/ml/{contribution_id}/decision`
-
-Linguistic review requires `LINGUIST_REVIEWER` or `ADMIN`. ML review requires `ML_REVIEWER` or `ADMIN`.
-
-## Admin Dataset Versions
-
-- `GET /api/v1/admin/datasets`
-- `POST /api/v1/admin/datasets`
-- `GET /api/v1/admin/datasets/{dataset_version_id}`
-- `POST /api/v1/admin/datasets/{dataset_version_id}/build`
-- `POST /api/v1/admin/datasets/{dataset_version_id}/validate`
-- `POST /api/v1/admin/datasets/{dataset_version_id}/publish`
-- `POST /api/v1/admin/datasets/{dataset_version_id}/archive`
-
-Admin exports include approved, non-revoked, upload-confirmed recordings only. Export manifests use anonymous contributor IDs and must not include email or auth user IDs.
-
-## Admin Models
-
-- `GET /api/v1/admin/models`
-- `GET /api/v1/admin/models/{model_id}`
-- `POST /api/v1/admin/models/{model_id}/validate`
-- `POST /api/v1/admin/models/{model_id}/activate`
-- `POST /api/v1/admin/models/{model_id}/archive`
-- `POST /api/v1/admin/models/{model_id}/rollback`
-
-Model activation requires `ML_REVIEWER` or `ADMIN`. The model must be `READY` and include artifact metadata. No mock model is silently activated in production.
-
-Format d’erreur:
+Recognized response:
 
 ```json
 {
-  "error": {
-    "code": "VALIDATION_ERROR",
-    "message": "Les donnees envoyees sont invalides.",
-    "details": {}
-  }
+  "status": "recognized",
+  "label_key": "احب",
+  "label_ar": "أَحَبَّ",
+  "confidence": 0.91,
+  "unknown": false,
+  "latency_ms": 84
 }
 ```
+
+Unknown response:
+
+```json
+{
+  "status": "unknown",
+  "label_key": null,
+  "label_ar": null,
+  "confidence": 0.31,
+  "unknown": true,
+  "latency_ms": 79
+}
+```
+
+Top-K remains inside the API-to-inference contract and is not returned to the public UI.
+Quality rejection and calibrated low confidence both produce the same safe UNKNOWN
+shape.
+
+## Sign speech
+
+`POST /api/v1/speech/sign` accepts exactly:
+
+```json
+{"label_key": "احب"}
+```
+
+The API resolves the Arabic display value from the validated active model package; it
+does not accept arbitrary text from the browser. An unsupported key returns 404. A
+supported key returns a playable WAV data URL and metadata. The API tries the offline
+`ar-MA` voice, then the offline `ar` fallback.
+
+## Internal services
+
+The API alone calls internal `POST /predict/word` on the inference service and
+`POST /synthesize` on the speech service. Neither service is routed by public Nginx.
+Their `/health` and `/ready` endpoints are used for container readiness. Real inference
+fails closed if the package, shapes, labels, calibration, or checksums are inconsistent.

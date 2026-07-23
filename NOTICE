@@ -1,11 +1,20 @@
-OpenSign Darija includes integration code and metadata for public dataset sources.
+OpenSigne Darija retains the following third-party dataset records for attribution
+and license provenance. They are historical evaluation records, not active runtime
+registrations or declarations about the provenance of the current local corpus.
 
-Mendeley Data: "A Dataset for Moroccan Sign Language (MoSL)", Version 1, DOI
-10.17632/23phgyt3mt.1, by FATIMA BEN ZAID, Mohamed BENADDY, and Abdelbasset BOUKDIR,
-licensed CC BY 4.0.
+Mendeley Data: "A Dataset for Moroccan Sign Language (MoSL)", Version 1,
+DOI 10.17632/23phgyt3mt.1, by FATIMA BEN ZAID, Mohamed BENADDY, and
+Abdelbasset BOUKDIR. The cited Mendeley release is recorded as CC BY 4.0.
+Related article DOI 10.1016/j.dib.2025.112395 documents that release and is not
+a second dataset source.
 
-Related ScienceDirect article DOI 10.1016/j.dib.2025.112395 is treated as documentation
-for the same Mendeley dataset, not as a duplicate data source.
+Kaggle: `walidlasseg/moroccan-sign-language-lsm-alphabet-dataset`. Its license
+remains UNCONFIRMED in this repository, so no permission to train on or
+redistribute that dataset is asserted.
 
-The Kaggle Moroccan Sign Language alphabet dataset is registered but disabled until its
-license is verified from official Kaggle metadata.
+The current core has no external-dataset downloader, archive importer, runtime
+source registry, or external-dataset API. Neither cited public dataset is an
+active training input. Active model work reads only the already-local 2,216-video
+corpus under `ml/data/external/mosl-video-dataset/`; equivalence between that
+local corpus and the cited Mendeley release is UNCONFIRMED, so the Mendeley
+license must not be inferred for the local files without separate verification.

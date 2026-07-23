@@ -55,12 +55,7 @@ def fixture_word_landmark_payload() -> dict[str, object]:
         Path(__file__).resolve().parents[3]
         / "tests/fixtures/recognition/word-recognition-v1-valid.json"
     )
-    payload: dict[str, object] = json.loads(fixture_path.read_text(encoding="utf-8"))
-    payload.setdefault("segmentation_kind", "dynamic")
-    payload.setdefault("segmentation_reliable", True)
-    payload.setdefault("usable_frame_count", 60)
-    payload.pop("anonymous_session_id", None)
-    return payload
+    return json.loads(fixture_path.read_text(encoding="utf-8"))
 
 
 def assert_word_validation_path(response: object, expected_fragment: object) -> None:

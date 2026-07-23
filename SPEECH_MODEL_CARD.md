@@ -1,23 +1,20 @@
-# Speech Model Card
+# Offline Arabic speech adapter
 
-Name: OpenSign local experimental speech provider
+- Name: `opensign-system-arabic-v1`
+- Provider: local operating-system speech engine
+- Preferred locale: `ar-MA`/Darija-facing label
+- Fallback locale: `ar`
+- Output: mono WAV at 22,050 Hz
+- External model/API: none
+- Voice cloning: none
+- Input scope: Arabic labels resolved from the active recognition package only
 
-Version: `opensign-tone-v1`
+macOS uses the installed `Majed` Arabic system voice; the Docker image uses local
+`espeak-ng`. Both execute without a shell or network call, write only an ephemeral
+temporary WAV, validate the result, and return it in memory. The output is intelligible
+Arabic system TTS but is not claimed to be a native or high-quality Moroccan voice.
 
-Architecture: deterministic local waveform synthesizer used to exercise the speech architecture, audio validation, storage, playback and fallback workflows.
-
-Dataset: none.
-
-License: Apache-2.0 project code. No external model weights are bundled.
-
-Language/accent: internal locale `ary-MA`; fallback `ar`. This is not a natural Moroccan human voice.
-
-Intended use: private, user-triggered playback of finalized OpenSign Darija messages during development and early accessibility testing.
-
-Prohibited use: voice cloning, impersonation, automatic background playback, speech-to-text, music generation, or presenting the output as a perfect Moroccan speaker.
-
-Limitations: pronunciation is synthetic and experimental; Arabizi and unknown names may be poor; no human quality validation has been completed.
-
-Hardware: CPU.
-
-Update procedure: any future neural model must include license, checksum, model metadata, source repository, commercial-use status and attribution requirements before activation.
+Known limitations include dialect pronunciation, names/diacritics, browser autoplay
+policies, and lack of human listening-quality evaluation. The browser's Arabic
+`speechSynthesis` voice is a last-resort playback fallback when service audio cannot be
+played.

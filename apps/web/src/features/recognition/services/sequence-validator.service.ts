@@ -1,13 +1,11 @@
-import { env } from '../../../config/env';
 import type { HolisticFrame } from '../types/landmark.types';
 import type {
-  CompactLandmarkSequencePayload,
   LandmarkSequence,
   WordRecognitionPayloadValidationError,
   WordRecognitionPayloadValidationResult,
   WordLandmarkSequencePayload,
 } from '../types/sequence.types';
-import { compactFrame, COORDINATE_FORMAT, FEATURE_SCHEMA_VERSION } from './landmark-normalizer.service';
+import type { SegmentationKind } from '../types/recognition-flow.types';
 import {
   normalizeSchemaV1Frame,
   OPEN_SIGNE_COORDINATE_COUNT,
@@ -52,6 +50,12 @@ export function wordValidationErrorMessage(error: WordRecognitionPayloadValidati
       return 'Chaque image doit contenir exactement 75 landmarks.';
     case 'invalid_coordinate_count':
       return 'Chaque landmark doit contenir exactement trois coordonnees.';
+    case 'invalid_segmentation_kind':
+      return 'Le type de segmentation automatique est invalide.';
+    case 'unreliable_segmentation':
+      return 'Les limites du signe ne sont pas assez fiables.';
+    case 'invalid_usable_frame_count':
+      return 'La sequence ne contient pas assez d’images utilisables.';
     case 'non_finite_coordinate':
       return 'Les coordonnees invalides ont ete rejetees avant envoi.';
     case 'invalid_presence_mask':
@@ -86,7 +90,6 @@ export function createLandmarkSequence(frames: HolisticFrame[], startedAt: strin
     startedAt,
     durationMs,
     sourceFps,
-    targetFrameCount: env.landmarkTargetFrames,
     frames,
     rawFrameCount: frames.length,
     validFrameCount: frames.filter(isValidWordSourceFrame).length,
@@ -94,48 +97,33 @@ export function createLandmarkSequence(frames: HolisticFrame[], startedAt: strin
   };
 }
 
-export function toCompactPayload(
-  sequence: LandmarkSequence,
-  anonymousSessionId: string,
-): CompactLandmarkSequencePayload {
-  const sampled = uniformSample(sequence.frames, sequence.targetFrameCount);
-  const frames = sampled
-    .map((frame, index) => compactFrame(frame, index))
-    .filter((frame): frame is NonNullable<typeof frame> => frame !== null);
-  return {
-    sequence_id: sequence.id,
-    captured_at: sequence.startedAt,
-    duration_ms: Math.round(sequence.durationMs),
-    source_fps: sequence.sourceFps,
-    target_frame_count: sequence.targetFrameCount,
-    coordinate_format: COORDINATE_FORMAT,
-    feature_schema_version: FEATURE_SCHEMA_VERSION,
-    frames,
-    quality: {
-      detected_hand_ratio: sequence.quality.detectedHandRatio,
-      detected_face_ratio: sequence.quality.detectedFaceRatio,
-      detected_pose_ratio: sequence.quality.detectedPoseRatio,
-      missing_frame_ratio: sequence.quality.missingFrameRatio,
-      movement_score: sequence.quality.movementScore,
-    },
-    anonymous_session_id: anonymousSessionId,
-  };
-}
-
 export function toWordLandmarkPayload(
   sequence: LandmarkSequence,
-  anonymousSessionId: string,
+  anonymousSessionId: string | undefined,
+  segmentation: {
+    kind: SegmentationKind;
+    reliable: boolean;
+    usableFrameCount: number;
+  },
 ): WordLandmarkSequencePayload {
-  return finalizeWordRecognitionPayloadV1(sequence, anonymousSessionId);
+  return finalizeWordRecognitionPayloadV1(sequence, anonymousSessionId, segmentation);
 }
 
 export function finalizeWordRecognitionPayloadV1(
   sequence: LandmarkSequence,
-  anonymousSessionId: string,
+  anonymousSessionId: string | undefined,
+  segmentation: {
+    kind: SegmentationKind;
+    reliable: boolean;
+    usableFrameCount: number;
+  },
 ): WordLandmarkSequencePayload {
   const validFrames = sequence.frames.filter(isValidWordSourceFrame);
   const sampled = uniformSample(validFrames, WORD_TARGET_FRAME_COUNT);
-  const firstTimestamp = sampled[0]?.timestampMs ?? 0;
+  const outputDurationMs = Math.max(
+    WORD_TARGET_FRAME_COUNT - 1,
+    Math.min(10_000, Math.round(sequence.durationMs)),
+  );
   return {
     sequence_id: sequence.id,
     captured_at: sequence.startedAt,
@@ -147,8 +135,15 @@ export function finalizeWordRecognitionPayloadV1(
     coordinate_count: OPEN_SIGNE_COORDINATE_COUNT,
     coordinate_format: OPEN_SIGNE_COORDINATE_FORMAT,
     feature_schema_version: OPEN_SIGNE_LANDMARK_SCHEMA_VERSION,
+    segmentation_kind: segmentation.kind,
+    segmentation_reliable: segmentation.reliable,
+    usable_frame_count: segmentation.usableFrameCount,
     frames: sampled.map((frame, index) =>
-      normalizeSchemaV1Frame(frame, index, frame.timestampMs - firstTimestamp),
+      normalizeSchemaV1Frame(
+        frame,
+        index,
+        Math.round((index * outputDurationMs) / (WORD_TARGET_FRAME_COUNT - 1)),
+      ),
     ),
     quality: {
       detected_hand_ratio: sequence.quality.detectedHandRatio,
@@ -157,18 +152,8 @@ export function finalizeWordRecognitionPayloadV1(
       missing_frame_ratio: sequence.quality.missingFrameRatio,
       movement_score: sequence.quality.movementScore,
     },
-    anonymous_session_id: anonymousSessionId,
+    ...(anonymousSessionId ? { anonymous_session_id: anonymousSessionId } : {}),
   };
-}
-
-export function validateCompactPayload(payload: CompactLandmarkSequencePayload): string[] {
-  const warnings: string[] = [];
-  if (payload.duration_ms < 500) warnings.push('La sequence est trop courte.');
-  if (payload.duration_ms > 8000) warnings.push('La sequence est trop longue.');
-  if (payload.frames.length !== payload.target_frame_count) warnings.push('Le reechantillonnage a echoue.');
-  if (payload.quality.detected_hand_ratio < 0.35) warnings.push('Aucune main suffisamment visible.');
-  if (payload.quality.movement_score < 0.03) warnings.push('Le mouvement est insuffisant.');
-  return warnings;
 }
 
 export function validateWordLandmarkPayload(payload: WordLandmarkSequencePayload): string[] {
@@ -252,6 +237,37 @@ export function validateWordRecognitionPayloadV1(
       received: payload.coordinate_format,
     });
   }
+  if (payload.segmentation_kind !== 'dynamic' && payload.segmentation_kind !== 'static') {
+    pushError(errors, {
+      code: 'invalid_segmentation_kind',
+      field: 'segmentation_kind',
+      message: 'segmentation_kind must be dynamic or static',
+      expected: 'dynamic|static',
+      received: String(payload.segmentation_kind),
+    });
+  }
+  if (payload.segmentation_reliable !== true) {
+    pushError(errors, {
+      code: 'unreliable_segmentation',
+      field: 'segmentation_reliable',
+      message: 'automatic segmentation must be reliable',
+      expected: 'true',
+      received: String(payload.segmentation_reliable),
+    });
+  }
+  if (
+    !Number.isInteger(payload.usable_frame_count) ||
+    payload.usable_frame_count < MIN_VALID_WORD_FRAMES ||
+    payload.usable_frame_count > WORD_TARGET_FRAME_COUNT
+  ) {
+    pushError(errors, {
+      code: 'invalid_usable_frame_count',
+      field: 'usable_frame_count',
+      message: 'usable_frame_count must be an integer between 8 and 60',
+      expected: '8..60',
+      received: payload.usable_frame_count,
+    });
+  }
   if (!Number.isInteger(payload.duration_ms) || payload.duration_ms < 500 || payload.duration_ms > 8000) {
     pushError(errors, {
       code: 'invalid_duration',
@@ -299,7 +315,7 @@ export function validateWordRecognitionPayloadV1(
       received: payload.quality.detected_pose_ratio,
     });
   }
-  if (payload.quality.movement_score < 0.03) {
+  if (payload.segmentation_kind !== 'static' && payload.quality.movement_score < 0.03) {
     pushError(errors, {
       code: 'insufficient_valid_frames',
       field: 'quality.movement_score',
@@ -346,12 +362,12 @@ export function validateWordRecognitionPayloadV1(
         received: frame.timestamp_ms,
       });
     }
-    if (frame.timestamp_ms < previousTimestamp) {
+    if (frameIndex > 0 && frame.timestamp_ms <= previousTimestamp) {
       pushError(errors, {
         code: 'non_monotonic_timestamp',
         field: `frames.${frameIndex}.timestamp_ms`,
-        message: 'timestamps must be monotonic',
-        expected: `>=${previousTimestamp}`,
+        message: 'timestamps must be strictly increasing',
+        expected: `>${previousTimestamp}`,
         received: frame.timestamp_ms,
       });
     }

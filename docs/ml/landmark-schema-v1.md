@@ -39,6 +39,8 @@ Implemented in `ml/preprocessing/landmark_schema_v1.py`.
 
 ## Compatibility
 
-`WORD_ISOLATED` now uses `OPEN_SIGNE_LANDMARK_SCHEMA_V1` on `POST /api/v1/recognitions/word` and internal `POST /predict/word`.
-
-The legacy `feature_schema_version=1.0.0` contract remains for the root compatibility route and current `ALPHABET_STATIC` path. See `docs/ml/recognition-schema-compatibility.md` for the compatibility matrix and rejection behavior.
+The core product uses `OPEN_SIGNE_LANDMARK_SCHEMA_V1` exclusively on public
+`POST /api/v1/recognitions/word` and internal `POST /predict/word`. Legacy compact and
+alphabet contracts are not mounted in the simplified runtime. A mismatched schema,
+frame count, landmark count, coordinate count, non-finite value, or extra raw-media field
+is rejected.

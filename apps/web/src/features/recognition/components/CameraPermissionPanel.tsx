@@ -16,10 +16,10 @@ export function CameraPermissionPanel({
       <div className="flex items-start gap-3">
         <Camera className="mt-1 h-6 w-6 text-cedar" aria-hidden="true" />
         <div>
-          <h2 className="text-xl font-semibold">Activer la camera</h2>
+          <h2 className="text-xl font-semibold">Activer la caméra</h2>
           <p className="mt-2 text-sm leading-6 text-slate-700 dark:text-slate-300">
-            La video est analysee directement sur votre appareil. Seuls les points de mouvement
-            necessaires a la reconnaissance sont transmis au serveur. Aucune video n’est enregistree
+            La vidéo est analysée directement sur votre appareil. Seuls les points de mouvement
+            nécessaires à la reconnaissance sont transmis au serveur. Aucune vidéo n’est enregistrée
             dans cette version.
           </p>
         </div>
@@ -30,7 +30,7 @@ export function CameraPermissionPanel({
         </p>
       )}
       <Button className="mt-5 w-full sm:w-auto" onClick={onEnable} disabled={isRequesting}>
-        {isRequesting ? 'Demande en cours...' : 'Activer la camera'}
+        {isRequesting ? 'Demande en cours…' : 'Activer la caméra'}
       </Button>
     </section>
   );

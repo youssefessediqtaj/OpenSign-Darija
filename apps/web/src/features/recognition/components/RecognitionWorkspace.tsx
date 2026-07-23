@@ -1,319 +1,498 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { CameraOff, Volume2 } from 'lucide-react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { Button } from '../../../components/Button';
+import { SkipLink } from '../../../components/SkipLink';
+import { speakWithBrowser } from '../../speech/services/browser-speech.service';
+import { speechApi } from '../../speech/services/speech-api.service';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
-import { CameraControls } from './CameraControls';
 import { CameraPreview } from './CameraPreview';
-import { CameraSelector } from './CameraSelector';
-import { CameraStatus } from './CameraStatus';
-import { CaptureCountdown } from './CaptureCountdown';
-import { CaptureProgress } from './CaptureProgress';
-import { FramingGuide } from './FramingGuide';
-import { LandmarkCanvas } from './LandmarkCanvas';
-import { LightingIndicator } from './LightingIndicator';
-import { PredictionPanel } from './PredictionPanel';
-import { RecognitionInstructions } from './RecognitionInstructions';
-import { FingerspellingPanel } from '../../fingerspelling/components/FingerspellingPanel';
-import { useCameraDevices } from '../hooks/useCameraDevices';
 import { useCameraPermission } from '../hooks/useCameraPermission';
 import { useCameraStream } from '../hooks/useCameraStream';
 import { useHolisticLandmarker } from '../hooks/useHolisticLandmarker';
-import { useLandmarkRecorder } from '../hooks/useLandmarkRecorder';
-import { useRecognitionCapture } from '../hooks/useRecognitionCapture';
-import { useRecognitionSubmission } from '../hooks/useRecognitionSubmission';
-import { setPreferredCameraDeviceId } from '../services/camera.service';
-import { evaluateWordCaptureGate } from '../services/capture-state.service';
-import { FEATURE_SCHEMA_VERSION, compactFrame } from '../services/landmark-normalizer.service';
+import { AutomaticSignSegmenter } from '../services/automatic-segmentation.service';
 import { landmarkRecognitionApi, recognitionErrorMessage } from '../services/recognition-api.service';
-import { useRecognitionStore } from '../stores/recognition.store';
-import type { FramingEvaluation } from '../types/framing.types';
+import {
+  createLandmarkSequence,
+  toWordLandmarkPayload,
+  validateWordRecognitionPayloadV1,
+  wordValidationErrorMessage,
+} from '../services/sequence-validator.service';
 import type { HolisticFrame } from '../types/landmark.types';
-import { evaluateFraming } from '../utils/framing-evaluator';
-import { movementScore } from '../utils/sequence-statistics';
+import type {
+  PublicRecognitionResult,
+  RecognitionFlowState,
+  SegmentedSign,
+} from '../types/recognition-flow.types';
 
-const emptyEvaluation: FramingEvaluation = {
-  isReady: false,
-  faceVisible: false,
-  torsoVisible: false,
-  leftHandVisible: false,
-  rightHandVisible: false,
-  shouldersVisible: false,
-  centered: false,
-  distance: 'too_far',
-  lighting: 'too_dark',
-  stability: 'unstable',
-  warnings: ['FACE_MISSING', 'TORSO_MISSING', 'HANDS_MISSING'],
+const FLOW_LABELS: Record<RecognitionFlowState, string> = {
+  CAMERA_OFF: 'Caméra éteinte',
+  INITIALIZING: 'Initialisation de la caméra…',
+  WAITING_FOR_SIGN: 'Prêt — Faites un signe',
+  CAPTURING: 'Signe détecté…',
+  RECOGNIZING: 'Reconnaissance en cours…',
+  DISPLAYING: 'Résultat disponible',
+  SPEAKING: 'Lecture audio…',
+  COOLDOWN: 'Revenez en position de repos',
+  ERROR: 'Service momentanément indisponible',
 };
+
+const REJECTION_MESSAGES = {
+  too_short: 'Signe trop court. Réessayez naturellement.',
+  insufficient_usable_frames: 'Gardez au moins une main et le haut du corps visibles.',
+  unreliable_boundary: 'Le début ou la fin du signe n’est pas assez net.',
+} as const;
+
+type VisibleResult = {
+  segmentId: string;
+  labelKey: string | null;
+  labelAr: string;
+  unknown: boolean;
+};
+
+function isKnownResult(
+  result: PublicRecognitionResult,
+): result is PublicRecognitionResult & { label_key: string; label_ar: string } {
+  return (
+    result.status === 'recognized' &&
+    result.unknown === false &&
+    typeof result.label_key === 'string' &&
+    result.label_key.length > 0 &&
+    typeof result.label_ar === 'string' &&
+    result.label_ar.length > 0
+  );
+}
 
 export function RecognitionWorkspace() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const recentFramesRef = useRef<HolisticFrame[]>([]);
-  const lastUiUpdateRef = useRef(0);
-  const [latestFrame, setLatestFrame] = useState<HolisticFrame | null>(null);
-  const [evaluation, setEvaluation] = useState<FramingEvaluation>(emptyEvaluation);
-  const [mode, setMode] = useState<'word' | 'alphabet'>('word');
-  const [alphabetResult, setAlphabetResult] = useState<Awaited<ReturnType<typeof landmarkRecognitionApi.submitAlphabet>> | null>(null);
-  const [alphabetPending, setAlphabetPending] = useState(false);
-  const [alphabetError, setAlphabetError] = useState('');
-  const [alphabetModelActive, setAlphabetModelActive] = useState(false);
-  const { preferences, anonymousSessionId, updatePreferences } = useRecognitionStore();
-  const permission = useCameraPermission();
-  const { devices } = useCameraDevices(Boolean(videoRef.current) || permission.status === 'READY');
-  const submission = useRecognitionSubmission();
-  const recorder = useLandmarkRecorder(anonymousSessionId);
-  const startRecorder = recorder.start;
-  const startRecording = useCallback(() => startRecorder(), [startRecorder]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const segmenterRef = useRef(new AutomaticSignSegmenter());
+  const flowStateRef = useRef<RecognitionFlowState>('CAMERA_OFF');
+  const recognizeSegmentRef = useRef<(segment: SegmentedSign) => void>(() => undefined);
+  const sessionRef = useRef(0);
+  const speechRunRef = useRef(0);
+  const hadCameraStreamRef = useRef(false);
+  const timerRefs = useRef(new Set<number>());
+  const autoSpokenSegmentsRef = useRef(new Set<string>());
+  const [flowState, setFlowState] = useState<RecognitionFlowState>('CAMERA_OFF');
+  const [visibleResult, setVisibleResult] = useState<VisibleResult | null>(null);
+  const [detailMessage, setDetailMessage] = useState('');
+  const [audioMessage, setAudioMessage] = useState('');
 
-  const camera = useCameraStream(
-    preferences.preferredDeviceId,
-    preferences.cameraQuality,
-    preferences.performanceMode,
-    permission.markError,
+  const transition = useCallback((nextState: RecognitionFlowState) => {
+    flowStateRef.current = nextState;
+    setFlowState(nextState);
+  }, []);
+
+  const clearTimers = useCallback(() => {
+    timerRefs.current.forEach((timer) => window.clearTimeout(timer));
+    timerRefs.current.clear();
+  }, []);
+
+  const schedule = useCallback((callback: () => void, delayMs: number) => {
+    const timer = window.setTimeout(() => {
+      timerRefs.current.delete(timer);
+      callback();
+    }, delayMs);
+    timerRefs.current.add(timer);
+    return timer;
+  }, []);
+
+  const {
+    status: permissionStatus,
+    errorMessage: permissionErrorMessage,
+    setStatus: setPermissionStatus,
+    markRequesting,
+    markGranted,
+    markError,
+  } = useCameraPermission();
+  const {
+    stream: cameraStream,
+    start: startCameraStream,
+    stop: stopCameraStream,
+  } = useCameraStream(markError);
+
+  const enterCooldown = useCallback(() => {
+    if (!cameraStream) return;
+    segmenterRef.current.beginCooldown(performance.now());
+    transition('COOLDOWN');
+  }, [cameraStream, transition]);
+
+  const cancelSpeech = useCallback(() => {
+    speechRunRef.current += 1;
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+    }
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+  }, []);
+
+  const finishSpeech = useCallback(
+    (speechRun: number, unavailable = false) => {
+      if (speechRun !== speechRunRef.current) return;
+      if (unavailable) setAudioMessage('Audio indisponible. Le résultat reste affiché.');
+      enterCooldown();
+    },
+    [enterCooldown],
   );
+
+  const playWithBrowserSpeech = useCallback(
+    (text: string, speechRun: number) => {
+      try {
+        const utterance = speakWithBrowser(text, 1, 1);
+        let finished = false;
+        const finish = (unavailable = false) => {
+          if (finished) return;
+          finished = true;
+          finishSpeech(speechRun, unavailable);
+        };
+        utterance.onend = () => finish();
+        utterance.onerror = () => finish(true);
+        schedule(() => finish(), 12_000);
+      } catch {
+        finishSpeech(speechRun, true);
+      }
+    },
+    [finishSpeech, schedule],
+  );
+
+  const speakResult = useCallback(
+    async (result: VisibleResult, automatic: boolean) => {
+      if (result.unknown || !result.labelKey) return;
+      if (automatic && autoSpokenSegmentsRef.current.has(result.segmentId)) return;
+      if (automatic) autoSpokenSegmentsRef.current.add(result.segmentId);
+
+      cancelSpeech();
+      const speechRun = speechRunRef.current;
+      setAudioMessage('');
+      transition('SPEAKING');
+
+      try {
+        const speech = await speechApi.createForSign(result.labelKey);
+        if (speechRun !== speechRunRef.current) return;
+        const audioUrl = speech.audio?.url;
+        const audio = audioRef.current;
+        if (!audioUrl || !audio) throw new Error('Audio indisponible');
+
+        let playbackStarted = false;
+        let playbackFinished = false;
+        const finish = (unavailable = false) => {
+          if (playbackFinished) return;
+          playbackFinished = true;
+          if (speechRun !== speechRunRef.current) return;
+          audio.onended = null;
+          audio.onerror = null;
+          finishSpeech(speechRun, unavailable);
+        };
+        audio.onended = () => finish();
+        audio.onerror = () => finish(true);
+        audio.src = audioUrl;
+        audio.load();
+        try {
+          await audio.play();
+          playbackStarted = true;
+          schedule(() => finish(), 20_000);
+        } catch {
+          audio.onended = null;
+          audio.onerror = null;
+        }
+        if (!playbackStarted) playWithBrowserSpeech(result.labelAr, speechRun);
+      } catch {
+        if (speechRun === speechRunRef.current) playWithBrowserSpeech(result.labelAr, speechRun);
+      }
+    },
+    [cancelSpeech, finishSpeech, playWithBrowserSpeech, schedule, transition],
+  );
+
+  const recognizeSegment = useCallback(
+    async (segment: SegmentedSign) => {
+      const session = sessionRef.current;
+      if (segmenterRef.current.shouldSuppressDuplicate(segment, performance.now())) {
+        setDetailMessage('Signe déjà traité. Revenez en position de repos.');
+        enterCooldown();
+        return;
+      }
+
+      try {
+        const sequence = createLandmarkSequence(segment.sourceFrames, new Date().toISOString());
+        const payload = toWordLandmarkPayload(sequence, undefined, {
+          kind: segment.kind,
+          reliable: segment.reliable,
+          usableFrameCount: segment.usableFrameCount,
+        });
+        const validation = validateWordRecognitionPayloadV1(payload, {
+          rawFrameCount: sequence.rawFrameCount,
+          validFrameCount: sequence.validFrameCount,
+        });
+        if (!validation.valid) {
+          throw new Error(wordValidationErrorMessage(validation.errors[0]));
+        }
+
+        const response = await landmarkRecognitionApi.submitWordSequence(payload);
+        if (session !== sessionRef.current || !cameraStream) return;
+
+        segmenterRef.current.rememberRecognized(segment, performance.now());
+        if (!isKnownResult(response)) {
+          const unknownResult: VisibleResult = {
+            segmentId: segment.id,
+            labelKey: null,
+            labelAr: 'الإشارة غير معروفة',
+            unknown: true,
+          };
+          setVisibleResult(unknownResult);
+          setDetailMessage('Signe non reconnu. Réessayez avec un mouvement bien délimité.');
+          setAudioMessage('');
+          transition('DISPLAYING');
+          schedule(enterCooldown, 1_500);
+          return;
+        }
+
+        const knownResult: VisibleResult = {
+          segmentId: segment.id,
+          labelKey: response.label_key,
+          labelAr: response.label_ar,
+          unknown: false,
+        };
+        setVisibleResult(knownResult);
+        setDetailMessage('');
+        transition('DISPLAYING');
+        void speakResult(knownResult, true);
+      } catch (error) {
+        if (session !== sessionRef.current || !cameraStream) return;
+        setVisibleResult(null);
+        setDetailMessage(
+          error instanceof Error && !(error.name === 'ApiError')
+            ? error.message
+            : recognitionErrorMessage(error),
+        );
+        transition('ERROR');
+        schedule(enterCooldown, 1_800);
+      }
+    },
+    [cameraStream, enterCooldown, schedule, speakResult, transition],
+  );
+
+  useEffect(() => {
+    recognizeSegmentRef.current = (segment) => {
+      void recognizeSegment(segment);
+    };
+  }, [recognizeSegment]);
 
   const handleFrame = useCallback(
     (frame: HolisticFrame) => {
-      recentFramesRef.current = [...recentFramesRef.current.slice(-8), frame];
-      recorder.addFrame(frame);
-      if (performance.now() - lastUiUpdateRef.current > 150) {
-        lastUiUpdateRef.current = performance.now();
-        setLatestFrame(frame);
-        setEvaluation(evaluateFraming(frame, movementScore(recentFramesRef.current)));
+      const event = segmenterRef.current.ingest(frame, flowStateRef.current);
+      if (event.type === 'started') {
+        setDetailMessage(event.kind === 'static' ? 'Signe statique détecté.' : 'Mouvement détecté.');
+        transition('CAPTURING');
+      } else if (event.type === 'completed') {
+        setDetailMessage('');
+        transition('RECOGNIZING');
+        recognizeSegmentRef.current(event.segment);
+      } else if (event.type === 'rejected') {
+        setDetailMessage(REJECTION_MESSAGES[event.reason]);
+        segmenterRef.current.beginCooldown(frame.timestampMs);
+        transition('COOLDOWN');
+      } else if (event.type === 'reset') {
+        setVisibleResult(null);
+        setDetailMessage('');
+        setAudioMessage('');
+        transition('WAITING_FOR_SIGN');
       }
     },
-    [recorder],
+    [transition],
   );
 
-  const landmarker = useHolisticLandmarker(
-    videoRef,
-    Boolean(camera.stream),
-    handleFrame,
-    preferences.performanceMode,
-  );
-  const startLandmarker = landmarker.start;
-
-  const isCameraActive = Boolean(camera.stream);
-  const isSubmitting = submission.isPending || recorder.phase === 'submitting';
-  const isMockCamera = location.search.includes('mockCamera');
-  const captureGate = evaluateWordCaptureGate({
-    mode,
-    cameraReady: isCameraActive,
-    detectorStatus: landmarker.status,
-    evaluation,
-    recorderPhase: recorder.phase,
-    isSubmitting,
-    mockCamera: isMockCamera,
-  });
-  const canCapture = captureGate.canCapture;
-  const countdown = useRecognitionCapture(startRecording);
+  const {
+    status: landmarkerStatus,
+    error: landmarkerError,
+    start: startLandmarker,
+    stop: stopLandmarker,
+  } = useHolisticLandmarker(videoRef, Boolean(cameraStream), handleFrame);
 
   const startCamera = useCallback(async () => {
-    permission.markRequesting();
-    const stream = await camera.start();
+    clearTimers();
+    cancelSpeech();
+    sessionRef.current += 1;
+    autoSpokenSegmentsRef.current.clear();
+    segmenterRef.current.reset();
+    setVisibleResult(null);
+    setDetailMessage('');
+    setAudioMessage('');
+    markRequesting();
+    transition('INITIALIZING');
+    const stream = await startCameraStream();
     if (stream) {
-      permission.markGranted();
-      permission.setStatus('READY');
+      markGranted();
+      setPermissionStatus('READY');
+    } else {
+      transition('ERROR');
     }
-  }, [camera, permission]);
-
-  useEffect(() => {
-    if (!camera.stream) return;
-    void startLandmarker();
-  }, [camera.stream, startLandmarker]);
+  }, [cancelSpeech, clearTimers, markGranted, markRequesting, setPermissionStatus, startCameraStream, transition]);
 
   const stopCamera = useCallback(() => {
-    landmarker.stop();
-    camera.stop();
-    recorder.cancel();
-    permission.setStatus('STOPPED');
-  }, [camera, landmarker, permission, recorder]);
-
-  const finishCapture = useCallback(async () => {
-    const payload = recorder.finish();
-    if (!payload) return;
-    try {
-      await submission.mutateAsync(payload);
-      recorder.markComplete();
-    } catch (error) {
-      recorder.markError(recognitionErrorMessage(error));
-    }
-  }, [recorder, submission]);
-
-  const beginWordCapture = useCallback(() => {
-    if (!captureGate.canCapture) {
-      recorder.markError(captureGate.reason ?? 'La capture n’est pas prete.');
-      return;
-    }
-    countdown.beginCountdown();
-  }, [captureGate.canCapture, captureGate.reason, countdown, recorder]);
-
-  const engineStatus = useMemo(() => {
-    if (landmarker.status === 'loading') return 'Chargement du moteur de detection...';
-    if (landmarker.status === 'fallback') return 'Mode test sans MediaPipe';
-    if (landmarker.status === 'ready') return 'MediaPipe pret';
-    if (landmarker.status === 'error') return 'Erreur MediaPipe';
-    return 'En attente';
-  }, [landmarker.status]);
+    sessionRef.current += 1;
+    clearTimers();
+    cancelSpeech();
+    stopLandmarker();
+    stopCameraStream();
+    segmenterRef.current.reset();
+    autoSpokenSegmentsRef.current.clear();
+    setVisibleResult(null);
+    setDetailMessage('');
+    setAudioMessage('');
+    setPermissionStatus('STOPPED');
+    transition('CAMERA_OFF');
+  }, [cancelSpeech, clearTimers, setPermissionStatus, stopCameraStream, stopLandmarker, transition]);
 
   useEffect(() => {
-    void landmarkRecognitionApi
-      .activeModel(mode === 'alphabet' ? 'ALPHABET_STATIC' : 'WORD_ISOLATED')
-      .then((model) => {
-        if (mode === 'alphabet') setAlphabetModelActive(model.is_active);
-      })
-      .catch(() => {
-        if (mode === 'alphabet') setAlphabetModelActive(false);
-      });
-  }, [mode]);
+    if (!cameraStream) return;
+    void startLandmarker();
+  }, [cameraStream, startLandmarker]);
 
-  const recognizeAlphabet = useCallback(async () => {
-    if (!latestFrame) {
-      setAlphabetError('Activez la caméra et gardez une main visible.');
+  useEffect(() => {
+    if (cameraStream) {
+      hadCameraStreamRef.current = true;
       return;
     }
-    const compact = compactFrame(latestFrame, 0);
-    if (!compact) {
-      setAlphabetError('Landmarks insuffisants pour analyser la lettre.');
-      return;
+    if (!hadCameraStreamRef.current) return;
+    hadCameraStreamRef.current = false;
+    sessionRef.current += 1;
+    clearTimers();
+    cancelSpeech();
+    stopLandmarker();
+    segmenterRef.current.reset();
+    autoSpokenSegmentsRef.current.clear();
+    setVisibleResult(null);
+    setDetailMessage('');
+    setAudioMessage('');
+    setPermissionStatus('STOPPED');
+    transition('CAMERA_OFF');
+  }, [cameraStream, cancelSpeech, clearTimers, setPermissionStatus, stopLandmarker, transition]);
+
+  useEffect(() => {
+    if (!cameraStream) return;
+    if (landmarkerStatus === 'ready' && flowStateRef.current === 'INITIALIZING') {
+      setDetailMessage('La détection démarre automatiquement.');
+      transition('WAITING_FOR_SIGN');
+    } else if (landmarkerStatus === 'error') {
+      setDetailMessage(landmarkerError ?? 'Le moteur de détection est indisponible.');
+      transition('ERROR');
     }
-    setAlphabetPending(true);
-    setAlphabetError('');
-    try {
-      const result = await landmarkRecognitionApi.submitAlphabet({
-        sequence_id: crypto.randomUUID(),
-        captured_at: new Date().toISOString(),
-        feature_schema_version: FEATURE_SCHEMA_VERSION,
-        hand: latestFrame.metadata.rightHandDetected ? 'right' : latestFrame.metadata.leftHandDetected ? 'left' : 'unknown',
-        features: compact.features,
-        presence_mask: compact.presence_mask,
-        stability_frames: recentFramesRef.current.length,
-        anonymous_session_id: anonymousSessionId,
-      });
-      setAlphabetResult(result);
-    } catch {
-      setAlphabetError('Le modèle alphabet est indisponible.');
-    } finally {
-      setAlphabetPending(false);
-    }
-  }, [anonymousSessionId, latestFrame]);
+  }, [cameraStream, landmarkerError, landmarkerStatus, transition]);
+
+  useEffect(
+    () => () => {
+      sessionRef.current += 1;
+      clearTimers();
+      cancelSpeech();
+    },
+    [cancelSpeech, clearTimers],
+  );
+
+  const cameraActive = Boolean(cameraStream);
+  const repeatDisabled = !visibleResult || visibleResult.unknown || flowState === 'SPEAKING';
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-6 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
-      <div className="mb-5">
-        <h1 className="text-3xl font-bold">Reconnaissance camera</h1>
-        <p className="mt-2 text-slate-700 dark:text-slate-300">
-          Reconnaissance expérimentale d’un vocabulaire limité. OpenSign Darija peut se tromper. Vérifiez toujours le résultat avant de l’utiliser.
-        </p>
-      </div>
-      <div className="mb-5 rounded-md border border-slate-200 bg-white p-2 dark:border-slate-800 dark:bg-slate-900" role="tablist" aria-label="Mode de reconnaissance">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === 'word'}
-          className={`rounded-md px-4 py-2 text-sm font-semibold ${mode === 'word' ? 'bg-cedar text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}
-          onClick={() => setMode('word')}
-        >
-          Reconnaître un signe
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === 'alphabet'}
-          className={`rounded-md px-4 py-2 text-sm font-semibold ${mode === 'alphabet' ? 'bg-cedar text-white' : 'hover:bg-slate-100 dark:hover:bg-slate-800'}`}
-          onClick={() => setMode('alphabet')}
-        >
-          Épeler un mot
-        </button>
-        <p className="px-2 pb-1 pt-2 text-sm text-slate-600 dark:text-slate-300">
-          {mode === 'word'
-            ? 'Reconnaître un signe utilise les mouvements des mains, du visage et du corps.'
-            : 'Épeler un mot reconnaît les lettres une par une et ne remplace pas la reconnaissance de signes.'}
-        </p>
-      </div>
-      <RecognitionInstructions />
-      <div className="mt-5 grid gap-5 lg:grid-cols-[1.3fr_0.7fr]">
-        <div className="space-y-4">
-          {!isCameraActive && (
+    <div className="min-h-screen bg-mist text-ink dark:bg-slate-950 dark:text-slate-50">
+      <SkipLink />
+      <header className="border-b border-slate-200 bg-white/95 dark:border-slate-800 dark:bg-slate-900">
+        <div className="mx-auto max-w-4xl px-4 py-4 text-lg font-bold">OpenSigne Darija</div>
+      </header>
+      <main id="main" className="mx-auto max-w-4xl px-4 py-8 pb-[calc(env(safe-area-inset-bottom)+2rem)]">
+        <div className="mb-6 max-w-2xl">
+          <h1 className="text-3xl font-bold">Reconnaissance de signes</h1>
+          <p className="mt-2 text-slate-700 dark:text-slate-300">
+            Activez la caméra, puis signez naturellement. La détection, la reconnaissance et la
+            lecture du résultat sont automatiques.
+          </p>
+        </div>
+
+        {!cameraActive && (
+          <div className="space-y-3">
             <CameraPermissionPanel
               onEnable={startCamera}
-              errorMessage={permission.errorMessage}
-              isRequesting={permission.status === 'REQUESTING_PERMISSION'}
+              errorMessage={permissionErrorMessage}
+              isRequesting={permissionStatus === 'REQUESTING_PERMISSION'}
             />
-          )}
-          <CameraPreview
-            stream={camera.stream}
-            videoRef={videoRef}
-            isMirrored={preferences.preferredDeviceId === null}
-          >
-            <LandmarkCanvas frame={latestFrame} enabled={preferences.showLandmarks} />
-            <CaptureCountdown value={countdown.countdown} />
-          </CameraPreview>
-          <div className="grid gap-3 md:grid-cols-2">
-            <CameraSelector
-              devices={devices}
-              value={preferences.preferredDeviceId}
-              disabled={recorder.phase === 'capturing' || isSubmitting}
-              onChange={(deviceId) => {
-                setPreferredCameraDeviceId(deviceId);
-                updatePreferences({ preferredDeviceId: deviceId });
-              }}
-            />
-            <CameraStatus status={permission.status} engineStatus={engineStatus} />
+            {flowState === 'INITIALIZING' && (
+              <p className="text-sm font-semibold text-slate-700 dark:text-slate-300" role="status" aria-live="polite">
+                {FLOW_LABELS.INITIALIZING}
+              </p>
+            )}
           </div>
-          <CameraControls
-            canCapture={mode === 'word' && canCapture}
-            isCameraActive={isCameraActive}
-            isCapturing={recorder.phase === 'capturing'}
-            isSubmitting={isSubmitting}
-            onStartCamera={startCamera}
-            onStopCamera={stopCamera}
-            onStartCapture={beginWordCapture}
-            onFinishCapture={finishCapture}
-            onCancelCapture={() => {
-              countdown.cancelCountdown();
-              recorder.cancel();
-            }}
-            showLandmarks={preferences.showLandmarks}
-            onToggleLandmarks={() => updatePreferences({ showLandmarks: !preferences.showLandmarks })}
-          />
-          {recorder.validationErrors.length > 0 && (
-            <div className="rounded-md border border-coral bg-red-50 p-3 text-sm text-coral" role="alert">
-              {recorder.validationErrors.join(' ')}
+        )}
+
+        {cameraActive && (
+          <div className="space-y-5">
+            <CameraPreview stream={cameraStream} videoRef={videoRef} isMirrored>
+              {null}
+            </CameraPreview>
+
+            <section
+              className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900"
+              aria-labelledby="recognition-status"
+            >
+              <div className="flex items-center gap-3">
+                <span
+                  className={`h-3 w-3 rounded-full ${
+                    flowState === 'ERROR'
+                      ? 'bg-coral'
+                      : flowState === 'WAITING_FOR_SIGN'
+                        ? 'bg-emerald-500'
+                        : 'bg-amber-400'
+                  }`}
+                  aria-hidden="true"
+                />
+                <p id="recognition-status" className="font-semibold" role="status" aria-live="polite">
+                  {flowState === 'DISPLAYING' && visibleResult?.unknown
+                    ? 'Signe non reconnu'
+                    : FLOW_LABELS[flowState]}
+                </p>
+              </div>
+              {detailMessage && <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">{detailMessage}</p>}
+
+              {visibleResult && (
+                <div className="mt-5 border-t border-slate-200 pt-5 text-center dark:border-slate-700">
+                  <p className="text-sm font-medium text-slate-500">
+                    {visibleResult.unknown ? 'Signe non reconnu' : 'Signe reconnu'}
+                  </p>
+                  <p
+                    className="mt-2 text-5xl font-bold leading-tight text-cedar dark:text-teal-300 sm:text-6xl"
+                    lang="ar"
+                    dir="rtl"
+                    aria-live="assertive"
+                    data-testid="arabic-result"
+                  >
+                    {visibleResult.labelAr}
+                  </p>
+                  {audioMessage && <p className="mt-3 text-sm text-amber-700 dark:text-amber-300">{audioMessage}</p>}
+                </div>
+              )}
+            </section>
+
+            <div className="flex flex-wrap gap-3">
+              {visibleResult && !visibleResult.unknown && (
+                <Button
+                  variant="secondary"
+                  disabled={repeatDisabled}
+                  onClick={() => void speakResult(visibleResult, false)}
+                >
+                  <Volume2 className="mr-2 inline h-5 w-5" aria-hidden="true" />
+                  Répéter l’audio
+                </Button>
+              )}
+              <Button variant="ghost" onClick={stopCamera}>
+                <CameraOff className="mr-2 inline h-5 w-5" aria-hidden="true" />
+                Éteindre la caméra
+              </Button>
             </div>
-          )}
-          {mode === 'word' && captureGate.reason && !recorder.validationErrors.length && (
-            <p className="rounded-md border border-amber-300 bg-amber-50 p-3 text-sm text-amber-800" role="status">
-              {captureGate.reason}
-            </p>
-          )}
-        </div>
-        <div className="space-y-4">
-          <FramingGuide evaluation={evaluation} />
-          <LightingIndicator lighting={evaluation.lighting} />
-          {mode === 'word' ? (
-            <>
-              <CaptureProgress phase={recorder.phase} frameCount={recorder.frameCount} />
-              <PredictionPanel result={submission.data ?? null} />
-            </>
-          ) : (
-            <FingerspellingPanel
-              result={alphabetResult}
-              isModelAvailable={alphabetModelActive}
-              isPending={alphabetPending}
-              onRecognize={recognizeAlphabet}
-            />
-          )}
-          {alphabetError && mode === 'alphabet' && (
-            <p className="rounded-md border border-coral bg-red-50 p-3 text-sm text-coral" role="alert">
-              {alphabetError}
-            </p>
-          )}
-          {submission.isError && mode === 'word' && recorder.validationErrors.length === 0 && (
-            <p className="rounded-md border border-coral bg-red-50 p-3 text-sm text-coral" role="alert">
-              {recognitionErrorMessage(submission.error)}
-            </p>
-          )}
-        </div>
-      </div>
-    </section>
+          </div>
+        )}
+
+        <audio ref={audioRef} className="hidden" preload="none" aria-hidden="true" />
+      </main>
+    </div>
   );
 }

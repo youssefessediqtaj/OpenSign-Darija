@@ -1,48 +1,51 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { env } from '../../../config/env';
-import { loadHolisticLandmarker, resultToFrame, createSyntheticFrame } from '../services/holistic.service';
+import { createAutomaticTestFrame, loadHolisticLandmarker, resultToFrame } from '../services/holistic.service';
 import type { HolisticFrame } from '../types/landmark.types';
 
-function estimateLuminance(video: HTMLVideoElement, canvas: HTMLCanvasElement): number {
-  const context = canvas.getContext('2d', { willReadFrequently: true });
-  if (!context || video.videoWidth === 0) return 120;
-  canvas.width = 32;
-  canvas.height = 18;
-  context.drawImage(video, 0, 0, canvas.width, canvas.height);
-  const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
-  let total = 0;
-  for (let index = 0; index < pixels.length; index += 4) {
-    total += pixels[index] * 0.2126 + pixels[index + 1] * 0.7152 + pixels[index + 2] * 0.0722;
-  }
-  return total / (pixels.length / 4);
-}
+const DETECTOR_TARGET_FPS = 20;
 
 export function useHolisticLandmarker(
   videoRef: React.RefObject<HTMLVideoElement>,
   enabled: boolean,
   onFrame: (frame: HolisticFrame) => void,
-  performanceMode: 'AUTO' | 'QUALITY' | 'BALANCED' | 'PERFORMANCE',
 ) {
   const [status, setStatus] = useState<'idle' | 'loading' | 'ready' | 'fallback' | 'error'>('idle');
   const [error, setError] = useState<string | null>(null);
   const rafRef = useRef<number | null>(null);
+  const runIdRef = useRef(0);
+  const runningRef = useRef(false);
+  const onFrameRef = useRef(onFrame);
   const lastRunRef = useRef(0);
   const frameIndexRef = useRef(0);
-  const luminanceCanvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    onFrameRef.current = onFrame;
+  }, [onFrame]);
 
   const stop = useCallback(() => {
+    runningRef.current = false;
+    runIdRef.current += 1;
     if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     rafRef.current = null;
   }, []);
 
   const start = useCallback(async () => {
     if (!enabled) return;
+    if (runningRef.current) return;
+    runningRef.current = true;
+    const runId = runIdRef.current + 1;
+    runIdRef.current = runId;
     setStatus('loading');
     setError(null);
+    frameIndexRef.current = 0;
+    lastRunRef.current = 0;
+    const useAutomaticTestFrames =
+      import.meta.env.DEV && new URLSearchParams(window.location.search).has('mockCamera');
     let landmarker: Awaited<ReturnType<typeof loadHolisticLandmarker>> | null = null;
-    if (location.search.includes('mockCamera')) {
-      setStatus('fallback');
+    if (useAutomaticTestFrames) {
+      if (!runningRef.current || runIdRef.current !== runId) return;
+      setStatus('ready');
     } else {
       try {
         landmarker = await Promise.race([
@@ -51,42 +54,58 @@ export function useHolisticLandmarker(
             window.setTimeout(() => reject(new Error('MediaPipe timeout')), 12000);
           }),
         ]);
+        if (!runningRef.current || runIdRef.current !== runId) return;
         setStatus('ready');
       } catch (loadError) {
-        setStatus('fallback');
+        if (runIdRef.current !== runId) return;
+        runningRef.current = false;
+        setStatus('error');
         setError(loadError instanceof Error ? loadError.message : 'MediaPipe indisponible');
+        return;
       }
     }
-    const targetFps = performanceMode === 'PERFORMANCE' ? 10 : performanceMode === 'QUALITY' ? 20 : 15;
-    const minInterval = 1000 / targetFps;
+    // A target above 15 avoids requestAnimationFrame quantization dropping the
+    // effective detector cadence below the 15 FPS product target.
+    const minInterval = 1000 / DETECTOR_TARGET_FPS;
     const tick = (timestamp: number) => {
+      if (!runningRef.current || runIdRef.current !== runId) return;
       const video = videoRef.current;
       if (video && timestamp - lastRunRef.current >= minInterval) {
         lastRunRef.current = timestamp;
-        if (!luminanceCanvasRef.current) luminanceCanvasRef.current = document.createElement('canvas');
-        const luminance = landmarker ? estimateLuminance(video, luminanceCanvasRef.current) : 140;
         if (landmarker && video.videoWidth > 0) {
-          const started = performance.now();
-          const result = landmarker.detectForVideo(video, timestamp);
-          onFrame(
-            resultToFrame(
-              result,
-              frameIndexRef.current,
-              timestamp,
-              video,
-              performance.now() - started,
-              luminance,
-            ),
-          );
-        } else if (!landmarker && (env.enablePerformanceMetrics || location.search.includes('mockCamera'))) {
-          onFrame(createSyntheticFrame(frameIndexRef.current, timestamp));
+          try {
+            const started = performance.now();
+            const result = landmarker.detectForVideo(video, timestamp);
+            onFrameRef.current(
+              resultToFrame(
+                result,
+                frameIndexRef.current,
+                timestamp,
+                video,
+                performance.now() - started,
+              ),
+            );
+          } catch (detectionError) {
+            runningRef.current = false;
+            setStatus('error');
+            setError(
+              detectionError instanceof Error
+                ? detectionError.message
+                : 'La détection des mouvements a échoué.',
+            );
+            return;
+          }
+        } else if (!landmarker && useAutomaticTestFrames) {
+          onFrameRef.current(createAutomaticTestFrame(frameIndexRef.current, timestamp));
         }
         frameIndexRef.current += 1;
       }
-      rafRef.current = requestAnimationFrame(tick);
+      if (runningRef.current && runIdRef.current === runId) {
+        rafRef.current = requestAnimationFrame(tick);
+      }
     };
     rafRef.current = requestAnimationFrame(tick);
-  }, [enabled, onFrame, performanceMode, videoRef]);
+  }, [enabled, videoRef]);
 
   useEffect(() => stop, [stop]);
 

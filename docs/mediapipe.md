@@ -1,26 +1,16 @@
-# MediaPipe
+# Browser MediaPipe
 
-The frontend uses the official `@mediapipe/tasks-vision` package and `HolisticLandmarker`.
+The frontend uses `@mediapipe/tasks-vision` `HolisticLandmarker` in VIDEO mode. Both the
+WASM runtime and `holistic_landmarker.task` are served locally by the web container:
 
-## Loading
+- `VITE_MEDIAPIPE_WASM_PATH=/mediapipe/wasm`
+- `VITE_MEDIAPIPE_MODEL_PATH=/models/holistic_landmarker.task`
 
-`useHolisticLandmarker` loads the WASM files and model path from environment variables:
+There is no CDN or runtime model download. A rejected loader promise is cleared so a
+later camera activation can retry. The animation-frame loop is idempotent and owns one
+run ID, preventing multiple detector loops after React renders.
 
-- `VITE_MEDIAPIPE_MODEL_PATH`
-- `VITE_MEDIAPIPE_WASM_PATH`
-
-The model is loaded once per browser session. A 12 second timeout falls back to test mode messaging.
-
-## Runtime
-
-MediaPipe runs in `VIDEO` mode. The analysis loop samples frames at a configurable rate:
-
-- `QUALITY`: about 20 FPS
-- `BALANCED` and `AUTO`: about 15 FPS
-- `PERFORMANCE`: about 10 FPS
-
-The UI stores only the latest frame in React state; capture buffers stay in refs.
-
-## Worker
-
-MediaPipe itself runs on the main browser context because the Tasks Vision API depends on browser image sources. Sequence compaction and validation are isolated in `landmark.worker.ts` for future off-main-thread use.
+The core application processes at a nominal 15 FPS cadence. Each result is reduced to 33
+pose, 21 left-hand, and 21 right-hand landmarks; face landmarks are not transmitted.
+Physical FPS depends on the device and must be measured rather than inferred from the
+throttle setting.
