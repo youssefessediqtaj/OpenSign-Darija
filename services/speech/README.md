@@ -4,7 +4,7 @@ Internal stateless Arabic synthesis for supported Darija sign labels. The API,
 not the browser, calls this service. It uses the local `espeak-ng`/system engine
 without a cloud request, downloaded voice model, database, queue, or cache.
 
-Routes actives :
+Active routes:
 
 - `GET /health`
 - `GET /ready`
@@ -24,6 +24,15 @@ Code ownership:
 - `providers/`: one local provider plus the system command adapter;
 - `services/`: normalization, validation, concurrency, and result formatting;
 - `core/`: environment-backed limits.
+
+Environment:
+
+- `SPEECH_MODE`: local provider mode.
+- `SPEECH_MODEL_VERSION`: reported local model/version label.
+- `SPEECH_MAX_TEXT_LENGTH`, `SPEECH_MIN_TEXT_LENGTH`, `SPEECH_MAX_SENTENCES`:
+  bounded text policy.
+- `SPEECH_GENERATION_TIMEOUT_SECONDS`, `SPEECH_MAX_CONCURRENT_GENERATIONS`:
+  subprocess and concurrency limits.
 
 `requirements.lock` pins the tested production-container resolution. The
 `httpx2` TestClient dependency is development-only.

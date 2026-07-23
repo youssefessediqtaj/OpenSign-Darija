@@ -14,6 +14,21 @@ Ownership:
 - `clients/`: typed inference and speech HTTP boundaries;
 - `core/`: runtime configuration and safe error rendering.
 
+Active routes:
+
+- `GET /health`
+- `GET /api/v1/health`
+- `GET /api/v1/version`
+- `POST /api/v1/recognitions/word`
+- `POST /api/v1/speech/sign`
+
+Environment:
+
+- `INFERENCE_SERVICE_URL`, `INFERENCE_TIMEOUT_SECONDS`: internal inference client.
+- `SPEECH_SERVICE_URL`, `SPEECH_GENERATION_TIMEOUT_SECONDS`: internal speech client.
+- `SUPPORTED_SIGNS_PATH`: optional supported-sign metadata override.
+- `RECOGNITION_*`: payload, duration, rate, quality, and movement limits.
+
 The API validates the closed 60 × 75 × 3 request before calling internal
 inference. It converts unusable or rejected predictions to the compact UNKNOWN
 shape. Speech accepts only a key verified against the checksum-protected active

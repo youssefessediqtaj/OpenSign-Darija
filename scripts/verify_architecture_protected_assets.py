@@ -22,6 +22,10 @@ ROOT = Path(__file__).resolve().parents[1]
 DATASET_ROOT = ROOT / "ml" / "data" / "external" / "mosl-video-dataset"
 MODEL_ROOT = ROOT / "artifacts" / "models" / "mosl-isolated-sign-v1"
 REPORT_PATH = ROOT / "artifacts" / "reports" / "architecture-refactor-protected-assets.json"
+PROJECT_STRUCTURE_SNAPSHOT_PATHS = {
+    "before": ROOT / "artifacts" / "reports" / "architecture-protected-assets-before.json",
+    "after": ROOT / "artifacts" / "reports" / "architecture-protected-assets-after.json",
+}
 CANONICAL_FIXTURE = (
     DATASET_ROOT
     / "processed"
@@ -38,12 +42,22 @@ PROTECTED_PATHS = [
 REFACTOR_STARTED_AT = datetime(2026, 7, 23, 19, 5, tzinfo=UTC).timestamp()
 PREEXISTING_ARTIFACT_REPORT_COUNT = 28
 ADDITIVE_ARTIFACT_REPORTS = {
+    "architecture-protected-assets-after.json",
+    "architecture-protected-assets-before.json",
     "architecture-refactor-final-report.json",
     "architecture-refactor-protected-assets.json",
+    "deleted-files.json",
+    "dependency-audit.json",
+    "environment-variable-audit.json",
     "module-dependency-graph.json",
     "pre-architecture-refactor-baseline.json",
+    "pre-professional-architecture-baseline.json",
+    "readme-duplicate-cleanup.json",
     "repository-file-inventory.csv",
     "repository-file-inventory.json",
+    "retained-files.json",
+    "root-folder-audit.json",
+    "unused-code-audit.json",
 }
 
 
@@ -78,6 +92,13 @@ def tree_snapshot(root: Path) -> dict[str, Any]:
 def artifact_reports_audit() -> dict[str, Any]:
     root = ROOT / "artifacts" / "reports"
     files = sorted(path for path in root.rglob("*") if path.is_file())
+    file_metadata = {
+        path.relative_to(root).as_posix(): {
+            "sha256": sha256(path),
+            "size_bytes": path.stat().st_size,
+        }
+        for path in files
+    }
     changed_during_refactor = {
         path.relative_to(root).as_posix()
         for path in files
@@ -94,6 +115,7 @@ def artifact_reports_audit() -> dict[str, Any]:
         ),
         "preexisting_file_count": PREEXISTING_ARTIFACT_REPORT_COUNT,
         "current_file_count": len(files),
+        "files": file_metadata,
         "additive_paths_present": additive_present,
         "unexpected_new_or_modified_paths": unexpected,
         "expected_current_file_count": expected_total,
@@ -236,6 +258,17 @@ def snapshot() -> dict[str, Any]:
 
 
 def comparison(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
+    before_artifact_files = before["artifact_reports"].get("files", {})
+    after_artifact_files = after["artifact_reports"].get("files", {})
+    preserved_artifact_paths = set(before_artifact_files) - ADDITIVE_ARTIFACT_REPORTS
+    unexpected_artifact_paths = sorted(
+        set(after_artifact_files) - set(before_artifact_files) - ADDITIVE_ARTIFACT_REPORTS
+    )
+    modified_protected_artifact_paths = sorted(
+        path
+        for path in preserved_artifact_paths
+        if after_artifact_files.get(path) != before_artifact_files[path]
+    )
     keys = {
         "onnx_sha256_unchanged": (
             before["active_model"]["onnx_sha256"]
@@ -299,12 +332,14 @@ def comparison(before: dict[str, Any], after: dict[str, Any]) -> dict[str, Any]:
                 ].items()
             )
         ),
-        "artifact_reports_additive_only": after["artifact_reports"][
-            "preexisting_reports_preserved_and_changes_additive_only"
-        ],
+        "artifact_reports_additive_only": not (
+            unexpected_artifact_paths or modified_protected_artifact_paths
+        ),
     }
     return {
         **keys,
+        "unexpected_artifact_report_paths": unexpected_artifact_paths,
+        "modified_protected_artifact_report_paths": modified_protected_artifact_paths,
         "all_protected_assets_and_outputs_unchanged": all(keys.values()),
     }
 
@@ -334,6 +369,22 @@ def main() -> None:
         report["comparison"] = comparison(before, current)
     REPORT_PATH.write_text(
         json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+    )
+    PROJECT_STRUCTURE_SNAPSHOT_PATHS[args.phase].write_text(
+        json.dumps(
+            {
+                "schema_version": "OPEN_SIGNE_ARCHITECTURE_PROTECTED_ASSETS_SNAPSHOT_V1",
+                "phase": args.phase,
+                "captured_at": current["captured_at"],
+                "protected_paths": PROTECTED_PATHS,
+                "snapshot": current,
+                "comparison": report["comparison"] if args.phase == "after" else None,
+            },
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n",
+        encoding="utf-8",
     )
     summary = {
         "phase": args.phase,

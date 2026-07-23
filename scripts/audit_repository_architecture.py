@@ -371,12 +371,6 @@ def proposed_action(path: str) -> tuple[str, str, float]:
             "Tracked build/install output; source configuration can reproduce it.",
             0.99,
         )
-    if path.startswith("OpenSigne-Darija-readme/"):
-        return (
-            "DELETE_AFTER_TESTS",
-            "Duplicate README/image copy outside the authoritative root documentation tree.",
-            0.99,
-        )
     if path.startswith(("packages/config/", "packages/linguistics/")):
         return (
             "DELETE_AFTER_TESTS",

@@ -17,6 +17,16 @@ Ownership:
 - `features/recognition/state/`: the authoritative flow-state vocabulary;
 - `shared/`: generic API transport, configuration, and small UI primitives.
 
+Entry point: `src/main.tsx`.
+
+Environment:
+
+- `VITE_API_BASE_URL`: optional same-origin API override for standalone Vite development.
+- `VITE_MEDIAPIPE_MODEL_PATH`: browser-served Holistic task model path.
+- `VITE_MEDIAPIPE_WASM_PATH`: browser-served MediaPipe WASM directory.
+- `VITE_CAMERA_DEFAULT_WIDTH`, `VITE_CAMERA_DEFAULT_HEIGHT`, `VITE_CAMERA_DEFAULT_FPS`:
+  camera constraint defaults.
+
 The browser must never call inference or speech containers, and payload code must
 never add video, image, canvas, screenshot, microphone, base64 camera, persistent
 visitor, or arbitrary speech-text fields. These boundaries are enforced by the

@@ -23,11 +23,6 @@ htmlcov/
 .idea/
 .vscode/
 data/
-!data/
-data/*
-!data/README.md
-!data/reports/
-data/reports/*
 ml/data/external/mosl-video-dataset/raw/
 ml/data/external/mosl-video-dataset/processed/
 ml/data/external/mosl-video-dataset/quarantine/
