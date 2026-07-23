@@ -88,7 +88,6 @@ class WordLandmarkSequenceRequest(BaseModel):
     segmentation_kind: Literal["dynamic", "static"]
     segmentation_reliable: bool
     usable_frame_count: int = Field(ge=0, le=60)
-    anonymous_session_id: str | None = Field(default=None, max_length=80)
 
     @model_validator(mode="after")
     def frame_count_matches(self) -> "WordLandmarkSequenceRequest":

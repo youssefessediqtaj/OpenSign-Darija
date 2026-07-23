@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 
-import type { CameraErrorCode, CameraStatus } from '../types/camera.types';
-import { cameraErrorMessage, mapCameraError } from '../utils/camera-errors';
+import { cameraErrorMessage, mapCameraError } from '../services/camera-errors';
+import type { CameraErrorCode, CameraStatus } from '../services/camera.types';
 
 export function useCameraPermission() {
   const [status, setStatus] = useState<CameraStatus>('IDLE');

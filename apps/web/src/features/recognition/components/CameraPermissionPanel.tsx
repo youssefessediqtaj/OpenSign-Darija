@@ -1,6 +1,6 @@
 import { Camera } from 'lucide-react';
 
-import { Button } from '../../../components/Button';
+import { Button } from '../../../shared/ui/Button';
 
 export function CameraPermissionPanel({
   onEnable,

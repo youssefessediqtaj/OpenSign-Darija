@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest';
 
-import { cameraErrorMessage, mapCameraError } from '../utils/camera-errors';
+import { cameraErrorMessage, mapCameraError } from '../services/camera-errors';
 
 describe('camera errors', () => {
   it('maps permission denied errors', () => {

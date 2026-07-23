@@ -20,4 +20,6 @@ jobs:
       - run: ruff check app tests
       - run: mypy app
       - run: pytest
-      - run: DATABASE_URL=sqlite:///./ci_migration.sqlite3 alembic upgrade head
+      - name: Architecture and cross-language contract tests
+        working-directory: .
+        run: python -m pytest tests/test_architecture_contracts.py

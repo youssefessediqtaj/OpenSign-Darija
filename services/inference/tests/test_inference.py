@@ -3,9 +3,11 @@ from collections.abc import Iterator
 import pytest
 from fastapi.testclient import TestClient
 
+from app.core.config import get_settings
 from app.main import app
+from app.runtime.model_loader import model_loader
+from app.runtime.prediction import PredictionService
 from app.schemas.prediction import PredictionItem, WordLandmarkSequenceRequest
-from app.services.model_loader import model_loader
 
 client = TestClient(app)
 
@@ -131,8 +133,28 @@ def test_removed_inference_routes_return_not_found(path: str) -> None:
     assert client.post(path, json={}).status_code == 404
 
 
-@pytest.mark.parametrize("extra_field", ["raw_video", "image", "audio"])
+@pytest.mark.parametrize(
+    "extra_field",
+    ["raw_video", "image", "audio", "canvas", "screenshot", "anonymous_session_id"],
+)
 def test_word_route_rejects_raw_media(extra_field: str) -> None:
     payload = valid_word_payload()
     payload[extra_field] = "forbidden"
     assert client.post("/predict/word", json=payload).status_code == 422
+
+
+def test_prediction_service_rejects_work_above_its_concurrency_bound(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(model_loader, "model", FakeRuntimeModel())
+    monkeypatch.setattr(model_loader, "state", "READY")
+    service = PredictionService(loader=model_loader)
+    capacity = get_settings().inference_max_concurrent_requests
+    for _ in range(capacity):
+        assert service._capacity.acquire(blocking=False)
+    try:
+        with pytest.raises(RuntimeError, match="concurrency limit"):
+            service.predict_word(WordLandmarkSequenceRequest(**valid_word_payload()))
+    finally:
+        for _ in range(capacity):
+            service._capacity.release()

@@ -1,19 +1,19 @@
 import { describe, expect, it } from 'vitest';
 
-import { createSyntheticFrame } from '../services/holistic.service';
-import { normalizeSchemaV1Frame } from '../services/landmark-schema-v1-normalizer.service';
 import {
   createLandmarkSequence,
   finalizeWordRecognitionPayloadV1,
   toWordLandmarkPayload,
   validateWordLandmarkPayload,
   validateWordRecognitionPayloadV1,
-} from '../services/sequence-validator.service';
+} from '../domain/build-recognition-payload';
+import type { HolisticFrame, NormalizedLandmark } from '../domain/landmarks';
+import { normalizeSchemaV1Frame } from '../domain/normalize-landmarks';
+import type { WordLandmarkSequencePayload } from '../domain/recognition-contract';
+import { uniformSample } from '../domain/resample-landmark-sequence';
+import { calculateSequenceQuality } from '../domain/sequence-quality';
+import { createSyntheticFrame } from '../services/holistic';
 import validWordFixture from '../test-fixtures/word-recognition-v1-valid.json';
-import type { HolisticFrame, NormalizedLandmark } from '../types/landmark.types';
-import type { WordLandmarkSequencePayload } from '../types/sequence.types';
-import { uniformSample } from '../utils/sequence-sampling';
-import { calculateSequenceQuality } from '../utils/sequence-statistics';
 import fixtureExpected from './fixtures/schema-v1-expected.json';
 import fixtureInput from './fixtures/schema-v1-input.json';
 
@@ -58,7 +58,6 @@ function validPayload() {
   );
   return toWordLandmarkPayload(
     createLandmarkSequence(frames, '2026-07-16T12:00:00Z'),
-    undefined,
     DYNAMIC_SEGMENTATION,
   );
 }
@@ -112,7 +111,6 @@ describe('word sequence contract', () => {
     );
     const payload = finalizeWordRecognitionPayloadV1(
       sequence,
-      undefined,
       DYNAMIC_SEGMENTATION,
     );
     expect(payload.sequence_id).toMatch(
@@ -135,7 +133,6 @@ describe('word sequence contract', () => {
     );
     const payload = toWordLandmarkPayload(
       createLandmarkSequence(frames, '2026-07-16T12:00:00Z'),
-      undefined,
       { kind: 'static', reliable: true, usableFrameCount: 20 },
     );
     expect(payload.quality.movement_score).toBe(0);

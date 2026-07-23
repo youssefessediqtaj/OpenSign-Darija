@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensigne.local/contracts/speech.schema.json",
+  "title": "OpenSigne supported-sign speech contract",
+  "$defs": {
+    "PublicSignSpeechRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["label_key"],
+      "properties": {
+        "label_key": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240,
+          "description": "Must resolve through the checksum-verified active supported-sign catalog."
+        }
+      }
+    },
+    "InternalSynthesisRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["text", "language", "voice_id", "speed", "output_format"],
+      "properties": {
+        "text": {"type": "string", "minLength": 1, "maxLength": 500},
+        "language": {"enum": ["ar-MA", "ar"]},
+        "voice_id": {"enum": ["darija-default", "arabic-fallback"]},
+        "speed": {"type": "number", "minimum": 0.75, "maximum": 1.5},
+        "output_format": {"const": "wav"}
+      }
+    }
+  }
+}

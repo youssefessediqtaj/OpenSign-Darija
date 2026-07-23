@@ -11,6 +11,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+  # FastAPI's current TestClient selects this next-generation client package.
   "httpx2>=0.28",
   "pytest>=8.3",
   "ruff>=0.6",

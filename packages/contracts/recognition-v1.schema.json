@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://opensigne.local/contracts/recognition-v1.schema.json",
+  "title": "OpenSigne isolated-sign recognition V1",
+  "description": "Language-neutral browser-to-API landmark contract. JSON excludes NaN and infinity; coordinate bounds add a finite-value guard.",
+  "$defs": {
+    "Landmark": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {"type": "number", "minimum": -20, "maximum": 20},
+        {"type": "number", "minimum": -20, "maximum": 20},
+        {"type": "number", "minimum": -20, "maximum": 20}
+      ],
+      "items": false
+    },
+    "Frame": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["index", "timestamp_ms", "landmarks", "presence_mask"],
+      "properties": {
+        "index": {"type": "integer", "minimum": 0, "maximum": 59},
+        "timestamp_ms": {"type": "integer", "minimum": 0, "maximum": 10000},
+        "landmarks": {
+          "type": "array",
+          "minItems": 75,
+          "maxItems": 75,
+          "items": {"$ref": "#/$defs/Landmark"}
+        },
+        "presence_mask": {
+          "type": "array",
+          "minItems": 75,
+          "maxItems": 75,
+          "items": {"type": "integer", "enum": [0, 1]}
+        }
+      }
+    },
+    "Quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "detected_hand_ratio",
+        "detected_face_ratio",
+        "detected_pose_ratio",
+        "missing_frame_ratio",
+        "movement_score"
+      ],
+      "properties": {
+        "detected_hand_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "detected_face_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "detected_pose_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "missing_frame_ratio": {"type": "number", "minimum": 0, "maximum": 1},
+        "movement_score": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "WordRecognitionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Only normalized landmarks and segmentation metadata. Raw video, image, canvas, screenshot, base64 camera and microphone fields are forbidden.",
+      "required": [
+        "sequence_id",
+        "captured_at",
+        "recognition_mode",
+        "duration_ms",
+        "source_fps",
+        "target_frame_count",
+        "landmark_count",
+        "coordinate_count",
+        "coordinate_format",
+        "feature_schema_version",
+        "segmentation_kind",
+        "segmentation_reliable",
+        "usable_frame_count",
+        "frames",
+        "quality"
+      ],
+      "properties": {
+        "sequence_id": {"type": "string", "format": "uuid"},
+        "captured_at": {
+          "type": "string",
+          "format": "date-time",
+          "minLength": 10,
+          "maxLength": 40
+        },
+        "recognition_mode": {"const": "WORD_ISOLATED"},
+        "duration_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000,
+          "description": "Values outside the configured reliable 500–8000 ms window fail closed to UNKNOWN."
+        },
+        "source_fps": {"type": "number", "exclusiveMinimum": 0, "maximum": 60},
+        "target_frame_count": {"const": 60},
+        "landmark_count": {"const": 75},
+        "coordinate_count": {"const": 3},
+        "coordinate_format": {"const": "shoulder_centered_v1"},
+        "feature_schema_version": {"const": "OPEN_SIGNE_LANDMARK_SCHEMA_V1"},
+        "segmentation_kind": {"enum": ["dynamic", "static"]},
+        "segmentation_reliable": {"type": "boolean"},
+        "usable_frame_count": {"type": "integer", "minimum": 0, "maximum": 60},
+        "frames": {
+          "type": "array",
+          "minItems": 60,
+          "maxItems": 60,
+          "items": {"$ref": "#/$defs/Frame"}
+        },
+        "quality": {"$ref": "#/$defs/Quality"}
+      }
+    },
+    "RecognizedResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "label_key", "label_ar", "confidence", "unknown", "latency_ms"],
+      "properties": {
+        "status": {"const": "recognized"},
+        "label_key": {"type": "string", "minLength": 1},
+        "label_ar": {"type": "string", "minLength": 1},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "unknown": {"const": false},
+        "latency_ms": {"type": "integer", "minimum": 0}
+      }
+    },
+    "UnknownResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "label_key", "label_ar", "confidence", "unknown", "latency_ms"],
+      "properties": {
+        "status": {"const": "unknown"},
+        "label_key": {"type": "null"},
+        "label_ar": {"type": "null"},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "unknown": {"const": true},
+        "latency_ms": {"type": "integer", "minimum": 0}
+      }
+    },
+    "PublicRecognitionResponse": {
+      "oneOf": [
+        {"$ref": "#/$defs/RecognizedResponse"},
+        {"$ref": "#/$defs/UnknownResponse"}
+      ]
+    }
+  }
+}

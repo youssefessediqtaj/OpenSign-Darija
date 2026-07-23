@@ -118,7 +118,7 @@ def test_word_endpoint_uses_schema_v1_and_rejects_legacy_payload(
     async def recognized(_: object) -> RecognitionResponse:
         return inference_result()
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", recognized)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", recognized)
     response = client.post("/api/v1/recognitions/word", json=valid_word_landmark_payload())
     assert response.status_code == 200
     assert set(response.json()) == {
@@ -143,7 +143,7 @@ def test_word_endpoint_accepts_shared_v1_fixture(
     async def recognized(_: object) -> RecognitionResponse:
         return inference_result()
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", recognized)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", recognized)
     response = client.post("/api/v1/recognitions/word", json=fixture_word_landmark_payload())
     assert response.status_code == 200
     body = response.json()
@@ -157,7 +157,7 @@ def test_word_endpoint_returns_only_public_known_result(
     async def recognized(_: object) -> RecognitionResponse:
         return inference_result()
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", recognized)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", recognized)
     payload = valid_word_landmark_payload()
     response = client.post("/api/v1/recognitions/word", json=payload)
     assert response.status_code == 200
@@ -179,7 +179,7 @@ def test_word_endpoint_hides_top_k_for_non_known_decisions(
     async def rejected(_: object) -> RecognitionResponse:
         return inference_result(decision=decision)
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", rejected)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", rejected)
     payload = valid_word_landmark_payload()
     response = client.post("/api/v1/recognitions/word", json=payload)
     assert response.status_code == 200
@@ -197,7 +197,7 @@ def test_word_endpoint_fails_closed_when_known_label_has_no_arabic_mapping(
     async def missing_mapping(_: object) -> RecognitionResponse:
         return inference_result(label_ar=None)
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", missing_mapping)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", missing_mapping)
     payload = valid_word_landmark_payload()
     response = client.post("/api/v1/recognitions/word", json=payload)
     assert response.status_code == 200
@@ -253,7 +253,7 @@ def test_semantically_unusable_sequences_return_unknown_without_inference(
     async def must_not_run(_: object) -> RecognitionResponse:
         raise AssertionError("inference must not run for unusable captures")
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", must_not_run)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", must_not_run)
     payload = valid_word_landmark_payload()
     mutator(payload)
     response = client.post("/api/v1/recognitions/word", json=payload)
@@ -268,7 +268,7 @@ def test_reliable_static_sign_can_have_low_movement(
     async def recognized(_: object) -> RecognitionResponse:
         return inference_result()
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", recognized)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", recognized)
     payload = valid_word_landmark_payload()
     payload["segmentation_kind"] = "static"
     payload["quality"]["movement_score"] = 0.0  # type: ignore[index]
@@ -283,7 +283,7 @@ def test_word_endpoint_propagates_model_unavailability(
     async def unavailable(_: object) -> RecognitionResponse:
         raise ApiError("INFERENCE_MODEL_UNAVAILABLE", "unavailable", 503)
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", unavailable)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", unavailable)
     payload = valid_word_landmark_payload()
     response = client.post("/api/v1/recognitions/word", json=payload)
     assert response.status_code == 503
@@ -347,7 +347,7 @@ def test_word_endpoint_is_database_independent(
     async def recognized(_: object) -> RecognitionResponse:
         return inference_result()
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", recognized)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", recognized)
     payload = valid_word_landmark_payload()
     response = client.post("/api/v1/recognitions/word", json=payload)
     assert response.status_code == 200
@@ -359,10 +359,9 @@ def test_core_app_import_graph_excludes_stateful_infrastructure() -> None:
 import sys
 from app.main import app
 blocked = {
-    'app.db',
-    'app.api.v1.messages',
-    'app.services.object_storage',
-    'app.models',
+    'alembic',
+    'argon2',
+    'jwt',
     'redis',
     'minio',
     'sqlalchemy',
@@ -383,9 +382,8 @@ assert set(app.openapi()['paths']) == {
 """
     environment = {
         **os.environ,
-        "DATABASE_URL": "postgresql+psycopg://unused:unused@127.0.0.1:1/unused",
-        "REDIS_URL": "redis://127.0.0.1:1/0",
-        "MINIO_ENDPOINT": "127.0.0.1:1",
+        "INFERENCE_SERVICE_URL": "http://127.0.0.1:1",
+        "SPEECH_SERVICE_URL": "http://127.0.0.1:1",
     }
     result = subprocess.run(
         [sys.executable, "-c", command],
@@ -402,21 +400,21 @@ assert set(app.openapi()['paths']) == {
 def test_word_endpoint_rate_limit(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from app.api.v1.recognitions import rate_limit_bucket
+    from app.services.request_protection import clear_rate_limit_state
 
     async def recognized(_: object) -> RecognitionResponse:
         return inference_result()
 
-    monkeypatch.setattr("app.api.v1.recognitions.predict_sequence", recognized)
+    monkeypatch.setattr("app.services.recognition.predict_sequence", recognized)
     monkeypatch.setenv("RECOGNITION_RATE_LIMIT", "1")
     get_settings.cache_clear()
-    rate_limit_bucket.clear()
+    clear_rate_limit_state()
     payload = valid_word_landmark_payload()
     try:
         first = client.post("/api/v1/recognitions/word", json=payload)
         second = client.post("/api/v1/recognitions/word", json=payload)
     finally:
-        rate_limit_bucket.clear()
+        clear_rate_limit_state()
         get_settings.cache_clear()
     assert first.status_code == 200
     assert second.status_code == 429

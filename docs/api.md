@@ -10,9 +10,9 @@ public client does not need a token, account, model ID, or dataset choice.
 - `POST /api/v1/recognitions/word`
 - `POST /api/v1/speech/sign`
 
-The application also exposes `GET /health` as a container health alias. Historical
-account, contribution, message, dataset, model-registry, alphabet, mock-recognition, and
-manual confirmation modules are not mounted in the core runtime.
+The application also exposes `GET /health` as a container health alias. Account,
+contribution, message, dataset-registry, alphabet, mock-recognition, and manual
+confirmation modules are absent from the core source and runtime.
 
 ## Word recognition
 

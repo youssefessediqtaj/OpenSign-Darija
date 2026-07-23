@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { ApiError } from '../../../lib/api';
-import { recognitionErrorMessage } from '../services/recognition-api.service';
+import { ApiError } from '../../../shared/api/client';
+import { recognitionErrorMessage } from '../services/recognition-api';
 
 describe('recognition API error mapping', () => {
   it('does not describe HTTP 422 as a backend outage', () => {

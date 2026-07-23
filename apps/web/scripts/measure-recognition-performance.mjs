@@ -107,10 +107,10 @@ function percentile(values, percentileValue) {
 
 try {
   const segmentationModule = await vite.ssrLoadModule(
-    '/src/features/recognition/services/automatic-segmentation.service.ts',
+    '/src/features/recognition/domain/automatic-segmentation.ts',
   );
   const sequenceModule = await vite.ssrLoadModule(
-    '/src/features/recognition/services/sequence-validator.service.ts',
+    '/src/features/recognition/domain/build-recognition-payload.ts',
   );
   const { AutomaticSignSegmenter, DEFAULT_SEGMENTATION_CONFIG } = segmentationModule;
   const {

@@ -1,29 +1,29 @@
 import { CameraOff, Volume2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { Button } from '../../../components/Button';
-import { SkipLink } from '../../../components/SkipLink';
-import { speakWithBrowser } from '../../speech/services/browser-speech.service';
-import { speechApi } from '../../speech/services/speech-api.service';
+import { Button } from '../../../shared/ui/Button';
+import { SkipLink } from '../../../shared/ui/SkipLink';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
 import { CameraPreview } from './CameraPreview';
 import { useCameraPermission } from '../hooks/useCameraPermission';
 import { useCameraStream } from '../hooks/useCameraStream';
 import { useHolisticLandmarker } from '../hooks/useHolisticLandmarker';
-import { AutomaticSignSegmenter } from '../services/automatic-segmentation.service';
-import { landmarkRecognitionApi, recognitionErrorMessage } from '../services/recognition-api.service';
+import { useSignSpeech } from '../hooks/useSignSpeech';
+import { AutomaticSignSegmenter } from '../domain/automatic-segmentation';
+import type { HolisticFrame } from '../domain/landmarks';
 import {
   createLandmarkSequence,
   toWordLandmarkPayload,
   validateWordRecognitionPayloadV1,
   wordValidationErrorMessage,
-} from '../services/sequence-validator.service';
-import type { HolisticFrame } from '../types/landmark.types';
+} from '../domain/build-recognition-payload';
+import { landmarkRecognitionApi, recognitionErrorMessage } from '../services/recognition-api';
 import type {
   PublicRecognitionResult,
   RecognitionFlowState,
   SegmentedSign,
-} from '../types/recognition-flow.types';
+  VisibleRecognitionResult,
+} from '../state/recognition-flow';
 
 const FLOW_LABELS: Record<RecognitionFlowState, string> = {
   CAMERA_OFF: 'Caméra éteinte',
@@ -43,13 +43,6 @@ const REJECTION_MESSAGES = {
   unreliable_boundary: 'Le début ou la fin du signe n’est pas assez net.',
 } as const;
 
-type VisibleResult = {
-  segmentId: string;
-  labelKey: string | null;
-  labelAr: string;
-  unknown: boolean;
-};
-
 function isKnownResult(
   result: PublicRecognitionResult,
 ): result is PublicRecognitionResult & { label_key: string; label_ar: string } {
@@ -65,19 +58,15 @@ function isKnownResult(
 
 export function RecognitionWorkspace() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
   const segmenterRef = useRef(new AutomaticSignSegmenter());
   const flowStateRef = useRef<RecognitionFlowState>('CAMERA_OFF');
   const recognizeSegmentRef = useRef<(segment: SegmentedSign) => void>(() => undefined);
   const sessionRef = useRef(0);
-  const speechRunRef = useRef(0);
   const hadCameraStreamRef = useRef(false);
   const timerRefs = useRef(new Set<number>());
-  const autoSpokenSegmentsRef = useRef(new Set<string>());
   const [flowState, setFlowState] = useState<RecognitionFlowState>('CAMERA_OFF');
-  const [visibleResult, setVisibleResult] = useState<VisibleResult | null>(null);
+  const [visibleResult, setVisibleResult] = useState<VisibleRecognitionResult | null>(null);
   const [detailMessage, setDetailMessage] = useState('');
-  const [audioMessage, setAudioMessage] = useState('');
 
   const transition = useCallback((nextState: RecognitionFlowState) => {
     flowStateRef.current = nextState;
@@ -118,93 +107,14 @@ export function RecognitionWorkspace() {
     transition('COOLDOWN');
   }, [cameraStream, transition]);
 
-  const cancelSpeech = useCallback(() => {
-    speechRunRef.current += 1;
-    const audio = audioRef.current;
-    if (audio) {
-      audio.pause();
-      audio.removeAttribute('src');
-      audio.load();
-    }
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-  }, []);
-
-  const finishSpeech = useCallback(
-    (speechRun: number, unavailable = false) => {
-      if (speechRun !== speechRunRef.current) return;
-      if (unavailable) setAudioMessage('Audio indisponible. Le résultat reste affiché.');
-      enterCooldown();
-    },
-    [enterCooldown],
-  );
-
-  const playWithBrowserSpeech = useCallback(
-    (text: string, speechRun: number) => {
-      try {
-        const utterance = speakWithBrowser(text, 1, 1);
-        let finished = false;
-        const finish = (unavailable = false) => {
-          if (finished) return;
-          finished = true;
-          finishSpeech(speechRun, unavailable);
-        };
-        utterance.onend = () => finish();
-        utterance.onerror = () => finish(true);
-        schedule(() => finish(), 12_000);
-      } catch {
-        finishSpeech(speechRun, true);
-      }
-    },
-    [finishSpeech, schedule],
-  );
-
-  const speakResult = useCallback(
-    async (result: VisibleResult, automatic: boolean) => {
-      if (result.unknown || !result.labelKey) return;
-      if (automatic && autoSpokenSegmentsRef.current.has(result.segmentId)) return;
-      if (automatic) autoSpokenSegmentsRef.current.add(result.segmentId);
-
-      cancelSpeech();
-      const speechRun = speechRunRef.current;
-      setAudioMessage('');
-      transition('SPEAKING');
-
-      try {
-        const speech = await speechApi.createForSign(result.labelKey);
-        if (speechRun !== speechRunRef.current) return;
-        const audioUrl = speech.audio?.url;
-        const audio = audioRef.current;
-        if (!audioUrl || !audio) throw new Error('Audio indisponible');
-
-        let playbackStarted = false;
-        let playbackFinished = false;
-        const finish = (unavailable = false) => {
-          if (playbackFinished) return;
-          playbackFinished = true;
-          if (speechRun !== speechRunRef.current) return;
-          audio.onended = null;
-          audio.onerror = null;
-          finishSpeech(speechRun, unavailable);
-        };
-        audio.onended = () => finish();
-        audio.onerror = () => finish(true);
-        audio.src = audioUrl;
-        audio.load();
-        try {
-          await audio.play();
-          playbackStarted = true;
-          schedule(() => finish(), 20_000);
-        } catch {
-          audio.onended = null;
-          audio.onerror = null;
-        }
-        if (!playbackStarted) playWithBrowserSpeech(result.labelAr, speechRun);
-      } catch {
-        if (speechRun === speechRunRef.current) playWithBrowserSpeech(result.labelAr, speechRun);
-      }
-    },
-    [cancelSpeech, finishSpeech, playWithBrowserSpeech, schedule, transition],
-  );
+  const {
+    audioRef,
+    audioMessage,
+    setAudioMessage,
+    speakResult,
+    cancelSpeech,
+    resetSpeech,
+  } = useSignSpeech({ enterCooldown, schedule, transition });
 
   const recognizeSegment = useCallback(
     async (segment: SegmentedSign) => {
@@ -217,7 +127,7 @@ export function RecognitionWorkspace() {
 
       try {
         const sequence = createLandmarkSequence(segment.sourceFrames, new Date().toISOString());
-        const payload = toWordLandmarkPayload(sequence, undefined, {
+        const payload = toWordLandmarkPayload(sequence, {
           kind: segment.kind,
           reliable: segment.reliable,
           usableFrameCount: segment.usableFrameCount,
@@ -235,7 +145,7 @@ export function RecognitionWorkspace() {
 
         segmenterRef.current.rememberRecognized(segment, performance.now());
         if (!isKnownResult(response)) {
-          const unknownResult: VisibleResult = {
+          const unknownResult: VisibleRecognitionResult = {
             segmentId: segment.id,
             labelKey: null,
             labelAr: 'الإشارة غير معروفة',
@@ -249,7 +159,7 @@ export function RecognitionWorkspace() {
           return;
         }
 
-        const knownResult: VisibleResult = {
+        const knownResult: VisibleRecognitionResult = {
           segmentId: segment.id,
           labelKey: response.label_key,
           labelAr: response.label_ar,
@@ -271,7 +181,7 @@ export function RecognitionWorkspace() {
         schedule(enterCooldown, 1_800);
       }
     },
-    [cameraStream, enterCooldown, schedule, speakResult, transition],
+    [cameraStream, enterCooldown, schedule, setAudioMessage, speakResult, transition],
   );
 
   useEffect(() => {
@@ -301,7 +211,7 @@ export function RecognitionWorkspace() {
         transition('WAITING_FOR_SIGN');
       }
     },
-    [transition],
+    [setAudioMessage, transition],
   );
 
   const {
@@ -313,13 +223,11 @@ export function RecognitionWorkspace() {
 
   const startCamera = useCallback(async () => {
     clearTimers();
-    cancelSpeech();
     sessionRef.current += 1;
-    autoSpokenSegmentsRef.current.clear();
+    resetSpeech();
     segmenterRef.current.reset();
     setVisibleResult(null);
     setDetailMessage('');
-    setAudioMessage('');
     markRequesting();
     transition('INITIALIZING');
     const stream = await startCameraStream();
@@ -329,22 +237,20 @@ export function RecognitionWorkspace() {
     } else {
       transition('ERROR');
     }
-  }, [cancelSpeech, clearTimers, markGranted, markRequesting, setPermissionStatus, startCameraStream, transition]);
+  }, [clearTimers, markGranted, markRequesting, resetSpeech, setPermissionStatus, startCameraStream, transition]);
 
   const stopCamera = useCallback(() => {
     sessionRef.current += 1;
     clearTimers();
-    cancelSpeech();
+    resetSpeech();
     stopLandmarker();
     stopCameraStream();
     segmenterRef.current.reset();
-    autoSpokenSegmentsRef.current.clear();
     setVisibleResult(null);
     setDetailMessage('');
-    setAudioMessage('');
     setPermissionStatus('STOPPED');
     transition('CAMERA_OFF');
-  }, [cancelSpeech, clearTimers, setPermissionStatus, stopCameraStream, stopLandmarker, transition]);
+  }, [clearTimers, resetSpeech, setPermissionStatus, stopCameraStream, stopLandmarker, transition]);
 
   useEffect(() => {
     if (!cameraStream) return;
@@ -360,16 +266,14 @@ export function RecognitionWorkspace() {
     hadCameraStreamRef.current = false;
     sessionRef.current += 1;
     clearTimers();
-    cancelSpeech();
+    resetSpeech();
     stopLandmarker();
     segmenterRef.current.reset();
-    autoSpokenSegmentsRef.current.clear();
     setVisibleResult(null);
     setDetailMessage('');
-    setAudioMessage('');
     setPermissionStatus('STOPPED');
     transition('CAMERA_OFF');
-  }, [cameraStream, cancelSpeech, clearTimers, setPermissionStatus, stopLandmarker, transition]);
+  }, [cameraStream, clearTimers, resetSpeech, setPermissionStatus, stopLandmarker, transition]);
 
   useEffect(() => {
     if (!cameraStream) return;
