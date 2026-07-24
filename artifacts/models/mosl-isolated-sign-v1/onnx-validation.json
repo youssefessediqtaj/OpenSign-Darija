@@ -1,0 +1,31 @@
+{
+  "valid": true,
+  "checker": "passed",
+  "runtime_provider": "CPUExecutionProvider",
+  "input_name": "landmarks",
+  "input_shape": [
+    "batch",
+    60,
+    75,
+    3
+  ],
+  "output_name": "logits",
+  "output_shape": [
+    "batch",
+    3
+  ],
+  "label_count": 3,
+  "max_abs_diff": 1.1920928955078125e-07,
+  "mean_abs_diff": 6.953874986947994e-08,
+  "top_k_match": true,
+  "torch_top_k": [
+    "احب",
+    "اب",
+    "سوق"
+  ],
+  "onnx_top_k": [
+    "احب",
+    "اب",
+    "سوق"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "candidate-benchmark.json": "e1eb8ed2f535701ab928843a3b38d0b5f52484ed4e30ece599369f1b52734f25",
+  "classification-report.csv": "80c72fc17f0a5e3ad011ce7d491064c19557c565b172487e05c84ba7424a1651",
+  "confidence-calibration.json": "3b7bdeaace0bec4e8e930a3e73e845569f3ef1218bf9c229c79355cb154f6ae6",
+  "confusion-matrix.png": "bbcf45b30c16103a0f300ed5040189e24c3c849ec2e13f795f1d0fb0ba7864e6",
+  "dataset-manifest-checksum.txt": "688dc633a4d6727bc4078341fcb37c0f86973c53544cd12d53a883db2ec7de18",
+  "labels.json": "2265e810327df929b74943484af040bbc0d336a1b53e69b89adfad991d0c5d4e",
+  "landmark-schema.json": "4d6e24cc755ff9232105720075aaf33049da3ebc674e461316e7a7605ef83741",
+  "metrics.json": "77bc2d41cce89842dc4814e74aa81433f4a4818f323e1f1e207930e231e44645",
+  "model-card.md": "4c215d33cdac7d784490240536bcecaafb0086e72f6b2b93a32e91d15e81285f",
+  "model.onnx": "24678fc01c86bb64a47f832ae800bd475e788a91c5b103122115a37fcdd6ad54",
+  "onnx-validation.json": "3238c436b90cc7ebad4d530a811655662836c4c850826ed5394b21eb75cb5e77",
+  "preprocessing.json": "bcd21c029c206c9879dddee9fdf003756b66e4bb7eda4efa36ff4756316c52ac",
+  "supported-signs.json": "79fee1027ae43beed5e8c25956867184af3e4f092e1254d750daf2298c02a6da",
+  "training-config.yaml": "4d27b3827baf5189e893d699cf46c067617a15139fee18a6acdf763e32ad2c47",
+  "training-split-provenance.json": "c925e2693257652f86fb4904911501169cab7430722e14f98364ab81f6043730"
+}

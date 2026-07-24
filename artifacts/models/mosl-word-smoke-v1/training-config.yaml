@@ -1,0 +1,51 @@
+model:
+  name: mosl-word-smoke-v1
+  semantic_version: 0.1.0-smoke
+  status: VALIDATED_SMOKE
+  task_type: WORD_ISOLATED
+  input_modality: LANDMARK_SEQUENCE
+  architecture: bidirectional-gru
+  schema_version: OPEN_SIGNE_LANDMARK_SCHEMA_V1
+  input_shape:
+    frames: 60
+    landmarks: 75
+    coordinates: 3
+  hidden_size: 128
+  projection_size: 128
+  gru_layers: 2
+  bidirectional: true
+  dropout: 0.2
+
+training:
+  trainer: ml.training.train_mosl_word
+  command: make ml-train-smoke
+  manifest: artifacts/datasets/mosl-word-isolated-v1/manifest.json
+  output_dir: artifacts/models/mosl-word-smoke-v1
+  epochs: 2
+  batch_size: 2
+  seed: 42
+  optimizer: Adam
+  learning_rate: 0.001
+  loss: CrossEntropyLoss
+  gradient_clip_norm: 1.0
+  train_samples: 4
+  validation_samples: 2
+  metric_scope: SMOKE TEST ONLY - NOT PRODUCTION METRICS
+
+data:
+  labels:
+    - "16"
+    - "17"
+  vocabulary_size: 2
+  source_dataset_versions:
+    - mosl-video-dataset-v1
+  preprocessing:
+    normalization: shoulder_centered_v1
+    frames: 60
+
+validation:
+  onnx_opset: 17
+  onnx_execution_provider: CPUExecutionProvider
+  onnx_parity_max_abs_diff: 4.470348358154297e-08
+  onnx_parity_mean_abs_diff: 4.0978193283081055e-08
+  production_ready: false

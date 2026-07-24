@@ -1,0 +1,90 @@
+{
+  "generated_at": "2026-07-23T18:18:48.984Z",
+  "environment": {
+    "kind": "deterministic_synthetic_landmarks",
+    "detector_cadence_fps": 20,
+    "frame_interval_ms": 50,
+    "physical_camera": false
+  },
+  "configured_timing": {
+    "pre_roll_frames": 8,
+    "pre_roll_ms_at_configured_fps": 400,
+    "dynamic_start_consecutive_frames": 2,
+    "dynamic_start_observation_window_ms": 100,
+    "static_dwell_ms": 750,
+    "end_stability_ms": 420,
+    "post_roll_frames": 3,
+    "post_roll_ms_at_configured_fps": 150,
+    "nominal_stable_end_to_finalize_ms": 570,
+    "minimum_duration_ms": 500,
+    "maximum_duration_ms": 6000,
+    "cooldown_ms": 800,
+    "rest_reset_stability_ms": 350
+  },
+  "sixty_second_rest_simulation": {
+    "duration_ms": 60000,
+    "input_frames": 1200,
+    "event_counts": {
+      "started": 0,
+      "completed": 0,
+      "rejected": 0,
+      "reset": 0
+    },
+    "api_submission_candidates": 0,
+    "false_capture_count": 0,
+    "processing_ms": 66.516,
+    "processing_throughput_frames_per_second": 18040.8,
+    "passed": true
+  },
+  "two_sign_loop_simulation": {
+    "detected_start_events": [
+      {
+        "kind": "dynamic",
+        "timestamp_ms": 1250
+      },
+      {
+        "kind": "dynamic",
+        "timestamp_ms": 4650
+      }
+    ],
+    "completed_segments": 2,
+    "kinds": [
+      "dynamic",
+      "dynamic"
+    ],
+    "output_frame_counts": [
+      60,
+      60
+    ],
+    "final_state": "WAITING_FOR_SIGN"
+  },
+  "held_pose_duplicate_simulation": {
+    "held_after_first_result_ms": 15000,
+    "initial_completion_count": 1,
+    "duplicate_completion_count": 0,
+    "final_state": "COOLDOWN",
+    "passed": true
+  },
+  "payload_build": {
+    "iterations": 100,
+    "mean_ms": 2.845,
+    "p95_ms": 3.04,
+    "payload_bytes": 84338,
+    "frame_count": 60,
+    "landmark_count": 75,
+    "coordinate_count": 3,
+    "finite_coordinates": true,
+    "schema_valid": true
+  },
+  "physical_camera_only_metrics_remaining": [
+    "Real MediaPipe detector FPS and dropped-frame rate on each target device.",
+    "GPU/CPU landmark extraction latency and thermal throttling.",
+    "False-start and missed-boundary rates across real users, clothing, lighting, distance, and backgrounds.",
+    "Threshold precision/recall tuning on representative physical-camera sign/rest recordings.",
+    "Camera permission-to-ready latency.",
+    "Physical camera-to-Arabic end-to-end latency.",
+    "Text-display-to-audible-playback latency and browser autoplay behavior.",
+    "Long-session memory, battery, and device temperature behavior."
+  ],
+  "limitation": "Synthetic landmarks verify deterministic control flow and computational overhead; they do not establish physical-camera accuracy or production sign-recognition quality."
+}

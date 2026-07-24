@@ -1,0 +1,8 @@
+{
+  "valid": true,
+  "errors": [],
+  "warnings": [
+    "manifest has no items; valid for scaffolding but not for training"
+  ],
+  "items": 0
+}

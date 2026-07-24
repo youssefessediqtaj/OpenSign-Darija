@@ -1,0 +1,199 @@
+{
+  "gates": [
+    {
+      "details": {
+        "dataset_video_files": 2216,
+        "migration_decisions": {
+          "DISCARD_AFTER_VALIDATION": 361,
+          "DOCUMENT_ONLY": 18,
+          "DO_NOT_COPY": 65456,
+          "MIGRATE": 2216,
+          "REIMPLEMENT": 7
+        }
+      },
+      "name": "source_inventory",
+      "passed": true
+    },
+    {
+      "details": {
+        "checksum_mismatch_count": 0,
+        "destination_video_count": 2216,
+        "matching_checksum_count": 2216,
+        "missing_file_count": 0,
+        "source_video_count": 2216,
+        "unexpected_file_count": 0
+      },
+      "name": "checksum_migration",
+      "passed": true
+    },
+    {
+      "details": {
+        "cache_hits_final_run": 2216,
+        "failed": 0,
+        "invalid_labels": 15,
+        "low_left_hand_detection_sequences": 339,
+        "mediapipe_asset_checksum": "e2dab61191e2dcd0a15f943d8e3ed1dce13c82dfa597b9dd39f562975a50c3f8",
+        "schema_version": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+        "successfully_processed": 2216,
+        "total_source_videos": 2216
+      },
+      "name": "full_preprocessing",
+      "passed": true
+    },
+    {
+      "details": {
+        "duplicate_checksum_count": 19,
+        "invalid_artifacts": 0,
+        "valid_artifacts": 2216,
+        "warning_count": 350
+      },
+      "name": "processed_artifact_validation",
+      "passed": true
+    },
+    {
+      "details": {
+        "eligible_labels": 108,
+        "eligible_samples": 372,
+        "total_word_samples": 2145
+      },
+      "name": "training_manifest_ml_profile",
+      "passed": true
+    },
+    {
+      "details": {
+        "labels": [
+          "16",
+          "17"
+        ],
+        "onnx_input_shape": [
+          "batch",
+          60,
+          75,
+          3
+        ],
+        "onnx_output_shape": [
+          "batch",
+          2
+        ],
+        "production_ready": false,
+        "required_files_include_dataset_manifest_checksum": true,
+        "vocabulary_size": 2
+      },
+      "name": "smoke_model_package_validation",
+      "passed": true
+    },
+    {
+      "details": {
+        "activation_requires_development_flag": true,
+        "idempotent_activation": true,
+        "idempotent_registration": true,
+        "production_ready": false,
+        "registry_id": "741f6f9d-5293-47bd-93ca-b519d6203bc3",
+        "status": "VALIDATED_SMOKE"
+      },
+      "name": "smoke_model_registration_activation_dev_guard",
+      "passed": true
+    },
+    {
+      "details": {
+        "mypy": "passed",
+        "pytest": "35 passed",
+        "ruff": "passed"
+      },
+      "name": "backend_tests",
+      "passed": true
+    },
+    {
+      "details": {
+        "mypy": "passed",
+        "pytest": "10 passed",
+        "ruff": "passed"
+      },
+      "name": "inference_tests",
+      "passed": true
+    },
+    {
+      "details": {
+        "pytest": "23 passed",
+        "ruff": "passed"
+      },
+      "name": "ml_tests_and_lint",
+      "passed": true
+    },
+    {
+      "details": {
+        "mypy": "passed",
+        "pytest": "4 passed",
+        "ruff": "passed"
+      },
+      "name": "speech_tests",
+      "passed": true
+    },
+    {
+      "details": {
+        "build": "passed with existing chunk-size warning",
+        "eslint": "passed",
+        "vitest": "27 passed"
+      },
+      "name": "frontend_tests_lint_build",
+      "passed": true
+    },
+    {
+      "details": {
+        "alphabet_payload_asserted": "63 features, 21 mask, no raw media fields",
+        "tests": "9 passed",
+        "word_payload_asserted": "60 frames, 75x3 landmarks, no raw media fields"
+      },
+      "name": "playwright_e2e_fake_camera",
+      "passed": true
+    },
+    {
+      "details": {
+        "docker_compose_build": "passed",
+        "docker_compose_config": "passed",
+        "docker_compose_profile_ml_build": "passed",
+        "docker_compose_profile_ml_config": "passed",
+        "docker_compose_up": "healthy"
+      },
+      "name": "docker_compose_config_build_start",
+      "passed": true
+    },
+    {
+      "details": {
+        "alphabet": {
+          "http": 200,
+          "schema": "1.0.0",
+          "top_k": 3
+        },
+        "word": {
+          "http": 200,
+          "schema": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+          "top_k": 3
+        }
+      },
+      "name": "docker_runtime_word_alphabet_smoke",
+      "passed": true
+    },
+    {
+      "details": {
+        "console_errors": 0,
+        "failed_requests": 0,
+        "local_storage_keys": [],
+        "page": "http://localhost:8081/app/recognition?mockCamera=1",
+        "page_errors": 0
+      },
+      "name": "docker_browser_chromium_fake_camera",
+      "passed": true
+    },
+    {
+      "details": {
+        "reason": "No real hardware/manual camera validation was performed from this CLI session. This remains a manual QA follow-up for the native OpenSigne camera workflow and is not a source-folder deletion blocker.",
+        "status": "UNCONFIRMED"
+      },
+      "name": "physical_camera_manual_validation",
+      "passed": false
+    }
+  ],
+  "generated_at": "2026-07-19T16:50:33Z",
+  "purpose": "Runtime/test validation summary for final MoSL cleanup; physical camera remains manual QA, not a nested-source deletion gate."
+}

@@ -1,0 +1,16 @@
+{
+  "dataset_name": "opensign-darija-pilot",
+  "version": "0.1.0",
+  "generated_at": "2026-07-16T20:46:54.581934+00:00",
+  "privacy": {
+    "anonymous_contributor_ids_only": true,
+    "contains_email": false,
+    "contains_user_id": false,
+    "contains_audio": false
+  },
+  "counts": {
+    "items": 0,
+    "contributors": 0
+  },
+  "items": []
+}

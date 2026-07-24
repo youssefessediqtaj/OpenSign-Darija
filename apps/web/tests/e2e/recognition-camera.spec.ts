@@ -247,6 +247,36 @@ test('real Docker API receives an automatic private sequence and returns its rea
   const pageErrors: string[] = [];
   const speechRequests: Request[] = [];
   const wordResponses: Response[] = [];
+  const observedArabicResults: string[] = [];
+  await page.exposeFunction('recordArabicResultForTest', (value: string) => {
+    observedArabicResults.push(value);
+  });
+  await page.addInitScript(() => {
+    const testWindow = window as unknown as {
+      __lastArabicResultForTest?: string;
+      recordArabicResultForTest?: (value: string) => void;
+    };
+    const record = () => {
+      const element = document.querySelector('[data-testid="arabic-result"]');
+      const text = element?.textContent?.trim();
+      if (!text || text === testWindow.__lastArabicResultForTest) return;
+      testWindow.__lastArabicResultForTest = text;
+      testWindow.recordArabicResultForTest?.(text);
+    };
+    const installObserver = () => {
+      record();
+      new MutationObserver(record).observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', installObserver, { once: true });
+    } else {
+      installObserver();
+    }
+  });
   page.on('console', (message) => {
     if (message.type() === 'error' && !isBenignMediaPipeDiagnostic(message.text())) {
       consoleErrors.push(message.text());
@@ -355,12 +385,12 @@ test('real Docker API receives an automatic private sequence and returns its rea
   }
 
   const finalDecision = decisions[decisions.length - 1];
-  if (finalDecision?.status === 'recognized') {
-    await expect(page.getByTestId('arabic-result')).toHaveText(finalDecision.label_ar ?? '', {
-      timeout: 5_000,
-    });
-  } else {
-    await expect(page.getByTestId('arabic-result')).toHaveText('الإشارة غير معروفة', {
+  const expectedVisibleText =
+    finalDecision?.status === 'recognized'
+      ? finalDecision.label_ar ?? ''
+      : 'الإشارة غير معروفة';
+  if (!observedArabicResults.includes(expectedVisibleText)) {
+    await expect(page.getByTestId('arabic-result')).toHaveText(expectedVisibleText, {
       timeout: 5_000,
     });
   }

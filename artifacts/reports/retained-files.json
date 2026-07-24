@@ -1,0 +1,26 @@
+{
+  "schema_version": "OPEN_SIGNE_RETAINED_FILES_V1",
+  "generated_at": "2026-07-24T01:30:11.059986+00:00",
+  "retained_intentionally": [
+    {
+      "path": "packages/contracts/",
+      "reason": "Shared JSON contracts read by root contract tests."
+    },
+    {
+      "path": "ml/data/external/mosl-video-dataset/",
+      "reason": "Protected local dataset, manifests, splits, and processed caches."
+    },
+    {
+      "path": "ml/assets/mediapipe/",
+      "reason": "Protected MediaPipe task asset used by browser Docker mount and offline preprocessing."
+    },
+    {
+      "path": "artifacts/models/mosl-isolated-sign-v1/",
+      "reason": "Protected active ONNX model package."
+    },
+    {
+      "path": "artifacts/reports/",
+      "reason": "Generated audit evidence; additive root-structure reports only for this pass."
+    }
+  ]
+}

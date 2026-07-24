@@ -1,0 +1,12 @@
+{
+  "model_name": "mosl-word-smoke-v1",
+  "status": "TECHNICAL_SMOKE_ONLY",
+  "user_model": false,
+  "production_ready": false,
+  "labels": [
+    "16",
+    "17"
+  ],
+  "replacement_model": "mosl-isolated-sign-v1",
+  "replacement_package_validated": true
+}

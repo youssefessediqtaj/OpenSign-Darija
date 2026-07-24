@@ -56,6 +56,8 @@ export function useHolisticLandmarker(
             window.setTimeout(() => reject(new Error('MediaPipe timeout')), 12000);
           }),
         ]);
+        // React Strict Mode and route teardown can overlap async MediaPipe startup; the
+        // run ID prevents a stale detector from reviving a stopped camera loop.
         if (!runningRef.current || runIdRef.current !== runId) return;
         setStatus('ready');
       } catch (loadError) {

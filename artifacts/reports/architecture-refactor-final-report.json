@@ -1,0 +1,110 @@
+{
+  "schema_version": "OPEN_SIGNE_ARCHITECTURE_REFACTOR_FINAL_V1",
+  "completed_at": "2026-07-23T20:33:24Z",
+  "branch": "refactor/professional-architecture",
+  "baseline_commit": "a831df8fbc825a02d0b6a41753c22a89ba25d117",
+  "committed_or_pushed": false,
+  "functional_contract_preserved": true,
+  "public_pages": [
+    "/",
+    "/app/recognition"
+  ],
+  "exact_api_paths": [
+    "/health",
+    "/api/v1/health",
+    "/api/v1/version",
+    "/api/v1/recognitions/word",
+    "/api/v1/speech/sign"
+  ],
+  "repository": {
+    "baseline_tracked_files": 349,
+    "final_working_source_files": 258,
+    "removed_old_paths": 156,
+    "new_or_moved_paths": 65,
+    "modified_baseline_paths": 44
+  },
+  "dependency_graph": {
+    "current_source_config_nodes": 257,
+    "resolved_import_edges": 190,
+    "runtime_reachable_files": 66,
+    "cycles": 0,
+    "cross_layer_violations": 0,
+    "orphan_module_candidates": 0,
+    "unused_declared_dependency_candidates": 0
+  },
+  "verification": {
+    "architecture_contract_tests": 6,
+    "api_tests": 54,
+    "inference_tests": 29,
+    "ml_tests": 31,
+    "speech_tests": 9,
+    "frontend_tests": 30,
+    "default_playwright_passed": 4,
+    "default_playwright_skipped": 1,
+    "focused_two_cycle_repetitions_passed": 5,
+    "strict_production_playwright_passed": 5,
+    "ruff": "passed",
+    "mypy_strict": "passed",
+    "eslint": "passed",
+    "typescript": "passed",
+    "vite_production_build": "passed",
+    "compose_normal_and_ml_profile": "passed",
+    "locked_docker_build_and_health": "passed",
+    "runtime_error_log_scan": "passed"
+  },
+  "docker_images": {
+    "api": {
+      "before_bytes": 382068781,
+      "after_bytes": 187122936
+    },
+    "inference": {
+      "before_bytes": 1533758640,
+      "after_bytes": 303138583
+    },
+    "speech": {
+      "before_bytes": 224526608,
+      "after_bytes": 224545238
+    },
+    "web_after_bytes": 83811768
+  },
+  "protected_assets": {
+    "active_onnx_sha256": "24678fc01c86bb64a47f832ae800bd475e788a91c5b103122115a37fcdd6ad54",
+    "model_checksum_manifest_sha256": "707367e05abc7840a1330fecbc8fd7d946e6decb82a88ecd0d618197e01034f6",
+    "dataset_manifest_sha256": "558241beba4b6d0b31ab2a3a22ff584a3f47274f3a57aed153dd0bf149d73d62",
+    "dataset_records_verified": 2216,
+    "labels": [
+      "اب",
+      "احب",
+      "سوق"
+    ],
+    "input_shape": [
+      "batch",
+      60,
+      75,
+      3
+    ],
+    "output_shape": [
+      "batch",
+      3
+    ],
+    "canonical_logits": [
+      -2.4934840202331543,
+      1.7240511178970337,
+      -0.6624970436096191
+    ],
+    "canonical_probabilities": [
+      0.00021525139163713902,
+      0.9914032816886902,
+      0.008381485939025879
+    ],
+    "canonical_top_label": "احب",
+    "canonical_margin": 0.9830217957496643,
+    "canonical_accepted": true,
+    "comparison": "passed"
+  },
+  "limitations": {
+    "physical_camera_person_validation": "UNCONFIRMED",
+    "model_retrained_or_replaced": false,
+    "prompt_attachment": "truncated_mid_section_15"
+  }
+}

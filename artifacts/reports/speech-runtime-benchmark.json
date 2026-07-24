@@ -1,0 +1,18 @@
+{
+  "schema_version": "OPEN_SIGNE_SPEECH_BENCHMARK_V1",
+  "measured_at": "2026-07-23T18:03:48.082469+00:00",
+  "url": "http://localhost:8081/api/v1/speech/sign",
+  "requests": 5,
+  "label_key": "اب",
+  "label_ar": "أَبٌ",
+  "generation_latency_ms": {
+    "average": 28.368,
+    "p50": 19.468,
+    "p95": 22.444,
+    "maximum": 63.065
+  },
+  "average_audio_bytes": 36184,
+  "average_audio_duration_ms": 819,
+  "fallback_count": 0,
+  "playable_wav_count": 5
+}

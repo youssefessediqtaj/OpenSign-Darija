@@ -1,0 +1,14 @@
+{
+  "schema_version": "OPEN_SIGNE_DELETED_FILES_V1",
+  "generated_at": "2026-07-24T01:30:11.059898+00:00",
+  "tracked_deleted_files": [],
+  "local_generated_paths_removed": [
+    ".pytest_cache/",
+    ".ruff_cache/",
+    "OpenSigne-Darija-readme/",
+    "data/models/",
+    "data/reports/",
+    "data/",
+    "source-tree .DS_Store files"
+  ]
+}

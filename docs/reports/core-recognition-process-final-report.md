@@ -391,7 +391,7 @@ session. Therefore the report does not claim:
 - device-audible playback start or autoplay behavior.
 
 The stack remains running at `http://localhost:8081/app/recognition` for the manual gate
-documented in `docs/testing-camera.md`. The operator must click only
+documented in `docs/testing/physical-camera.md`. The operator must click only
 `Activer la caméra`, perform supported signs, inspect console/network, and record the
 actual result without reclassifying UNKNOWN as success.
 

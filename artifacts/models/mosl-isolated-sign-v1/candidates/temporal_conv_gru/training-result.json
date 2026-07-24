@@ -1,0 +1,862 @@
+{
+  "architecture": "temporal_conv_gru",
+  "parameter_count": 91277,
+  "training_duration_seconds": 5.325370458998805,
+  "epochs_completed": 30,
+  "best_checkpoint": "artifacts/models/mosl-isolated-sign-v1/candidates/temporal_conv_gru/best-checkpoint.pt",
+  "checkpoint_size_bytes": 1124058,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 2.57260799407959,
+      "validation_loss": 2.57405424118042,
+      "validation_macro_f1": 0.0,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.5326804320017495,
+      "validation_loss": 2.5691142082214355,
+      "validation_macro_f1": 0.0,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.518478512763977,
+      "validation_loss": 2.5706398487091064,
+      "validation_macro_f1": 0.0,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.4893434047698975,
+      "validation_loss": 2.5639255046844482,
+      "validation_macro_f1": 0.0,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 5,
+      "train_loss": 2.5445988178253174,
+      "validation_loss": 2.559229612350464,
+      "validation_macro_f1": 0.03076923,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 6,
+      "train_loss": 2.3507826725641885,
+      "validation_loss": 2.5892062187194824,
+      "validation_macro_f1": 0.02564103,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 7,
+      "train_loss": 2.348519762357076,
+      "validation_loss": 2.627880811691284,
+      "validation_macro_f1": 0.02564103,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 8,
+      "train_loss": 2.195912996927897,
+      "validation_loss": 2.664543628692627,
+      "validation_macro_f1": 0.06153846,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 9,
+      "train_loss": 2.242993791898092,
+      "validation_loss": 2.594534397125244,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 10,
+      "train_loss": 2.2204795479774475,
+      "validation_loss": 2.6326465606689453,
+      "validation_macro_f1": 0.0,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 11,
+      "train_loss": 2.096451779206594,
+      "validation_loss": 2.726825714111328,
+      "validation_macro_f1": 0.03846154,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 12,
+      "train_loss": 2.076450288295746,
+      "validation_loss": 2.8574657440185547,
+      "validation_macro_f1": 0.02197802,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 13,
+      "train_loss": 1.9898850719134014,
+      "validation_loss": 2.6509757041931152,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 14,
+      "train_loss": 1.840112825234731,
+      "validation_loss": 2.766930103302002,
+      "validation_macro_f1": 0.06043956,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 15,
+      "train_loss": 1.813471217950185,
+      "validation_loss": 2.744554281234741,
+      "validation_macro_f1": 0.05641026,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 16,
+      "train_loss": 2.0160441994667053,
+      "validation_loss": 2.672936201095581,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 17,
+      "train_loss": 1.913833995660146,
+      "validation_loss": 2.5387985706329346,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 18,
+      "train_loss": 1.632202923297882,
+      "validation_loss": 2.5484981536865234,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 19,
+      "train_loss": 1.8752356171607971,
+      "validation_loss": 2.5214593410491943,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 20,
+      "train_loss": 1.6738117734591167,
+      "validation_loss": 2.505082368850708,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 21,
+      "train_loss": 1.7551391124725342,
+      "validation_loss": 2.531879425048828,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 22,
+      "train_loss": 1.734268347422282,
+      "validation_loss": 2.4885854721069336,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 23,
+      "train_loss": 1.7059531211853027,
+      "validation_loss": 2.5113437175750732,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 24,
+      "train_loss": 1.4951511025428772,
+      "validation_loss": 2.572288990020752,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.00025
+    },
+    {
+      "epoch": 25,
+      "train_loss": 1.667228897412618,
+      "validation_loss": 2.603055238723755,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.000125
+    },
+    {
+      "epoch": 26,
+      "train_loss": 1.481317400932312,
+      "validation_loss": 2.6030213832855225,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.000125
+    },
+    {
+      "epoch": 27,
+      "train_loss": 1.5114800731341045,
+      "validation_loss": 2.591400146484375,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.000125
+    },
+    {
+      "epoch": 28,
+      "train_loss": 1.627001663049062,
+      "validation_loss": 2.5936810970306396,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 0.000125
+    },
+    {
+      "epoch": 29,
+      "train_loss": 1.6108166972796123,
+      "validation_loss": 2.6033389568328857,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 6.25e-05
+    },
+    {
+      "epoch": 30,
+      "train_loss": 1.4796492060025532,
+      "validation_loss": 2.592538833618164,
+      "validation_macro_f1": 0.06410256,
+      "learning_rate": 6.25e-05
+    }
+  ],
+  "validation": {
+    "sample_count": 13,
+    "top1_accuracy": 0.15384615,
+    "top3_accuracy": 0.46153846,
+    "macro_precision": 0.05384615,
+    "macro_recall": 0.15384615,
+    "macro_f1": 0.07692308,
+    "balanced_accuracy": 0.15384615,
+    "weighted_f1": 0.07692308,
+    "per_class": [
+      {
+        "label_key": "11",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "12",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "14",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "15",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "16",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "17",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "18",
+        "precision": 0.2,
+        "recall": 1.0,
+        "f1": 0.33333333,
+        "support": 1
+      },
+      {
+        "label_key": "19",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "اب",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.66666667,
+        "support": 1
+      },
+      {
+        "label_key": "احب",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "سوق",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "لون",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "نادي",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      }
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "validation_unknown": {
+    "known_samples": 13,
+    "unknown_samples": 64,
+    "known_acceptance_rate": 0.8461538461538461,
+    "known_correct_acceptance_rate": 0.15384615384615385,
+    "known_classification_accuracy": 0.15384615384615385,
+    "unknown_rejection_rate": 0.515625,
+    "unknown_false_acceptance_rate": 0.484375,
+    "balanced_unknown_accuracy": 0.6808894230769231
+  },
+  "test": {
+    "sample_count": 13,
+    "top1_accuracy": 0.07692308,
+    "top3_accuracy": 0.53846154,
+    "macro_precision": 0.03846154,
+    "macro_recall": 0.07692308,
+    "macro_f1": 0.05128205,
+    "balanced_accuracy": 0.07692308,
+    "weighted_f1": 0.05128205,
+    "per_class": [
+      {
+        "label_key": "11",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "12",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "14",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "15",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "16",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "17",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "18",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "19",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "اب",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "احب",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "سوق",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "لون",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "نادي",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.66666667,
+        "support": 1
+      }
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    ]
+  },
+  "test_unknown": {
+    "known_samples": 13,
+    "unknown_samples": 64,
+    "known_acceptance_rate": 0.6153846153846154,
+    "known_correct_acceptance_rate": 0.07692307692307693,
+    "known_classification_accuracy": 0.07692307692307693,
+    "unknown_rejection_rate": 0.515625,
+    "unknown_false_acceptance_rate": 0.484375,
+    "balanced_unknown_accuracy": 0.5655048076923077
+  },
+  "calibration": {
+    "schema_version": "OPEN_SIGNE_CONFIDENCE_CALIBRATION_V1",
+    "method": "temperature_scaling_max_probability_and_margin",
+    "temperature": 1.8,
+    "unknown_threshold": 0.14532732963562012,
+    "margin_threshold": 0.019249647855758667,
+    "known_validation_samples": 13,
+    "unknown_validation_samples": 64,
+    "minimum_known_acceptance_target": 0.8,
+    "temperature_nll": 2.403165340423584,
+    "expected_calibration_error": 0.03399133453002344,
+    "validation": {
+      "known_acceptance_rate": 0.8461538461538461,
+      "unknown_rejection_rate": 0.515625,
+      "balanced_unknown_accuracy": 0.6808894230769231
+    }
+  },
+  "latency": {
+    "average_ms": 1.6560772000957513,
+    "p95_ms": 1.8094044518875305,
+    "repeats": 40.0
+  }
+}

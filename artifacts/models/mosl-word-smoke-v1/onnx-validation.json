@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "input_name": "landmarks",
+  "input_shape": [
+    "batch",
+    60,
+    75,
+    3
+  ],
+  "output_name": "logits",
+  "output_shape": [
+    "batch",
+    2
+  ],
+  "max_abs_diff": 4.470348358154297e-08,
+  "mean_abs_diff": 4.0978193283081055e-08,
+  "torch_top1": "16",
+  "onnx_top1": "16",
+  "torch_topk": [
+    "16",
+    "17"
+  ],
+  "onnx_topk": [
+    "16",
+    "17"
+  ]
+}

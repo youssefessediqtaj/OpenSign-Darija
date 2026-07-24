@@ -57,15 +57,15 @@ tests.
 
 Created:
 
-- `scripts/audit_project_structure.py`
+- `scripts/verification/audit_project_structure.py`
 - `docs/audits/pre-professional-architecture-baseline.md`
 - `docs/audits/root-folder-audit.md`
-- `docs/operations/configuration-reference.md`
+- `docs/operations/configuration.md`
 - `docs/architecture/repository-map.md`
 - `docs/architecture/runtime-flow.md`
 - `docs/architecture/dependency-rules.md`
 - `docs/architecture/recognition-state-machine.md`
-- `docs/architecture/model-package.md`
+- `docs/architecture/model-lifecycle.md`
 - `docs/architecture/privacy-security.md`
 - `docs/architecture/testing-strategy.md`
 - `docs/architecture/adr/0001-browser-mediapipe.md`
@@ -80,8 +80,8 @@ Updated:
 - `Makefile`
 - service README files
 - `ml/README.md`
-- `scripts/audit_repository_architecture.py`
-- `scripts/verify_architecture_protected_assets.py`
+- `scripts/verification/audit_repository_architecture.py`
+- `scripts/verification/verify_protected_assets.py`
 - `docs/architecture/dependency-graph.md`
 
 Deleted:

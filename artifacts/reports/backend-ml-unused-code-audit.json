@@ -1,0 +1,334 @@
+{
+  "generated_at": "2026-07-19T22:12:03Z",
+  "scope": [
+    "services/api",
+    "services/inference",
+    "services/speech",
+    "ml",
+    "docker-compose.yml",
+    "Makefile",
+    "artifacts/models/mosl-word-smoke-v1"
+  ],
+  "methodology": [
+    "Traced the FastAPI entry points and the routers included by each running service.",
+    "Generated OpenAPI schemas from fresh API, inference, and speech imports and recorded their exact application paths.",
+    "Checked a fresh API import for historical app modules and SQLAlchemy, Redis, and MinIO package imports.",
+    "Compared scoped working-tree deletions with the Git baseline and grouped removed files by responsibility.",
+    "Inspected Docker Compose, Docker entry commands, Make targets, surviving ML modules, and selected model-package paths.",
+    "Searched surviving ML Python and configuration files for external-download or remote-ingestion behavior."
+  ],
+  "summary": {
+    "deleted_files_in_scoped_git_diff": 80,
+    "deleted_files_by_area": {
+      "services/api": 7,
+      "services/inference": 3,
+      "services/speech": 1,
+      "ml": 69
+    },
+    "active_api_application_paths": 5,
+    "active_inference_application_paths": 5,
+    "active_speech_application_paths": 5,
+    "external_dataset_downloaders_present": 0,
+    "active_external_dataset_runtime_routes": 0,
+    "active_runtime_databases_or_object_stores": 0,
+    "historical_persistence_and_migrations_retained": true,
+    "technical_smoke_package_retained": true
+  },
+  "active_core": {
+    "docker_runtime_services": [
+      "web",
+      "api",
+      "inference",
+      "speech",
+      "nginx"
+    ],
+    "optional_offline_service": {
+      "name": "ml-audit",
+      "profile": "ml",
+      "command": "python -m ml.datasets.mosl_video.local_audit",
+      "network_dataset_ingestion": false
+    },
+    "api": {
+      "mounted_modules": [
+        "app.api.v1.system",
+        "app.api.v1.recognitions",
+        "app.api.v1.speech"
+      ],
+      "application_paths": [
+        "/health",
+        "/api/v1/health",
+        "/api/v1/version",
+        "/api/v1/recognitions/word",
+        "/api/v1/speech/sign"
+      ],
+      "startup_command": [
+        "uvicorn",
+        "app.main:app",
+        "--host",
+        "0.0.0.0",
+        "--port",
+        "8000"
+      ],
+      "fresh_import_historical_app_modules": [],
+      "fresh_import_stateful_packages": [],
+      "health_dependencies": [
+        "inference",
+        "speech"
+      ]
+    },
+    "inference": {
+      "application_paths": [
+        "/health",
+        "/ready",
+        "/version",
+        "/model",
+        "/predict/word"
+      ],
+      "prediction_mode": "real local ONNX only",
+      "input_contract": "exactly 60 x 75 x 3 OPEN_SIGNE_LANDMARK_SCHEMA_V1 landmarks",
+      "selected_package_default": "artifacts/models/mosl-isolated-sign-v1",
+      "runtime_package_checks": [
+        "required files",
+        "SHA-256 manifest",
+        "labels and Arabic supported-sign vocabulary agreement",
+        "confidence calibration",
+        "landmark and preprocessing metadata",
+        "ONNX input, output, dtype, and finite-value contracts"
+      ]
+    },
+    "speech": {
+      "application_paths": [
+        "/health",
+        "/ready",
+        "/version",
+        "/voices",
+        "/synthesize"
+      ],
+      "storage": "stateless inline WAV result",
+      "database_cache_or_object_store": false,
+      "provider_scope": "local system Arabic voices"
+    },
+    "ml": {
+      "normal_entrypoints": [
+        "python -m ml.datasets.mosl_video.local_audit",
+        "python -m ml.datasets.mosl_video.scan",
+        "python -m ml.datasets.mosl_video.preprocess",
+        "python -m ml.datasets.mosl_video.validate_processed_artifacts",
+        "python -m ml.training.train_mosl_v1",
+        "python -m ml.export.validate_mosl_v1"
+      ],
+      "data_source": "already-local ml/data/external/mosl-video-dataset",
+      "remote_download_or_archive_import": false,
+      "active_model_family_module": "ml.models.mosl_v1"
+    }
+  },
+  "removed_from_worktree": {
+    "services_api": {
+      "count": 7,
+      "files": [
+        "services/api/app/api/v1/admin_external_datasets.py",
+        "services/api/app/schemas/external_datasets.py",
+        "services/api/tests/test_auth.py",
+        "services/api/tests/test_dataset_workflow.py",
+        "services/api/tests/test_messages_linguistics.py",
+        "services/api/tests/test_migrations.py",
+        "services/api/tests/test_signs_recognition.py"
+      ],
+      "finding": "The external-dataset API and schema were physically removed; tests tied only to eliminated auth, collection, message, migration, and legacy sign flows were removed with those mounted flows."
+    },
+    "services_inference": {
+      "count": 3,
+      "files": [
+        "services/inference/app/models/mock_model.py",
+        "services/inference/app/services/interfaces.py",
+        "services/inference/tests/test_landmark_prediction.py"
+      ],
+      "finding": "The online mock implementation and obsolete generic prediction abstraction/test were removed; the service now exposes only the real word-sequence contract."
+    },
+    "services_speech": {
+      "count": 1,
+      "files": [
+        "services/speech/app/audio/waveform.py"
+      ],
+      "finding": "The synthetic waveform generator was removed; synthesis uses the local Arabic system-voice path."
+    },
+    "ml_external_ingestion_and_registry": {
+      "count": 11,
+      "files": [
+        "ml/datasets/external/__init__.py",
+        "ml/datasets/external/audit.py",
+        "ml/datasets/external/check_duplicates.py",
+        "ml/datasets/external/download_kaggle.py",
+        "ml/datasets/external/download_mendeley.py",
+        "ml/datasets/external/import_local_archive.py",
+        "ml/datasets/external/licenses.py",
+        "ml/datasets/external/registry.py",
+        "ml/datasets/external/safe_archive.py",
+        "ml/datasets/external/validate_licenses.py",
+        "ml/datasets/sources/external_sources.yaml"
+      ],
+      "finding": "All tracked external source registration, download, archive-import, license-gate, and duplicate-audit implementation was removed."
+    },
+    "ml_alphabet_pipeline": {
+      "count": 7,
+      "files": [
+        "ml/datasets/alphabet/__init__.py",
+        "ml/datasets/alphabet/importer.py",
+        "ml/datasets/alphabet/inspector.py",
+        "ml/datasets/alphabet/label_parser.py",
+        "ml/datasets/alphabet/manifest_builder.py",
+        "ml/datasets/alphabet/split_builder.py",
+        "ml/datasets/alphabet/validator.py"
+      ],
+      "finding": "The separate alphabet ingestion and preparation stack was removed because alphabet mode is outside the single isolated-sign core."
+    },
+    "ml_alternative_mosl_words_pipeline": {
+      "count": 11,
+      "files": [
+        "ml/datasets/mosl_words/__init__.py",
+        "ml/datasets/mosl_words/importer.py",
+        "ml/datasets/mosl_words/label_normalizer.py",
+        "ml/datasets/mosl_words/landmark_extractor.py",
+        "ml/datasets/mosl_words/manifest_builder.py",
+        "ml/datasets/mosl_words/select_vocabulary.py",
+        "ml/datasets/mosl_words/signer_resolver.py",
+        "ml/datasets/mosl_words/split_builder.py",
+        "ml/datasets/mosl_words/subtitle_parser.py",
+        "ml/datasets/mosl_words/validator.py",
+        "ml/datasets/mosl_words/video_inspector.py"
+      ],
+      "finding": "The overlapping legacy MoSL-word adapter was removed in favor of the native ml.datasets.mosl_video path."
+    },
+    "ml_retired_local_import_and_deletion_tools": {
+      "count": 5,
+      "files": [
+        "ml/datasets/mosl_video/download_mediapipe_model.py",
+        "ml/datasets/mosl_video/final_deletion_verification.py",
+        "ml/datasets/mosl_video/importer.py",
+        "ml/datasets/mosl_video/migration_verification.py",
+        "ml/datasets/mosl_video/source_inventory.py"
+      ],
+      "finding": "One-time asset download, source migration, and nested-project deletion tools were removed after the local corpus and task asset were established."
+    },
+    "ml_generic_legacy_pipeline": {
+      "count": 35,
+      "files": [
+        "ml/configs/baseline.yaml",
+        "ml/configs/gru.yaml",
+        "ml/configs/lstm.yaml",
+        "ml/configs/mosl-word-isolated-baseline-v1.yaml",
+        "ml/datasets/build_manifest.py",
+        "ml/datasets/dataset_loader.py",
+        "ml/datasets/generate_statistics.py",
+        "ml/datasets/integrity.py",
+        "ml/datasets/manifest.py",
+        "ml/datasets/split_validator.py",
+        "ml/datasets/validate_dataset.py",
+        "ml/datasets/validate_training_dataset.py",
+        "ml/evaluation/confusion_matrix.py",
+        "ml/evaluation/evaluate.py",
+        "ml/evaluation/metrics.py",
+        "ml/evaluation/unknown_detection.py",
+        "ml/export/export_onnx.py",
+        "ml/export/package_model.py",
+        "ml/export/register_model.py",
+        "ml/export/validate_onnx.py",
+        "ml/models/baseline.py",
+        "ml/models/gru_classifier.py",
+        "ml/models/registry.py",
+        "ml/preprocessing/augmentation.py",
+        "ml/preprocessing/feature_selection.py",
+        "ml/preprocessing/masking.py",
+        "ml/preprocessing/normalization.py",
+        "ml/preprocessing/prepare_sequences.py",
+        "ml/preprocessing/sampling.py",
+        "ml/tests/test_external_datasets.py",
+        "ml/tests/test_ml_pipeline.py",
+        "ml/training/config.py",
+        "ml/training/reproducibility.py",
+        "ml/training/train.py",
+        "ml/training/train_baseline.py"
+      ],
+      "finding": "Generic phase scaffolding, superseded configs/models/preprocessing, registry export, and their obsolete tests were removed; V1 has one native train/calibrate/export/validate implementation."
+    }
+  },
+  "retained_but_not_mounted_core": [
+    {
+      "category": "historical API feature routers",
+      "paths": [
+        "services/api/app/api/v1/admin_models.py",
+        "services/api/app/api/v1/admin_datasets.py",
+        "services/api/app/api/v1/auth.py",
+        "services/api/app/api/v1/consents.py",
+        "services/api/app/api/v1/contribution_campaigns.py",
+        "services/api/app/api/v1/contributions.py",
+        "services/api/app/api/v1/contributors.py",
+        "services/api/app/api/v1/linguistics.py",
+        "services/api/app/api/v1/messages.py",
+        "services/api/app/api/v1/reviews.py",
+        "services/api/app/api/v1/signs.py"
+      ],
+      "runtime_status": "Files remain in the image source tree, but app.api.v1.router imports and includes none of them. They create no current OpenAPI path."
+    },
+    {
+      "category": "historical persistence, models, jobs, security, and feature helpers",
+      "paths": [
+        "services/api/app/db/**",
+        "services/api/app/models/**",
+        "services/api/app/jobs/**",
+        "services/api/app/security/**",
+        "services/api/app/services/linguistics/**",
+        "services/api/app/services/auth_service.py",
+        "services/api/app/services/object_storage.py",
+        "services/api/migrations/**"
+      ],
+      "runtime_status": "Retained to avoid destructive schema/history removal. A fresh app.main import loads none of app.db, app.models, app.jobs, app.security, SQLAlchemy, Redis, or MinIO. The API image copies migrations, but its direct Uvicorn command does not run Alembic, seed data, or cleanup jobs."
+    },
+    {
+      "category": "historical stateful configuration and installed dependencies",
+      "paths": [
+        "services/api/app/core/config.py",
+        "services/api/pyproject.toml"
+      ],
+      "runtime_status": "Database, JWT, Redis, MinIO, dataset, message, and stored-audio settings and packages are still declared for the retained historical modules. Mounted core handlers establish no such connections, and Compose starts none of those services. These are packaging/configuration residue, not active core dependencies."
+    },
+    {
+      "category": "historical external-dataset persistence",
+      "paths": [
+        "services/api/app/models/dataset.py",
+        "services/api/app/models/enums.py",
+        "services/api/migrations/versions/20260717_0006_external_datasets_multitask.py"
+      ],
+      "runtime_status": "External-source enums and tables remain only inside the unmounted persistence history. The external API/schema and all ML download/import/registry code are removed."
+    },
+    {
+      "category": "technical smoke tooling and package",
+      "paths": [
+        "artifacts/models/mosl-word-smoke-v1/",
+        "artifacts/reports/smoke-model-status.json",
+        "ml/training/train_mosl_word.py",
+        "ml/export/validate_mosl_word_smoke.py",
+        "services/api/app/tools/register_mosl_word_smoke.py",
+        "services/api/app/tools/activate_mosl_word_smoke.py"
+      ],
+      "runtime_status": "Retained only for technical history and smoke validation. The package is marked TECHNICAL_SMOKE_ONLY, NOT_USER_MODEL, and NOT_PRODUCTION_READY; Compose selects mosl-isolated-sign-v1, no current Make or Compose command trains or activates the smoke model, and the API tools are not imported at startup."
+    },
+    {
+      "category": "offline preprocessing dependencies in the inference environment",
+      "paths": [
+        "services/inference/pyproject.toml"
+      ],
+      "runtime_status": "MediaPipe and OpenCV remain installed because repository Make targets use the inference environment for local video preprocessing. The online inference app source does not import them; it consumes precomputed landmarks and ONNX Runtime only."
+    }
+  ],
+  "runtime_pruning_findings": [
+    "The core Compose graph has no PostgreSQL, Redis, MinIO, worker, migration, seed, model-registry, or external-ingestion service.",
+    "The public API has exactly five application paths and no auth, user, admin, dataset, message, alphabet, model-activation, or external-source path.",
+    "The inference service has no mock switch, generic prediction route, alphabet route, reload route, or runtime registry lookup.",
+    "The speech service has no prepare, generation-history, storage, signed-URL, reload, or synthetic-waveform route.",
+    "Surviving ML source has no Kaggle/Mendeley downloader or archive importer; the only urllib usage is a test that asserts network access is blocked.",
+    "Historical files retained on disk are not equivalent to mounted runtime behavior; they remain a deliberate non-destructive compatibility boundary and are documented separately from the active core.",
+    "The API image still installs historical stateful dependencies and copies migrations, so source/runtime execution is pruned more aggressively than the image dependency footprint."
+  ],
+  "conclusion": "The active backend and ML execution paths implement the local anonymous recognition-to-speech core without external ingestion or stateful runtime services. Eighty scoped files were physically removed. Historical persistence, migrations, inactive routers, stateful dependency declarations, and the explicitly marked technical smoke package remain on disk but are not route-mounted, started, selected, or used by the normal V1 training path."
+}

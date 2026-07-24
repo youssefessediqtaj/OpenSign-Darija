@@ -1,0 +1,1356 @@
+{
+  "generated_at": "2026-07-19T21:59:00Z",
+  "scope": "apps/web/src",
+  "methodology": [
+    "Traced the final Vite entry point through AppRoutes and RecognitionWorkspace.",
+    "Searched surviving imports and tests after replacing the legacy route graph.",
+    "Removed only modules with zero surviving required references, then ran TypeScript, Vitest, ESLint, Vite build, and Playwright."
+  ],
+  "final_runtime_routes": [
+    "/",
+    "/app/recognition"
+  ],
+  "removed_dependencies": [
+    "@hookform/resolvers",
+    "@tanstack/react-query",
+    "i18next",
+    "react-hook-form",
+    "react-i18next",
+    "zod",
+    "zustand"
+  ],
+  "summary": {
+    "candidates_reviewed": 113,
+    "removed_files": 103,
+    "kept_core_files": 10
+  },
+  "candidates": [
+    {
+      "file": "apps/web/src/routes/AppRoutes.tsx",
+      "exports": [
+        "AppRoutes"
+      ],
+      "references": "App.tsx; maps only / and /app/recognition to RecognitionPage",
+      "runtime_usage": true,
+      "test_usage": "recognition-camera.spec.ts public-route assertions",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/pages/RecognitionPage.tsx",
+      "exports": [
+        "RecognitionPage"
+      ],
+      "references": "AppRoutes.tsx",
+      "runtime_usage": true,
+      "test_usage": "recognition-camera.spec.ts",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/RecognitionWorkspace.tsx",
+      "exports": [
+        "RecognitionWorkspace"
+      ],
+      "references": "RecognitionPage.tsx",
+      "runtime_usage": true,
+      "test_usage": "components.test.tsx; workspace-flow.test.tsx; recognition-camera.spec.ts",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/recognition/services/automatic-segmentation.service.ts",
+      "exports": [
+        "AutomaticSignSegmenter",
+        "DEFAULT_SEGMENTATION_CONFIG",
+        "frameMotionEnergy",
+        "sequenceDescriptor",
+        "sequenceSimilarity"
+      ],
+      "references": "RecognitionWorkspace.tsx",
+      "runtime_usage": true,
+      "test_usage": "automatic-segmentation.test.ts",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/recognition/hooks/useHolisticLandmarker.ts",
+      "exports": [
+        "useHolisticLandmarker"
+      ],
+      "references": "RecognitionWorkspace.tsx",
+      "runtime_usage": true,
+      "test_usage": "recognition-camera.spec.ts mock-camera loop",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/recognition/services/sequence-validator.service.ts",
+      "exports": [
+        "createLandmarkSequence",
+        "toWordLandmarkPayload",
+        "validateWordRecognitionPayloadV1"
+      ],
+      "references": "RecognitionWorkspace.tsx",
+      "runtime_usage": true,
+      "test_usage": "sequence.test.ts; recognition-camera.spec.ts payload assertions",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/recognition/services/recognition-api.service.ts",
+      "exports": [
+        "landmarkRecognitionApi",
+        "recognitionErrorMessage"
+      ],
+      "references": "RecognitionWorkspace.tsx",
+      "runtime_usage": true,
+      "test_usage": "recognition-api-errors.test.ts; recognition-camera.spec.ts",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/speech/services/speech-api.service.ts",
+      "exports": [
+        "speechApi"
+      ],
+      "references": "RecognitionWorkspace.tsx",
+      "runtime_usage": true,
+      "test_usage": "recognition-camera.spec.ts known/UNKNOWN assertions",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/features/speech/services/browser-speech.service.ts",
+      "exports": [
+        "browserSpeechSupported",
+        "compatibleBrowserVoices",
+        "speakWithBrowser"
+      ],
+      "references": "RecognitionWorkspace.tsx fallback only",
+      "runtime_usage": true,
+      "test_usage": "browser-speech.test.ts; fallback failure in workspace-flow.test.ts; server-audio path in Playwright",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/lib/api.ts",
+      "exports": [
+        "ApiError",
+        "publicApiRequest"
+      ],
+      "references": "recognition-api.service.ts; speech-api.service.ts",
+      "runtime_usage": true,
+      "test_usage": "recognition-api-errors.test.ts; Playwright header assertions",
+      "decision": "KEPT",
+      "removal_reason": null
+    },
+    {
+      "file": "apps/web/src/components/FieldError.tsx",
+      "exports": [
+        "FieldError"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The component was used only by eliminated forms or workflows."
+    },
+    {
+      "file": "apps/web/src/config/i18n.ts",
+      "exports": [
+        "(module side effects or re-exports)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The configuration module supported eliminated localization or settings complexity."
+    },
+    {
+      "file": "apps/web/src/features/fingerspelling/components/FingerspellingPanel.tsx",
+      "exports": [
+        "FingerspellingPanel"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Alphabet/fingerspelling mode is outside the single isolated-sign product contract."
+    },
+    {
+      "file": "apps/web/src/features/fingerspelling/tests/fingerspelling.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "Alphabet/fingerspelling mode is outside the single isolated-sign product contract."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/EmptyMessageState.tsx",
+      "exports": [
+        "EmptyMessageState"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/FavoriteButton.tsx",
+      "exports": [
+        "FavoriteButton"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/GeneratedMessagePanel.tsx",
+      "exports": [
+        "GeneratedMessagePanel"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/GenerationSuggestions.tsx",
+      "exports": [
+        "GenerationSuggestions"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/ManualTextEditor.tsx",
+      "exports": [
+        "ManualTextEditor"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageBuilder.tsx",
+      "exports": [
+        "MessageBuilder"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageDetails.tsx",
+      "exports": [
+        "MessageDetails"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageHistoryCard.tsx",
+      "exports": [
+        "MessageHistoryCard"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageHistoryList.tsx",
+      "exports": [
+        "MessageHistoryList"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageItemCard.tsx",
+      "exports": [
+        "MessageItemCard"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageLanguageTabs.tsx",
+      "exports": [
+        "MessageLanguageTabs"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageTimeline.tsx",
+      "exports": [
+        "MessageTimeline"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/MessageToolbar.tsx",
+      "exports": [
+        "MessageToolbar"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/SemanticSequencePanel.tsx",
+      "exports": [
+        "SemanticSequencePanel"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/components/ShareMessageButton.tsx",
+      "exports": [
+        "ShareMessageButton"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/hooks/useCurrentMessage.ts",
+      "exports": [
+        "useCurrentMessage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/hooks/useMessageBuilder.ts",
+      "exports": [
+        "useMessageBuilder"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/hooks/useMessageDraft.ts",
+      "exports": [
+        "useMessageDraft"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/hooks/useMessageGeneration.ts",
+      "exports": [
+        "useMessageGeneration"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/hooks/useMessageHistory.ts",
+      "exports": [
+        "useMessageHistory"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/services/message-export.service.ts",
+      "exports": [
+        "exportMessageJson",
+        "exportMessageText"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/services/message-share.service.ts",
+      "exports": [
+        "copyText",
+        "shareText"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/services/messages-api.service.ts",
+      "exports": [
+        "getGuestSessionId",
+        "guestHeaders",
+        "messagesApi",
+        "getOrCreateDraft"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/stores/message.store.ts",
+      "exports": [
+        "useMessageStore"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/tests/components.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/types/concept.types.ts",
+      "exports": [
+        "ConceptCode"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/types/generation.types.ts",
+      "exports": [
+        "LinguisticStatus"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/messages/types/message.types.ts",
+      "exports": [
+        "BuilderState"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/CameraControls.tsx",
+      "exports": [
+        "CameraControls"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/CameraSelector.tsx",
+      "exports": [
+        "CameraSelector"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/CameraStatus.tsx",
+      "exports": [
+        "CameraStatus"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/CaptureCountdown.tsx",
+      "exports": [
+        "CaptureCountdown"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/CaptureProgress.tsx",
+      "exports": [
+        "CaptureProgress"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/FramingGuide.tsx",
+      "exports": [
+        "FramingGuide"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/LandmarkCanvas.tsx",
+      "exports": [
+        "LandmarkCanvas"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/LightingIndicator.tsx",
+      "exports": [
+        "LightingIndicator"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/PredictionPanel.tsx",
+      "exports": [
+        "PredictionPanel"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/components/RecognitionInstructions.tsx",
+      "exports": [
+        "RecognitionInstructions"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/hooks/useCameraDevices.ts",
+      "exports": [
+        "useCameraDevices"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/hooks/useLandmarkRecorder.ts",
+      "exports": [
+        "useLandmarkRecorder"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/hooks/useRecognitionCapture.ts",
+      "exports": [
+        "useRecognitionCapture"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/hooks/useRecognitionSubmission.ts",
+      "exports": [
+        "useRecognitionSubmission"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/services/capture-state.service.ts",
+      "exports": [
+        "DetectorStatus",
+        "WordCaptureGateInput",
+        "WordCaptureGate",
+        "detectorReadyForCapture",
+        "evaluateWordCaptureGate"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/services/landmark-normalizer.service.ts",
+      "exports": [
+        "FEATURE_SCHEMA_VERSION",
+        "COORDINATE_FORMAT",
+        "FEATURE_NAMES",
+        "compactFrame"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/stores/recognition.store.ts",
+      "exports": [
+        "useRecognitionStore"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/tests/capture-state.test.ts",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/tests/framing-evaluator.test.ts",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/tests/landmark-normalizer.test.ts",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/types/framing.types.ts",
+      "exports": [
+        "FramingDistance",
+        "LightingLevel",
+        "StabilityLevel",
+        "FramingWarning",
+        "FramingEvaluation"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/types/recognition.types.ts",
+      "exports": [
+        "CapturePhase",
+        "RecognitionResult"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/utils/framing-evaluator.ts",
+      "exports": [
+        "lightingFromLuminance",
+        "stabilityFromMovement",
+        "evaluateFraming",
+        "framingInstruction"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/utils/landmark-drawing.ts",
+      "exports": [
+        "drawLandmarks"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/utils/landmark-visibility.ts",
+      "exports": [
+        "isVisible",
+        "hasAnyVisible"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/recognition/workers/landmark.worker.ts",
+      "exports": [
+        "(module side effects or re-exports)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Manual capture, debug, framing, preference, legacy schema, or duplicate recognition state was replaced by the automatic state machine."
+    },
+    {
+      "file": "apps/web/src/features/speech/components/SpeechButton.tsx",
+      "exports": [
+        "SpeechButton"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/components/SpeechConfirmationDialog.tsx",
+      "exports": [
+        "SpeechConfirmationDialog"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/components/SpeechFallbackNotice.tsx",
+      "exports": [
+        "SpeechFallbackNotice"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/components/SpeechPlayer.tsx",
+      "exports": [
+        "SpeechPlayer"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/components/SpeechSpeedControl.tsx",
+      "exports": [
+        "SpeechSpeedControl"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/components/VoiceSelector.tsx",
+      "exports": [
+        "VoiceSelector"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/hooks/useBrowserSpeechFallback.ts",
+      "exports": [
+        "useBrowserSpeechFallback"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/hooks/useSpeechGeneration.ts",
+      "exports": [
+        "useSpeechGeneration"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/hooks/useSpeechPlayer.ts",
+      "exports": [
+        "useSpeechPlayer"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/hooks/useSpeechVoices.ts",
+      "exports": [
+        "useSpeechVoices"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/tests/speech-player.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/features/speech/types/speech.types.ts",
+      "exports": [
+        "SpeechState",
+        "BrowserVoice"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Legacy message-oriented speech controls, voice settings, and players were replaced by one automatic sign-speech client."
+    },
+    {
+      "file": "apps/web/src/layouts/AppLayout.tsx",
+      "exports": [
+        "AppLayout"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/layouts/PublicLayout.tsx",
+      "exports": [
+        "PublicLayout"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/Accessibility.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/AppDashboardPage.tsx",
+      "exports": [
+        "AppDashboardPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/ContributionPages.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/ContributionPages.tsx",
+      "exports": [
+        "ContributePage",
+        "ConsentPage",
+        "CampaignsPage",
+        "CampaignDetailPage",
+        "ContributionSessionPage",
+        "ContributionHistoryPage",
+        "ContributionDetailPage",
+        "PrivacySettingsPage",
+        "LinguisticReviewPage",
+        "MlReviewPage",
+        "DatasetAdminPage",
+        "ModelAdminPage",
+        "LandmarkReplay"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/DataSourcesPage.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/DataSourcesPage.tsx",
+      "exports": [
+        "DataSourcesPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/DemoPage.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/DemoPage.tsx",
+      "exports": [
+        "DemoPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/ExternalDatasetsAdminPage.tsx",
+      "exports": [
+        "ExternalDatasetsAdminPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/HomePage.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/HomePage.tsx",
+      "exports": [
+        "HomePage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/LinguisticsAdminPage.tsx",
+      "exports": [
+        "LinguisticsAdminPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/LoginPage.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/LoginPage.tsx",
+      "exports": [
+        "LoginPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/MessagesPage.tsx",
+      "exports": [
+        "MessagesHomePage",
+        "NewMessagePage",
+        "MessageEditPage",
+        "MessageDetailPage",
+        "MessageHistoryPage",
+        "MessageFavoritesPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Message generation/history is unrelated to the camera-to-sign-to-speech loop."
+    },
+    {
+      "file": "apps/web/src/pages/RegisterPage.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/RegisterPage.tsx",
+      "exports": [
+        "RegisterPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/SettingsPage.tsx",
+      "exports": [
+        "SettingsPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/SignsPage.test.tsx",
+      "exports": [
+        "(test module)"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "legacy test removed with its eliminated feature",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/SignsPage.tsx",
+      "exports": [
+        "SignsPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/SimplePage.tsx",
+      "exports": [
+        "SimplePage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/pages/SpeechAdminPage.tsx",
+      "exports": [
+        "SpeechAdminPage"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/routes/ProtectedRoute.tsx",
+      "exports": [
+        "ProtectedRoute"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The route/page/layout was not part of the minimal public recognition route graph."
+    },
+    {
+      "file": "apps/web/src/services/authApi.ts",
+      "exports": [
+        "LoginPayload",
+        "RegisterPayload",
+        "authApi"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The API client served an eliminated authentication, dataset, demo, signs, or system workflow."
+    },
+    {
+      "file": "apps/web/src/services/datasetApi.ts",
+      "exports": [
+        "REQUIRED_LANDMARK_CONSENTS",
+        "VIDEO_CONSENTS",
+        "datasetApi"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The API client served an eliminated authentication, dataset, demo, signs, or system workflow."
+    },
+    {
+      "file": "apps/web/src/services/recognitionApi.ts",
+      "exports": [
+        "recognitionApi"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The API client served an eliminated authentication, dataset, demo, signs, or system workflow."
+    },
+    {
+      "file": "apps/web/src/services/signsApi.ts",
+      "exports": [
+        "signsApi"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The API client served an eliminated authentication, dataset, demo, signs, or system workflow."
+    },
+    {
+      "file": "apps/web/src/services/systemApi.ts",
+      "exports": [
+        "systemApi"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The API client served an eliminated authentication, dataset, demo, signs, or system workflow."
+    },
+    {
+      "file": "apps/web/src/stores/authStore.ts",
+      "exports": [
+        "useAuthStore"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "Persistent account or preference state is not required by anonymous recognition."
+    },
+    {
+      "file": "apps/web/src/test/render.tsx",
+      "exports": [
+        "renderWithProviders"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The shared test helper served eliminated query/auth/page workflows."
+    },
+    {
+      "file": "apps/web/src/types/api.ts",
+      "exports": [
+        "ApiErrorPayload",
+        "User",
+        "Tokens",
+        "Category",
+        "Sign",
+        "PaginatedSigns",
+        "RecognitionPrediction",
+        "RecognitionResponse",
+        "RecognitionMode",
+        "ActiveModel",
+        "SemanticConcept",
+        "LinguisticTemplate",
+        "MessageItem",
+        "Message",
+        "MessageList",
+        "GenerationResponse",
+        "MessageRevision",
+        "SpeechVoice",
+        "SpeechGenerationAudio",
+        "SpeechGeneration",
+        "VersionResponse",
+        "ConsentType",
+        "ConsentTemplate",
+        "ConsentRecord",
+        "ContributorProfile",
+        "ContributionCampaign",
+        "CampaignSign",
+        "RecordingQualityStatus",
+        "ContributionRecording",
+        "DatasetContribution",
+        "UploadSession",
+        "DatasetVersion"
+      ],
+      "references": "0 surviving required references after the final route graph and import audit",
+      "runtime_usage": false,
+      "test_usage": "no surviving test import",
+      "decision": "REMOVED",
+      "removal_reason": "The type module was used only by eliminated workflows."
+    }
+  ]
+}

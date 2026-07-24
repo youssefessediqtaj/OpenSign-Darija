@@ -1,0 +1,13 @@
+{
+  "schema_version": "OPEN_SIGNE_README_DUPLICATE_CLEANUP_V1",
+  "generated_at": "2026-07-24T01:30:11.059630+00:00",
+  "path": "OpenSigne-Darija-readme/",
+  "exists_after_cleanup": false,
+  "pre_deletion_findings": [
+    "Only local .DS_Store files remained in the duplicate workspace during this pass.",
+    "The root README.md and docs/images are the authoritative documentation locations.",
+    "No runtime, test, Docker, Makefile, CI, or documentation dependency requires the duplicate folder."
+  ],
+  "decision": "DELETE_AFTER_VERIFICATION",
+  "deletion_result": "removed"
+}

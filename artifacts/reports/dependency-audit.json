@@ -1,0 +1,486 @@
+{
+  "schema_version": "OPEN_SIGNE_DEPENDENCY_AUDIT_V1",
+  "generated_at": "2026-07-24T01:30:11.042763+00:00",
+  "dependencies": [
+    {
+      "owner": "apps/web",
+      "dependency": "@mediapipe/tasks-vision",
+      "version": "^0.10.35",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "lucide-react",
+      "version": "^0.468.0",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "react",
+      "version": "^18.3.1",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "react-dom",
+      "version": "^18.3.1",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "react-router-dom",
+      "version": "^6.26.2",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@eslint/js",
+      "version": "^9.10.0",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@playwright/test",
+      "version": "^1.47.2",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@testing-library/jest-dom",
+      "version": "^6.4.8",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@testing-library/react",
+      "version": "^16.0.1",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@testing-library/user-event",
+      "version": "^14.5.2",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@types/react",
+      "version": "^18.3.8",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@types/react-dom",
+      "version": "^18.3.0",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "@vitejs/plugin-react",
+      "version": "^6.0.3",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "autoprefixer",
+      "version": "^10.4.20",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "eslint",
+      "version": "^9.10.0",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "eslint-plugin-react-hooks",
+      "version": "^5.1.0-rc.0",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "eslint-plugin-react-refresh",
+      "version": "^0.4.12",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "globals",
+      "version": "^15.9.0",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "jsdom",
+      "version": "^25.0.1",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "postcss",
+      "version": "^8.4.47",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "prettier",
+      "version": "^3.3.3",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "tailwindcss",
+      "version": "^3.4.13",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "typescript",
+      "version": "^5.5.4",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "typescript-eslint",
+      "version": "^8.4.0",
+      "scope": "development",
+      "import_evidence": false,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "vite",
+      "version": "^8.1.5",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "apps/web",
+      "dependency": "vitest",
+      "version": "^4.1.10",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "fastapi",
+      "requirement": "fastapi>=0.115",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "httpx",
+      "requirement": "httpx>=0.27",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "pydantic",
+      "requirement": "pydantic>=2.8",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "pydantic-settings",
+      "requirement": "pydantic-settings>=2.4",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "uvicorn",
+      "requirement": "uvicorn[standard]>=0.30",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "mypy",
+      "requirement": "mypy>=1.11",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "pytest",
+      "requirement": "pytest>=8.3",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "pytest-cov",
+      "requirement": "pytest-cov>=5.0",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/api",
+      "dependency": "ruff",
+      "requirement": "ruff>=0.6",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "fastapi",
+      "requirement": "fastapi>=0.115",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "numpy",
+      "requirement": "numpy>=2.0",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "onnxruntime",
+      "requirement": "onnxruntime>=1.18",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "pydantic",
+      "requirement": "pydantic>=2.8",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "pydantic-settings",
+      "requirement": "pydantic-settings>=2.4",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "uvicorn",
+      "requirement": "uvicorn[standard]>=0.30",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "httpx",
+      "requirement": "httpx>=0.27",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "mypy",
+      "requirement": "mypy>=1.11",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "pytest",
+      "requirement": "pytest>=8.3",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/inference",
+      "dependency": "ruff",
+      "requirement": "ruff>=0.6",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "fastapi",
+      "requirement": "fastapi>=0.115",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "uvicorn",
+      "requirement": "uvicorn[standard]>=0.30",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "pydantic",
+      "requirement": "pydantic>=2.9",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "pydantic-settings",
+      "requirement": "pydantic-settings>=2.6",
+      "scope": "runtime",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "httpx2",
+      "requirement": "httpx2>=0.28",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "pytest",
+      "requirement": "pytest>=8.3",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "ruff",
+      "requirement": "ruff>=0.6",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "services/speech",
+      "dependency": "mypy",
+      "requirement": "mypy>=1.11",
+      "scope": "development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "numpy",
+      "requirement": "numpy>=2.0,<3",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "torch",
+      "requirement": "torch==2.5.1",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "onnx",
+      "requirement": "onnx==1.17.0",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "onnxruntime",
+      "requirement": "onnxruntime==1.27.0",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "matplotlib",
+      "requirement": "matplotlib==3.10.0",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "pytest",
+      "requirement": "pytest>=9.0,<10",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    },
+    {
+      "owner": "ml",
+      "dependency": "ruff",
+      "requirement": "ruff>=0.15,<0.16",
+      "scope": "offline-development",
+      "import_evidence": true,
+      "decision": "KEEP"
+    }
+  ]
+}

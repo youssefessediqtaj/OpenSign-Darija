@@ -11,3 +11,13 @@ supplies arbitrary text.
 Parity tests pin TypeScript, API Pydantic, inference Pydantic, shared fixtures, and
 Playwright privacy assertions to these schemas. Code generation is intentionally
 avoided because it would add more machinery than this small contract needs.
+
+## Ownership
+
+- Owner: cross-project architecture/contract layer.
+- Importers/users: `tests/architecture/`, `tests/contracts/`, `tests/privacy/`, API
+  schemas, inference schemas, frontend payload builders, and Playwright privacy checks.
+- Runtime role: no package code executes in production containers; the JSON schemas are
+  the review authority for the closed public contracts.
+- Decision: keep `packages/contracts/` because the contracts are genuinely shared and
+  not owned by a single service.

@@ -1,0 +1,6 @@
+{
+  "schema_version": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+  "recognition_mode": "WORD_ISOLATED",
+  "landmarks": 75,
+  "coordinates": 3
+}

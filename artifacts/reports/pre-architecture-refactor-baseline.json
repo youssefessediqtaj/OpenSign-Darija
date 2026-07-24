@@ -1,0 +1,202 @@
+{
+  "schema_version": "OPEN_SIGNE_PRE_ARCHITECTURE_REFACTOR_BASELINE_V1",
+  "captured_at": "2026-07-23T19:42:11Z",
+  "git": {
+    "initial_branch": "main",
+    "refactor_branch": "refactor/professional-architecture",
+    "commit": "a831df8fbc825a02d0b6a41753c22a89ba25d117",
+    "initial_status_clean": true,
+    "initial_diff_stat_empty": true,
+    "initial_diff_empty": true,
+    "last_five_commits": [
+      "a831df8 simplify and correct the complete application",
+      "d541440 Fix README preview images",
+      "16d7f91 adding images to readme file",
+      "92f3f2f Improve OpenSigne Darija README",
+      "7e92f21 fix: remove unused type ignore"
+    ],
+    "committed_or_pushed": false
+  },
+  "commands": {
+    "make_test_all": {
+      "passed": true,
+      "api": {
+        "tests_passed": 54,
+        "ruff": "passed",
+        "mypy_strict": "passed",
+        "warnings": [
+          "One Starlette TestClient/httpx deprecation warning"
+        ]
+      },
+      "inference": {
+        "tests_passed": 25,
+        "ruff": "passed",
+        "mypy_strict": "passed",
+        "warnings": [
+          "One Starlette TestClient/httpx deprecation warning"
+        ]
+      },
+      "ml": {
+        "tests_passed": 31,
+        "ruff": "passed",
+        "warnings": [
+          "Five expected Torch/ONNX validation warnings"
+        ]
+      },
+      "speech": {
+        "tests_passed": 8,
+        "ruff": "passed",
+        "mypy_strict": "passed"
+      },
+      "frontend": {
+        "tests_passed": 30,
+        "eslint": "passed",
+        "typescript": "passed",
+        "vite_build": "passed",
+        "bundle_bytes": 334800,
+        "bundle_gzip_bytes": 106090
+      },
+      "playwright_default": {
+        "passed": 4,
+        "skipped": 1,
+        "skip_reason": "PLAYWRIGHT_FAKE_CAMERA_VIDEO is intentionally required for the real-Docker camera case"
+      }
+    },
+    "make_compose_check": "passed",
+    "docker_compose_build": "passed",
+    "docker_compose_up": "passed",
+    "strict_production_playwright": {
+      "passed": 5,
+      "failed": 0,
+      "duration_seconds": 40.3,
+      "fake_camera_fixture": "/private/tmp/opensigne-known-e2e.04zSEB/two-known-signs.y4m",
+      "requirements_observed": {
+        "two_automatic_known_decisions": true,
+        "one_speech_request_per_known_decision": true,
+        "unknown_not_spoken": true,
+        "duplicate_held_sign_suppressed": true,
+        "raw_media_absent": true,
+        "direct_inference_or_speech_browser_calls_absent": true,
+        "capture_fps_at_least_15": true
+      }
+    }
+  },
+  "docker": {
+    "services": {
+      "api": "running_healthy",
+      "inference": "running_healthy",
+      "speech": "running_healthy",
+      "web": "running",
+      "nginx": "running"
+    },
+    "public_gateway": "http://127.0.0.1:8081",
+    "only_gateway_has_host_port": true,
+    "compose_services": [
+      "inference",
+      "speech",
+      "api",
+      "web",
+      "nginx"
+    ]
+  },
+  "runtime": {
+    "api_health": {
+      "status": "healthy",
+      "service": "opensign-api",
+      "version": "1.0.0",
+      "dependencies": {
+        "inference": "healthy",
+        "speech": "healthy"
+      }
+    },
+    "api_version": {
+      "service": "opensign-api",
+      "version": "1.0.0"
+    },
+    "exact_api_paths": [
+      "/api/v1/health",
+      "/api/v1/recognitions/word",
+      "/api/v1/speech/sign",
+      "/api/v1/version",
+      "/health"
+    ],
+    "public_pages": [
+      "/",
+      "/app/recognition"
+    ],
+    "inference_model": {
+      "name": "mosl-isolated-sign-v1",
+      "version": "1.0.0",
+      "status": "active",
+      "mock": false,
+      "feature_schema_version": "OPEN_SIGNE_LANDMARK_SCHEMA_V1"
+    },
+    "speech_voices": [
+      {
+        "id": "darija-default",
+        "provider": "local-darija",
+        "locale": "ar-MA",
+        "is_default": true
+      },
+      {
+        "id": "arabic-fallback",
+        "provider": "local-arabic-fallback",
+        "locale": "ar",
+        "is_default": false
+      }
+    ]
+  },
+  "protected_assets": {
+    "active_onnx_sha256": "24678fc01c86bb64a47f832ae800bd475e788a91c5b103122115a37fcdd6ad54",
+    "model_checksum_manifest_sha256": "707367e05abc7840a1330fecbc8fd7d946e6decb82a88ecd0d618197e01034f6",
+    "dataset_manifest_sha256": "558241beba4b6d0b31ab2a3a22ff584a3f47274f3a57aed153dd0bf149d73d62",
+    "dataset_records": 2216,
+    "dataset_raw_files_matching_manifest": 2216,
+    "supported_labels": [
+      "اب",
+      "احب",
+      "سوق"
+    ],
+    "input": {
+      "name": "landmarks",
+      "shape": [
+        "batch",
+        60,
+        75,
+        3
+      ],
+      "dtype": "tensor(float)"
+    },
+    "output": {
+      "name": "logits",
+      "shape": [
+        "batch",
+        3
+      ],
+      "dtype": "tensor(float)"
+    }
+  },
+  "canonical_inference": {
+    "fixture": "ml/data/external/mosl-video-dataset/processed/landmarks/9887333505c8b7a2b006ad55a9209c0943f0f58f712663f6c5445e30f9c7ceed.npz",
+    "raw_logits": [
+      -2.4934840202331543,
+      1.7240511178970337,
+      -0.6624970436096191
+    ],
+    "calibrated_probabilities_in_label_order": [
+      0.00021525139163713902,
+      0.9914032816886902,
+      0.008381485939025879
+    ],
+    "ranked_labels": [
+      "احب",
+      "سوق",
+      "اب"
+    ],
+    "top_label": "احب",
+    "top_probability": 0.9914032816886902,
+    "margin": 0.9830217957496643,
+    "accepted": true
+  },
+  "physical_camera_person_validation": "UNCONFIRMED"
+}

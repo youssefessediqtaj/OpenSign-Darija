@@ -1,0 +1,39 @@
+{
+  "schema_version": "OPEN_SIGNE_PRE_PROFESSIONAL_ARCHITECTURE_BASELINE_V1",
+  "captured_at": "2026-07-23T21:59:00+01:00",
+  "branch": "refactor/professional-project-structure",
+  "git": {
+    "status_short": "clean",
+    "diff_stat": "empty",
+    "diff": "empty",
+    "latest_commit": "701e496 docs: record refactor branch deletion"
+  },
+  "tests": {
+    "architecture_contracts": "6 passed",
+    "api": "54 passed; Ruff passed; MyPy passed",
+    "inference": "29 passed; Ruff passed; MyPy passed",
+    "ml": "31 passed; Ruff passed",
+    "speech": "9 passed; Ruff passed; MyPy passed",
+    "frontend": "30 passed; ESLint passed; production build passed",
+    "playwright": "4 passed, 1 intentionally skipped"
+  },
+  "docker": {
+    "compose_check": "passed",
+    "build": "passed",
+    "up": "passed",
+    "health": {
+      "api": "healthy",
+      "inference": "healthy",
+      "speech": "healthy",
+      "web": "running",
+      "nginx": "running on 8081"
+    }
+  },
+  "protected_assets": {
+    "onnx_sha256": "24678fc01c86bb64a47f832ae800bd475e788a91c5b103122115a37fcdd6ad54",
+    "dataset_manifest_sha256": "558241beba4b6d0b31ab2a3a22ff584a3f47274f3a57aed153dd0bf149d73d62",
+    "dataset_records": 2216,
+    "canonical_top_label": "احب",
+    "canonical_accepted": true
+  }
+}

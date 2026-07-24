@@ -111,7 +111,7 @@ test-e2e:
 	cd apps/web && npm run test:e2e
 
 test-architecture:
-	services/api/.venv/bin/python -m pytest tests/test_architecture_contracts.py
+	services/api/.venv/bin/python -m pytest tests/architecture tests/contracts tests/privacy
 
 architecture-check: test-architecture
 
@@ -148,10 +148,10 @@ ml-validate-model:
 	ml/.venv/bin/python -m ml.export.validate_mosl_v1
 
 benchmark-inference:
-	ml/.venv/bin/python scripts/benchmark_inference.py
+	ml/.venv/bin/python scripts/benchmarking/benchmark_inference.py
 
 benchmark-speech:
-	$(PYTHON) scripts/benchmark_speech.py
+	$(PYTHON) scripts/benchmarking/benchmark_speech.py
 
 compose-check:
 	docker compose config >/dev/null

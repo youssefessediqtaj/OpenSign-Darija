@@ -1,0 +1,56 @@
+{
+  "valid": true,
+  "artifact_dir": "artifacts/models/mosl-word-smoke-v1",
+  "required_files": [
+    "checksums.json",
+    "dataset-manifest-checksum.txt",
+    "labels.json",
+    "landmark-schema.json",
+    "metrics.json",
+    "model-card.md",
+    "model.onnx",
+    "onnx-validation.json",
+    "preprocessing.json",
+    "training-config.yaml"
+  ],
+  "missing": [],
+  "errors": [],
+  "warnings": [],
+  "labels": [
+    "16",
+    "17"
+  ],
+  "vocabulary_size": 2,
+  "checksums": {
+    "best-checkpoint.pt": "b4f84c5742c94ee9073ab257fd3b04539738fdd8115cc55ff9f18f37f6e5515e",
+    "classification-report.csv": "e1f326e0db6be00ce17b8f077e6e23af45dc3d89492ec13bb5de22ed7687921e",
+    "confusion-matrix.png": "e4ff24c19fe637d4cb5a8ceeae33e67e2f4c55eec474659b42a96c6440c9480b",
+    "dataset-manifest-checksum.txt": "688dc633a4d6727bc4078341fcb37c0f86973c53544cd12d53a883db2ec7de18",
+    "error-analysis.json": "106ae0b95ad78a0fcfa489ece05c6c436fa18e550c401d17786788238567d7a0",
+    "labels.json": "c9071377244a0a61c6ba1a79173380fc7a69fc23ca57c5644d566b9c2393b31b",
+    "landmark-schema.json": "d6fa8a964ae51695fa70f8f463a5a7f99d2a9a5b6c7e6ebc84da567c77ad83f8",
+    "last-checkpoint.pt": "9f2f7c73740c861eb3fa25aa48f515f989cb28dc3937ee92d9355e6bf4f00955",
+    "metrics.json": "97cacdad1a14d554568be7f57e1a68bf1e7b66a19733274140283ac190f44781",
+    "model-card.md": "64541ffd4c8eb220d0d0ec95a59d4d8e7b4dd469136a03c2ed403c8757709454",
+    "model.onnx": "a8f292f2a27c70f17b4d8cf21bb0e4aba91713c15d96eba9b21ff0bd46fd5588",
+    "onnx-validation.json": "0dc7df427e59edc2ef7a0321597dc013e8a73e38795efe54fabcaaf9b16800b7",
+    "preprocessing.json": "421df0602fb2cdd403019c7d7c1b1462e22a0b13a8e4f01370604f515f1e7162",
+    "training-config.yaml": "c5dd9cb273ee56b5caec8818410175f4e0386042dde6f7730f603090f60d6746",
+    "training-curves.png": "04305d53ff9fbf0b93d3746c97550a16ac92e040d253929c20f7527b23b0e911",
+    "training-history.json": "081732012f562e76b59c49d01907cd878f82e1c1e4b6a57b29aacb49ed43568a"
+  },
+  "onnx": {
+    "input_name": "landmarks",
+    "input_shape": [
+      "batch",
+      60,
+      75,
+      3
+    ],
+    "output_name": "logits",
+    "output_shape": [
+      "batch",
+      2
+    ]
+  }
+}

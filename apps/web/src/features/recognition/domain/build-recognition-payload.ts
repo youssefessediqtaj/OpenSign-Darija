@@ -16,6 +16,9 @@ import {
 import { uniformSample } from './resample-landmark-sequence';
 import { calculateSequenceQuality } from './sequence-quality';
 
+// This module owns the only public recognition payload. The extra validation is
+// deliberately duplicated client-side so raw media, malformed timestamps, and
+// non-finite landmarks are rejected before the browser calls `/api`.
 const WORD_TARGET_FRAME_COUNT = 60;
 const MIN_VALID_WORD_FRAMES = 8;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;

@@ -1,0 +1,1593 @@
+label_key,label_ar,category,mode,source_rows,examples,word_model_eligible_examples,training_count,validation_count,test_count,supported_status,exclusion_reason,quality_excluded_examples
+,,Diverse,WORD_ISOLATED,15,0,0,0,0,0,INVALID,invalid_or_empty_normalized_label,15
+0,0,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+1,1,Numbers,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+10,10,Numbers,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+100,100,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+1000,1000,Numbers,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+10000,10000,Numbers,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+100000,100000,Numbers,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+1000000,1000000,Numbers,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+11,11,Numbers,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+12,12,Numbers,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+13,13,Numbers,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+14,14,Numbers,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+15,15,Numbers,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+16,16,Numbers,WORD_ISOLATED,6,6,6,4,1,1,SUPPORTED_FOR_TRAINING,,0
+17,17,Numbers,WORD_ISOLATED,6,6,6,4,1,1,SUPPORTED_FOR_TRAINING,,0
+18,18,Numbers,WORD_ISOLATED,6,6,6,4,1,1,SUPPORTED_FOR_TRAINING,,0
+19,19,Numbers,WORD_ISOLATED,6,6,6,4,1,1,SUPPORTED_FOR_TRAINING,,0
+2,2,Numbers,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+20,20,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+21,21,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+22,22,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+23,23,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+24,24,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+25,25,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+26,26,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+27,27,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+28,28,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+29,29,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+3,3,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+30,30,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+31,31,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+32,32,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+33,33,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+34,34,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+35,35,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+36,36,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+37,37,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+38,38,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+39,39,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+4,4,Numbers,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+40,40,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+5,5,Numbers,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+50,50,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+6,6,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+60,60,Numbers,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+7,7,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+70,70,Numbers,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+8,8,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+80,80,Numbers,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+9,9,Numbers,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+90,90,Numbers,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ء,ء,Letters,ALPHABET_STATIC,3,3,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+ا,آ,Letters,ALPHABET_STATIC,8,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,8
+اب,أَبٌ,Diverse,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+ابتسم,اِبْتَسَمَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابجدية,أَبْجَدِيَّةٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابدا,أَبَدًا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابراهيم_عليه_السلام,إِبْرَاهِيمُ عَلَيْهِ السَّلاَمُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابرة,إِبْرَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابريق,إِبْرِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابريل,أَبْرِيل,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابط,إِبْطٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابن,اِبْنٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابن_العم,اِبْنُ الْعَمِّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابهام,إِبْهَامٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ابيض,أَبْيَضُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اتجاه,اِتِّجَاهٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اتحاد,اِتِّحَادٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اتصل,اِتَّصَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اتفق,اِتَّفَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اتهم,اِتَّهَمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اتوبيس,أُتُوبِيسٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اثاث,أَثَاثٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اثناء,أَثْنَاءَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اثنان,اِثْنَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجاز,أَجَازَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجاص,إِجَّاصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجتماع,اِجْتِمَاعٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجداد,أَجْدَادٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجرة,أُجْرَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجل,أَجَّلَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجماع,إِجْمَاعٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجنبي,أَجْنَبِي,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اجهش_بالبكاء,أَجْهَشَ (بِالْبُكَاءِ),Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احب,أَحَبَّ,Diverse,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+احتج,اِحْتَجَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احتفظ,اِحْتَفَظَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احتكاك,اِحْتِكَاكٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احذر,اِحْذَرْ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احس,أَحَسَّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احضر,أَحْضَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احمر,أَحْمَرُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احمر_الشفاه,أَحْمَرُ الشِّفَاهِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احمق,أَحْمَقُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احول,أَحْوَلُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+احيانا,أَحْيَانًا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخ,أَخٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخبر,أَخْبَرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخت,أُخْتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اختار,اِخْتَارَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اختبا,اِخْتَبَأَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اختراق,اِخْتِرَاقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اختفي,اِخْتَفَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخذ,أَخَذَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخر,آخَرُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_الاذن_والانف_والحنجرة,أَخِصَّائِيُّ الأُذُنِ وَالأَنْفِ وَالـحَنْجَرَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_الاسنان,أَخِصَّائِيُّ الأَسْنَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_الصدر,أَخِصَّائِيُّ الصَّدْرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_العظم,أَخِصَّائِيُّ العَظْمِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_العيون,أَخِصَّائِيُّ العُيُونِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_الكبد,أَخِصَّائِيُّ الكَبِدِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_المعدة,أَخِصَّائِيُّ المَعِدَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخصايي_الولادة,أَخِصَّائِيُّ الوِلادَةِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخضر,أَخْضَرُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخطا,أَخْطَأَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخير,أَخِيرٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اخيرا,أَخِيرًا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ادارة,إِدَارَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ادخر,اِدَّخَرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ادرك,أَدْرَكَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ادي,أَدَّى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اذا,إِذَا,Diverse,WORD_ISOLATED,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+اذاعة,إِذَاعَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اذن,أُذْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اراد,أَرَادَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اربطة_الحذاء,أَرْبِطَةُ الحِذَاءِ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اربعة,أَرْبَعَة,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+ارتاح,اِرْتَاحَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ارتطم,اِرْتَطَمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ارجوحة,أُرْجُوحَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ارز,أَرُزٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اركان_الاسلام,أَرْكَانُ الْإِسْلاَمِ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ارنب,أَرْنَبٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اريكة,أَرِيكَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ازال,أَزَالَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ازرق,أَزْرَقُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسبانيا,إِسْبَانْيَا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسبوع,أُسْبُوعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استاذ,أُسْتَاذٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استدعي,اِسْتَدْعَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استراحة,اِسْتِرَاحَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استقبل,اِسْتَقْبَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استقر,اِسْتَقَرَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استمتع,اِسْتَمْتَعَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+استيقظ,اِسْتَيْقَظَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسد,أَسَدٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسس,أَسَّسَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسطوانة,أُسْطُوَانَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسف,آسِفٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسفل,أَسْفَلُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسفي,آسَفِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسكافي,إِسْكَافِيٌّ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسم,اِسْمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اسود,أَسْوَدُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشارة,إِشَارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشارة_مايلة,إِشَارَةٌ مَائِلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشارة_مايلة_معاكسة,إِشَارَةٌ مَائِلَةٌ مُعَاكِسَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشاع,أَشَاعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشتراك_الهاتف,اِشْتِرَاكُ الهَاتِفِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشتري,اِشْتَرَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اشميزاز,اِشْمِئْزَازٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصابة_هدف,إِصَابَةٌ (هَدَفٌ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصبح,أَصْبَحَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصبع,إِصْبَعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصبع_القدم,إِصْبَعُ الْقَدَمِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصفر,أَصْفَرُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصلح,أَصْلَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصلع,أَصْلَعُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصم,أَصَمُّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اصيلة,أَصِيلَةُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اضاف,أَضَافَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اطروحة,أُطْرُوحَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اطفا,أَطْفَأَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعاد,أَعَادَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعاقة_ذهنية,إِعَاقَةٌ ذِهْنِيَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعتاد,اِعْتَادَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعترض,اِعْتَرَضَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعزب,أَعْزَبُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعطي,أَعْطَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعلم,أَعْلَمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اعمي,أَعْمَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اغلق,أَغْلَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اغمض,أَغْمَضَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+افترق,اِفْتَرَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+افرغ,أَفْرَغَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+افريقيا,إِفْرِيقْيَا,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+افغانستان,أَفْغَانِسْتَان,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اقتطاع,اِقْتِطَاعٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اقسم,أَقْسَمَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اقل,أَقَلُّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اكادير,أَكَادِير,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اكتشف,اِكْتَشَفَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اكتوبر,أُكْتُوبَر,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اكثر,أَكْثَرُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اكل,أَكَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اكورديون,أُكُورْدِيُون,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ال,ال,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+الاثنين,الإِثْنَيْن,Days_Months_Seasons,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الاحد,الأَحَد,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الاخرة,الآخِرَةُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الاذان,الأَذَانُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الاربعاء,الأَرْبِعَاءُ,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الاردن,الأُرْدُنُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الامارات_العربية_المتحدة,الإِمَارَاتُ العَرَبِيَّةُ المُتَّحِدَةُ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الامن_الوطني,الأَمْنُ الوَطَنِيُّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الان,الآنَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الانجليزية,الإِنْجَلِيزِيَّةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الانجيل,الإِنْجِيلُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+البحرين,البَحْرَيْن,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+البطاقة_الوطنية,البِطَاقَةُ الوَطَنِيَّةُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_التحكم,آلَةُ التَّحَكُّمِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_التصبين,آلَةُ التَّصْبينِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_الحلاقة,آلَةُ الحِلاَقَةِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_تصوير,آلَةُ تَصْويرٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_حاسبة,آلَةٌ حَاسِبَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_حلاقة_كهربايية,آلَةُ حِلَاقَةٍ كَهْرَبَائِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_خياطة,آلَةُ خِيَاطَةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_قياس_الوزن,آلَةُ قِيَاسِ الوَزْنِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الة_كاتبة,آلَةٌ كَاتِبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+التحق,اِلْتَحَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الثلاثاء,الثُّلاَثَاء,Days_Months_Seasons,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الجديدة,الجَدِيدَة,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الجزاير,الجَزَائِر,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الجمع,الجَمْعُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الجمعة,الجُمُعَةُ,Days_Months_Seasons,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الحاجب,الحَاجِبُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الحديث_النبوي,الحَدِيثُ النَّبَوِيُّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الحسيمة,الحُسَيْمَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الحمد_لله,الحَمْدُ لِلَّهِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الخريف,الـخَرِيف,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الخطاب_الملكي,الخِطَابُ المَلَكِيُّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الخميس,الخَمِيسُ,Days_Months_Seasons,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الخميسات,الخُمِيسَات,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الدار_البيضاء,الدَّارُ البَيْضَاء,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الرباط,الرِّبَاط,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الربيع,الرَّبِيع,Days_Months_Seasons,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+السبت,السَّبْتُ,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+السعودية,السَّعُودِيَّة,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+السلام_عليكم,السَّلَامُ عَلَيْكُمْ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الشتاء,الشِّتَاء,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الصحابة,الصَّحَابَةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الصرف_في_اللغة,الصَّرْفُ ( فِي اللُّغَةِ ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الصيف,الصَّيْف,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الصين,الصِّين,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+العاب_القوي,أَلْعَابُ الْقُوَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+العراق,العِرَاقُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+العرايش,العَرَائِش,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+العربية,العَرَبِيَّةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الف_درهم,أَلْفُ دِرْهَمٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الفرنسية,الفَرَنْسِيَّةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+القبلة,القِبْلَةُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+القدس,القُدْسُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+القناة_الاولي,القَنَاةُ الأُولَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+القناة_الثانية,القَنَاةُ الثَّانِيَّةُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+القناة_الرياضية,القَنَاةُ الرِّيَاضِيَّة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+القنيطرة,القُنَيْطِرَةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الكرة_الارضية,الكُرَةُ الأَرْضِيَّةُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الله,اللهُ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الليلة,اللَّيْلَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الم,أَلَمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+المحمدية,المُحَمَّدِيَّة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+المسجد_الحرام,المَسْجِدُ الحَرَامُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+المسجد_النبوي,المَسْجِدُ النَّبَوِيُّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+المسيرة_الخضراء,المَسِيرَةُ الخَضْرَاءُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+المغرب,المَغْرِبُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الناظور,النَّاظُور,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+النمسا,النَّمْسَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الوزارة_المكلفة_بادماج_المعاقين,الوِزَارَةُ المُكَلَّفَةُ بِإِدْمَاجِ المُعَاقِينَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الولايات_المتحدة_الامريكية,الوِلاَيَاتُ المُتَّحِدَةُ الأَمْرِيكِيَّةُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+الي,إِلَى,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اليابان,اليَابَان,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اليوم,اليَوْم,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ام,أُمٌّ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امام,أَمَامَ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امتحان,اِمْتِحَانٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امر,أَمَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امراة,إِمْرَأَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امس,أَمْسٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امسك,أَمْسَكَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امعاء,أَمْعَاءٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+امل,أَمَلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+املاء,إِمْلاَءٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ان,أَنَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انا,أَنَا,Pronouns,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اناء,إِنَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انانس,أَنَانَس,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انت,أَنْتَ,Pronouns,WORD_ISOLATED,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+انتخب,اِنْتَخَبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتصر,اِنْتَصَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتظر,اِنْتَظَرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتعش,اِنْتَعَشَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتقل,اِنْتَقَلَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتم,أَنْتُمْ,Pronouns,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتما,أَنْتُمَا,Pronouns,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انتهي,اِنْتَهَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انجلترا,إِنْجْلَتِرّا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انخرط,اِنْخَرَطَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انخفاض,اِنْخِفَاضٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اندمج,اِنْدَمَجَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انسحب,اِنْسَحَبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انف,أَنْفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انفجر,اِنْفَجَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انقذ,أَنْقَذَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انقطاع_الكهرباء,اِنْقِطَاعُ الكَهْرَبَاءِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+انيق,أَنِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+او,أَوْ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اوزة,إِوَزَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اوقف,أَوْقَفَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اول_مرة,أَوَّل مَرَّة,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اولا,أَوَّلاً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اولمبياد,أُولَمْبِيَاد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ايصال,إِيصَالٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ايضا,أَيْضًا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ايطاليا,إِيطَالْيَا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ايل,أُيَّلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ايمان,إِيمَانٌ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+اين,أَيْنَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ب,ب,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+باب,بَابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بادية,بَادِيَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+باذنجان,بَاذِنْجَانٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بارد,بَارِدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بازلاء,بَازِلاَّء,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+باع,بَاعَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+باقة_ورد,بَاقَةُ وَرْدٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+باكالوريا,بَاكَالُورْيَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+باكرا,بَاكِراً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بالون,بَالُون,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بايع_الصحف,بَائِعُ الصُّحُفِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ببغاء,بَبَّغَاءٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بترول,بِتْرُولٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بحر,بَحْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بخار_الماء,بُخَارُ الْمَاءِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بدا,بَدَأَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بدين,بَدِينٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بذلة,بِذْلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بر,بَرٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+براد_الشاي,بَرَّادُ الشَّاي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+برايل,بْرَايِل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+برتقال,بُرْتُقَالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+برد,بَرَدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+برغي,بُرْغِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+برق,بَرْقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بسطيلة,بَسْطِيلَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بسكويت,بِسْكَوِيت,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بصق,بَصَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بصلة,بَصَلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بصمة,بَصْمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطارية,بَطَّاريَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطاطس,بَطَاطِسُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطاطس_محمرة,بَطَاطِسٌ مُحَمَّرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطاقة,بِطَاقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطالة,بِطَالَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطة,بَطَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطريق,بِطْرِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطل,بَطَلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بطن,بَطْنٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بعث,بَعَثَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بعد,بَعْدَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بعض,بَعْضُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بعيد,بَعِيدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بقرة,بَقَرَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بقي,بَقِيَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بكي,بَكَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بل_ولكن,بَلْ (وَلَكِنْ),Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بلاستيك,بْلَاسْتِيك,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بلغاريا,بَلْغَارْيَا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بلغة,بَلْغَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بماذا,بِمَاذَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بنت,بِنْتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بهلول,بُهْلُولٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بوصلة,بَوْصَلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بولندا,بُولَنْدَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بومة,بُومَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بيانو,بِيَانُو,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بيتزا,بِيتْزَا,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بير,بِئْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بيض,بَيْضٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بيكار,بِيكَار,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+بييس,بَئِيس,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ة,ة,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+ت,ت,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+تاج,تَاجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تاريخ,تَارِيخٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تاسف,تَأَسَّفَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تاشيرة,تَأْشِيرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تاكد,تَأَكَّدَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تاوريرت,تَاوْرِيرْت,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تبادل,تَبادَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تبع,تَبِعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تجذيف,تَجْذِيفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تخدير,تَخْدِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تخطيط_الصدي,تَخْطِيطُ الصَّدَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تخفيض,تَخْفِيضٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تخلي,تَخَلَّى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تذكر,تَذَكَّرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تراب,تُرَابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تربية,تَرْبِيَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ترقية,تَرْقِيَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ترك_المكان,تَرَكَ (اَلْمَكَانَ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تركيا,تُرْكْيَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تسلق_الجبال,تَسَلُّقُ الجِبَالِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تسوس_الاسنان,تَسَوُّسُ الأَسْنَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تشاجر,تَشَاجَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تشجيع,تَشْجِيعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تشنج,تَشَنُّجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تشهد,تَشَهُّد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تطوان,تِطْوَان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تعادل,تَعَادَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تعبير_الوجه,تَعْبِيرُ الوَجْهِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تعبير_شفوي,تَعْبِيرٌ شَفَوِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تعبير_كتابي,تَعْبِيرٌ كِتَابِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تعليم,تَعْلِيمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تفاحة,تُفَّاحَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تفاهم,تَفَاهَمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تقاعد,تَقَاعُد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تقدم,تَقَدَّمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تقريبا,تَقْرِيبًا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تقيا,تَقَيَّأَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تكلم,تَكَلَّمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تكوين,تَكْوِينٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تل,تَلٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تلخيص,تَلْخِيصٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تلفاز,تِلْفَازٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تلفاز_بلازما,تِلْفَازُ بْلَازْمَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تلقيح,تَلْقِيحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تلميذ,تِلْمِيذٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تمرين,تَمْرِينٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تمساح,تِمْسَاحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تنظيف_البيت,تَنْظِيفُ (الْبَيْتِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تنورة,تَنُّورَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+توابل,تَوَابِل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+توام,تَوْأَمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+توحد,تَوَحُّد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+توسط,تَوَسَّطَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+توفي,تُوُفِّيَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+توقيع,تَوْقِيعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+تونس,تُونُسُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ث,ث,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثان,ثَانٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثرثار,ثَرْثَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثريا,ثُرَيَّا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثعبان,ثُعْبَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثعلب,ثَعْلَبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثقافة,ثَقَافَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثقيل,ثَقِيلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثلاجة,ثَلاَّجَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثلث,ثُلُثٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثلج,ثَلْجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثم,ثُمَّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثمن,ثَمَنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثوب,ثَوْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثور_امريكي,ثَوْرٌ أَمْرِيكِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ثورة_الملك_والشعب,ثَوْرَةُ الْمَلِكِ وَالشَّعْبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ج,ج,Letters,ALPHABET_STATIC,3,3,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+جاء,جَاءَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جار,جَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جاف,جَافٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جاكيت,جَاكِيت,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جال,جَالَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جامعة,جَامِعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جانب,جَانِبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جاهل,جَاهِلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جايزة,جَائِزَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جايع,جَائِع,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جبل,جَبَلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جبن_احمر,جُبْنٌ أَحْمَرُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جبنة,جُبْنَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جبهة,جَبْهَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جد,جَدٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جدة,جَدَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جدي,جَدْيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جديد,جَدِيدٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جذاب,جَذَّابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جذر_الشجرة,جَذْرُ الشَّجَرَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جر,جَرَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جراحة,جِرَاحَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جراد,جَرَادٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جرار,جَرَّارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جرافة,جَرَّافَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جرح,جُرْحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جرس,جَرَسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جرس_مضيء,جَرَسٌ مُضِيءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جري,جَرَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جريدة,جَرِيدَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جزار,جَزَّارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جزازة_العشب,جَزَّازَةُ الْعُشْبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جزر,جَزَرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جسر,جِسْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جسم,جِسْمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جغرافيا,جُغْرَافْيَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جفاف,جَفَافٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جفن,جَفْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جلباب,جِلْبَابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جلس,جَلَسَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جليسة_اطفال,جَلِيسَةُ أَطْفَال,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جمارك,جَمَارِكُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جماعة_حضرية,جَمَاعَةٌ حَضَرِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جماعة_قروية,جَمَاعَةٌ قَرَوِيَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جمع,جَمَعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جمعية,جَمْعِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جمعية_اباء_واولياء_التلاميذ,جَمْعِيَّةُ آبَاءِ وَأَوْلِيَاءِ التَّلاَمِيذِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جمل,جَمَلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جملة,جُمْلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جميل,جَمِيلٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جناح_طايرة,جَنَاحُ طَائِرَةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جنازة,جَنَازَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جنس,جِنْسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جنوب,جَنُوبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جهاز_عرض,جِهَازُ عَرْضٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جو,جَوٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جواب,جَوَابٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جواز_سفر,جَوَازُ سَفَرٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جوزة_الهند,جَوْزَةُ الهِنْد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جيب,جَيْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جيد,جَيِّدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جيش,جَيْشٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جيل_الشعر,جِيلُ الشَّعْرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+جينز,جِينْز,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ح,ح,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+حاجب,حَاجِبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حاجز,حَاجِزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حادثة_سير,حَادِثَةُ (سَيْرٍ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حاذق,حَاذِقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حار,حَارٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حارس,حَارِسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حارس_المرمي,حَارِسُ المَرْمَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حارس_شخصي,حَارِسٌ شَخْصِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حاسوب_محمول,حَاسُوبٌ مَحْمُولٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حاضر,حَاضِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حافظ_علي_الشيء,حَافَظَ (عَلَى الشَّيْءِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حافلة,حَافِلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حامل,حَامِلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حايط,حَائِطٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حب_الشباب,حَبُّ الشَّبَابِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حبار,حَبَّار,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حبوب,حُبُوبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حجة,حُجَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حجر,حَجَرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حجرة_نوم,حُجْرَةُ نَوْم,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حديد,حَدِيدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حديقة,حَدِيقَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حديقة_الحيوانات,حَدِيقَةُ الحَيَوَانَاتِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حذاء,حِذَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حذاء_برقبة,حِذَاءٌ بِرَقَبَةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حذاء_رياضي,حِذَاءٌ رِيَاضِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حذر,حَذِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حر,حُرٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حرارة,حَرَارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حريرة,حَرِيرَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حريق,حَرِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حزين,حَزِينٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حشرة,حَشَرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حصالة,حَصَّالَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حصان,حِصَانٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حفارة,حَفَّارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حفاظة,حَفَّاظَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حفل,حَفْلٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حق,حَق,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حقيبة,حَقِيبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حقيبة_الجيب,حَقِيبَةُ الجَيْبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حقيبة_الظهر,حَقِيبَةُ الظَّهْرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حقيبة_اليد,حَقِيبَةُ اليَدِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حقير,حَقِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حكم_مباراة,حَكَمُ مُبَارَاةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حكومة,حُكُومَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حكي,حَكَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حكيم,حَكِيمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حلزون,حَلَزُونٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حلقة_اذن,حَلَقَةُ أُذُنٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حلو,حُلْوٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حلوي,حَلْوَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حليب,حَلِيبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حمار,حِمَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حمار_وحشي,حِمَارٌ وَحْشِيٌّ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حماس,حَمَاسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حمام,حَمَّامٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حمامة,حَمَامَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حماية,حِمَايَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حمص,حِمَّصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حمل,حَمَلٌ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+حمية,حِمْيَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حناء,حِنَّاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حنجرة_ملتهبة,حَنْجَرَةٌ مُلْتَهِبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حوار,حِوَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حوت,حُوت,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حوض_استحمام,حَوْضُ اسْتِحْمَامٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حي_سكني,حَيٌّ (سَكَنِيٌّ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حياة,حَيَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+حيوان,حَيَوَانٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خ,خ,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+خاتم,خَاتَمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خادم,خَادِمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خارج,خَارِجَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خالة,خَالَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خايف,خَائِفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خبا,خَبَّأَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خبز,خُبْزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ختان,خِتَان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خجول,خَجُولٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خد,خَدٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خدش,خَدَشَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خدع,خَدَعَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خرج,خَرَجَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خرز,خَرَزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خرشوف,خُرْشُوفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خروف,خَرُوفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خريبكة,خُرِيبْكَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خرير,خَرِيرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خزانة,خِزَانَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خسر,خَسِرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خشب,خَشَبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خطا,خَطَأٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خفقان_القلب,خَفَقَانُ (القَلْبِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خل,خَلٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خلف,خَلْفَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خمر,خَمْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خمس_مية_درهم,خَمْسُ مِئَةِ دِرْهَمٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خمسة,خَمْسَة,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+خمسة_الاف_درهم,خَمْسَةُ آلاَفِ دِرْهَمٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خمسة_دراهم,خَمْسَةُ دَراهِمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خمسون_درهما,خَمْسُونَ دِرْهَمًا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خنزير,خِنْزِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خنزير_بري,خِنْزِيرٌ بَرِّي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خنفساء,خُنْفُسَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خنوص,خِنَّوْصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خوخ,خَوْخٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خوذة,خُوذَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خياطة,خِيَاطَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خيط,خَيْطٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+خيمة,خَيْمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+د,د,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+داخل,دَاخِلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دار_الشباب,دَارُ الشَّبَابِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دار_سك_النقود,دَارُ سَكِّ النُّقُودِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دب,دُبٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دباسة,دَبَّاسَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دبلوم,دِبْلُومٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دجاج_بلدي,دَجَاجٌ بَلَدِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دجاجة,دَجَاجَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دجنبر,دُجَنْبِر,Days_Months_Seasons,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دخل,دَخَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دخن,دَخَّنَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دراجة_نارية,دَرَّاجَةٌ نَارِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دراجة_هوايية,دَرَّاجَةٌ هَوَائِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+درج,دَرَجٌ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+درس,دَرَسَ,Diverse,WORD_ISOLATED,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+درهم,دِرْهَمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دشن,دَشَّنَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دغدغ,دَغْدَغَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دفاع,دِفَاعٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دفتر,دَفْتَرٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دفع,دَفَعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دلفين,دُلْفِينٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دلو,دَلْوٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دم,دَمٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دماغ,دِمَاغٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دملج,دُمْلُجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دمية,دُمْيَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دمية_دب,دُمْيَةُ دُبٍّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دهان,دِهَان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دهش,دَهِشَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دواء,دَوَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دودة,دُودَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+دولار,دُولاَرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ديك,دِيكٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ديك_رومي,دِيكٌ رُومِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذ,ذ,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+ذاق,ذَاقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذاكرة,ذَاكِرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذبابة,ذُبَابَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذراع,ذِرَاعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذرة,ذُرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذقن,ذَقْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذهابا_وايابا,ذَهَابًا وَإِيَّابًا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذهب,ذَهَبٌ,Diverse,WORD_ISOLATED,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+ذيب,ذِئْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ذيل,ذَيْلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ر,ر,Letters,ALPHABET_STATIC,3,3,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+راجع,رَاجَعَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+راجل,رَاجِلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+راس,رَأْسٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+راشد,رَاشِدٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+راقب,رَاقَبَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+راي,رَأَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ربح,رَبِحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ربما,رُبَّمَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رجل,رَجُلٌ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+رخصة_السياقة,رُخْصَةُ السِّيَاقَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رزق,رِزْقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رسم,رَسْمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رش,رَشَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رشفة,رَشْفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رشوة,رَشْوَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رصاص,رَصَّاصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رضاعة,رَضَّاعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رضيع,رَضِيعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رعد,رَعْدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رفض,رَفَضَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رقايق_بطاطس_مقلية,رَقَائِقُ بَطَاطِسٍ مَقْلِيَّةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رقايق_حبوب_الافطار,رَقَائِقُ حُبُوبِ الْإِفْطَارِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رقص,رَقَصَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ركب,رَكِبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ركبة,رُكْبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ركز,رَكَّزَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ركل,رَكَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ركن,رُكْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رمادي,رَمَادِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رمان,رُمَّان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رمز,رَمْزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رمضان,رَمَضَانُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رمل,رَمْلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رمي_الرمح,رَمْيُ الرُّمْحِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+روح,رُوحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+روضة_اطفال,رَوْضَةُ أَطْفَالٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رياضة,رِيَاضَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رياضيات,رِيَاضِيَّاتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رية,رِئَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ريح,رِيحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رييس_المطبخ,رَئِيسُ المَطْبَخِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+رييس_جوقة,رَئِيسُ جَوْقَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ز,ز,Letters,ALPHABET_STATIC,3,3,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+زار,زَارَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زايد,زَائِد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زبادي,زَبَادِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زبدة,زُبْدَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زبيب,زَبِيب,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زجاج,زُجَاجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زحلوقة,زُحْلُوقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زر,زِرٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زرافة,زَرَافَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زربية,زَرْبِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زرع,زَرَعَ,Diverse,WORD_ISOLATED,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+زكاة_الفطر,زَكَاةُ الْفِطْرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زكام,زُكَامٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زليج,زَلِّيجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زميل_القسم,زَمِيلُ (الْقِسْمِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زهرة,زَهْرَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زواج,زَوَاجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+زيتون,زَيْتُون,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+س,س,Letters,ALPHABET_STATIC,3,3,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+سابقا,سَابِقاً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساحة_المدرسة,سَاحَةُ الْمَدْرَسَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساحر,سَاحِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساخن,سَاخِنٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساعة_حايط,سَاعَةُ حَائِط,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساعة_يد,سَاعَةُ يَد,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساعد,سَاعَدَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سافر,سَافَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سال,سَأَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ساه,سَاهٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سبب,سَبَبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سبح,سَبَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سبورة,سَبُّورَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ستار,سِتَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سجادة_الصلاة,سَجَّادَةُ الصَّلَاةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سجن,سِجْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سحابة,سَحَابَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سخان_مياه,سَخَّانُ مِيَاه,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سخر,سَخِرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سدس,سُدُسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سدي_غير_مجد,سُدًى (غَيْرُ مُجْدٍ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سرة,سُرَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سرطان_حيوان_بحري,سَرَطَانٌ (حَيَوَانٌ بَحْرِيٌّ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سروال,سِرْوَالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سروال_قصير,سِرْوَالٌ قَصِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سرير,سَرِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سرير_طفل,سَرِيرُ طِفْلٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سريع,سَرِيعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سطح,سَطْحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سطر,سَطَّرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سعال,سُعَالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سفارة,سِفَارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سفينة,سَفِينَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سقط,سَقَطَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سقف,سَقْفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سكت,سَكَتَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سكر,سُكَّرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سكسوفون,سَكْسُوفُون,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سكن,سَكَنَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سكين,سِكِّينٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سل,سُلٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلا,سَلَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلحفاة,سُلَحْفَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلحفاة_بحرية,سُلَحْفَاةٌ بَحْرِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلطة,سَلَطَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلف,سَلَّفَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلم,سُلَّمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلم_علي,سَلَّمَ (عَلَى),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سلم_متحرك,سُلَّمٌ مُتَحَرِّكٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سماء,سَمَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سماعة_الاصم,سَمَّاعَةُ الْأَصَمِّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سماعة_الطبيب,سَمَّاعَةُ الطَّبِيبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سمع,سَمِعَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سمك,سَمَكٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سمك_الراي,سَمَكُ الرَّاي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سمك_القرش,سَمَكُ الْقِرْشِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سن,سِنٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سنة,سَنَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سنجاب,سِنْجَابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سندويش,سَنْدَوِيش,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سنون,سَنُون,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سنوي,سَنَوِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سهل,سَهْلٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سهم,سَهْمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سوال,سُؤَالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سورة,سُورَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سوستة,سُوسْتَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سوق,سُوقٌ,Diverse,WORD_ISOLATED,5,5,5,3,1,1,SUPPORTED_FOR_TRAINING,,0
+سياج,سِيَاجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيارة,سَيَّارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيارة_اجرة,سَيَّارَةُ أُجْرَةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيارة_الاسعاف,سَيَّارَةُ الإِسْعَافِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيارة_المطافي,سَيَّارَةُ الْمَطَافِئِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيجارة,سِيجَارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيدا,سِيدَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيي_قبيح,سَيِّئٌ (قَبِيحٌ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+سيية,سَيِّئَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ش,ش,Letters,ALPHABET_STATIC,3,3,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+شاب,شَابٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شاحنة,شَاحِنَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شارع,شَارِعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شارك,شَارَكَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شاطر,شَاطِرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شاطي,شَاطِئٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شامبو,شَامْبُو,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شاي,شَايٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شبيه,شَبِيهٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شتنبر,شُتَنْبِر,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شجاع,شُجَاعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شجرة,شَجَرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شجرة_الارز,شَجَرَةُ الْأَرْزِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شخص,شَخْصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شرب,شَرِبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شربة,شُرْبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شرطة,شَرْطَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شرطي,شُرْطِيٌّ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شرفة,شُرْفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شرق,شَرْقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شركة,شَرِكَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شروق,شُرُوقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شطرنج,شَطْرَنْجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شعبان,شَعْبَانُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شعر,شَعَرَ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+شعرية,شَعْرِيَّة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شفاء,شِفَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شفاف,شَفَّاف,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شفاهي,شِفَاهِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شفة,شَفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شفشاون,شَفْشَاوْن,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شقي,شَقِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شقيق,شَقِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شكرا,شُكْرًا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شلال,شَلَّالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شلل_نصفي,شَلَلٌ نِصْفِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شم,شَمَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شمال,شَمَالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شمس,شَمْسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شمسية,شَمْسِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شمعة,شَمْعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شهادة_العمل,شَهَادَةُ الْعَمَلِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شهر,شَهْرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شوكة_اكل,شَوْكَةُ أَكْلٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شوكولاتة,شُوكُولَاتَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+شيطان,شَيْطَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ص,ص,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+صابون,صَابُونٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صالون,صَالُونٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صايغ,صَائِغٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صباح,صَبَاحٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صباح_الخير,صَبَاحُ الْخَيْرِ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صبن,صَبَّنَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صحة,صِحَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صحراء,صَحْرَاءُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صحن,صَحْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صحيح,صَحِيحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صخرة,صَخْرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صدر,صَدْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صدرية,صَدْرِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صدقة,صَدَقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صديق,صَدِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صديقة,صَدِيقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صعب,صَعْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صعد,صَعِدَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صغير,صَغِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صف,صَفٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صفارة,صَفَّارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صفحة,صَفْحَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صفد,صَفَدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صفر_صفير,صَفَرَ (صَفِير),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صفق,صَفَّقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صفق_تصفيق_الصم,صَفَّقَ (تَصْفِيقُ الصُّمِّ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صقر,صَقْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صلاة,صَلَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صلب,صَلْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صنارة,صِنَّارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صنبور,صُنْبُورٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صندوق,صُنْدُوقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صندوق_قمامة,صُنْدُوقُ قُمَامَةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صوت,صَوْتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صورة_فوتوغرافية,صُورَةٌ فُوتُوغْرَافِيَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صوف,صُوفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صول,صُول,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صومعة,صَوْمَعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+صينية,صِينِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ض,ض,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+ضابط_شرطة,ضَابِطُ شُرْطَةٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضباب,ضَبَابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضبع,ضَبْعٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضجيج,ضَجِيجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضحك,ضَحِكَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضد,ضِدَّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضرب,ضَرَبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضرب_الاعداد,ضَرْبٌ (الْأَعْدَاد),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضريبة,ضَرِيبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضريح_محمد_الخامس,ضَرِيحُ مُحَمَّدٍ الْخَامِسِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضعف_البصر,ضُعْفُ البَصَر,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضفدعة,ضِفْدَعَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ضوء_السيارة,ضَوْءُ السَّيَّارَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ط,ط,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+طابع_بريدي,طَابَعٌ بَرِيدِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طابق,طَابَقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طابق_ارضي,طَابَقٌ أَرْضِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طابق_سفلي,طَابَقٌ سُفْلِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طابق_علوي,طَابَقٌ عُلْوِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طاجن,طَاجِن,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طار,طَارَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طارد,طَارَدَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طالع_قرء,طَالَعَ (قَرَءَ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طانطان_اشارة_1,طَانْطَان (إِشَارَة 1)‎,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طاوس,طَاوُسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طاولة,طَاوِلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طاير,طَائِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طايرة,طَائِرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبخ,طَبَخَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبعا,طَبْعاً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبل,طَبْلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبيب,طَبِيبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبيب_جراح,طَبِيبٌ جَرَّاحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبيب_خاص,طَبِيبٌ خَاصٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبيب_نفسي,طَبِيبٌ نَفْسِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبيعة,طَبِيعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طبيعي,طَبِيعِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طحين,طَحِينٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طربوش,طَرْبُوشٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طرح_الاعداد,طَرْحٌ (الْأَعْدَاد),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طريق,طَرِيقٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طعام,طَعَامٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طلاق,طَلَاقٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طلب,طَلَبٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طماطم,طَمَاطِمُ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طنجة,طَنْجَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طنجرة_ضغط,طَنْجَرَةُ ضَغْطٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طوب,طُوبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طول,طُولٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طويل,طَوِيلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+طيار,طَيَّارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ظ,ظ,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+ظفر,ظُفْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ظهر,ظَهْرٌ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+ع,ع,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+عاد,عَادَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عاشق,عَاشِقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عاشوراء,عَاشُورَاءُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عاصفة,عَاصِفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عاصمة,عَاصِمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عالم,عَالَمٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عامل_تنظيف,عَامِلُ تَنْظِيفٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عامل_منجم,عَامِلُ مَنْجَم,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عانق,عَانَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عايلة_ملكية,عَائِلَة مَلَكِيَّة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عجل,عِجْلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عجلة,عَجَلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عجوز,عَجُوزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عجين_اطفال,عَجِينٌ (أَطْفَالٌ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عجين_طحين,عَجِينٌ (طَحِينٌ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عداد_ماء_كهرباء,عَدَّادٌ (مَاء - كَهْرَبَاء),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عدة,عُدَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عدس,عَدَسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عدل,عَدْل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عدم_لاشيء,عَدَم (لاَشَيْء),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عدو,عَدُوٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عربة,عَرَبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عربة_اطفال,عَرَبَةُ أَطْفَال,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عرف,عَرَفَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عرق,عِرْقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عروسة,عَرُوسَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عسل,عَسَل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عش,عُشٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عشاء,عَشَاء,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عشب,عُشْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عشرة_دراهم,عَشَرَةُ دَرَاهِم,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عشرون_درهما,عِشْرُونَ دِرْهَماً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عصارة,عَصَّارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عصير,عَصِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عض,عَضَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عضلة,عَضَلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عطر,عِطْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عطشان,عَطْشَانُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عطلة,عُطْلَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عظم,عَظْمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عفا,عَفَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عقرب,عَقْرَبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عكاز,عُكَّازٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+علاج,عِلاَجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+علامة_استفهام,عَلاَمَةُ اسْتِفْهَام,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+علامة_التنصيص,عَلاَمَةُ التَّنْصِيصِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+علامة_تعجب,عَلاَمَةُ تَعَجُّبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+علم,عَلَمٌ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+علي,عَلَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عم,عَمٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عمارة,عِمَارَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عمامة,عِمَامَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عمة,عَمَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عمر,عُمُرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عمرة,عُمْرَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عمل,عَمَلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عميق,عَمِيقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عند,عِنْدَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عنده,عِنْدَهُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عندها,عِنْدَهَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عندي,عِنْدِي,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عنق,عُنُقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عنكبوت,عَنْكَبُوتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عنوان,عُنْوَانٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عنيد,عَنِيدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عود_ثقاب,عُودُ ثِقَابٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد,عِيدٌ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد_الاستقلال,عِيدُ الاِسْتِقْلاَلِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد_الاضحي,عِيدُ الْأَضْحَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد_الشباب,عِيدُ الشَّبَابِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد_الفطر,عِيدُ الْفِطْرِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد_المولد_النبوي,عِيدُ المَوْلِدِ النَّبَوِيِّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عيد_الميلاد,عِيدُ المِيلَادِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عين,عَيْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+عين_سحرية,عَيْنٌ سِحْرِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غ,غ,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+غاضب,غَاضِبٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غال,غَالٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غايب,غَائِبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غبار,غُبَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غدا,غَداً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غذاء,غَذَاء,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غذي,غَذَّى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غرب,غَرْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غرفة,غُرْفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غرفة_الاكل,غُرفَةُ الْأَكْلِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غرفة_الجلوس,غُرْفَةُ الْجُلُوسِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غروب,غُرُوبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غزال,غَزَالٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غزل_الصوف,غَزَلَ (الصُّوفَ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غسل_السيارات,غَسْلُ السَّيَّارَاتِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غسل_اليدين,غَسَلَ (الْيَدَيْن),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غش,غَشَّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غشت,غُشْت,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غصن,غُصْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غطاء,غِطَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غلاف_بلاستيكي,غِلاَفٌ بْلاَسْتِيكِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غلام,غُلاَمٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غني,غَنِيٌّ,Diverse,WORD_ISOLATED,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+غوريلا,غُورِيلاَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+غير,غَيَّرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ف,ف,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+فار,فَأْرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فارة_الحاسوب,فَأْرَةُ الْحَاسُوبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فارس,فَارِسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فارغ,فَارِغٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فاصلة,فَاصِلَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فاصلة_منقوطة,فَاصِلَةٌ مَنْقُوطَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فاكس,فَاكْس,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فايدة,فَائِدَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فايض,فَائِضٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فبراير,فِبْرَايِر,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فتاح_القوارير,فَتَّاحُ الْقَوَارِير,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فتح,فَتَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فترة,فَتْرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فتش,فَتَّشَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فجاة,فَجْأَةً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فجر,فَجْرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فحص,فَحَصَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فراشة,فَرَاشَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فراغ_وقت,فَرَاغٌ (وَقْت),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فراولة,فَرَاوْلَة,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فرح,فَرِحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فرس_النهر,فَرَسُ النَّهْرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فرشاة,فُرْشَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فرشاة_الاسنان,فُرْشَاةُ الأَسْنَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فرن,فُرْنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فرن_الخبز,فُرْنُ الخُبْزِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فطور,فَطُور,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فعل,فَعَلَ,Diverse,WORD_ISOLATED,4,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,4
+فقاعة,فُقَّاعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فقر_الدم,فَقْرُ الدَّمِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فقير,فَقِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فكر,فَكَّرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فكرة,فِكْرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فلسطين,فِلَسْطِين,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فلفل,فُلْفُل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فم,فَمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فن,فَنٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فناء_خلفي,فِنَاءٌ خَلْفِيٌّ,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+فناء_خلفي_1,فِنَاءٌ خَلْفِيٌّ (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+فناء_خلفي_2,فِنَاءٌ خَلْفِيٌّ(2),Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+فنجان,فِنْجَانٌ,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+فنجان_1,فِنْجَانٌ (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+فندق,فُنْدُقٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فوطة,فُوطَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فوق,فَوْقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فول,فُولٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+في,فِي,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,2
+في_اشارة_1_1,فِي (إِشَارَة 1) (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+في_اشارة_2_1,فِي (إِشَارَة 2) (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+فيتامين,فِيتَامِينٌ,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+فيتامين_1,فِيتَامِينٌ (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+فيسبوك,فَيْسْبُوك,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فيضان,فَيَضَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فيل,فِيلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+فيلا,فِيلاَّ,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+فيلا_اشارة_1_1,فِيلاَّ (إِشَارَة 1) (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+ق,ق,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+قاد,قَادَ,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+قاد_1,قَادَ (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+قاس,قَاسَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قاعة,قَاعَةٌ,Diverse,WORD_ISOLATED,1,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels,1
+قاعة_1,قَاعَةٌ (1),Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_duplicate_checksum_labels;ambiguous_label_key_multiple_arabic_displays,1
+قاعة_الحفلات,قَاعَةُ الْحَفَلَاتِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قاعة_الدرس,قَاعَةُ الدَّرْسِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قال,قَالَ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قانون,قَانُونٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قانون_السير,قَانُونُ السَّيْرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قايد_فريق,قَائِدُ فَرِيقٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قبض,قَبَضَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قبعة,قُبَّعَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قبل,قَبَّلَ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+قتل,قَتَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قد,قَدْ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قدم,قَدَمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قديم_الزمن,قَدِيمٌ (الزَّمَنُ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قذر,قَذِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قر,قَرٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قرا,قَرَأَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قرد,قِرْدٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قرنبيط,قَرْنَبِيط,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قريب,قَرِيبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قريب_اهل,قَرِيبٌ (أَهْلٌ),Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قسم_المستعجلات,قِسْمُ الْمُسْتَعْجَلَات,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قشدة_طرية,قِشْدَةٌ طَرِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قصبة_الاوداية,قَصَبَةُ الْأَوْدَايَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قصة,قِصَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قصر,قَصْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قضاع_وجع_المعدة,قُضَاعٌ (وَجَعُ الْمَعِدَةِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قطار,قِطَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قطار_الانفاق,قِطَارُ الأَنْفَاقِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قطة,قِطَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قطرة_مطر,قَطْرَةُ مَطَر,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قطع,قَطَعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قفة,قُفَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قفز,قَفَزَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قفص_الطيور,قَفَصُ الطُّيُورِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قلادة,قِلَادَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قلعة,قَلْعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قلق,قَلِقٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قلم_الرصاص,قَلَمُ الرَّصَاصِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قلم_حبر,قَلَمُ حِبْرٍ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قليل,قَلِيل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قمة,قِمَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قمر,قَمَرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قمر_اصطناعي,قَمَرٌ اصْطِنَاعِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قميص,قَمِيصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قميص_قصير_الاكمام,قَمِيصٌ قَصِيرُ الْأَكْمَامِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قناة_القران,قَنَاةُ الْقُرْآنِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قنص,قَنْصٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قنفذ,قُنْفُذٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قنينة_بلاستيكية,قِنِّينَةُ بْلاَسْتِيكِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قنينة_زجاجية,قِنِّينَةٌ زُجَاجِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قنينة_غاز,قِنِّينَةُ غَازٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قهوة,قَهْوَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قوس_قزح,قَوْسُ قُزَحٍ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قوسان,قَوْسَان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قوي,قَوِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قياس_السمع,قِيَاسُ السَّمْعِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قيثارة,قِيثَارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+قيلولة,قَيْلُولَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ك,ك,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+كاس,كَأْسٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كاميرا_فيديو,كَامِيرَا فِيدْيُو,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كان,كَانَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كبح,كَبَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كبير,كَبِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كتاب,كِتَابٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كتب,كَتَبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كتف,كَتِفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كثير,كَثِير,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرة,كُرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرة_السلة,كُرَةُ السَّلَّةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرة_القدم,كُرَةٌ الْقَدَمِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرة_المضرب,كُرَةُ الْمَضْرَبِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرة_اليد,كُرَةُ الْيَدِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرسي,كُرْسِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرسي_عال,كُرْسِيٌّ عَالٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كرسي_هزاز,كُرْسِيٌّ هَزَّازٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كسر,كَسَرَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كسكس,كُسْكُس,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كسوة,كِسْوَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كسوف,كُسُوفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كعب,كَعْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كعكة,كَعْكَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كفة_الميزان,كَفَّةُ الْمِيزَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كفتة,كُفْتَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كل,كُلٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كلب,كَلْبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كلمة,كَلِمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كلمة_المرور,كَلِمَةُ الْمُرُورِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كلميم,كُلْمِيم‎‎,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كم,كَمْ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كمان,كَمَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كمل,كَمَّلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كناش_التعريف_والحالة_المدنية,كُنَّاشُ التَّعْرِيفِ وَالْحَالَةِ الْمَدَنِيَّةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كنزة,كَنْزَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كنيسة,كَنِيسَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كهربايي,كَهْرَبَائِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كوب_كبير,كُوبٌ (كَبِيرٌ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كولف,كُولْفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كيف,كَيْفَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كيلومتر,كِيلُومِتْر,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كيوي,كِيوِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+كييب,كَئِيبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ل,ل,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+لا,لا,Letters,ALPHABET_STATIC,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+لاحقا,لاَحِقًا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لان,لِأَنَّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لبن,لَبَنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لتر,لِتْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لحظة,لَحْظَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لحم,لَحْمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لحية_طويلة,لِحْيَةٌ طَوِيلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لذيذ,لَذِيذٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لسان,لِسَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لطيف,لَطِيفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لعب,لَعِبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لعبة,لُعْبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لعبة_الغميضة,لُعْبَةُ الْغُمَّيْضَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لغة,لُغَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لك,لَكَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لكمة,لَكْمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لم,لَمْ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لماذا,لِمَاذَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لمح,لَمَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لمس,لَمَسَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لن,لَنْ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+له,لَهُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لها,لَهَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لهاية,لَهَّايَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لهم,لَهُمْ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لوز,لَوْزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+لون,لَوَّنَ,Diverse,WORD_ISOLATED,6,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,6
+لي,لِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ليبيا,لِيبْيَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ليس,لَيْسَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ليس_بعد,لَيْسَ بَعْدُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ليفة_الاستحمام,لِيفَةُ الاِسْتِحْمَامِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ليل,لَيْلٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+م,م,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+ماء,مَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماء_الورد,مَاءُ الْوَرْدِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماذا,مَاذَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماراطون,مَارَاطُونٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مارس,مَارِس,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماكر,مَاكِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماليزيا,مَالِيزْيَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مانجا,مَانْجَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماوي,مَأْوَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ماي,مَاي,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مايدة,مَائِدَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مباراة,مُبَارَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مباشرة,مُبَاشَرَةً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مبتل,مُبْتَلٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مبتهج,مُبْتَهِجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مبراة_اقلام,مِبْرَاةٌ (أَقْلاَم),Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مبشرة,مِبْشَرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+متاخر,مُتَأَخِّرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+متجر,مَتْجَرٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+متر,مِتْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+متسول,مُتَسَوِّلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+متعب,مُتْعَبٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+متي,مَتَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مثقف,مُثَقَّفٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مثلا,مَثَلاً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مثلث,مُثَلَّثٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مثلجات,مُثَلّجَات,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مجتهد,مُجْتَهِدٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مجرفة,مِجْرَفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مجمد,مُجَمِّدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مجموعة,مَجْمُوعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محا,مَحَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محافظة_عقارية,مُحَافَظَةٌ عَقَارِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محام,مُحَامٍ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محايد,مُحَايِدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محراث,مِحْرَاثٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محطة_الوقود,مَحَطَّةُ الْوَقُودِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محفظة,مِحْفَظَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محكمة,مَحْكَمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محكمة_ابتدايية,مَحْكَمَةٌ ابْتِدَائِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محكمة_استيناف,مَحْكَمَةُ اسْتِئْنَافٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محمد_الخامس,مُحَمَّدٌ الخَامِسُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+محمد_صلي_الله_عليه_وسلم,مُحَمَّدٌ صَلَّى اللهُ عَلَيْهِ وَسَلَّمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مختلف,مُخْتَلِفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مدرسة,مَدْرَسَةٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مدفاة,مِدْفَأَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مدن_الصفيح,مُدُنُ الصَّفِيحِ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مدير_مدرسة,مُدِيرُ مَدْرَسَةٍ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مدينة,مَدِينَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مر,مُرٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مراب,مِرْآبٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مراة,مِرْآةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرافقة,مُرَافَقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مراكش,مُرَّاكُش,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مراهق,مُرَاهِقٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مراهنة,مُرَاهَنَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مربي,مُرَبَّى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرح,مَرَحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرحاض,مِرْحَاضٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرحبا,مَرْحَباً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرض_الاعصاب,مَرَضُ الأَعْصَابِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرض_الجلد,مَرَضُ الجِلْدِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرض_الحكة,مَرَضُ الحَكَّةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرض_السرطان,مَرَضُ السَّرَطَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرض_السكري,مَرَضُ السُّكَّرِي,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرفق,مِرْفَقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرق,مَرَقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مركب_شراعي,مَرْكَبٌ شِرَاعِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مركز,مَرْكَزٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مركز_الشرطة,مَرْكَزُ الشُّرْطَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مركز_تجاري,مَرْكَزٌ تِجَارِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مرهم,مَرْهَم,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مروحة,مِرْوَحَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مريض,مَرِيضٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مريلة_صدارالطفل,مَرْيَلَةٌ (صِدَارُالطِّفْلِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مريلة_لحماية_الملابس_عند_الطبخ,مَرْيَلَةٌ (لِحِمَايَةِ الْمَلاَبِسِ عِنْدَ الطَّبْخِ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مزاد_علني,مَزَادٌ عَلَنِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مزج,مَزَجَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مزح,مَزَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مزق,مَزَّقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مزمار,مِزْمَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مزهرية,مِزْهَرِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مساء,مَسَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسابقة,مُسَابَقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مساحة_زجاج_السيارة,مَسَّاحَةُ زُجَاجِ السَّيَّارَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مساعدة,مُسَاعَدَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسايفة,مُسَايَفَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسبح,مَسْبَحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مستحيل,مُسْتَحِيلٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مستشار,مُسْتَشَارٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مستشفي,مُسْتَشْفَى,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مستوصف,مُسْتَوْصَفٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مستوي,مُسْتَوَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسجد,مَسْجِدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسح,مَسَحَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسطرة,مِسْطَرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسمار,مِسْمَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مسوول_مسوول_سام,مَسْؤُولٌ (مَسْؤُولٌ سَامٍ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشحن,مِشْحَنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشط,مُشْطٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشغول,مَشْغُولٌ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشلول,مَشْلُول,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشهور,مَشْهُورٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشواة,مِشْوَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مشي,مَشَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مصارعة_الثيران,مُصَارَعَةُ الثِّيرَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مصباح,مِصْبَاحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مصبغة,مَصْبَغَةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مصعد,مِصْعَدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مصمم_تصميم,مُصَمِّمٌ (تَصْمِيمٌ),Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مضغ,مَضَغَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مطبخ,مَطْبَخٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مطبعة,مَطْبَعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مطر,مَطَرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مطرقة,مِطْرَقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مطعم,مَطْعَمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مظلة,مِظَلَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مظلم,مُظْلِمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مع,مَعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+معا,مَعاً,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+معطف,مِعْطَفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+معطل,مُعَطَّلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+معقوفتان,مَعْقُوفَتَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+معكرونة,مَعْكَرُونَة,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مغسل,مِغْسَلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مغناطيس,مِغْنَاطِيسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مفتاح,مِفْتَاحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مفتاح_علب,مِفْتَاحُ عُلَب,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مفتش_تربوي,مُفَتِّشٌ (تَرْبَوِيٌّ),Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مفرقعة,مُفَرْقَعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقاطعة,مُقَاطَعَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقبرة,مَقْبَرَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقدم_الحي,مُقَدَّمُ الْحَيِّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقزز,مُقَزِّزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقص,مِقَصٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقص_اظافر,مِقَصُّ أَظَافِر,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقص_الحديقة,مِقَصُّ الْحَدِيقَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقلاة,مِقْلاَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقلمة,مِقْلَمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقهي,مَقْهًى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقود,مِقْوَدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مقياس_الحرارة,مِقْياسُ الحَرارَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكان,مَكَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكتب,مَكْتَبٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكتب_البريد,مَكْتَبُ الْبَرِيدِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكتبة,مَكْتَبَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكسرات,مُكَسَّرَات,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكعبات,مُكَعَّبَاتٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكنسة,مِكْنَسَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكواة,مِكْوَاةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مكيف_هوايي,مُكَيِّفٌ هَوَائِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملا,مَلَأَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملابس,مَلاَبِسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملاكمة,مُلَاكَمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملح,مِلْحٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملعب,مَلْعَبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملعقة,مِلْعَقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملف,مِلَفٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ملك,مَلَكَ,Diverse,WORD_ISOLATED,2,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,2
+ملكة_جمال_العالم,مَلِكَةُ جَمَالِ الْعَالَمِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مليلية,مَلِيلِيَّةُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ممتلي,مُمْتَلِئٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ممر,مَمَرٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ممرضة,مُمَرِّضَةٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ممنوع,مَمْنُوعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+من,مَنْ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منامة,مَنَامَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منبه,مُنَبِّهٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منبه_السيارة,مُنَبِّهُ السَّيَّارَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منتزه,مُنْتَزَهٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منتشر,مُنْتَشِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منجل,مِنْجَل,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منحة_دراسية,مِنْحَةٌ دِرَاسِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منديل,مِنْدِيلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منزعج,مُنْزَعِجٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منزل,مَنْزِلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منشار_سلسلي,مِنْشَارٌ سِلْسِلِيّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منضبط,مُنْضَبِطٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منظار,مِنْظَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منفضة_السجاير,مِنْفَضَةُ السَّجَائِرِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+منقار,مِنْقَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مهذب,مُهَذَّبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مهر,مُهْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مهرجان,مِهْرَجَانٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مهم,مُهِمٌّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مهندس_معماري,مُهَنْدِسٌ مِعْمَارِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موتمر,مُؤْتَمَرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موج,مَوْجٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موجود,مَوْجُودٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موز,مَوْزٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موسسة_محمد_الخامس_للتضامن,مُؤَسَّسَةُ مُحَمَّدٍ الخَامِسِ لِلتَّضَامُنِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موسي_عليه_السلام,مُوسَى عَلَيْهِ السَّلاَمُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موسيقي,مُوسِيقَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+موضة,مُوضَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مولدة,مُوَلِّدَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+مية_درهم,مِئَةُ دِرْهَمٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ميكانيكي,مِيكَانِيكِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ميناء,مِينَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ن,ن,Letters,ALPHABET_STATIC,4,4,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+نادي,نَادَى,Diverse,WORD_ISOLATED,5,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,5
+ناس,نَاسٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ناعم,نَاعِمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نافذة,نَافِذَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نافورة,نَافُورَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ناقة,نَاقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ناقش,نَاقَشَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ناقص,نَاقِص,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نبات,نَبَاتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نبت,نَبَتَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نتن,نَتِنٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نجدة,نَجْدَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نجم,نَجْمٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نحلة,نَحْلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نحن,نَحْنُ,Pronouns,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نحيف,نَحِيفٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نخلة,نَخْلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ندم,نَدِمَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ندي,نَدىً,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نزع_الاسنان,نَزْعُ الْأَسْنَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نزل,نَزَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نسبة_ميوية,نِسْبَةٌ مِئَوِيَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نسخ,نَسَخَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نسي,نَسِيَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نشاط,نَشَاطٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نشيد_وطني,نَشِيدٌ وَطَنِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نصح,نَصَحَ,Diverse,WORD_ISOLATED,4,4,4,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نصف,نِصْفٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نصف_داخلي,نِصْفُ دَاخِلِي,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نصف_دايرة,نِصْفُ دَائِرَةٍ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نظارة,نَظَّارَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نظام,نِظَامٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نظر,نَظَرَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نظيف,نَظِيفٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نعامة,نَعَامَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نعجة,نَعْجَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نعل,نَعْلٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نعم,نَعَمْ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نفاية,نُفَايَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نفق,نَفَقٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نقابة,نَقَابَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نقانق,نَقَانِقُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نقطة,نُقْطَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نقطة_نظام,نُقْطَةُ نِظَامٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نقطتان,نُقْطَتَان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نقود,نُقُودٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نمر,نَمِرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نملة,نَمْلَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نميمة,نَمِيمَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نهار,نَهَارٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نهاية,نِهَايَة,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نهر,نَهْرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نوح_عليه_السلام,نُوحٌ عَلَيْهِ السَّلاَمُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نوم,نَوْمٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نونبر,نُوَنْبِر,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نيزك,نَيْزَكٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+نيويورك,نْيُويُورْك,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ه,ه,Letters,ALPHABET_STATIC,1,1,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+هاتف,هَاتِفٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هاتف_نقال,هَاتِفٌ نَقَّالٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هامبرغر,هَامْبُرْغَر,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هب,هَبَّ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هدية,هَدِيَّةٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هذا,هَذَا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هذه,هَذِهِ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هرب,هَرَبَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هرمونيكا,هَرْمُونِيكَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هريرة,هُرَيْرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هش,هَشٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هضبة,هَضَبَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هكذا,هَكَذَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هل,هَلْ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هلالية,هِلَالِيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هم,هُمْ,Pronouns,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هن,هُنَّ,Pronouns,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هنا,هُنَا,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هناك,هُنَاكَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هو,هُوَ,Pronouns,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هواء,هَوَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هوايي,هَوَائِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هولندا,هُولَنْدَا,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هي,هِيَ,Pronouns,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هيا,هَيَّأَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+هيكل_عظمي,هَيْكَلٌ عَظْمِي,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+و,و,Letters,ALPHABET_STATIC,3,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,3
+واجب,وَاجِبٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+واسع,وَاسِعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+واسي,وَاسَى,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+واشنطن,وَاشِنْطُن,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وافق,وَافَقَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وال,وَالٍ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وجد,وَجَدَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وجدة,وَجْدَة,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وجه,وَجْهٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وحيد,وَحِيدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وحيد_القرن,وَحِيدُ الْقَرْنِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وداع,وَدَاعٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ورقة,وَرَقَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزارة,وِزَاَرَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزارة_الاسكان,وِزَارَةُ الْإِسْكَانِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزارة_التشغيل,وِزَارَةُ التَّشْغِيلِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزارة_الشبيبة_والرياضة,وِزَارَةُ الشَّبِيبَةِ وَالرِّيَاضَةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزارة_العدل,وِزَارَةُ الْعَدْلِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزارة_المالية,وِزَارَةُ الْمَالِيَّةِ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزان,وَزَّان,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزع,وَزَّعَ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وزير,وَزِيرٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وسادة,وِسَادَةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وسام,وِسَامٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وشاح,وِشَاحٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وصفة_طبية,وَصْفَةٌ طِبِّيَّةٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وصل,وَصَلَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وضع,وَضَعَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وطن,وَطَنٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وعاء,وِعَاءٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وقت,وَقْتٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+وقف,وَقَفَ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ولادة,وِلاَدَةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+ي,ي,Letters,ALPHABET_STATIC,4,0,0,0,0,0,EXCLUDED_FOR_QUALITY,ambiguous_label_key_multiple_arabic_displays,4
+يا,يَا,Letters,ALPHABET_STATIC,2,2,0,0,0,0,INSUFFICIENT_SAMPLES,separate_ALPHABET_STATIC_task_not_in_word_model,0
+يد,يَدٌ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يدوي,يَدَوِيٌّ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يناير,يَنَاير,Days_Months_Seasons,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يورو,يُورُو,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يوليوز,يُولْيُوز,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يوم,يَوْمٌ,Diverse,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يومية,يَوْمِيَّةٌ,Diverse,WORD_ISOLATED,2,2,2,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يونس_عليه_السلام,يُونُسُ عَلَيْهِ السَّلاَمُ,Diverse,WORD_ISOLATED,1,1,1,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0
+يونيو,يُونْيُو,Days_Months_Seasons,WORD_ISOLATED,3,3,3,0,0,0,INSUFFICIENT_SAMPLES,fewer_than_5_independent_usable_examples,0

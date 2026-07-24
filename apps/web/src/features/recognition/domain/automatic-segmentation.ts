@@ -8,6 +8,11 @@ import type {
 } from '../state/recognition-flow';
 import { uniformSample } from './resample-landmark-sequence';
 
+/**
+ * Browser-owned sign segmentation keeps privacy and latency local: it decides when an
+ * isolated sign starts/ends before the API ever sees landmarks. The API still validates
+ * the final 60 × 75 × 3 contract and may return UNKNOWN.
+ */
 type AutomaticSegmentationConfig = {
   targetFrames: number;
   preRollFrames: number;
@@ -106,6 +111,8 @@ function classifyHandZone(frame: HolisticFrame): HandZone {
     leftShoulder.y - rightShoulder.y,
     leftShoulder.z - rightShoulder.z,
   );
+  // Static signs may start without a learned baseline, but hands clearly below the
+  // signing zone are treated as rest so "no motion" cannot become a fake sign.
   const lowerSigningBoundary = shoulderY + Math.max(0.12, shoulderWidth * 0.9);
   const upperRestBoundary = shoulderY + Math.max(0.2, shoulderWidth * 1.15);
   if (anchors.some((anchor) => anchor.y <= lowerSigningBoundary)) return 'signing';

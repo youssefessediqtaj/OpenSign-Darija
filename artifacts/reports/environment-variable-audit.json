@@ -1,0 +1,655 @@
+{
+  "schema_version": "OPEN_SIGNE_ENVIRONMENT_AUDIT_V1",
+  "generated_at": "2026-07-24T01:30:11.024710+00:00",
+  "variables": [
+    {
+      "name": "APP_NAME",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "APP_VERSION",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "CALIBRATION_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/README.md",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "FEATURE_SCHEMA_VERSION",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/frontend-unused-code-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/app/model_package/onnx_model.py",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "INFERENCE_MAX_CONCURRENT_REQUESTS",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/README.md"
+      ],
+      "service_owner": "inference",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "INFERENCE_SERVICE_URL",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/README.md",
+        "services/api/tests/conftest.py",
+        "services/api/tests/test_recognition_modes.py"
+      ],
+      "service_owner": "inference",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "INFERENCE_TIMEOUT_SECONDS",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/README.md"
+      ],
+      "service_owner": "inference",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "LABELS_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/audits/core-recognition-process-audit.md",
+        "docs/operations/configuration.md",
+        "services/inference/README.md",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MEDIAPIPE_HOLISTIC_MODEL_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "docs/operations/configuration.md",
+        "ml/datasets/mosl_video/preprocess.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MODEL_CHECKSUM_REQUIRED",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/README.md",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MODEL_MAX_SIZE_BYTES",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/README.md",
+        "services/inference/app/model_package/onnx_model.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MODEL_NAME",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/audits/pre-simplification-test-baseline.md",
+        "docs/operations/configuration.md",
+        "ml/training/train_mosl_v1.py",
+        "services/inference/README.md",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MODEL_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/audits/core-recognition-process-audit.md",
+        "docs/audits/mosl-source-audit.md",
+        "docs/operations/configuration.md",
+        "docs/operations/mediapipe.md",
+        "ml/datasets/mosl_video/preprocess.py",
+        "services/inference/README.md",
+        "services/inference/app/model_package/onnx_model.py",
+        "services/inference/tests/test_inference.py",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MODEL_VERSION",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "ml/training/train_mosl_v1.py",
+        "services/inference/README.md",
+        "services/inference/tests/test_word_model_package.py",
+        "services/speech/README.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "MODEL_WARMUP_ENABLED",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/README.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "NGINX_HOST_PORT",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "docs/operations/docker.md",
+        "infrastructure/docker/README.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "ONNX_EXECUTION_PROVIDER",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/inference/README.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "apps/web/src/features/recognition/domain/build-recognition-payload.ts",
+        "apps/web/src/features/recognition/domain/normalize-landmarks.ts",
+        "apps/web/src/features/recognition/domain/recognition-contract.ts",
+        "apps/web/src/features/recognition/test-fixtures/word-recognition-v1-valid.json",
+        "apps/web/src/features/recognition/tests/fixtures/schema-v1-expected.json",
+        "apps/web/src/features/recognition/tests/sequence.test.ts",
+        "apps/web/tests/e2e/recognition-camera.spec.ts",
+        "artifacts/datasets/mosl-word-isolated-v1/manifest.json",
+        "artifacts/models/mosl-isolated-sign-v1/landmark-schema.json",
+        "artifacts/models/mosl-isolated-sign-v1/training-config.yaml",
+        "artifacts/models/mosl-word-smoke-v1/landmark-schema.json",
+        "artifacts/models/mosl-word-smoke-v1/training-config.yaml",
+        "artifacts/reports/api-word-real-smoke-payload.json",
+        "artifacts/reports/backend-ml-unused-code-audit.json",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/mosl-validation-summary.json",
+        "artifacts/reports/nested-mosl-final-deletion-verification.json",
+        "artifacts/reports/physical-camera-422-debug.json",
+        "artifacts/reports/pre-architecture-refactor-baseline.json",
+        "docker-compose.yml",
+        "docs/architecture/landmark-schema-v1.md",
+        "docs/audits/pre-architecture-refactor-baseline.md",
+        "docs/datasets/preprocessing.md",
+        "docs/operations/api.md",
+        "docs/operations/configuration.md",
+        "docs/reports/core-recognition-process-final-report.md",
+        "docs/reports/mosl-native-integration-final-report.md",
+        "docs/reports/physical-camera-word-recognition-fix.md",
+        "docs/research/integrations/mosl-integration.md",
+        "ml/data/external/mosl-video-dataset/reports/preprocessing-report.json",
+        "ml/data/external/mosl-video-dataset/reports/processed-artifact-validation.json",
+        "ml/datasets/mosl_video/preprocess.py",
+        "ml/datasets/mosl_video/training_manifest.py",
+        "ml/preprocessing/landmark_schema_v1.py",
+        "ml/tests/test_mosl_v1_production.py",
+        "ml/tests/test_mosl_video_dataset.py",
+        "ml/training/train_mosl_v1.py",
+        "packages/contracts/recognition-v1.schema.json",
+        "scripts/benchmarking/benchmark_inference.py",
+        "services/api/app/schemas/recognition.py",
+        "services/api/tests/test_recognition_modes.py",
+        "services/inference/app/core/config.py",
+        "services/inference/app/model_package/onnx_model.py",
+        "services/inference/app/schemas/prediction.py",
+        "services/inference/tests/test_inference.py",
+        "services/inference/tests/test_word_model_package.py",
+        "tests/architecture/test_architecture_contracts.py",
+        "tests/contracts/test_contract_files.py",
+        "tests/fixtures/landmarks/schema-v1-expected.json",
+        "tests/fixtures/recognition/word-recognition-v1-valid.json"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MAX_DURATION_MS",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MAX_MISSING_FRAME_RATIO",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MAX_PAYLOAD_BYTES",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/tests/test_recognition_modes.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MIN_DURATION_MS",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MIN_DYNAMIC_MOVEMENT",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MIN_HAND_RATIO",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_MIN_USABLE_FRAMES",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "RECOGNITION_RATE_LIMIT",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/tests/test_recognition_modes.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_GENERATION_TIMEOUT_SECONDS",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/README.md",
+        "services/speech/README.md"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_MAX_CONCURRENT_GENERATIONS",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/speech/README.md"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_MAX_SENTENCES",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/speech/README.md"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_MAX_TEXT_LENGTH",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/speech/README.md"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_MODE",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/audits/pre-root-structure-baseline.md",
+        "docs/operations/configuration.md",
+        "docs/reports/root-project-structure-final-report.md",
+        "services/speech/README.md"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_MODEL_VERSION",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/speech/README.md"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SPEECH_SERVICE_URL",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/README.md",
+        "services/api/tests/conftest.py",
+        "services/api/tests/test_recognition_modes.py"
+      ],
+      "service_owner": "speech",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "SUPPORTED_SIGNS_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "services/api/README.md",
+        "services/api/tests/test_speech_audio.py",
+        "services/inference/README.md",
+        "services/inference/tests/test_word_model_package.py"
+      ],
+      "service_owner": "compose_or_developer_tooling",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "VITE_API_BASE_URL",
+      "declared_in_env_example": false,
+      "readers": [
+        ".agent/CONTINUITY.md",
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "docs/operations/local-development.md"
+      ],
+      "service_owner": "frontend",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "VITE_CAMERA_DEFAULT_FPS",
+      "declared_in_env_example": false,
+      "readers": [
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "frontend",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "VITE_CAMERA_DEFAULT_HEIGHT",
+      "declared_in_env_example": false,
+      "readers": [
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "frontend",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "VITE_CAMERA_DEFAULT_WIDTH",
+      "declared_in_env_example": false,
+      "readers": [
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md"
+      ],
+      "service_owner": "frontend",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "VITE_MEDIAPIPE_MODEL_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "docs/operations/mediapipe.md"
+      ],
+      "service_owner": "frontend",
+      "sensitive": false,
+      "decision": "KEEP"
+    },
+    {
+      "name": "VITE_MEDIAPIPE_WASM_PATH",
+      "declared_in_env_example": false,
+      "readers": [
+        "apps/web/Dockerfile",
+        "apps/web/README.md",
+        "apps/web/src/shared/config/env.ts",
+        "artifacts/reports/environment-variable-audit.json",
+        "artifacts/reports/module-dependency-graph.json",
+        "docker-compose.yml",
+        "docs/operations/configuration.md",
+        "docs/operations/mediapipe.md"
+      ],
+      "service_owner": "frontend",
+      "sensitive": false,
+      "decision": "KEEP"
+    }
+  ]
+}

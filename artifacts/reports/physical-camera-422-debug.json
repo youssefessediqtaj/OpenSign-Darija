@@ -1,0 +1,648 @@
+{
+  "created_at": "2026-07-19T16:54:34.165357Z",
+  "observed_log_evidence": {
+    "api_log": "POST /api/v1/recognitions/word HTTP/1.1 422 Unprocessable Entity",
+    "log_files": [
+      "/tmp/opensigne-api-last30m.log",
+      "/tmp/opensigne-nginx-last30m.log",
+      "/tmp/opensigne-inference-last30m.log"
+    ],
+    "nginx_log": "Firefox real-browser POST /api/v1/recognitions/word returned 422 with 7359-byte response body"
+  },
+  "privacy": {
+    "audio_present": false,
+    "coordinates_redacted_to_shape_summary": true,
+    "raw_image_present": false,
+    "raw_video_present": false
+  },
+  "request": {
+    "coordinate_count_first_landmark": 3,
+    "feature_schema_version": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+    "frame_count": 60,
+    "landmark_count_first_frame": 75,
+    "method": "POST",
+    "payload_byte_size": 94863,
+    "presence_mask_count_first_frame": 75,
+    "recognition_mode": "WORD_ISOLATED",
+    "sequence_id_format": "uuid",
+    "target_frame_count": 60,
+    "timestamp_ms_first": 16000,
+    "timestamp_ms_last": 17947,
+    "url": "http://localhost:8081/api/v1/recognitions/word"
+  },
+  "response": {
+    "error_code": "VALIDATION_ERROR",
+    "headers": {
+      "content-length": "7359",
+      "content-type": "application/json",
+      "date": "Sun, 19 Jul 2026 16:54:34 GMT",
+      "server": "nginx/1.27.5"
+    },
+    "message": "Les donnees envoyees sont invalides.",
+    "status": 422,
+    "validation_error_count": 60,
+    "validation_errors": [
+      {
+        "loc": [
+          "body",
+          "frames",
+          0,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          1,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          2,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          3,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          4,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          5,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          6,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          7,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          8,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          9,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          10,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          11,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          12,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          13,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          14,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          15,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          16,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          17,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          18,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          19,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          20,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          21,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          22,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          23,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          24,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          25,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          26,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          27,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          28,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          29,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          30,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          31,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          32,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          33,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          34,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          35,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          36,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          37,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          38,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          39,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          40,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          41,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          42,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          43,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          44,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          45,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          46,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          47,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          48,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          49,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          50,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          51,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          52,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          53,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          54,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          55,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          56,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          57,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          58,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      },
+      {
+        "loc": [
+          "body",
+          "frames",
+          59,
+          "timestamp_ms"
+        ],
+        "msg": "Input should be less than or equal to 10000",
+        "type": "less_than_equal"
+      }
+    ]
+  },
+  "source": "sanitized_reproduction_against_docker_api_after_real_browser_422_logs"
+}

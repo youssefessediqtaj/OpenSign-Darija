@@ -1,0 +1,73 @@
+{
+  "schema_version": "OPEN_SIGNE_SUPPORTED_SIGNS_V1",
+  "model_name": "mosl-isolated-sign-v1",
+  "vocabulary_scope": "lexical_min5",
+  "eligible_minimum_five_label_count": 11,
+  "vocabulary_size": 3,
+  "label_integrity": {
+    "ambiguous_label_keys_excluded": [
+      "ا",
+      "اذا",
+      "انت",
+      "حمل",
+      "درج",
+      "درس",
+      "ذهب",
+      "رجل",
+      "زرع",
+      "شعر",
+      "ظهر",
+      "علم",
+      "غني",
+      "فعل",
+      "فناء_خلفي_1",
+      "فنجان_1",
+      "في_اشارة_1_1",
+      "في_اشارة_2_1",
+      "فيتامين_1",
+      "فيلا_اشارة_1_1",
+      "قاد_1",
+      "قاعة_1",
+      "قبل",
+      "لا",
+      "لون",
+      "ملك",
+      "نادي",
+      "و",
+      "ي"
+    ],
+    "active_labels_disjoint_from_ambiguous_keys": true
+  },
+  "signs": [
+    {
+      "label_key": "اب",
+      "label_ar": "أَبٌ",
+      "category": "Diverse",
+      "examples": 5,
+      "training_count": 3,
+      "validation_count": 1,
+      "test_count": 1,
+      "status": "SUPPORTED_FOR_TRAINING"
+    },
+    {
+      "label_key": "احب",
+      "label_ar": "أَحَبَّ",
+      "category": "Diverse",
+      "examples": 5,
+      "training_count": 3,
+      "validation_count": 1,
+      "test_count": 1,
+      "status": "SUPPORTED_FOR_TRAINING"
+    },
+    {
+      "label_key": "سوق",
+      "label_ar": "سُوقٌ",
+      "category": "Diverse",
+      "examples": 5,
+      "training_count": 3,
+      "validation_count": 1,
+      "test_count": 1,
+      "status": "SUPPORTED_FOR_TRAINING"
+    }
+  ]
+}

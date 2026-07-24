@@ -1,0 +1,103 @@
+{
+  "schema_version": "OPEN_SIGNE_CONFIDENCE_CALIBRATION_V1",
+  "method": "temperature_scaling_max_probability_and_margin",
+  "temperature": 0.5,
+  "unknown_threshold": 0.0,
+  "margin_threshold": 0.8492977619171143,
+  "known_validation_samples": 3,
+  "unknown_validation_samples": 68,
+  "temperature_nll": 0.22825847566127777,
+  "expected_calibration_error": 0.17702045043309528,
+  "selection_policy": {
+    "selection_split": "validation",
+    "test_metrics_used": false,
+    "objective": "safety_weighted_known_correct_acceptance_and_oov_rejection",
+    "unknown_rejection_weight": 0.65,
+    "known_correct_acceptance_weight": 0.35,
+    "requested_minimum_known_correct_acceptance": 0.6,
+    "safety_fallback_minimum_known_correct_acceptance": 0.4,
+    "minimum_validation_unknown_rejection_target": 0.6,
+    "applied_minimum_known_correct_acceptance": 0.6,
+    "requested_floor_feasible": true,
+    "maximum_known_correct_acceptance": 1.0,
+    "primary_operating_point": {
+      "unknown_threshold": 0.0,
+      "margin_threshold": 0.8492977619171143,
+      "known_acceptance_rate": 0.6666666666666666,
+      "known_correct_acceptance_rate": 0.6666666666666666,
+      "unknown_rejection_rate": 0.5882352941176471,
+      "balanced_unknown_accuracy": 0.6274509803921569,
+      "safe_operating_accuracy": 0.6274509803921569,
+      "safety_weighted_score": 0.615686274509804
+    },
+    "safety_fallback_used": false,
+    "safety_fallback_reason": "not_needed"
+  },
+  "selected_operating_point": {
+    "unknown_threshold": 0.0,
+    "margin_threshold": 0.8492977619171143,
+    "known_acceptance_rate": 0.6666666666666666,
+    "known_correct_acceptance_rate": 0.6666666666666666,
+    "unknown_rejection_rate": 0.5882352941176471,
+    "balanced_unknown_accuracy": 0.6274509803921569,
+    "safe_operating_accuracy": 0.6274509803921569,
+    "safety_weighted_score": 0.615686274509804
+  },
+  "pareto_frontier": [
+    {
+      "unknown_threshold": 0.0,
+      "margin_threshold": 0.9988129138946533,
+      "known_acceptance_rate": 0.3333333333333333,
+      "known_correct_acceptance_rate": 0.3333333333333333,
+      "unknown_rejection_rate": 1.0,
+      "balanced_unknown_accuracy": 0.6666666666666666,
+      "safe_operating_accuracy": 0.6666666666666666,
+      "safety_weighted_score": 0.7666666666666667
+    },
+    {
+      "unknown_threshold": 0.0,
+      "margin_threshold": 0.8492977619171143,
+      "known_acceptance_rate": 0.6666666666666666,
+      "known_correct_acceptance_rate": 0.6666666666666666,
+      "unknown_rejection_rate": 0.5882352941176471,
+      "balanced_unknown_accuracy": 0.6274509803921569,
+      "safe_operating_accuracy": 0.6274509803921569,
+      "safety_weighted_score": 0.615686274509804
+    },
+    {
+      "unknown_threshold": 0.5041993856430054,
+      "margin_threshold": 0.05786431208252907,
+      "known_acceptance_rate": 1.0,
+      "known_correct_acceptance_rate": 1.0,
+      "unknown_rejection_rate": 0.08823529411764706,
+      "balanced_unknown_accuracy": 0.5441176470588235,
+      "safe_operating_accuracy": 0.5441176470588235,
+      "safety_weighted_score": 0.4073529411764706
+    }
+  ],
+  "validation": {
+    "known_samples": 3,
+    "unknown_samples": 68,
+    "known_acceptance_rate": 0.6666666666666666,
+    "known_correct_acceptance_rate": 0.6666666666666666,
+    "known_classification_accuracy": 1.0,
+    "unknown_rejection_rate": 0.5882352941176471,
+    "unknown_false_acceptance_rate": 0.4117647058823529,
+    "balanced_unknown_accuracy": 0.6274509803921569,
+    "safe_operating_accuracy": 0.6274509803921569,
+    "safety_weighted_score": 0.615686274509804
+  },
+  "selection_split": "validation",
+  "test": {
+    "known_samples": 3,
+    "unknown_samples": 68,
+    "known_acceptance_rate": 0.6666666666666666,
+    "known_correct_acceptance_rate": 0.6666666666666666,
+    "known_classification_accuracy": 0.6666666666666666,
+    "unknown_rejection_rate": 0.4411764705882353,
+    "unknown_false_acceptance_rate": 0.5588235294117647,
+    "balanced_unknown_accuracy": 0.553921568627451,
+    "safe_operating_accuracy": 0.553921568627451,
+    "safety_weighted_score": 0.5200980392156862
+  }
+}

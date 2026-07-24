@@ -2,7 +2,9 @@
 
 Validation is split by ownership:
 
-- `make test-architecture` checks cross-service boundaries and contract parity.
+- `make test-architecture` checks cross-service boundaries, contract parity, privacy
+  invariants, and repository-local documentation links under `tests/architecture/`,
+  `tests/contracts/`, and `tests/privacy/`.
 - `make test-backend` checks public API schemas, recognition decisions, speech
   orchestration, Ruff, and MyPy.
 - `make test-inference` checks fail-closed package loading, ONNX shape validation,

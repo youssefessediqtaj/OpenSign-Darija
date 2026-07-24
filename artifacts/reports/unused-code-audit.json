@@ -1,0 +1,24 @@
+{
+  "schema_version": "OPEN_SIGNE_UNUSED_CODE_AUDIT_V1",
+  "generated_at": "2026-07-24T01:30:11.060078+00:00",
+  "method": [
+    "Existing dependency graph from scripts/verification/audit_repository_architecture.py.",
+    "Repository-wide reference search excluding ignored generated artifacts.",
+    "Focused ownership review for root data, duplicate README workspace, packages, and generated directories."
+  ],
+  "current_pass_deletions": {
+    "schema_version": "OPEN_SIGNE_DELETED_FILES_V1",
+    "generated_at": "2026-07-24T01:30:11.059898+00:00",
+    "tracked_deleted_files": [],
+    "local_generated_paths_removed": [
+      ".pytest_cache/",
+      ".ruff_cache/",
+      "OpenSigne-Darija-readme/",
+      "data/models/",
+      "data/reports/",
+      "data/",
+      "source-tree .DS_Store files"
+    ]
+  },
+  "no_tracked_generated_cache_files": true
+}

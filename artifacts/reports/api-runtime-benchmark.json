@@ -1,0 +1,28 @@
+{
+  "schema_version": "OPEN_SIGNE_RUNTIME_BENCHMARK_V1",
+  "measured_at": "2026-07-23T18:03:49.211879+00:00",
+  "url": "http://localhost:8081/api/v1/recognitions/word",
+  "requests": 20,
+  "fixture": "ml/data/external/mosl-video-dataset/processed/landmarks/9887333505c8b7a2b006ad55a9209c0943f0f58f712663f6c5445e30f9c7ceed.npz",
+  "fixture_expected_label": "احب",
+  "payload_shape": [
+    60,
+    75,
+    3
+  ],
+  "api_round_trip_ms": {
+    "average": 45.523,
+    "p50": 42.836,
+    "p95": 59.666,
+    "maximum": 82.93
+  },
+  "server_reported_latency_ms": {
+    "average": 32.3,
+    "p95": 49.0
+  },
+  "recognized_count": 20,
+  "unknown_count": 0,
+  "returned_labels": [
+    "احب"
+  ]
+}

@@ -1,0 +1,771 @@
+{
+  "architecture": "lightweight_transformer",
+  "parameter_count": 86349,
+  "training_duration_seconds": 2.285874540997611,
+  "epochs_completed": 17,
+  "best_checkpoint": "artifacts/models/mosl-isolated-sign-v1/candidates/lightweight_transformer/best-checkpoint.pt",
+  "checkpoint_size_bytes": 1077186,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 2.695600986480713,
+      "validation_loss": 2.6732351779937744,
+      "validation_macro_f1": 0.0,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.618186275164286,
+      "validation_loss": 2.6612977981567383,
+      "validation_macro_f1": 0.01282051,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.6145248810450235,
+      "validation_loss": 2.631328582763672,
+      "validation_macro_f1": 0.05128205,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.5151211420694985,
+      "validation_loss": 2.5491251945495605,
+      "validation_macro_f1": 0.01183432,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 5,
+      "train_loss": 2.5197757482528687,
+      "validation_loss": 2.4829893112182617,
+      "validation_macro_f1": 0.06043956,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 6,
+      "train_loss": 2.3372666041056314,
+      "validation_loss": 2.524172782897949,
+      "validation_macro_f1": 0.05274725,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 7,
+      "train_loss": 2.263510763645172,
+      "validation_loss": 2.5618135929107666,
+      "validation_macro_f1": 0.16666667,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 8,
+      "train_loss": 2.1186310052871704,
+      "validation_loss": 2.6159276962280273,
+      "validation_macro_f1": 0.07692308,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 9,
+      "train_loss": 2.093898435433706,
+      "validation_loss": 2.425673007965088,
+      "validation_macro_f1": 0.19230769,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 10,
+      "train_loss": 1.908621350924174,
+      "validation_loss": 2.397740364074707,
+      "validation_macro_f1": 0.15384615,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 11,
+      "train_loss": 1.8966496586799622,
+      "validation_loss": 2.520519733428955,
+      "validation_macro_f1": 0.15384615,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 12,
+      "train_loss": 1.8720732132593791,
+      "validation_loss": 2.3570635318756104,
+      "validation_macro_f1": 0.02197802,
+      "learning_rate": 0.001
+    },
+    {
+      "epoch": 13,
+      "train_loss": 1.7922608256340027,
+      "validation_loss": 2.449718713760376,
+      "validation_macro_f1": 0.19230769,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 14,
+      "train_loss": 1.7152815461158752,
+      "validation_loss": 2.408745527267456,
+      "validation_macro_f1": 0.18461538,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 15,
+      "train_loss": 1.4146798253059387,
+      "validation_loss": 2.441629648208618,
+      "validation_macro_f1": 0.19230769,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 16,
+      "train_loss": 1.6294708450635274,
+      "validation_loss": 2.4909446239471436,
+      "validation_macro_f1": 0.19230769,
+      "learning_rate": 0.0005
+    },
+    {
+      "epoch": 17,
+      "train_loss": 1.5384214123090107,
+      "validation_loss": 2.445934295654297,
+      "validation_macro_f1": 0.19230769,
+      "learning_rate": 0.00025
+    }
+  ],
+  "validation": {
+    "sample_count": 13,
+    "top1_accuracy": 0.23076923,
+    "top3_accuracy": 0.38461538,
+    "macro_precision": 0.17948718,
+    "macro_recall": 0.23076923,
+    "macro_f1": 0.19230769,
+    "balanced_accuracy": 0.23076923,
+    "weighted_f1": 0.19230769,
+    "per_class": [
+      {
+        "label_key": "11",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "12",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "14",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "15",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "16",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "17",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "18",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "19",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "اب",
+        "precision": 0.33333333,
+        "recall": 1.0,
+        "f1": 0.5,
+        "support": 1
+      },
+      {
+        "label_key": "احب",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 1
+      },
+      {
+        "label_key": "سوق",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 1
+      },
+      {
+        "label_key": "لون",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "نادي",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      }
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ]
+  },
+  "validation_unknown": {
+    "known_samples": 13,
+    "unknown_samples": 64,
+    "known_acceptance_rate": 0.8461538461538461,
+    "known_correct_acceptance_rate": 0.15384615384615385,
+    "known_classification_accuracy": 0.23076923076923078,
+    "unknown_rejection_rate": 0.484375,
+    "unknown_false_acceptance_rate": 0.515625,
+    "balanced_unknown_accuracy": 0.6652644230769231
+  },
+  "test": {
+    "sample_count": 13,
+    "top1_accuracy": 0.15384615,
+    "top3_accuracy": 0.46153846,
+    "macro_precision": 0.11538462,
+    "macro_recall": 0.15384615,
+    "macro_f1": 0.12820513,
+    "balanced_accuracy": 0.15384615,
+    "weighted_f1": 0.12820513,
+    "per_class": [
+      {
+        "label_key": "11",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "12",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "14",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "15",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "16",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "17",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "18",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "19",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "اب",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "احب",
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1": 0.66666667,
+        "support": 1
+      },
+      {
+        "label_key": "سوق",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "لون",
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1
+      },
+      {
+        "label_key": "نادي",
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 1
+      }
+    ],
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ]
+    ]
+  },
+  "test_unknown": {
+    "known_samples": 13,
+    "unknown_samples": 64,
+    "known_acceptance_rate": 0.8461538461538461,
+    "known_correct_acceptance_rate": 0.07692307692307693,
+    "known_classification_accuracy": 0.15384615384615385,
+    "unknown_rejection_rate": 0.484375,
+    "unknown_false_acceptance_rate": 0.515625,
+    "balanced_unknown_accuracy": 0.6652644230769231
+  },
+  "calibration": {
+    "schema_version": "OPEN_SIGNE_CONFIDENCE_CALIBRATION_V1",
+    "method": "temperature_scaling_max_probability_and_margin",
+    "temperature": 1.5,
+    "unknown_threshold": 0.15220333635807037,
+    "margin_threshold": 0.004626721143722534,
+    "known_validation_samples": 13,
+    "unknown_validation_samples": 64,
+    "minimum_known_acceptance_target": 0.8,
+    "temperature_nll": 2.399219036102295,
+    "expected_calibration_error": 0.048025788022921644,
+    "validation": {
+      "known_acceptance_rate": 0.8461538461538461,
+      "unknown_rejection_rate": 0.484375,
+      "balanced_unknown_accuracy": 0.6652644230769231
+    }
+  },
+  "latency": {
+    "average_ms": 0.6482811249952647,
+    "p95_ms": 0.7307228985155229,
+    "repeats": 40.0
+  }
+}

@@ -1,3 +1,5 @@
+"""Normalize MediaPipe output into the protected 60 × 75 × 3 V1 landmark contract."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass

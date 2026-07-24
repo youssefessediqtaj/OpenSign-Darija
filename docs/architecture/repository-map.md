@@ -5,11 +5,11 @@ Every top-level directory has a single owner.
 
 | Path | Responsibility |
 | --- | --- |
-| `.agent/` | Workspace continuity notes for future Codex work. |
-| `.github/` | CI workflows. |
+| `.agent/` | Shared Codex continuity notes and repository-level agent guidance. |
+| `.github/` | CI workflows and community/security documents. |
 | `apps/web/` | Public React recognition application. |
-| `artifacts/` | Ignored generated reports and protected model packages. |
-| `docs/` | Architecture, audit, operations, and final reports. |
+| `artifacts/` | Generated machine-readable reports, dataset manifests, and protected model metadata; large local binaries stay ignored. |
+| `docs/` | Architecture, operations, datasets, model cards, testing, audits, research, and final reports. |
 | `infrastructure/` | Nginx gateway configuration. |
 | `ml/` | Offline MoSL dataset, preprocessing, training, evaluation, export, and validation. |
 | `packages/contracts/` | Language-neutral JSON contracts shared by tests and services. |

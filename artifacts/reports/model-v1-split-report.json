@@ -1,0 +1,1265 @@
+{
+  "schema_version": "OPEN_SIGNE_MOSL_SPLIT_V1",
+  "seed": 42,
+  "dataset_manifest_checksum_sha256": "558241beba4b6d0b31ab2a3a22ff584a3f47274f3a57aed153dd0bf149d73d62",
+  "grouping_key": "binary_sha256",
+  "stratified_by": "label_key",
+  "signer_independent": false,
+  "signer_limitation": "Signer identity is unavailable in the local dataset manifest and filenames; the split is checksum-grouped and label-stratified but not signer-independent.",
+  "minimum_supported_examples": 5,
+  "label_index": {
+    "11": 0,
+    "12": 1,
+    "14": 2,
+    "15": 3,
+    "16": 4,
+    "17": 5,
+    "18": 6,
+    "19": 7,
+    "اب": 8,
+    "احب": 9,
+    "سوق": 10
+  },
+  "supported_labels": [
+    "11",
+    "12",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "اب",
+    "احب",
+    "سوق"
+  ],
+  "counts": {
+    "train": 37,
+    "validation": 11,
+    "test": 11,
+    "total": 59
+  },
+  "assignments": [
+    {
+      "sha256": "734ddb8b2c87a01823ae230d125ab99b8490bbac64dc4a13bead487182591239",
+      "label_key": "11",
+      "label_ar": "11",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/734ddb8b2c87a01823ae230d125ab99b8490bbac64dc4a13bead487182591239.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/11 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "b01c22bae13e7bd7321434203f2e5196830bcefb7651f7e30a08830b07f3a527",
+      "label_key": "12",
+      "label_ar": "12",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b01c22bae13e7bd7321434203f2e5196830bcefb7651f7e30a08830b07f3a527.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/12 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "d0d9ad1f68f8aca2170d9024bcbf3c4887678a1ccfa409db2a60ce773c94a19e",
+      "label_key": "14",
+      "label_ar": "14",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d0d9ad1f68f8aca2170d9024bcbf3c4887678a1ccfa409db2a60ce773c94a19e.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/14 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "16f0c5198134ae40591537a14f7755c8a95187e2caa5fa4fb4916e1796cbe642",
+      "label_key": "15",
+      "label_ar": "15",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/16f0c5198134ae40591537a14f7755c8a95187e2caa5fa4fb4916e1796cbe642.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/15 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "853777ddd8a2817ffac0a1e02cc7f8dfb074b48bbf91dfe1dd04bed9fa3f94de",
+      "label_key": "16",
+      "label_ar": "16",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/853777ddd8a2817ffac0a1e02cc7f8dfb074b48bbf91dfe1dd04bed9fa3f94de.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "4f7f03e0398fb741ef389e3fb8bfff6c53a9736335af3280d7e91b6f597c6446",
+      "label_key": "17",
+      "label_ar": "17",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/4f7f03e0398fb741ef389e3fb8bfff6c53a9736335af3280d7e91b6f597c6446.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "2d7108aa2122adee335a07005f495d8c0eced2956667d7e5c62af11f827f8d8e",
+      "label_key": "18",
+      "label_ar": "18",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/2d7108aa2122adee335a07005f495d8c0eced2956667d7e5c62af11f827f8d8e.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "f744d87c2f2579cbbc302cfb60a4ecd5f0081428efbf63a51dea881357e1bab3",
+      "label_key": "19",
+      "label_ar": "19",
+      "category": "Numbers",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f744d87c2f2579cbbc302cfb60a4ecd5f0081428efbf63a51dea881357e1bab3.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "22cab49e1de769692d5af2e09d6540078d2977b4a24631c72dbef5125173a92d",
+      "label_key": "اب",
+      "label_ar": "أَبٌ",
+      "category": "Diverse",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/22cab49e1de769692d5af2e09d6540078d2977b4a24631c72dbef5125173a92d.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَبٌ (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "9887333505c8b7a2b006ad55a9209c0943f0f58f712663f6c5445e30f9c7ceed",
+      "label_key": "احب",
+      "label_ar": "أَحَبَّ",
+      "category": "Diverse",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/9887333505c8b7a2b006ad55a9209c0943f0f58f712663f6c5445e30f9c7ceed.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَحَبَّ (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "bfef041782333f1840c2d001628ba6c9ec4709776a69aeab0bb8499b02b8108a",
+      "label_key": "سوق",
+      "label_ar": "سُوقٌ",
+      "category": "Diverse",
+      "split": "test",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bfef041782333f1840c2d001628ba6c9ec4709776a69aeab0bb8499b02b8108a.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/سُوقٌ (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "3ee3267e87444f1449d6d0bbc221c373084cc124197efc298d481ac6494a5d8b",
+      "label_key": "11",
+      "label_ar": "11",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/3ee3267e87444f1449d6d0bbc221c373084cc124197efc298d481ac6494a5d8b.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/11 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "c4d6c1cb0047ce27f245ad6f8ddf999caf57c21b44523f9ce618c2d344014e63",
+      "label_key": "11",
+      "label_ar": "11",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c4d6c1cb0047ce27f245ad6f8ddf999caf57c21b44523f9ce618c2d344014e63.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/11 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "d72baba21f83e4b3d9a441d930a61719ca4192d9b60c9746b5e3b122a4c2f8d5",
+      "label_key": "11",
+      "label_ar": "11",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d72baba21f83e4b3d9a441d930a61719ca4192d9b60c9746b5e3b122a4c2f8d5.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/11 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "3b4deda6f6d0abf06893210db4901606c54ad896123823cd32b66227417b82e0",
+      "label_key": "12",
+      "label_ar": "12",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/3b4deda6f6d0abf06893210db4901606c54ad896123823cd32b66227417b82e0.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/12 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "b58df1e11cfa3ac83900588985d538f835ca688c844611f9fcbc27a8bfc17758",
+      "label_key": "12",
+      "label_ar": "12",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b58df1e11cfa3ac83900588985d538f835ca688c844611f9fcbc27a8bfc17758.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/12 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "c7411580e705b5696b0772e00dc58fb40da2af1498c02c3266beb2c53f1f3a10",
+      "label_key": "12",
+      "label_ar": "12",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c7411580e705b5696b0772e00dc58fb40da2af1498c02c3266beb2c53f1f3a10.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/12 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "0f31da1cea1008ec309c582b792202dca6d1f45066e796fff7120818529b5593",
+      "label_key": "14",
+      "label_ar": "14",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0f31da1cea1008ec309c582b792202dca6d1f45066e796fff7120818529b5593.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/14 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "519269088ac8a1a876aeadcbc4fb2196b29e2d5a70dd32f32db92d1a1a3789ae",
+      "label_key": "14",
+      "label_ar": "14",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/519269088ac8a1a876aeadcbc4fb2196b29e2d5a70dd32f32db92d1a1a3789ae.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/14 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "ecbc7aeef1e6f2ed2c9d4f16e2d43e42bb8e24ae92c1219b2fabc79c9ce7cd17",
+      "label_key": "14",
+      "label_ar": "14",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ecbc7aeef1e6f2ed2c9d4f16e2d43e42bb8e24ae92c1219b2fabc79c9ce7cd17.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/14 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "0575a692ca8fa81e474842723ef9740198f5082eb8971d932b75b34fda8e23a1",
+      "label_key": "15",
+      "label_ar": "15",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0575a692ca8fa81e474842723ef9740198f5082eb8971d932b75b34fda8e23a1.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/15 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "16c5189c370a2c12c5e7d546da9d95502682dd343ff96613da511c4f93ecc551",
+      "label_key": "15",
+      "label_ar": "15",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/16c5189c370a2c12c5e7d546da9d95502682dd343ff96613da511c4f93ecc551.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/15 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "af25f4235fd0c9d871c1b37a3ca74e1866ea2bd0fb5e58ad0f8de0cba15b15d5",
+      "label_key": "15",
+      "label_ar": "15",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/af25f4235fd0c9d871c1b37a3ca74e1866ea2bd0fb5e58ad0f8de0cba15b15d5.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/15 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "620da907233fdd5a26e9a8294b6bbbc1c3ffcd6090a68483ea1a0bb370eaa54c",
+      "label_key": "16",
+      "label_ar": "16",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/620da907233fdd5a26e9a8294b6bbbc1c3ffcd6090a68483ea1a0bb370eaa54c.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "bbc83aeb3b33695910564752d1171bc0295dcbdf344baf86d4c1a7e11ac74306",
+      "label_key": "16",
+      "label_ar": "16",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bbc83aeb3b33695910564752d1171bc0295dcbdf344baf86d4c1a7e11ac74306.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "c13da931324ee10df943e23483411197d2093c3c23c2694479ffc9ce2e990463",
+      "label_key": "16",
+      "label_ar": "16",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c13da931324ee10df943e23483411197d2093c3c23c2694479ffc9ce2e990463.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 6).mp4"
+    },
+    {
+      "sha256": "f31d248caf845a98abd98de25b19a24b5b64c23a4503b334f8b2089ddbaa3b1f",
+      "label_key": "16",
+      "label_ar": "16",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f31d248caf845a98abd98de25b19a24b5b64c23a4503b334f8b2089ddbaa3b1f.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "1822a5cc76049322a7cb71e0655b12b8707c03f2d8f579688b55e9afa94501c3",
+      "label_key": "17",
+      "label_ar": "17",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/1822a5cc76049322a7cb71e0655b12b8707c03f2d8f579688b55e9afa94501c3.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "79884e72bded6c6ef96add31679c1839e90752a8e4417928f90c90eb05fd824d",
+      "label_key": "17",
+      "label_ar": "17",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/79884e72bded6c6ef96add31679c1839e90752a8e4417928f90c90eb05fd824d.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "e52583443a5a6e9df69fe3bd02af90744508fbc9d51a8101a57ca4bc6e10a86f",
+      "label_key": "17",
+      "label_ar": "17",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/e52583443a5a6e9df69fe3bd02af90744508fbc9d51a8101a57ca4bc6e10a86f.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "f2ef03da81e4dcbcba881e6403d33187cabd1c698790e9b09f6e0b9b4269d0e3",
+      "label_key": "17",
+      "label_ar": "17",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f2ef03da81e4dcbcba881e6403d33187cabd1c698790e9b09f6e0b9b4269d0e3.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "67dfb9ffc0c94cee3e5959707144ab2a31464516f0d8bfa7f303039f11957c79",
+      "label_key": "18",
+      "label_ar": "18",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/67dfb9ffc0c94cee3e5959707144ab2a31464516f0d8bfa7f303039f11957c79.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 6).mp4"
+    },
+    {
+      "sha256": "8fc4d363a65bba7678e19fec46e4a64c84511f11049be6afd4d7c5b9d5cf1cc6",
+      "label_key": "18",
+      "label_ar": "18",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/8fc4d363a65bba7678e19fec46e4a64c84511f11049be6afd4d7c5b9d5cf1cc6.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "c9ce5e5b6ce4c8300441fe258d6b2298f3cb55d798becd40563de329856713a7",
+      "label_key": "18",
+      "label_ar": "18",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c9ce5e5b6ce4c8300441fe258d6b2298f3cb55d798becd40563de329856713a7.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "ef9bf420fa043573652b6e2f23b00f3668cef2e1b5db8db7a839de8231f919e9",
+      "label_key": "18",
+      "label_ar": "18",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ef9bf420fa043573652b6e2f23b00f3668cef2e1b5db8db7a839de8231f919e9.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "584a9f035f5e1d03044e2ae9aa6831b18e573452a41a62d9e50363c462f2fdfd",
+      "label_key": "19",
+      "label_ar": "19",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/584a9f035f5e1d03044e2ae9aa6831b18e573452a41a62d9e50363c462f2fdfd.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "708055d969920a9b327f997ac156e074eb06768a9e2f16308ca73779201bd9b8",
+      "label_key": "19",
+      "label_ar": "19",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/708055d969920a9b327f997ac156e074eb06768a9e2f16308ca73779201bd9b8.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 6).mp4"
+    },
+    {
+      "sha256": "7fc48417a62a71f6e0193b5b4902be20e838819576d2831e07264eb68aa05271",
+      "label_key": "19",
+      "label_ar": "19",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7fc48417a62a71f6e0193b5b4902be20e838819576d2831e07264eb68aa05271.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "b75860060efe2e05d7042a13c50fa57a6f0aa0b170423cd126d196bb91aa5262",
+      "label_key": "19",
+      "label_ar": "19",
+      "category": "Numbers",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b75860060efe2e05d7042a13c50fa57a6f0aa0b170423cd126d196bb91aa5262.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "7feb6b89247ef97d511da39e77ef292e8761c02390776f30a87eb582d196e64a",
+      "label_key": "اب",
+      "label_ar": "أَبٌ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7feb6b89247ef97d511da39e77ef292e8761c02390776f30a87eb582d196e64a.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَبٌ (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "e963c53744d4b1f5b9c4f68f9f86ae7c8cc7c054f004baa1f2bb032c1d0b9070",
+      "label_key": "اب",
+      "label_ar": "أَبٌ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/e963c53744d4b1f5b9c4f68f9f86ae7c8cc7c054f004baa1f2bb032c1d0b9070.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَبٌ (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "ecaab54189f00d810a00c6bb4d6e0f7402dae7dab7b98c5c4a6410e2950696d3",
+      "label_key": "اب",
+      "label_ar": "أَبٌ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ecaab54189f00d810a00c6bb4d6e0f7402dae7dab7b98c5c4a6410e2950696d3.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَبٌ (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "0087c8c673aa542a9bc06083d4bc140ae56420ef9506d598979701a7ce61885e",
+      "label_key": "احب",
+      "label_ar": "أَحَبَّ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0087c8c673aa542a9bc06083d4bc140ae56420ef9506d598979701a7ce61885e.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَحَبَّ (إِشَارَة 4).mp4"
+    },
+    {
+      "sha256": "6efeffd0d436d93e4b1f836389e59997c98cbbaac0cc47600c39d7bd42a44d26",
+      "label_key": "احب",
+      "label_ar": "أَحَبَّ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6efeffd0d436d93e4b1f836389e59997c98cbbaac0cc47600c39d7bd42a44d26.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَحَبَّ (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "91a94128b88fb783ce465bae4ca9bcbc3db1c16f556ef1bce03667ac380609ea",
+      "label_key": "احب",
+      "label_ar": "أَحَبَّ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/91a94128b88fb783ce465bae4ca9bcbc3db1c16f556ef1bce03667ac380609ea.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَحَبَّ (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "b3f68b40deb6e182b218c7dcb09295175765e3a299ffe948ec473a78dfa08df9",
+      "label_key": "سوق",
+      "label_ar": "سُوقٌ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b3f68b40deb6e182b218c7dcb09295175765e3a299ffe948ec473a78dfa08df9.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/سُوقٌ (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "d50985d3d983c2b552f4de1d1a9ed247b149c5bb6ef9d09bf768f2fba16d6d06",
+      "label_key": "سوق",
+      "label_ar": "سُوقٌ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d50985d3d983c2b552f4de1d1a9ed247b149c5bb6ef9d09bf768f2fba16d6d06.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/سُوقٌ (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "d7dc56b6fa1735d11d45e61ddfd986120b0ad1aa7cb02a3621a2c8d66ebe3114",
+      "label_key": "سوق",
+      "label_ar": "سُوقٌ",
+      "category": "Diverse",
+      "split": "train",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d7dc56b6fa1735d11d45e61ddfd986120b0ad1aa7cb02a3621a2c8d66ebe3114.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/سُوقٌ (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "1a3e745f916453119335f900cb6dc080bb097b7a94b6fed8e3db5f81ee165e5a",
+      "label_key": "11",
+      "label_ar": "11",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/1a3e745f916453119335f900cb6dc080bb097b7a94b6fed8e3db5f81ee165e5a.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/11 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "7a5d51a251a502399e3548248cb006483336e76b8d16052a779d6ca97efe19b5",
+      "label_key": "12",
+      "label_ar": "12",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7a5d51a251a502399e3548248cb006483336e76b8d16052a779d6ca97efe19b5.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/12 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "ea15d25618ed5d9608c5f628ccbeb3c2eee2db35b2a4431105f1219e55df98d0",
+      "label_key": "14",
+      "label_ar": "14",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ea15d25618ed5d9608c5f628ccbeb3c2eee2db35b2a4431105f1219e55df98d0.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/14 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "235f803e052334af6f45a0f4a4adf5edbc6e54fe7cf82777bfad855c776c8e34",
+      "label_key": "15",
+      "label_ar": "15",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/235f803e052334af6f45a0f4a4adf5edbc6e54fe7cf82777bfad855c776c8e34.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/15 (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "09107296fda214d6f44f9c83bbf405f3ac54b533e442c66f7e4e3af1a09e9a38",
+      "label_key": "16",
+      "label_ar": "16",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/09107296fda214d6f44f9c83bbf405f3ac54b533e442c66f7e4e3af1a09e9a38.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/16 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "770f0047679f62d4dc3c50c6b46ca54204323195f4936eeb5aa93c1b9b95ce3e",
+      "label_key": "17",
+      "label_ar": "17",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/770f0047679f62d4dc3c50c6b46ca54204323195f4936eeb5aa93c1b9b95ce3e.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/17 (إِشَارَة 6).mp4"
+    },
+    {
+      "sha256": "7f39ace471d1ad70e8417f350801c2950dac43c7efdacc729bbff8cbc1e694f4",
+      "label_key": "18",
+      "label_ar": "18",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7f39ace471d1ad70e8417f350801c2950dac43c7efdacc729bbff8cbc1e694f4.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/18 (إِشَارَة 1).mp4"
+    },
+    {
+      "sha256": "49c35bbe28579ee418f4564d23558acee4e761624372e5bbe8079f00df2cffc4",
+      "label_key": "19",
+      "label_ar": "19",
+      "category": "Numbers",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/49c35bbe28579ee418f4564d23558acee4e761624372e5bbe8079f00df2cffc4.npz",
+      "source_path": "raw/mosl_videos_dataset_Numbers/19 (إِشَارَة 5).mp4"
+    },
+    {
+      "sha256": "dd5fe3f232a795c106c4b6421340ae527bed3058a53a9ec796a3793aef75dfe8",
+      "label_key": "اب",
+      "label_ar": "أَبٌ",
+      "category": "Diverse",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/dd5fe3f232a795c106c4b6421340ae527bed3058a53a9ec796a3793aef75dfe8.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَبٌ (إِشَارَة 2).mp4"
+    },
+    {
+      "sha256": "ae8537f9f247bcea4c9ae114aa47f704eab6f611bfeadc7b42559af01fe0383a",
+      "label_key": "احب",
+      "label_ar": "أَحَبَّ",
+      "category": "Diverse",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ae8537f9f247bcea4c9ae114aa47f704eab6f611bfeadc7b42559af01fe0383a.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/أَحَبَّ (إِشَارَة 3).mp4"
+    },
+    {
+      "sha256": "bdd1279c54dad1e86fab365eecfd5602511e3eca0af1625368a865dd5e4d6ff6",
+      "label_key": "سوق",
+      "label_ar": "سُوقٌ",
+      "category": "Diverse",
+      "split": "validation",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bdd1279c54dad1e86fab365eecfd5602511e3eca0af1625368a865dd5e4d6ff6.npz",
+      "source_path": "raw/mosl_videos_dataset_Diverse/سُوقٌ (إِشَارَة 4).mp4"
+    }
+  ],
+  "unknown_calibration": [
+    {
+      "sha256": "fe5a1112d35b8c03c0ae4c8e9d8de6c6a1514acb21d55bf81d715569b6d342f4",
+      "label_key": "راجل",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/fe5a1112d35b8c03c0ae4c8e9d8de6c6a1514acb21d55bf81d715569b6d342f4.npz"
+    },
+    {
+      "sha256": "521e42e4a34f7c6033256a2b081265cedc5ecd4e390884a47558dc35e7e57df4",
+      "label_key": "زبدة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/521e42e4a34f7c6033256a2b081265cedc5ecd4e390884a47558dc35e7e57df4.npz"
+    },
+    {
+      "sha256": "0bb1bcd171a0fed973614623c8550ac4a218283dee0f6ebc045da39ea8110344",
+      "label_key": "بيكار",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0bb1bcd171a0fed973614623c8550ac4a218283dee0f6ebc045da39ea8110344.npz"
+    },
+    {
+      "sha256": "d99fbf6dd74d5996c9277a7c107cbbeccc33058cea707286ea0d7e9b29fb1dcc",
+      "label_key": "نبت",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d99fbf6dd74d5996c9277a7c107cbbeccc33058cea707286ea0d7e9b29fb1dcc.npz"
+    },
+    {
+      "sha256": "7420baab3d714fd03bed5db2c0f77ac7e8c2c0e00e5e9c62fc588158110b371d",
+      "label_key": "حقيبة_الجيب",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7420baab3d714fd03bed5db2c0f77ac7e8c2c0e00e5e9c62fc588158110b371d.npz"
+    },
+    {
+      "sha256": "0ca100799dd8f686053a228359c645fa3ac8ff7394902a6f1e92914621b88f8b",
+      "label_key": "هش",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0ca100799dd8f686053a228359c645fa3ac8ff7394902a6f1e92914621b88f8b.npz"
+    },
+    {
+      "sha256": "40635641d21f10c2d0b42793afc2e1f009663482a5405bcc4b6b7fb0e072cc8a",
+      "label_key": "اناء",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/40635641d21f10c2d0b42793afc2e1f009663482a5405bcc4b6b7fb0e072cc8a.npz"
+    },
+    {
+      "sha256": "7062a452ff97b0177b151b7f3d0c22b04c6b5e4e11c01357f49a9f98a9916d00",
+      "label_key": "المغرب",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7062a452ff97b0177b151b7f3d0c22b04c6b5e4e11c01357f49a9f98a9916d00.npz"
+    },
+    {
+      "sha256": "5876be2a890223797cd34893fdfc06c321b37d7ef85471c472ab443362a383d5",
+      "label_key": "برتقال",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/5876be2a890223797cd34893fdfc06c321b37d7ef85471c472ab443362a383d5.npz"
+    },
+    {
+      "sha256": "1aec77342c4b043702e84cddaa8d0ffc35b7999ce49c590f9087bf6fd7dde2ab",
+      "label_key": "علامة_استفهام",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/1aec77342c4b043702e84cddaa8d0ffc35b7999ce49c590f9087bf6fd7dde2ab.npz"
+    },
+    {
+      "sha256": "9f8af7ce119f286abd9918e9932c09606fc1c4432d425db839d1168655153090",
+      "label_key": "مصباح",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/9f8af7ce119f286abd9918e9932c09606fc1c4432d425db839d1168655153090.npz"
+    },
+    {
+      "sha256": "6d910213bb9e2cce5ae060734dc22414a21c62a90f64e91522892da0e2247771",
+      "label_key": "نصف",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6d910213bb9e2cce5ae060734dc22414a21c62a90f64e91522892da0e2247771.npz"
+    },
+    {
+      "sha256": "0b679c59f13e1229192dd689c4ef0a291463b38c653f436b1447a4999a8eedc3",
+      "label_key": "اخيرا",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0b679c59f13e1229192dd689c4ef0a291463b38c653f436b1447a4999a8eedc3.npz"
+    },
+    {
+      "sha256": "7bd2fbb74600f98078e7cf56b325ec6681bab91a0fef0994e5dcb91667fb0e97",
+      "label_key": "ادارة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7bd2fbb74600f98078e7cf56b325ec6681bab91a0fef0994e5dcb91667fb0e97.npz"
+    },
+    {
+      "sha256": "f0a5b22f6882b0eb97bd61d2e90d522904a9e64e9ccb5ba477dd99001c90ce8d",
+      "label_key": "مقص_الحديقة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f0a5b22f6882b0eb97bd61d2e90d522904a9e64e9ccb5ba477dd99001c90ce8d.npz"
+    },
+    {
+      "sha256": "b4eeb1fed029617d68d4080483e500742e82927eeb6dc9babd57b7b5c127583f",
+      "label_key": "ايصال",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b4eeb1fed029617d68d4080483e500742e82927eeb6dc9babd57b7b5c127583f.npz"
+    },
+    {
+      "sha256": "ab4ce3b523dd04af4346417a02a06312ee29f5c3a4fbb076acf649ce90013ab3",
+      "label_key": "0",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ab4ce3b523dd04af4346417a02a06312ee29f5c3a4fbb076acf649ce90013ab3.npz"
+    },
+    {
+      "sha256": "f737f268f1e172de0231d051d0b8b89f75d1b6a71f6da5aba8e082889db6aed9",
+      "label_key": "سجن",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f737f268f1e172de0231d051d0b8b89f75d1b6a71f6da5aba8e082889db6aed9.npz"
+    },
+    {
+      "sha256": "c54884ce9b1fe5910fefef19fd4040d55972cd45737b9c2c4a597515721ddc59",
+      "label_key": "اشارة_مايلة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c54884ce9b1fe5910fefef19fd4040d55972cd45737b9c2c4a597515721ddc59.npz"
+    },
+    {
+      "sha256": "d6bc2b5a5eac3167a59da9cce35fd750887a6f297d61c171d3508c22aa90c844",
+      "label_key": "اذن",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d6bc2b5a5eac3167a59da9cce35fd750887a6f297d61c171d3508c22aa90c844.npz"
+    },
+    {
+      "sha256": "d40d4a014dcaddd1d7923269b854415ca648814bcd50a77315274f6557cbdc36",
+      "label_key": "90",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d40d4a014dcaddd1d7923269b854415ca648814bcd50a77315274f6557cbdc36.npz"
+    },
+    {
+      "sha256": "a95ae78bb3420d0f6341a373d40e2521901bcb8bb6803dc08ba1911003185426",
+      "label_key": "خروف",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/a95ae78bb3420d0f6341a373d40e2521901bcb8bb6803dc08ba1911003185426.npz"
+    },
+    {
+      "sha256": "9e182293024948c18761e018b44eaa4b6ddcaf891acabd3c531c743feefdb53d",
+      "label_key": "العرايش",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/9e182293024948c18761e018b44eaa4b6ddcaf891acabd3c531c743feefdb53d.npz"
+    },
+    {
+      "sha256": "3009ffe5f618a6268fa7d5b2bb2253e9f83232432a8dc53f97e4985f60c8b938",
+      "label_key": "هاتف",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/3009ffe5f618a6268fa7d5b2bb2253e9f83232432a8dc53f97e4985f60c8b938.npz"
+    },
+    {
+      "sha256": "acb6160b2babc5781f3046bc77023fd90002c1278ca2d84cf28c337a9f2564ea",
+      "label_key": "بايع_الصحف",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/acb6160b2babc5781f3046bc77023fd90002c1278ca2d84cf28c337a9f2564ea.npz"
+    },
+    {
+      "sha256": "b536c37d6969ec61ceec11764a375cf6fd3eb6eba2929ee2a8766f8c5efd2293",
+      "label_key": "حكم_مباراة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b536c37d6969ec61ceec11764a375cf6fd3eb6eba2929ee2a8766f8c5efd2293.npz"
+    },
+    {
+      "sha256": "ed9dc82307b721003ac6d3fde522686705c91df0d507dab406a2e07df5a081f3",
+      "label_key": "حايط",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ed9dc82307b721003ac6d3fde522686705c91df0d507dab406a2e07df5a081f3.npz"
+    },
+    {
+      "sha256": "bee8da93a6dc403c455d38baf8ed0ad19e66b74a2a1baa6338545db04c318bdd",
+      "label_key": "طبيعي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bee8da93a6dc403c455d38baf8ed0ad19e66b74a2a1baa6338545db04c318bdd.npz"
+    },
+    {
+      "sha256": "200a211c82fe6f218b908c3198537ecb1aa5377f2db04215766b6f83fcca057a",
+      "label_key": "طانطان_اشارة_1",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/200a211c82fe6f218b908c3198537ecb1aa5377f2db04215766b6f83fcca057a.npz"
+    },
+    {
+      "sha256": "ccff21f2959785086c56aaf85073465e400f81a709ab53db293c83dca4396801",
+      "label_key": "هناك",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ccff21f2959785086c56aaf85073465e400f81a709ab53db293c83dca4396801.npz"
+    },
+    {
+      "sha256": "c4a3d1b65a0489c0464c9ac4bd4936c714d1fb841cba722a23f021ac31731432",
+      "label_key": "سمك_القرش",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c4a3d1b65a0489c0464c9ac4bd4936c714d1fb841cba722a23f021ac31731432.npz"
+    },
+    {
+      "sha256": "393b42c43b322fdf65a776bdfa53fad7aa2f364b907c5087a9efa694421d3078",
+      "label_key": "متسول",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/393b42c43b322fdf65a776bdfa53fad7aa2f364b907c5087a9efa694421d3078.npz"
+    },
+    {
+      "sha256": "8e8813b09c8367f3197ce218f5689381c9b80007af4084dd6d915f74bf550cd7",
+      "label_key": "جسم",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/8e8813b09c8367f3197ce218f5689381c9b80007af4084dd6d915f74bf550cd7.npz"
+    },
+    {
+      "sha256": "4664196ab6d1b1eb2e0cc77b018ef7e666d65ee36e37fac1d9b495940bb90051",
+      "label_key": "نيزك",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/4664196ab6d1b1eb2e0cc77b018ef7e666d65ee36e37fac1d9b495940bb90051.npz"
+    },
+    {
+      "sha256": "12f780910c3ecc81b63e8251e98b9dbfe07bead057c6c4fda939b0dd2440cc25",
+      "label_key": "شخص",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/12f780910c3ecc81b63e8251e98b9dbfe07bead057c6c4fda939b0dd2440cc25.npz"
+    },
+    {
+      "sha256": "4d0c4a1ee6e9289ac7a7fbf9f60e5fce1a3917c80a78682861d7c1f7b8bd82e7",
+      "label_key": "حرارة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/4d0c4a1ee6e9289ac7a7fbf9f60e5fce1a3917c80a78682861d7c1f7b8bd82e7.npz"
+    },
+    {
+      "sha256": "772fd15ebff9f21824bf99a9d0ac6a660f78951ece7e3ab85c4d55e71bb7fe49",
+      "label_key": "ملاكمة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/772fd15ebff9f21824bf99a9d0ac6a660f78951ece7e3ab85c4d55e71bb7fe49.npz"
+    },
+    {
+      "sha256": "f7c88ce5b3ccf59cd4c9bf99a9917db6a04e00f4cf2a950109bf0413a4a4bdc4",
+      "label_key": "فتش",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f7c88ce5b3ccf59cd4c9bf99a9917db6a04e00f4cf2a950109bf0413a4a4bdc4.npz"
+    },
+    {
+      "sha256": "f429de744579bea7d6f66dfa163485db92d7cb4786917863b828f98c01634014",
+      "label_key": "38",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f429de744579bea7d6f66dfa163485db92d7cb4786917863b828f98c01634014.npz"
+    },
+    {
+      "sha256": "e4e7c3949395b3d22c49917ba459af653303892f216df27e78a9ecb72b6e5118",
+      "label_key": "هولندا",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/e4e7c3949395b3d22c49917ba459af653303892f216df27e78a9ecb72b6e5118.npz"
+    },
+    {
+      "sha256": "303bc98568515e6a3b14561423a217a28b793dcd72efe0c6905d739ea6e2d904",
+      "label_key": "ذرة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/303bc98568515e6a3b14561423a217a28b793dcd72efe0c6905d739ea6e2d904.npz"
+    },
+    {
+      "sha256": "edb1361163b946ba717fe87a38a7aee59a170cd5e2172d74a3e2c466f8b7a2ec",
+      "label_key": "ساه",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/edb1361163b946ba717fe87a38a7aee59a170cd5e2172d74a3e2c466f8b7a2ec.npz"
+    },
+    {
+      "sha256": "5b003bff182b075b7def12bca046615eb309b86cf1571b4d31e90de77da247db",
+      "label_key": "قال",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/5b003bff182b075b7def12bca046615eb309b86cf1571b4d31e90de77da247db.npz"
+    },
+    {
+      "sha256": "8d954ecd5fcb3ab1fc4fed3e3acf09f3418ca9cea6450207659aa9447d3360ed",
+      "label_key": "سبب",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/8d954ecd5fcb3ab1fc4fed3e3acf09f3418ca9cea6450207659aa9447d3360ed.npz"
+    },
+    {
+      "sha256": "60c61cb0e40e4213fe6a908f30d3b1ae4f039a3445e8b16f3959f11ba3453230",
+      "label_key": "سرة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/60c61cb0e40e4213fe6a908f30d3b1ae4f039a3445e8b16f3959f11ba3453230.npz"
+    },
+    {
+      "sha256": "2c61cf784dfcf3d5e01ef6909006f3a1d3ed5af0a42a2ba8e7bb5bab9fbfce68",
+      "label_key": "نقطة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/2c61cf784dfcf3d5e01ef6909006f3a1d3ed5af0a42a2ba8e7bb5bab9fbfce68.npz"
+    },
+    {
+      "sha256": "64eaa2a36190fe0ef43f93ccb3c1327f19775ee970a9455d5a09555b47157c36",
+      "label_key": "فلفل",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/64eaa2a36190fe0ef43f93ccb3c1327f19775ee970a9455d5a09555b47157c36.npz"
+    },
+    {
+      "sha256": "7adc6b4598ab0f162096237ef514de8d46afcfb5c19e6bafdacf09210d71a582",
+      "label_key": "قمر",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7adc6b4598ab0f162096237ef514de8d46afcfb5c19e6bafdacf09210d71a582.npz"
+    },
+    {
+      "sha256": "57c6f6d118099d0fcc932c1008525455bc5d638d5d17e9fbbae0ca4878218ba1",
+      "label_key": "قديم_الزمن",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/57c6f6d118099d0fcc932c1008525455bc5d638d5d17e9fbbae0ca4878218ba1.npz"
+    },
+    {
+      "sha256": "319dda31901c71697ec2b473e5bd88f404ee343b6dd9211716cdd65d869d41d5",
+      "label_key": "قوس_قزح",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/319dda31901c71697ec2b473e5bd88f404ee343b6dd9211716cdd65d869d41d5.npz"
+    },
+    {
+      "sha256": "637f58ca1eb14e39fb51b5af11d380a5335939f75e8bbf18369b82e57885b63b",
+      "label_key": "الانجيل",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/637f58ca1eb14e39fb51b5af11d380a5335939f75e8bbf18369b82e57885b63b.npz"
+    },
+    {
+      "sha256": "6bd19ba26910e99e9a4692615f0da76562cf521e54c6367c4de90789372f6f78",
+      "label_key": "علي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6bd19ba26910e99e9a4692615f0da76562cf521e54c6367c4de90789372f6f78.npz"
+    },
+    {
+      "sha256": "b180ffbd919efb8f98e99ab57d27d2b29db76e19b2c8b8b768f961ef4a495e7e",
+      "label_key": "توام",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b180ffbd919efb8f98e99ab57d27d2b29db76e19b2c8b8b768f961ef4a495e7e.npz"
+    },
+    {
+      "sha256": "0ff14177e8923f922e4878ed508664cd685afd4a81a789fc9664169ebdbf77ff",
+      "label_key": "ثلج",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0ff14177e8923f922e4878ed508664cd685afd4a81a789fc9664169ebdbf77ff.npz"
+    },
+    {
+      "sha256": "1c17dd0021a81b857f5640eda22550647bae5342aee4fed835ac01271c71e86e",
+      "label_key": "محطة_الوقود",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/1c17dd0021a81b857f5640eda22550647bae5342aee4fed835ac01271c71e86e.npz"
+    },
+    {
+      "sha256": "bfa15f6b941092ed6a8b447a72be7b9d6d9d99cdbcbe79e8d41596b67a9228d2",
+      "label_key": "مكتب",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bfa15f6b941092ed6a8b447a72be7b9d6d9d99cdbcbe79e8d41596b67a9228d2.npz"
+    },
+    {
+      "sha256": "2b8040349455cc8888852a68b65cee8986046f726690cb736e7c7da15c09c081",
+      "label_key": "فرن",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/2b8040349455cc8888852a68b65cee8986046f726690cb736e7c7da15c09c081.npz"
+    },
+    {
+      "sha256": "451483020b71f772f5ef47f839d8cd42551ffeb1454c26e2a188d0d3473081c0",
+      "label_key": "مقلاة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/451483020b71f772f5ef47f839d8cd42551ffeb1454c26e2a188d0d3473081c0.npz"
+    },
+    {
+      "sha256": "30330fcad47880af56a9a3076a55f35e3436b32b515baf96cc585f21ec96ca3c",
+      "label_key": "نعل",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/30330fcad47880af56a9a3076a55f35e3436b32b515baf96cc585f21ec96ca3c.npz"
+    },
+    {
+      "sha256": "b8841e8f57bfb10530b040ec467e62b0bb50c531867110206c7333ca60207a54",
+      "label_key": "تنورة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b8841e8f57bfb10530b040ec467e62b0bb50c531867110206c7333ca60207a54.npz"
+    },
+    {
+      "sha256": "fa10b09df5f3999c90e181e4b01c790236c9856d75098b2d096e9eeff483d5b4",
+      "label_key": "جليسة_اطفال",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/fa10b09df5f3999c90e181e4b01c790236c9856d75098b2d096e9eeff483d5b4.npz"
+    },
+    {
+      "sha256": "528df896160f1e1e3f9ff1c168fb0fa92c7c8d95d9ed4396db6d36e5076d3772",
+      "label_key": "جلس",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/528df896160f1e1e3f9ff1c168fb0fa92c7c8d95d9ed4396db6d36e5076d3772.npz"
+    },
+    {
+      "sha256": "a2fc30db35a46832d5c15a6662c05b418450e359d72fd1346b0658d68c7cf6f9",
+      "label_key": "الة_تصوير",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/a2fc30db35a46832d5c15a6662c05b418450e359d72fd1346b0658d68c7cf6f9.npz"
+    },
+    {
+      "sha256": "c7813cbebc2a2469765d342507a89602a63da6f92fcf9bfe1189843f8a16ad0f",
+      "label_key": "السعودية",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c7813cbebc2a2469765d342507a89602a63da6f92fcf9bfe1189843f8a16ad0f.npz"
+    }
+  ],
+  "unknown_test": [
+    {
+      "sha256": "0d304bc3a4987fbae237a6b277821cd0a87ef71a10209f9fa2b452ff7ed343dc",
+      "label_key": "جميل",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/0d304bc3a4987fbae237a6b277821cd0a87ef71a10209f9fa2b452ff7ed343dc.npz"
+    },
+    {
+      "sha256": "a1022dd758f83a4111a6fc35c14dcd810c38ee1dc399a4b18f51f5585bbff837",
+      "label_key": "قيثارة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/a1022dd758f83a4111a6fc35c14dcd810c38ee1dc399a4b18f51f5585bbff837.npz"
+    },
+    {
+      "sha256": "17f50a8fa05539df5067a106e7382cc5a309f81dd1e26d7cf6ea1815103a3d07",
+      "label_key": "حارس_المرمي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/17f50a8fa05539df5067a106e7382cc5a309f81dd1e26d7cf6ea1815103a3d07.npz"
+    },
+    {
+      "sha256": "53f0deda3ece4ef156faddb7ce2cfc5b44caaabdb9c0fb45becfea30841d5cad",
+      "label_key": "سماء",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/53f0deda3ece4ef156faddb7ce2cfc5b44caaabdb9c0fb45becfea30841d5cad.npz"
+    },
+    {
+      "sha256": "6ac4b3e5856fc166e1e239d4c8807dfce9fd863a3bbda270a5a480acf5a4969d",
+      "label_key": "دفاع",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6ac4b3e5856fc166e1e239d4c8807dfce9fd863a3bbda270a5a480acf5a4969d.npz"
+    },
+    {
+      "sha256": "43f7755e71c3e6ac8de59546ffcdc265f4f3617a1e51fb84c32c948ffe23d30c",
+      "label_key": "35",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/43f7755e71c3e6ac8de59546ffcdc265f4f3617a1e51fb84c32c948ffe23d30c.npz"
+    },
+    {
+      "sha256": "8faaa56f8ac41c3d8123f64d81c283c2d3ef88e0ac5545981c23bd11dca61e56",
+      "label_key": "احذر",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/8faaa56f8ac41c3d8123f64d81c283c2d3ef88e0ac5545981c23bd11dca61e56.npz"
+    },
+    {
+      "sha256": "3ba2ea0a19d893c3a26d400720383b067de63b5908d6097b6b8dd99d6e157f31",
+      "label_key": "بل_ولكن",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/3ba2ea0a19d893c3a26d400720383b067de63b5908d6097b6b8dd99d6e157f31.npz"
+    },
+    {
+      "sha256": "256cefd0b64d3d1cf8030a0781a8a7d1e95d1ed352fa3a6d1a9eac9ec2731d82",
+      "label_key": "دولار",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/256cefd0b64d3d1cf8030a0781a8a7d1e95d1ed352fa3a6d1a9eac9ec2731d82.npz"
+    },
+    {
+      "sha256": "ab5925ee5036abc0cb5c88bb57de9341d849d9ab430aa84b77c4cb1c16976cda",
+      "label_key": "لك",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ab5925ee5036abc0cb5c88bb57de9341d849d9ab430aa84b77c4cb1c16976cda.npz"
+    },
+    {
+      "sha256": "acf9bb5222d56b13fc3ee640817a74b55346f26e45479b9c6b609a9fde306185",
+      "label_key": "الة_التحكم",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/acf9bb5222d56b13fc3ee640817a74b55346f26e45479b9c6b609a9fde306185.npz"
+    },
+    {
+      "sha256": "ee3f6144853ba2ca913a709602605a51e65ba15dac71226e7fe78c9b535f17f9",
+      "label_key": "اعلم",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ee3f6144853ba2ca913a709602605a51e65ba15dac71226e7fe78c9b535f17f9.npz"
+    },
+    {
+      "sha256": "9b35a175fc9ab005d2f40b85d08b00aae94a5f62e9e55bd7d58b462b1ec10988",
+      "label_key": "مبتهج",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/9b35a175fc9ab005d2f40b85d08b00aae94a5f62e9e55bd7d58b462b1ec10988.npz"
+    },
+    {
+      "sha256": "afee47dbd07fdf5316dd3b4dda23cb68584102408e4bbfff964bffcd16e72d23",
+      "label_key": "مقود",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/afee47dbd07fdf5316dd3b4dda23cb68584102408e4bbfff964bffcd16e72d23.npz"
+    },
+    {
+      "sha256": "6629fef5da60c5746946e30b75e77bdf61e1e6cfaf9b056fd62e5f176263a203",
+      "label_key": "قلق",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6629fef5da60c5746946e30b75e77bdf61e1e6cfaf9b056fd62e5f176263a203.npz"
+    },
+    {
+      "sha256": "36e3440e7aceaed864e9550de1e623ad64cfd64c0c990bbe04114052d65d07e2",
+      "label_key": "مية_درهم",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/36e3440e7aceaed864e9550de1e623ad64cfd64c0c990bbe04114052d65d07e2.npz"
+    },
+    {
+      "sha256": "04ac475fc5a985f372ec6317807edcb9d55b3c718a7a032511c62c8338f1cffc",
+      "label_key": "عدو",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/04ac475fc5a985f372ec6317807edcb9d55b3c718a7a032511c62c8338f1cffc.npz"
+    },
+    {
+      "sha256": "3d55e92e83ef55b469a324211fad0ccb7a81c10d6d04eb21fe424be1dcd53e77",
+      "label_key": "متعب",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/3d55e92e83ef55b469a324211fad0ccb7a81c10d6d04eb21fe424be1dcd53e77.npz"
+    },
+    {
+      "sha256": "cc2294fc17581e21167e54197aeec9335d608fec7c6a538b5afd49d53e4ceb1d",
+      "label_key": "فقر_الدم",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/cc2294fc17581e21167e54197aeec9335d608fec7c6a538b5afd49d53e4ceb1d.npz"
+    },
+    {
+      "sha256": "22d14e8246a115705cbbb7d43489dfa93ace083eac33d200b89aa27c4dc334f3",
+      "label_key": "كلمة_المرور",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/22d14e8246a115705cbbb7d43489dfa93ace083eac33d200b89aa27c4dc334f3.npz"
+    },
+    {
+      "sha256": "71f0a54c0d687c77120bccc953043c1e50ae44b783895b43481ceb9c8a4b1fc2",
+      "label_key": "تبادل",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/71f0a54c0d687c77120bccc953043c1e50ae44b783895b43481ceb9c8a4b1fc2.npz"
+    },
+    {
+      "sha256": "cc46b595fcaf9ba5e97d6c3ad2ee28d6a9001a10635e61351e5ed1d30c04dd9b",
+      "label_key": "كاس",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/cc46b595fcaf9ba5e97d6c3ad2ee28d6a9001a10635e61351e5ed1d30c04dd9b.npz"
+    },
+    {
+      "sha256": "6e65556c9901d5b5e23969ff306df0c55cb9fab7bdd8bba4e2b05305b1689a81",
+      "label_key": "اسس",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6e65556c9901d5b5e23969ff306df0c55cb9fab7bdd8bba4e2b05305b1689a81.npz"
+    },
+    {
+      "sha256": "ded8bb348bce030a67af1a9a1960386554c2facf715296f596826c0e5e417164",
+      "label_key": "نصف_دايرة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ded8bb348bce030a67af1a9a1960386554c2facf715296f596826c0e5e417164.npz"
+    },
+    {
+      "sha256": "3d7aaf59b7615beeb171455e385bd4bc26033842bd0421f03d5aaa5306df0ffe",
+      "label_key": "شجرة_الارز",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/3d7aaf59b7615beeb171455e385bd4bc26033842bd0421f03d5aaa5306df0ffe.npz"
+    },
+    {
+      "sha256": "4ad5afaa8fce5ebb8ed3a6591e01aa5d19d81d03b4eeb20837eba0a4e0b3d939",
+      "label_key": "حارس",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/4ad5afaa8fce5ebb8ed3a6591e01aa5d19d81d03b4eeb20837eba0a4e0b3d939.npz"
+    },
+    {
+      "sha256": "27024d424d9bde86c3992aff37d542d35be7183381fa62812c959cee43688041",
+      "label_key": "لماذا",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/27024d424d9bde86c3992aff37d542d35be7183381fa62812c959cee43688041.npz"
+    },
+    {
+      "sha256": "4753a47a42dfa43be077a7c29c58ffe8b813253af73f5e99f45fefe10eab5d57",
+      "label_key": "جيش",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/4753a47a42dfa43be077a7c29c58ffe8b813253af73f5e99f45fefe10eab5d57.npz"
+    },
+    {
+      "sha256": "1919b5f8014a776f746dde5b016a845d02406edac0e3638abaf32e6d484ae7e3",
+      "label_key": "اخصايي_المعدة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/1919b5f8014a776f746dde5b016a845d02406edac0e3638abaf32e6d484ae7e3.npz"
+    },
+    {
+      "sha256": "f35f6288db859f3d4f8d1984dbd411e7955a178b022295e1841568b528594d36",
+      "label_key": "شاي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/f35f6288db859f3d4f8d1984dbd411e7955a178b022295e1841568b528594d36.npz"
+    },
+    {
+      "sha256": "bc59b2e3c558a06d9ba7a6aa2a7b3b169f4b0a6b4edab9a200e550ae925577d5",
+      "label_key": "بسكويت",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bc59b2e3c558a06d9ba7a6aa2a7b3b169f4b0a6b4edab9a200e550ae925577d5.npz"
+    },
+    {
+      "sha256": "5f7e21a12d87bddaccade0f428200d1600102dcae85f12d5704cd9cb4ccd1f63",
+      "label_key": "ركن",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/5f7e21a12d87bddaccade0f428200d1600102dcae85f12d5704cd9cb4ccd1f63.npz"
+    },
+    {
+      "sha256": "20600c5b25dbdf205b95a53088f419109d9a7b6c911ad5bc6582c377e2d46626",
+      "label_key": "33",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/20600c5b25dbdf205b95a53088f419109d9a7b6c911ad5bc6582c377e2d46626.npz"
+    },
+    {
+      "sha256": "2af811b3e69bde0fb9936e30e5132039ad9de663484c70843c35bc00d322968c",
+      "label_key": "حق",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/2af811b3e69bde0fb9936e30e5132039ad9de663484c70843c35bc00d322968c.npz"
+    },
+    {
+      "sha256": "efa7b2ee641bb181f0b96cfe5359ac7f78d8419d0603fa1ab926c5430c04dbb9",
+      "label_key": "مقدم_الحي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/efa7b2ee641bb181f0b96cfe5359ac7f78d8419d0603fa1ab926c5430c04dbb9.npz"
+    },
+    {
+      "sha256": "70e1a72fa6ecac9b0f5b46366e6f8f8950475438b049b97ea50152027ab92c5c",
+      "label_key": "كيوي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/70e1a72fa6ecac9b0f5b46366e6f8f8950475438b049b97ea50152027ab92c5c.npz"
+    },
+    {
+      "sha256": "acf4eacda193f395b0e8c59b33c90cb1b2d1e8acaf4f4840e859777cc4329514",
+      "label_key": "ام",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/acf4eacda193f395b0e8c59b33c90cb1b2d1e8acaf4f4840e859777cc4329514.npz"
+    },
+    {
+      "sha256": "eda76257d8c518ecc0743be2136de21a8e4efcf13d3cc0bf37b66ea081fee570",
+      "label_key": "الكرة_الارضية",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/eda76257d8c518ecc0743be2136de21a8e4efcf13d3cc0bf37b66ea081fee570.npz"
+    },
+    {
+      "sha256": "57297f09044d5857fc5b1ffe553ff9556b59a9207970085feda899b0d175f501",
+      "label_key": "بصمة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/57297f09044d5857fc5b1ffe553ff9556b59a9207970085feda899b0d175f501.npz"
+    },
+    {
+      "sha256": "c23721993423c0e9e6f270b1ebb8b76dd7f950107f30c7a79900803ae2bf99e9",
+      "label_key": "منزعج",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c23721993423c0e9e6f270b1ebb8b76dd7f950107f30c7a79900803ae2bf99e9.npz"
+    },
+    {
+      "sha256": "5d92b5669c207cc73e44313dfb720184ad40f221f62716e060f42739a9e7ec3c",
+      "label_key": "6",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/5d92b5669c207cc73e44313dfb720184ad40f221f62716e060f42739a9e7ec3c.npz"
+    },
+    {
+      "sha256": "d115e4e442de365050571bad455de4199d390860a98ca45fcd6bd99611944611",
+      "label_key": "موتمر",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d115e4e442de365050571bad455de4199d390860a98ca45fcd6bd99611944611.npz"
+    },
+    {
+      "sha256": "b7c6a31ed4660fceaefac3c2c5e68a289bd4e8936f2cabf58869f62eb4382828",
+      "label_key": "جار",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b7c6a31ed4660fceaefac3c2c5e68a289bd4e8936f2cabf58869f62eb4382828.npz"
+    },
+    {
+      "sha256": "7965a2c8fd3c5922690fd1354ea013a673ac7560b660603371d23b6da31a389f",
+      "label_key": "طبيب_جراح",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7965a2c8fd3c5922690fd1354ea013a673ac7560b660603371d23b6da31a389f.npz"
+    },
+    {
+      "sha256": "1a812a0c0e3f4e78eddc51b6a5e3bfd4d23531e04399faae3aa272b0f2f2f3f7",
+      "label_key": "الجمعة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/1a812a0c0e3f4e78eddc51b6a5e3bfd4d23531e04399faae3aa272b0f2f2f3f7.npz"
+    },
+    {
+      "sha256": "6589177e7ccd757f979fb0891f9f571b9276f9b7b17c775e1b0514b949e09826",
+      "label_key": "عصير",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/6589177e7ccd757f979fb0891f9f571b9276f9b7b17c775e1b0514b949e09826.npz"
+    },
+    {
+      "sha256": "e023dce81d6881f75fde476fe6c2a920ed114e06ed4cefd73d09cfd15969aeb6",
+      "label_key": "سماعة_الاصم",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/e023dce81d6881f75fde476fe6c2a920ed114e06ed4cefd73d09cfd15969aeb6.npz"
+    },
+    {
+      "sha256": "8fd54f28683126995b465a49f2ea304f7930c953a938a15ec97b37d9873c098b",
+      "label_key": "تمرين",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/8fd54f28683126995b465a49f2ea304f7930c953a938a15ec97b37d9873c098b.npz"
+    },
+    {
+      "sha256": "eea0af20ba5d731680847c6e4c9d977b322740f99c19e2fec5bbbc1a7e0c7156",
+      "label_key": "ماي",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/eea0af20ba5d731680847c6e4c9d977b322740f99c19e2fec5bbbc1a7e0c7156.npz"
+    },
+    {
+      "sha256": "ffb93cfd8ab14691a159f725b33e47a5af4a33936f18502ba3d129e7b06406bc",
+      "label_key": "سكت",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ffb93cfd8ab14691a159f725b33e47a5af4a33936f18502ba3d129e7b06406bc.npz"
+    },
+    {
+      "sha256": "9074d1aa2dd5c1f8b4195c5bbdd1bfe94d20b7345e9e301c992df4114c5ba8b7",
+      "label_key": "اختار",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/9074d1aa2dd5c1f8b4195c5bbdd1bfe94d20b7345e9e301c992df4114c5ba8b7.npz"
+    },
+    {
+      "sha256": "d739f8549c5a8ec12a267b29440dc358131f05fb04eafac3b0394f2f38faf6ae",
+      "label_key": "اقتطاع",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/d739f8549c5a8ec12a267b29440dc358131f05fb04eafac3b0394f2f38faf6ae.npz"
+    },
+    {
+      "sha256": "b2934a70baa217cafebc3d3bd4cf9560a2e88a2b4573493dd7c17b483247da71",
+      "label_key": "قريب",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/b2934a70baa217cafebc3d3bd4cf9560a2e88a2b4573493dd7c17b483247da71.npz"
+    },
+    {
+      "sha256": "ee3faa37a14d29ec7650d580380e516eb7462a05f8ab9eea496d5317bdecae2e",
+      "label_key": "جوزة_الهند",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/ee3faa37a14d29ec7650d580380e516eb7462a05f8ab9eea496d5317bdecae2e.npz"
+    },
+    {
+      "sha256": "7b3d59070ea0e3d99658adf06eeb161d9bfc9a8918737faf208273914f15bede",
+      "label_key": "عض",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/7b3d59070ea0e3d99658adf06eeb161d9bfc9a8918737faf208273914f15bede.npz"
+    },
+    {
+      "sha256": "a7ac65abb126d3bba94c45b6c5bccef52cbabcb33cb31632ea656cd34c682d9f",
+      "label_key": "جال",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/a7ac65abb126d3bba94c45b6c5bccef52cbabcb33cb31632ea656cd34c682d9f.npz"
+    },
+    {
+      "sha256": "cd28b89ddd9f1bd82315b672b988d4a31090f6e0e1f2f7e21300768f43bf847c",
+      "label_key": "مدينة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/cd28b89ddd9f1bd82315b672b988d4a31090f6e0e1f2f7e21300768f43bf847c.npz"
+    },
+    {
+      "sha256": "2ed71eb0740b3d76514a9009faee4ff858da98564e368da46954aa596938f27b",
+      "label_key": "سيارة_الاسعاف",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/2ed71eb0740b3d76514a9009faee4ff858da98564e368da46954aa596938f27b.npz"
+    },
+    {
+      "sha256": "8f17fc6854ee4ca6f0ac8ce1bc82afd5f514b4a3c956405b7d9bed08bde771f1",
+      "label_key": "سرطان_حيوان_بحري",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/8f17fc6854ee4ca6f0ac8ce1bc82afd5f514b4a3c956405b7d9bed08bde771f1.npz"
+    },
+    {
+      "sha256": "5bfeb9ae329da7cb97736ce76fead1ad2720f1ee44d6fe2142ac85198db2ebf2",
+      "label_key": "كسكس",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/5bfeb9ae329da7cb97736ce76fead1ad2720f1ee44d6fe2142ac85198db2ebf2.npz"
+    },
+    {
+      "sha256": "115d6cfa1a8dda010b87d966308e25e21f1d377aa9ec5e96f2f04dcea778b701",
+      "label_key": "صدقة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/115d6cfa1a8dda010b87d966308e25e21f1d377aa9ec5e96f2f04dcea778b701.npz"
+    },
+    {
+      "sha256": "c2a8f3e7510195219f90465cd242b514dea889b20cbc90e8b0252420cb4f8c18",
+      "label_key": "نقابة",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/c2a8f3e7510195219f90465cd242b514dea889b20cbc90e8b0252420cb4f8c18.npz"
+    },
+    {
+      "sha256": "a7a065c46fc26d17c2552931cded3b03f9c9dec207193f0af079bd96cd6b0b21",
+      "label_key": "غسل_السيارات",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/a7a065c46fc26d17c2552931cded3b03f9c9dec207193f0af079bd96cd6b0b21.npz"
+    },
+    {
+      "sha256": "bc395005bcb6699993c285ad619fd03e3357f80c0c461a7fb380331388e3d9cc",
+      "label_key": "فحص",
+      "processed_landmark_path": "ml/data/external/mosl-video-dataset/processed/landmarks/bc395005bcb6699993c285ad619fd03e3357f80c0c461a7fb380331388e3d9cc.npz"
+    }
+  ],
+  "unknown_label_overlap": [],
+  "checksum_split_leakage": {},
+  "ambiguous_duplicate_checksums_excluded": [
+    "03a12b49daef5a72dd8e6d7ef9dddcec085496aa5aada54dfb07a38cda6f5ac6",
+    "05b7db67329444982c5881e2cfa57e02da33230c1e6921d844d14b5bccb5a8e2",
+    "3667c8346184fd60cd91985faa1327a684e9143e5d0098a83cefcc7a156485b6",
+    "787b1b93ca59c11cd03449fe60aecf08277dcce2d8c3d8ad3e1a4cefd329a0e8",
+    "79eb168d0f16851fb694ed18ab23bc9a4cd4c1aea6ed492e31585f4ae7548aa3",
+    "b5ff93fea168184c6da2364f36469be3ffd7a79e5fa2882105bc92f1b42436eb",
+    "c5b28cc3a642f69d9bc86da52356b0e123649868e775499935917c3c3f1aa6ac",
+    "cca02f7b33565cd0369067e2c1dbeee9d5923e63aa0a7f76ffedbeda3bc12a6f",
+    "d432a196f8575d1f46d09ce7e4ab7cdcd9da930ca54fa9b7dd37a423a6856a4a",
+    "dc14a98bcb5b8a28a61b7c2ed3fb635399297de8f14bb916609d72d6b4406e8d"
+  ],
+  "ambiguous_label_keys_excluded": [
+    "ا",
+    "اذا",
+    "انت",
+    "حمل",
+    "درج",
+    "درس",
+    "ذهب",
+    "رجل",
+    "زرع",
+    "شعر",
+    "ظهر",
+    "علم",
+    "غني",
+    "فعل",
+    "فناء_خلفي_1",
+    "فنجان_1",
+    "في_اشارة_1_1",
+    "في_اشارة_2_1",
+    "فيتامين_1",
+    "فيلا_اشارة_1_1",
+    "قاد_1",
+    "قاعة_1",
+    "قبل",
+    "لا",
+    "لون",
+    "ملك",
+    "نادي",
+    "و",
+    "ي"
+  ],
+  "valid": true
+}

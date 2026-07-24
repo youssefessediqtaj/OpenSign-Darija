@@ -1,0 +1,26 @@
+{
+  "offline_only": true,
+  "normalization": "shoulder_centered_v1",
+  "frames": 60,
+  "landmarks": 75,
+  "coordinates": 3,
+  "missing_landmarks": "zero_with_presence_mask_during_cache_creation",
+  "temporal_sampling": "uniform_full_isolated_clip",
+  "training_augmentation": {
+    "coordinate_noise_std": 0.003,
+    "frame_drop_max": 4,
+    "temporal_scale_range": [
+      0.9,
+      1.1
+    ],
+    "coordinate_scale_range": [
+      0.96,
+      1.04
+    ],
+    "translation_range": [
+      -0.02,
+      0.02
+    ],
+    "horizontal_mirroring": false
+  }
+}
