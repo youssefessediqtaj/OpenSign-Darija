@@ -140,3 +140,9 @@ OpenSign Darija is a research prototype with limited vocabulary, small evaluatio
 coverage, no signer-independent validation, and `UNCONFIRMED` physical-camera
 generalization. Do not use it for medical, legal, financial, emergency, accessibility
 compliance, or safety-critical decisions.
+
+## Suggested Improvements
+
+- Add example screenshots of the application in use to enhance user understanding.
+- Provide a demo URL or deployment instructions for easier testing.
+- Include a section on how to contribute to the project for new contributors.
