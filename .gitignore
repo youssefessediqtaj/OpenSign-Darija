@@ -17,6 +17,7 @@ __pycache__/
 .mypy_cache/
 *.pyc
 *.pyo
+*.egg-info/
 *.tsbuildinfo
 *.sqlite3
 htmlcov/
@@ -35,6 +36,7 @@ artifacts/*
 !artifacts/models/**/*.yaml
 !artifacts/reports/
 !artifacts/reports/**
+artifacts/reports/contributions-retention-*.json
 artifacts/e2e-fixtures/
 artifacts/models/**/*.onnx
 artifacts/models/**/*.pt
@@ -49,3 +51,6 @@ ml/assets/mediapipe/*.task
 minio-data/
 postgres-data/
 redis-data/
+var/contributions/
+services/api/var/contributions/
+ml/data/contributions/releases/

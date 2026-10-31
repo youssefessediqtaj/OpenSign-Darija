@@ -17,8 +17,11 @@ def client() -> TestClient:
 
 @pytest.fixture(autouse=True)
 def clear_recognition_rate_limits() -> Iterator[None]:
+    from app.services.contribution_request_protection import clear_contribution_rate_limits
     from app.services.request_protection import clear_rate_limit_state
 
     clear_rate_limit_state()
+    clear_contribution_rate_limits()
     yield
     clear_rate_limit_state()
+    clear_contribution_rate_limits()

@@ -65,9 +65,7 @@ def test_docker_command_starts_api_without_migration_or_seed() -> None:
 def test_nginx_is_the_only_public_gateway_and_overwrites_forwarded_ip() -> None:
     root = Path(__file__).resolve().parents[3]
     compose = (root / "docker-compose.yml").read_text(encoding="utf-8")
-    api_service = compose.split("\n  inference:", maxsplit=1)[0].split(
-        "\n  api:", maxsplit=1
-    )[1]
+    api_service = compose.split("\n  inference:", maxsplit=1)[0].split("\n  api:", maxsplit=1)[1]
     nginx = (root / "infrastructure/nginx/default.conf").read_text(encoding="utf-8")
 
     assert '\n    expose:\n      - "8000"' in api_service

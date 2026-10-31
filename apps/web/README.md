@@ -1,10 +1,10 @@
 # Web recognition application
 
-The React application owns the public `/` and `/app/recognition` pages. It keeps
-camera pixels in the browser, runs MediaPipe locally, automatically segments one
-isolated sign, builds the exact 60 × 75 × 3 landmark payload, calls only same-origin
-`/api` routes, displays a compact result, speaks known results once, and returns to
-the waiting state after cooldown.
+The React application owns public recognition at `/` and `/app/recognition`, plus
+the separately flagged `/contribute` workflow. Recognition keeps camera pixels in
+the browser, runs MediaPipe locally, automatically segments one isolated sign,
+builds the exact 60 × 75 × 3 payload, displays a compact result, and speaks known
+results once.
 
 Ownership:
 
@@ -15,6 +15,8 @@ Ownership:
 - `features/recognition/services/`: camera, MediaPipe, public recognition, and
   public sign-speech adapters;
 - `features/recognition/state/`: the authoritative flow-state vocabulary;
+- `features/contributions/`: independent adult form, notice, reference, readiness,
+  MediaRecorder, preview, retake, upload, and receipt flow;
 - `shared/`: generic API transport, configuration, and small UI primitives.
 
 Entry point: `src/main.tsx`.
@@ -31,6 +33,11 @@ The browser must never call inference or speech containers, and payload code mus
 never add video, image, canvas, screenshot, microphone, base64 camera, persistent
 visitor, or arbitrary speech-text fields. These boundaries are enforced by the
 root architecture tests and Playwright.
+
+Contribution readiness also runs MediaPipe locally but never enters the
+recognition state machine. It sends a private WebM only after explicit consent,
+record, stop, preview, and save actions. See
+[contribution architecture](../../docs/contributions/architecture.md).
 
 ```bash
 npm test -- --run

@@ -311,6 +311,12 @@ export function RecognitionWorkspace() {
             Activez la caméra, puis signez naturellement. La détection, la reconnaissance et la
             lecture du résultat sont automatiques.
           </p>
+          <a
+            href="/contribute"
+            className="mt-4 inline-flex min-h-11 items-center rounded-md border border-cedar px-4 py-2 font-semibold text-cedar hover:bg-teal-50"
+          >
+            Aidez-nous à améliorer OpenSigne Darija
+          </a>
         </div>
 
         {!cameraActive && (

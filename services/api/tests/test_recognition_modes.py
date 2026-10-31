@@ -107,6 +107,11 @@ def test_only_word_recognition_runtime_surface_is_mounted(client: TestClient) ->
         "/api/v1/version",
         "/api/v1/recognitions/word",
         "/api/v1/speech/sign",
+        "/api/v1/contributions/status",
+        "/api/v1/contributions/signs",
+        "/api/v1/contributions/notice",
+        "/api/v1/contributions",
+        "/api/v1/contributions/{contribution_id}/receipt",
     }
     assert set(paths["/api/v1/recognitions/word"]) == {"post"}
     assert set(paths["/api/v1/speech/sign"]) == {"post"}
@@ -208,9 +213,7 @@ def test_word_endpoint_fails_closed_when_known_label_has_no_arabic_mapping(
     "forbidden_field",
     ["raw_video", "image", "audio", "anonymous_session_id"],
 )
-def test_word_endpoint_rejects_raw_media_fields(
-    client: TestClient, forbidden_field: str
-) -> None:
+def test_word_endpoint_rejects_raw_media_fields(client: TestClient, forbidden_field: str) -> None:
     payload = valid_word_landmark_payload()
     payload[forbidden_field] = "data:application/octet-stream;base64,AAAA"
     response = client.post("/api/v1/recognitions/word", json=payload)
@@ -293,9 +296,7 @@ def test_word_endpoint_propagates_model_unavailability(
 def test_word_endpoint_has_no_transport_error_prediction_fallback(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    async def fail_post(
-        _: httpx.AsyncClient, url: str, **__: object
-    ) -> httpx.Response:
+    async def fail_post(_: httpx.AsyncClient, url: str, **__: object) -> httpx.Response:
         raise httpx.ConnectError(
             "test-only transport failure",
             request=httpx.Request("POST", url),
@@ -311,9 +312,7 @@ def test_word_endpoint_has_no_transport_error_prediction_fallback(
 def test_word_endpoint_rejects_mock_or_malformed_upstream_results(
     client: TestClient, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    async def mock_post(
-        _: httpx.AsyncClient, url: str, **__: object
-    ) -> httpx.Response:
+    async def mock_post(_: httpx.AsyncClient, url: str, **__: object) -> httpx.Response:
         return httpx.Response(
             200,
             request=httpx.Request("POST", url),
@@ -378,6 +377,11 @@ assert set(app.openapi()['paths']) == {
     '/api/v1/version',
     '/api/v1/recognitions/word',
     '/api/v1/speech/sign',
+    '/api/v1/contributions/status',
+    '/api/v1/contributions/signs',
+    '/api/v1/contributions/notice',
+    '/api/v1/contributions',
+    '/api/v1/contributions/{contribution_id}/receipt',
 }
 """
     environment = {
@@ -397,9 +401,7 @@ assert set(app.openapi()['paths']) == {
     assert result.returncode == 0, result.stderr
 
 
-def test_word_endpoint_rate_limit(
-    client: TestClient, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_word_endpoint_rate_limit(client: TestClient, monkeypatch: pytest.MonkeyPatch) -> None:
     from app.services.request_protection import clear_rate_limit_state
 
     async def recognized(_: object) -> RecognitionResponse:
@@ -428,9 +430,7 @@ def test_word_endpoint_rate_limit(
         (lambda payload: payload.update(frames=[]), "frames"),
         (lambda payload: payload.update(frames=payload["frames"][:59]), "frames"),
         (
-            lambda payload: payload.update(
-                frames=payload["frames"] + [payload["frames"][-1]]
-            ),
+            lambda payload: payload.update(frames=payload["frames"] + [payload["frames"][-1]]),
             "frames",
         ),
         (

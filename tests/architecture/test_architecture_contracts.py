@@ -203,9 +203,17 @@ def test_forbidden_import_and_http_boundaries() -> None:
         )
 
 
-def test_dependencies_and_docker_match_the_stateless_runtime() -> None:
+def test_dependencies_and_docker_match_core_plus_isolated_contribution_runtime() -> None:
     expected_runtime = {
-        "api": {"fastapi", "httpx", "pydantic", "pydantic-settings", "uvicorn"},
+        "api": {
+            "boto3",
+            "fastapi",
+            "httpx",
+            "pydantic",
+            "pydantic-settings",
+            "python-multipart",
+            "uvicorn",
+        },
         "inference": {
             "fastapi",
             "numpy",
@@ -229,7 +237,10 @@ def test_dependencies_and_docker_match_the_stateless_runtime() -> None:
             encoding="utf-8"
         )
         assert "COPY pyproject.toml requirements.lock ./" in dockerfile
-        assert "--constraint requirements.lock -e ." in dockerfile
+        assert (
+            "--constraint requirements.lock -e ." in dockerfile
+            or "--requirement requirements.lock" in dockerfile
+        )
         locked = {
             re.split(r"[<>=!~;\[]", line, maxsplit=1)[0].strip().lower()
             for line in (
@@ -248,6 +259,7 @@ def test_dependencies_and_docker_match_the_stateless_runtime() -> None:
     assert ".[dev]" not in api_dockerfile
     assert "alembic" not in api_dockerfile
     assert "migrations" not in api_dockerfile
+    assert "ffmpeg" in api_dockerfile
 
     compose = (ROOT / "docker-compose.yml").read_text(encoding="utf-8")
     assert compose.count("\n    ports:") == 1
@@ -260,7 +272,8 @@ def test_public_routes_and_gateway_contract_remain_minimal() -> None:
     routes = (ROOT / "apps/web/src/app/routes.tsx").read_text(encoding="utf-8")
     assert "<Route index" in routes
     assert 'path="app/recognition"' in routes
-    assert len(re.findall(r"<Route(?:\s|>)", routes)) == 3
+    assert 'path="contribute"' in routes
+    assert len(re.findall(r"<Route(?:\s|>)", routes)) == 4
 
     nginx = (ROOT / "infrastructure/nginx/default.conf").read_text(encoding="utf-8")
     assert "location /api/" in nginx

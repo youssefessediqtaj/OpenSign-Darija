@@ -43,11 +43,12 @@ async function request<T>(path: string, init: RequestInit): Promise<T> {
   init.signal?.addEventListener('abort', abortFromCaller, { once: true });
   if (init.signal?.aborted) controller.abort();
   try {
+    const hasFormData = typeof FormData !== 'undefined' && init.body instanceof FormData;
     const response = await fetch(`${env.apiBaseUrl}${path}`, {
       ...init,
       signal: controller.signal,
       headers: {
-        'Content-Type': 'application/json',
+        ...(hasFormData ? {} : { 'Content-Type': 'application/json' }),
         ...init.headers,
       },
     });

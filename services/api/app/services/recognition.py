@@ -13,8 +13,10 @@ def word_quality_rejection(payload: WordLandmarkRecognitionRequest) -> str | Non
     """
 
     settings = get_settings()
-    if not settings.recognition_min_duration_ms <= payload.duration_ms <= (
-        settings.recognition_max_duration_ms
+    if (
+        not settings.recognition_min_duration_ms
+        <= payload.duration_ms
+        <= (settings.recognition_max_duration_ms)
     ):
         return "invalid_duration"
     if not payload.segmentation_reliable:

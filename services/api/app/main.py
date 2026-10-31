@@ -8,6 +8,7 @@ from app.api.v1.router import api_router
 from app.api.v1.system import api_health
 from app.core.config import get_settings
 from app.core.errors import error_payload, install_error_handlers
+from app.services.contribution_request_protection import contribution_payload_size_error
 from app.services.request_protection import recognition_payload_size_error
 
 
@@ -24,7 +25,7 @@ def create_app() -> FastAPI:
     install_error_handlers(app)
 
     @app.middleware("http")
-    async def reject_oversized_recognition_before_body_parsing(
+    async def reject_oversized_uploads_before_body_parsing(
         request: Request,
         call_next: Callable[[Request], Awaitable[Response]],
     ) -> Response:
@@ -32,6 +33,15 @@ def create_app() -> FastAPI:
             request.method == "POST"
             and request.url.path == "/api/v1/recognitions/word"
             and (error := recognition_payload_size_error(request))
+        ):
+            return JSONResponse(
+                status_code=error.status_code,
+                content=error_payload(error.code, error.message, error.details),
+            )
+        if (
+            request.method == "POST"
+            and request.url.path == "/api/v1/contributions"
+            and (error := contribution_payload_size_error(request))
         ):
             return JSONResponse(
                 status_code=error.status_code,

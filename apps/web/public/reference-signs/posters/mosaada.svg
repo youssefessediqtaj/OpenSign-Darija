@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title">
+  <title id="title">Référence vidéo مساعدة en attente d’approbation</title>
+  <rect width="1280" height="720" fill="#0f3d3a"/>
+  <circle cx="1100" cy="120" r="180" fill="#c6a15b" opacity=".22"/>
+  <circle cx="140" cy="650" r="250" fill="#5ba59d" opacity=".18"/>
+  <text x="640" y="310" text-anchor="middle" fill="#fff" font-size="116" font-family="Arial" font-weight="700" direction="rtl">مساعدة</text>
+  <text x="640" y="405" text-anchor="middle" fill="#d8eeeb" font-size="34" font-family="Arial">VIDÉO OFFICIELLE EN ATTENTE D’APPROBATION</text>
+  <text x="640" y="465" text-anchor="middle" fill="#fff" font-size="26" font-family="Arial">OpenSigne Darija · mosaada</text>
+</svg>

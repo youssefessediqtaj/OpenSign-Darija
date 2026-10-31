@@ -35,9 +35,7 @@ async def api_health() -> HealthResponse:
         "inference": inference,
         "speech": speech,
     }
-    status = (
-        "healthy" if all(value == "healthy" for value in dependencies.values()) else "degraded"
-    )
+    status = "healthy" if all(value == "healthy" for value in dependencies.values()) else "degraded"
     return HealthResponse(
         status=status,
         service="opensign-api",

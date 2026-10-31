@@ -30,6 +30,14 @@
 - [Camera lifecycle](operations/camera.md)
 - [Browser MediaPipe](operations/mediapipe.md)
 
+## Community contributions
+
+- [Contribution documentation index](contributions/README.md)
+- [Contribution architecture](contributions/architecture.md)
+- [CNDP readiness checklist](contributions/cndp-readiness-checklist.md)
+- [Privacy notice template](contributions/privacy-notice-template.md)
+- [Reference-video provenance](contributions/reference-video-provenance.md)
+
 ## Dataset
 
 - [Dataset documentation index](datasets/README.md)
@@ -70,6 +78,7 @@
 
 ## Reports
 
+- [Community video contribution feature report](reports/community-video-contribution-feature-report.md)
 - [Core recognition process final report](reports/core-recognition-process-final-report.md)
 - [Professional architecture refactor final report](reports/professional-architecture-refactor-final-report.md)
 - [Professional project structure report](reports/professional-project-structure-report.md)

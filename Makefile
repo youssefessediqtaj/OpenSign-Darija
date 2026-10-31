@@ -4,7 +4,9 @@ PYTHON ?= python3
 	test test-all test-backend test-inference test-ml speech-test test-frontend test-e2e \
 	test-architecture architecture-check lint format ml-dataset-scan ml-dataset-audit ml-preprocess-mosl \
 	ml-validate-mosl-artifacts ml-train-v1 ml-validate-model benchmark-inference \
-	benchmark-speech compose-check verify
+	benchmark-speech compose-check verify \
+	contributions-retention-check contributions-list-pending contributions-inspect \
+	contributions-approve contributions-reject contributions-delete contributions-export-approved
 
 help:
 	@printf "%s\n" \
@@ -38,6 +40,13 @@ help:
 		"  make ml-validate-model       Validate the exported local V1 model package." \
 		"  make benchmark-inference     Benchmark local inference behavior." \
 		"  make benchmark-speech        Benchmark local speech behavior." \
+		"  make contributions-retention-check Report expired contribution candidates; never deletes." \
+		"  make contributions-list-pending List private pending contribution metadata." \
+		"  make contributions-inspect ID=<uuid> Inspect one contribution without printing full name." \
+		"  make contributions-approve ID=<uuid> REVIEWER=<id> CONFIRM_REVIEW=YES Approve after review." \
+		"  make contributions-reject ID=<uuid> REVIEWER=<id> REASON=<text> Reject after review." \
+		"  make contributions-delete ID=<uuid> ACTOR=<id> REASON=<text> CONFIRM_DELETE=YES Delete." \
+		"  make contributions-export-approved VERSION=<version> CONFIRM_EXPORT=YES Create staging release." \
 		"  make compose-check           Validate normal and ML-profile Compose configs." \
 		"  make verify                  Run complete non-destructive validation."
 
@@ -152,6 +161,40 @@ benchmark-inference:
 
 benchmark-speech:
 	$(PYTHON) scripts/benchmarking/benchmark_speech.py
+
+contributions-retention-check:
+	cd services/api && .venv/bin/python -m app.cli.contributions retention-check
+
+contributions-list-pending:
+	cd services/api && .venv/bin/python -m app.cli.contributions list-pending
+
+contributions-inspect:
+	@test -n "$(ID)" || (echo "ID is required" >&2; exit 2)
+	cd services/api && .venv/bin/python -m app.cli.contributions inspect "$(ID)"
+
+contributions-approve:
+	@test -n "$(ID)" -a -n "$(REVIEWER)" -a "$(CONFIRM_REVIEW)" = "YES" || \
+		(echo "ID, REVIEWER and CONFIRM_REVIEW=YES are required" >&2; exit 2)
+	cd services/api && .venv/bin/python -m app.cli.contributions approve "$(ID)" \
+		--reviewer "$(REVIEWER)" --confirm-all-review-checks
+
+contributions-reject:
+	@test -n "$(ID)" -a -n "$(REVIEWER)" -a -n "$(REASON)" || \
+		(echo "ID, REVIEWER and REASON are required" >&2; exit 2)
+	cd services/api && .venv/bin/python -m app.cli.contributions reject "$(ID)" \
+		--reviewer "$(REVIEWER)" --reason "$(REASON)"
+
+contributions-delete:
+	@test -n "$(ID)" -a -n "$(ACTOR)" -a -n "$(REASON)" -a "$(CONFIRM_DELETE)" = "YES" || \
+		(echo "ID, ACTOR, REASON and CONFIRM_DELETE=YES are required" >&2; exit 2)
+	cd services/api && .venv/bin/python -m app.cli.contributions delete "$(ID)" \
+		--actor "$(ACTOR)" --reason "$(REASON)" --confirm-irreversible-delete
+
+contributions-export-approved:
+	@test -n "$(VERSION)" -a "$(CONFIRM_EXPORT)" = "YES" || \
+		(echo "VERSION and CONFIRM_EXPORT=YES are required" >&2; exit 2)
+	cd services/api && .venv/bin/python -m app.cli.contributions export-approved \
+		--release-version "$(VERSION)" --confirm-dataset-release
 
 compose-check:
 	docker compose config >/dev/null

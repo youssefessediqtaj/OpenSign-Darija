@@ -51,9 +51,7 @@ def enforce_recognition_request_limits(request: Request) -> None:
     client_key = request.client.host if request.client else "unknown-client"
     now = datetime.now(UTC).timestamp()
     window_start = now - 60
-    entries = [
-        entry for entry in _rate_limit_bucket.get(client_key, []) if entry > window_start
-    ]
+    entries = [entry for entry in _rate_limit_bucket.get(client_key, []) if entry > window_start]
     if len(entries) >= settings.recognition_rate_limit:
         raise ApiError("RATE_LIMITED", "Trop de reconnaissances en peu de temps.", 429)
     entries.append(now)
