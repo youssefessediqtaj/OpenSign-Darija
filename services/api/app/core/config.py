@@ -10,6 +10,8 @@ class Settings(BaseSettings):
 
     app_name: str = "OpenSigne Darija"
     app_version: str = "1.0.0"
+    colors_experimental_enabled: bool = False
+    colors_experimental_token: str = ""
     inference_service_url: str = "http://localhost:8001"
     inference_timeout_seconds: float = 3
     supported_signs_path: str | None = None

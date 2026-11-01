@@ -7,14 +7,14 @@ Every top-level directory has a single owner.
 | --- | --- |
 | `.agent/` | Shared Codex continuity notes and repository-level agent guidance. |
 | `.github/` | CI workflows and community/security documents. |
-| `apps/web/` | Public React recognition application. |
+| `apps/web/` | Public React recognition and optional contribution application. |
 | `artifacts/` | Generated machine-readable reports, dataset manifests, and protected model metadata; large local binaries stay ignored. |
 | `docs/` | Architecture, operations, datasets, model cards, testing, audits, research, and final reports. |
 | `infrastructure/` | Nginx gateway configuration. |
 | `ml/` | Offline MoSL dataset, preprocessing, training, evaluation, export, and validation. |
 | `packages/contracts/` | Language-neutral JSON contracts shared by tests and services. |
 | `scripts/` | Reproducible audits, benchmarks, and protected-asset verification. |
-| `services/api/` | Public stateless FastAPI API. |
+| `services/api/` | FastAPI recognition API and optional private contribution workflow. |
 | `services/inference/` | Internal ONNX inference runtime. |
 | `services/speech/` | Internal local Arabic speech runtime. |
 | `tests/` | Cross-service architecture and contract tests. |

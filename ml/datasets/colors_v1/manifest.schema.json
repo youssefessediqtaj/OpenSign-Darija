@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "COLORS_V1 input manifest",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "video_id",
+      "semantic_label",
+      "sign_variant_id",
+      "source_type",
+      "lineage_group_id",
+      "file_path",
+      "license",
+      "consent_status",
+      "provenance",
+      "linguistic_review_status"
+    ],
+    "properties": {
+      "video_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "semantic_label": {
+        "type": "string",
+        "minLength": 1
+      },
+      "sign_variant_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "performer_profile": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "signer_id": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "source_type": {
+        "enum": [
+          "source_reference_video",
+          "original_recording",
+          "synthetic_character_replacement",
+          "augmented_recording",
+          "unknown"
+        ]
+      },
+      "source_video_id": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "transformation_type": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "lineage_group_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "file_path": {
+        "type": "string",
+        "minLength": 1
+      },
+      "file_hash": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "license": {
+        "type": "string",
+        "minLength": 1
+      },
+      "consent_status": {
+        "enum": [
+          "approved",
+          "pending",
+          "denied",
+          "not_applicable"
+        ]
+      },
+      "provenance": {
+        "type": "string",
+        "minLength": 1
+      },
+      "linguistic_review_status": {
+        "enum": [
+          "PENDING_REVIEW",
+          "APPROVED",
+          "REJECTED"
+        ]
+      },
+      "split": {
+        "enum": [
+          "train",
+          "validation",
+          "test",
+          "unassigned"
+        ]
+      },
+      "sign_start_time": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "minimum": 0
+      },
+      "sign_end_time": {
+        "type": [
+          "number",
+          "null"
+        ],
+        "minimum": 0
+      },
+      "segmentation_method": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "segmentation_review_status": {
+        "enum": [
+          "PENDING_REVIEW",
+          "APPROVED",
+          "REJECTED",
+          null
+        ]
+      }
+    }
+  }
+}

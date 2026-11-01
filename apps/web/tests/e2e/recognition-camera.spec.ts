@@ -20,10 +20,12 @@ async function installCameraMock(page: Page) {
       frame += 1;
     }, 33);
     const stream = canvas.captureStream(30);
+    const testWindow = window as unknown as { __cameraRequests: number };
+    testWindow.__cameraRequests = 0;
     Object.defineProperty(navigator, 'mediaDevices', {
       configurable: true,
       value: {
-        getUserMedia: async () => stream,
+        getUserMedia: async () => { testWindow.__cameraRequests += 1; return stream; },
         enumerateDevices: async () => [
           { kind: 'videoinput', deviceId: 'front', label: 'Front camera', groupId: 'test' },
         ],
@@ -183,6 +185,51 @@ test('one activation produces two automatic recognition and speech cycles', asyn
   await page.waitForTimeout(1_500);
   expect(wordRequests).toHaveLength(2);
   expect(speechLabels).toHaveLength(2);
+});
+
+test('Sign Again keeps the camera and page while starting a fresh recognition', async ({ page }) => {
+  await installCameraMock(page);
+  const errors: string[] = [];
+  let requests = 0;
+  page.on('pageerror', (error) => errors.push(error.message));
+  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
+  await page.route('**/api/v1/recognitions/word', async (route) => {
+    expectPrivatePayload(route.request());
+    requests += 1;
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+      status: 'recognized', label_key: requests === 1 ? 'HELLO' : 'THANK_YOU',
+      label_ar: requests === 1 ? 'سلام' : 'شكرا', confidence: 0.9, unknown: false, latency_ms: 1,
+    }) });
+  });
+  await page.route('**/api/v1/speech/sign', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+      generation_id: 'speech', status: 'ready', audio: { url: '/test.wav', mime_type: 'audio/wav' },
+    }) });
+  });
+  await page.goto('/?mockCamera=1');
+  await page.getByRole('button', { name: 'Activer la caméra' }).click();
+  await expect(page.getByTestId('arabic-result')).toHaveText('سلام', { timeout: 10_000 });
+  const originalTimeOrigin = await page.evaluate(() => {
+    const video = document.querySelector('video');
+    (window as unknown as { __originalStream: MediaProvider | null }).__originalStream = video?.srcObject ?? null;
+    return performance.timeOrigin;
+  });
+  await page.getByRole('button', { name: 'Refaire un signe' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('status')).toContainText('Prêt — Faites un signe');
+  await expect(page.getByTestId('arabic-result')).toHaveCount(0);
+  expect(await page.evaluate(() => {
+    const state = window as unknown as { __originalStream: MediaProvider | null; __cameraRequests: number };
+    return Boolean(state.__originalStream) && document.querySelector('video')?.srcObject === state.__originalStream && state.__cameraRequests === 1;
+  })).toBe(true);
+  await expect(page.getByTestId('arabic-result')).toHaveText('شكرا', { timeout: 12_000 });
+  expect(requests).toBe(2);
+  expect(await page.evaluate(() => performance.timeOrigin)).toBe(originalTimeOrigin);
+  expect(await page.evaluate(() => {
+    const state = window as unknown as { __originalStream: MediaProvider | null; __cameraRequests: number };
+    return Boolean(state.__originalStream) && document.querySelector('video')?.srcObject === state.__originalStream && state.__cameraRequests === 1;
+  })).toBe(true);
+  expect(errors).toEqual([]);
 });
 
 test('UNKNOWN displays text and never requests speech', async ({ page }) => {

@@ -1,6 +1,7 @@
-import { CameraOff, Volume2 } from 'lucide-react';
+import { CameraOff, RotateCcw, Volume2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { env } from '../../../shared/config/env';
 import { Button } from '../../../shared/ui/Button';
 import { SkipLink } from '../../../shared/ui/SkipLink';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
@@ -62,11 +63,24 @@ export function RecognitionWorkspace() {
   const flowStateRef = useRef<RecognitionFlowState>('CAMERA_OFF');
   const recognizeSegmentRef = useRef<(segment: SegmentedSign) => void>(() => undefined);
   const sessionRef = useRef(0);
+  const recognitionRequestRef = useRef<AbortController | null>(null);
   const hadCameraStreamRef = useRef(false);
   const timerRefs = useRef(new Set<number>());
   const [flowState, setFlowState] = useState<RecognitionFlowState>('CAMERA_OFF');
   const [visibleResult, setVisibleResult] = useState<VisibleRecognitionResult | null>(null);
   const [detailMessage, setDetailMessage] = useState('');
+  const [colorsMode, setColorsMode] = useState(false);
+  const colorsToken = import.meta.env.DEV ? (import.meta.env.VITE_COLORS_EXPERIMENTAL_TOKEN ?? '') : '';
+  const loopbackHosts = ['localhost', '127.0.0.1', '[::1]'];
+  let colorsApiLocal = false;
+  try {
+    const apiUrl = new URL(env.apiBaseUrl || window.location.origin, window.location.origin);
+    colorsApiLocal = ['http:', 'https:'].includes(apiUrl.protocol) && loopbackHosts.includes(apiUrl.hostname);
+  } catch {
+    colorsApiLocal = false;
+  }
+  const colorsAvailable = import.meta.env.DEV && colorsToken.length >= 16 && colorsApiLocal &&
+    loopbackHosts.includes(window.location.hostname);
 
   const transition = useCallback((nextState: RecognitionFlowState) => {
     flowStateRef.current = nextState;
@@ -125,6 +139,9 @@ export function RecognitionWorkspace() {
         return;
       }
 
+      const controller = new AbortController();
+      recognitionRequestRef.current?.abort();
+      recognitionRequestRef.current = controller;
       try {
         const sequence = createLandmarkSequence(segment.sourceFrames, new Date().toISOString());
         const payload = toWordLandmarkPayload(sequence, {
@@ -140,7 +157,22 @@ export function RecognitionWorkspace() {
           throw new Error(wordValidationErrorMessage(validation.errors[0]));
         }
 
-        const response = await landmarkRecognitionApi.submitWordSequence(payload);
+        if (import.meta.env.DEV && colorsMode) {
+          if (!colorsAvailable || !landmarkRecognitionApi.submitColorExperiment) {
+            throw new Error('Mode couleurs expérimental indisponible.');
+          }
+          const diagnostic = await landmarkRecognitionApi.submitColorExperiment(payload, colorsToken, controller.signal);
+          if (session !== sessionRef.current || !cameraStream) return;
+          setVisibleResult(null);
+          setAudioMessage('');
+          setDetailMessage(diagnostic.candidate
+            ? `Candidat expérimental non validé : ${diagnostic.candidate}. Résultat non calibré.`
+            : `Expérience couleurs : ${diagnostic.recognition_state}. Aucun résultat validé.`);
+          transition('DISPLAYING');
+          schedule(enterCooldown, 1_500);
+          return;
+        }
+        const response = await landmarkRecognitionApi.submitWordSequence(payload, controller.signal);
         if (session !== sessionRef.current || !cameraStream) return;
 
         segmenterRef.current.rememberRecognized(segment, performance.now());
@@ -179,9 +211,11 @@ export function RecognitionWorkspace() {
         );
         transition('ERROR');
         schedule(enterCooldown, 1_800);
+      } finally {
+        if (recognitionRequestRef.current === controller) recognitionRequestRef.current = null;
       }
     },
-    [cameraStream, enterCooldown, schedule, setAudioMessage, speakResult, transition],
+    [cameraStream, colorsAvailable, colorsMode, colorsToken, enterCooldown, schedule, setAudioMessage, speakResult, transition],
   );
 
   useEffect(() => {
@@ -222,6 +256,8 @@ export function RecognitionWorkspace() {
   } = useHolisticLandmarker(videoRef, Boolean(cameraStream), handleFrame);
 
   const startCamera = useCallback(async () => {
+    recognitionRequestRef.current?.abort();
+    recognitionRequestRef.current = null;
     clearTimers();
     sessionRef.current += 1;
     resetSpeech();
@@ -241,6 +277,8 @@ export function RecognitionWorkspace() {
 
   const stopCamera = useCallback(() => {
     sessionRef.current += 1;
+    recognitionRequestRef.current?.abort();
+    recognitionRequestRef.current = null;
     clearTimers();
     resetSpeech();
     stopLandmarker();
@@ -265,6 +303,8 @@ export function RecognitionWorkspace() {
     if (!hadCameraStreamRef.current) return;
     hadCameraStreamRef.current = false;
     sessionRef.current += 1;
+    recognitionRequestRef.current?.abort();
+    recognitionRequestRef.current = null;
     clearTimers();
     resetSpeech();
     stopLandmarker();
@@ -289,13 +329,30 @@ export function RecognitionWorkspace() {
   useEffect(
     () => () => {
       sessionRef.current += 1;
+      recognitionRequestRef.current?.abort();
+      recognitionRequestRef.current = null;
       clearTimers();
       cancelSpeech();
     },
     [cancelSpeech, clearTimers],
   );
 
+  const signAgain = useCallback(() => {
+    // Invalidate both network and speech callbacks before clearing the attempt state.
+    sessionRef.current += 1;
+    recognitionRequestRef.current?.abort();
+    recognitionRequestRef.current = null;
+    clearTimers();
+    resetSpeech();
+    segmenterRef.current.reset();
+    setVisibleResult(null);
+    setDetailMessage('');
+    transition('WAITING_FOR_SIGN');
+  }, [clearTimers, resetSpeech, transition]);
+
   const cameraActive = Boolean(cameraStream);
+  const canSignAgain = cameraActive && landmarkerStatus === 'ready' &&
+    ['RECOGNIZING', 'DISPLAYING', 'SPEAKING', 'COOLDOWN', 'ERROR'].includes(flowState);
   const repeatDisabled = !visibleResult || visibleResult.unknown || flowState === 'SPEAKING';
 
   return (
@@ -321,6 +378,12 @@ export function RecognitionWorkspace() {
 
         {!cameraActive && (
           <div className="space-y-3">
+            {colorsAvailable && (
+              <label className="flex items-center gap-2 text-sm font-semibold">
+                <input type="checkbox" checked={colorsMode} onChange={(event) => setColorsMode(event.target.checked)} />
+                Mode couleurs expérimental local — résultats non validés
+              </label>
+            )}
             <CameraPermissionPanel
               onEnable={startCamera}
               errorMessage={permissionErrorMessage}
@@ -383,6 +446,12 @@ export function RecognitionWorkspace() {
             </section>
 
             <div className="flex flex-wrap gap-3">
+              {canSignAgain && (
+                <Button variant="secondary" onClick={signAgain} aria-label="Refaire un signe">
+                  <RotateCcw className="mr-2 inline h-5 w-5" aria-hidden="true" />
+                  Refaire un signe
+                </Button>
+              )}
               {visibleResult && !visibleResult.unknown && (
                 <Button
                   variant="secondary"

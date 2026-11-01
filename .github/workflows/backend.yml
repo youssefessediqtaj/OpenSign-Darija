@@ -22,4 +22,4 @@ jobs:
       - run: pytest
       - name: Architecture and cross-language contract tests
         working-directory: .
-        run: python -m pytest tests/test_architecture_contracts.py
+        run: python -m pytest tests/architecture tests/contracts tests/privacy

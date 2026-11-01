@@ -17,7 +17,12 @@ CAMERA_OFF
   -> WAITING_FOR_SIGN
 ```
 
-`ERROR` is recoverable by stopping and activating the camera again. UNKNOWN results take
+When the camera and detector remain ready, `Refaire un signe` can reset an in-flight or
+finished attempt, including an inference error, directly to `WAITING_FOR_SIGN`. It clears
+the segmenter buffers, result, messages and timers; invalidates speech callbacks; and
+aborts and invalidates the recognition request without restarting the camera or detector.
+The automatic cooldown/reset path still works without the button. Camera/detector failures
+may require stopping and activating the camera again. UNKNOWN results take
 the `DISPLAYING -> COOLDOWN` path and are never sent to speech.
 
 `RecognitionFlowState` is the sole lifecycle authority. The camera, MediaPipe loop,

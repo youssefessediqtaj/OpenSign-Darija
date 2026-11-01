@@ -31,7 +31,8 @@ def create_app() -> FastAPI:
     ) -> Response:
         if (
             request.method == "POST"
-            and request.url.path == "/api/v1/recognitions/word"
+            and request.url.path
+            in {"/api/v1/recognitions/word", "/api/v1/recognitions/colors-experimental"}
             and (error := recognition_payload_size_error(request))
         ):
             return JSONResponse(
@@ -50,6 +51,10 @@ def create_app() -> FastAPI:
         return await call_next(request)
 
     app.include_router(api_router)
+    if settings.colors_experimental_enabled and len(settings.colors_experimental_token) >= 16:
+        from app.api.v1.colors_experimental import router as colors_router
+
+        app.include_router(colors_router, prefix="/api/v1")
     app.add_api_route("/health", api_health, methods=["GET"])
     return app
 

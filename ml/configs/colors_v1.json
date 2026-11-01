@@ -1,0 +1,104 @@
+{
+  "dataset_id": "colors_v1",
+  "task": "isolated_sign_recognition",
+  "feature_schema": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+  "planning": {
+    "semantic_classes": 9,
+    "sign_variants": 10,
+    "profiles_per_variant": 5,
+    "expected_videos": 50
+  },
+  "labels": [
+    {
+      "id": "black",
+      "display_name": "BLACK",
+      "translations": {},
+      "variants": [
+        "black_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "blue",
+      "display_name": "BLUE",
+      "translations": {},
+      "variants": [
+        "blue_variant_01",
+        "blue_variant_02"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "brown",
+      "display_name": "BROWN",
+      "translations": {},
+      "variants": [
+        "brown_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "green",
+      "display_name": "GREEN",
+      "translations": {},
+      "variants": [
+        "green_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "orange",
+      "display_name": "ORANGE",
+      "translations": {},
+      "variants": [
+        "orange_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "pink",
+      "display_name": "PINK",
+      "translations": {},
+      "variants": [
+        "pink_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "red",
+      "display_name": "RED",
+      "translations": {},
+      "variants": [
+        "red_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "white",
+      "display_name": "WHITE",
+      "translations": {},
+      "variants": [
+        "white_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    },
+    {
+      "id": "yellow",
+      "display_name": "YELLOW",
+      "translations": {},
+      "variants": [
+        "yellow_variant_01"
+      ],
+      "description": "User-supplied label; linguistic verification pending",
+      "status": "provisional"
+    }
+  ]
+}

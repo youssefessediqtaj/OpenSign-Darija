@@ -27,12 +27,28 @@ controls, model selectors, PostgreSQL, Redis, or MinIO in the active runtime.
 
 ## Privacy model
 
-Camera pixels stay in the browser. The browser sends only finite normalized landmarks,
+For recognition, camera pixels stay in the browser. The browser sends only finite normalized landmarks,
 presence masks, segmentation metadata, and aggregate quality values to the public API.
 
-The browser must never send raw video, images, screenshots, canvas exports, base64 camera
-payloads, microphone audio, or arbitrary text-to-speech input. It calls only same-origin
+The recognition flow does not send raw video, images, screenshots, canvas exports, base64
+camera payloads, microphone audio, or arbitrary text-to-speech input. It calls only same-origin
 `/api` routes; inference and speech services are private Docker-network services.
+
+## Optional community contributions
+
+A separate `/contribute` page offers an adult video contribution workflow. Submission is
+**closed by default** pending controller/CNDP configuration, approved reference media,
+and storage readiness. When enabled, explicit submissions upload identifiable video to
+private quarantine; they do not enter recognition or training automatically. See the
+[contribution guide](docs/contributions/README.md) and its readiness checklist.
+
+## COLORS_V1 research direction
+
+A separate experimental dataset contains ten private source videos across nine colors,
+including two variants of blue. A local template baseline and one-epoch GRU smoke model
+exist but are unvalidated and inactive; the legacy three-sign runtime remains active. See
+[COLORS_V1 dataset preparation](ml/datasets/colors_v1/README.md) for current capabilities
+and blockers.
 
 ## Active vocabulary and limits
 
@@ -58,7 +74,7 @@ infrastructure/  Nginx public gateway configuration
 ml/              Local MoSL data, preprocessing, training, evaluation, export, validation
 packages/        Shared language-neutral contracts
 scripts/         Verification and benchmarking utilities
-services/api/    Public stateless FastAPI API
+services/api/    FastAPI recognition API and optional private contribution workflow
 services/inference/ Internal ONNX Runtime inference service
 services/speech/ Internal local Arabic speech service
 tests/           Cross-project architecture, contract, privacy tests and fixtures
@@ -66,6 +82,15 @@ tests/           Cross-project architecture, contract, privacy tests and fixture
 
 Root files are intentionally limited to project entry points: `README.md`, `LICENSE`,
 `NOTICE`, `Makefile`, `docker-compose.yml`, `.env.example`, and `.gitignore`.
+
+## Requirements and model assets
+
+The verified development setup uses Python 3.12, Node.js 22 with npm, and Docker
+Compose. GPU is not required. The local ONNX model and MediaPipe task are ignored by
+Git and must already be provisioned at the paths in [model assets](docs/operations/model-assets.md);
+a fresh clone alone does not contain them or the raw dataset. Review their provenance
+and usage restrictions before obtaining or sharing them. Offline video preprocessing
+also needs OpenCV and MediaPipe, as described in the ML workspace.
 
 ## Quick Docker startup
 
@@ -118,6 +143,8 @@ make test-e2e
 - [Runtime flow](docs/architecture/runtime-flow.md)
 - [Repository map](docs/architecture/repository-map.md)
 - [Operations](docs/operations/local-development.md)
+- [Configuration](docs/operations/configuration.md)
+- [Community contribution workflow](docs/contributions/README.md)
 - [Docker](docs/operations/docker.md)
 - [Testing](docs/testing/automated-tests.md)
 - [Dataset documentation](docs/datasets/README.md)

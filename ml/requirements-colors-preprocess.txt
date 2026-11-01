@@ -1,0 +1,5 @@
+# Direct versions observed together on Python 3.12 for local COLORS_V1 extraction.
+# Transitive dependencies and the system FFmpeg are not locked; verify on a clean host.
+numpy==2.5.1
+mediapipe==0.10.35
+opencv-python-headless==5.0.0.93

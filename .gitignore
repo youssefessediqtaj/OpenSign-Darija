@@ -54,3 +54,8 @@ redis-data/
 var/contributions/
 services/api/var/contributions/
 ml/data/contributions/releases/
+# Private COLORS_V1 raw videos, derived features and experiment outputs
+ml/data/colors_v1/
+artifacts/colors_v1/
+# Optional local Vite link to the protected MediaPipe task asset
+apps/web/public/models/holistic_landmarker.task

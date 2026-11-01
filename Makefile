@@ -51,7 +51,7 @@ help:
 		"  make verify                  Run complete non-destructive validation."
 
 install:
-	cd apps/web && npm install
+	cd apps/web && npm ci
 	cd services/api && $(PYTHON) -m venv .venv && .venv/bin/python -m pip install -e ".[dev]"
 	cd services/inference && $(PYTHON) -m venv .venv && .venv/bin/python -m pip install -e ".[dev]"
 	cd services/speech && $(PYTHON) -m venv .venv && .venv/bin/python -m pip install -e ".[dev]"

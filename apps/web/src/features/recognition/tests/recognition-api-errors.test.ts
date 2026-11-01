@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { ApiError } from '../../../shared/api/client';
-import { recognitionErrorMessage } from '../services/recognition-api';
+import { landmarkRecognitionApi, recognitionErrorMessage } from '../services/recognition-api';
+import type { WordLandmarkSequencePayload } from '../domain/recognition-contract';
 
 describe('recognition API error mapping', () => {
   it('does not describe HTTP 422 as a backend outage', () => {
@@ -28,5 +29,30 @@ describe('recognition API error mapping', () => {
     expect(recognitionErrorMessage(new ApiError('', '', {}, 413))).toMatch(/volumineuse/i);
     expect(recognitionErrorMessage(new ApiError('', '', {}, 429))).toMatch(/tentatives/i);
     expect(recognitionErrorMessage(new ApiError('', '', {}, 503))).toMatch(/temporairement indisponible/i);
+  });
+});
+
+describe('recognition request cancellation', () => {
+  it.each(['legacy', 'colors'] as const)('propagates cancellation for %s inference', async (mode) => {
+    const fetchMock = vi.fn((_url: unknown, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
+    }));
+    vi.stubGlobal('fetch', fetchMock);
+    try {
+      const controller = new AbortController();
+      const payload = {} as WordLandmarkSequencePayload;
+      let pending: Promise<unknown>;
+      if (mode === 'legacy') {
+        pending = landmarkRecognitionApi.submitWordSequence(payload, controller.signal);
+      } else {
+        if (!landmarkRecognitionApi.submitColorExperiment) throw new Error('Experimental client unavailable');
+        pending = landmarkRecognitionApi.submitColorExperiment(payload, 'test-token', controller.signal);
+      }
+      controller.abort();
+      await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+      expect(fetchMock).toHaveBeenCalledOnce();
+    } finally {
+      vi.unstubAllGlobals();
+    }
   });
 });

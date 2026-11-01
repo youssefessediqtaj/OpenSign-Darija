@@ -28,10 +28,26 @@ export function recognitionErrorMessage(error: unknown): string {
   return 'Le backend est indisponible.';
 }
 
+export type ExperimentalColorResult = {
+  model_id: string;
+  recognition_state: 'UNKNOWN_SIGN' | 'NO_HAND_DETECTED' | 'INSUFFICIENT_FRAMES' | 'MODEL_NOT_READY' | 'PREPROCESSING_ERROR' | 'INFERENCE_ERROR';
+  candidate: string | null;
+  raw_score: number | null;
+  calibration_status: 'UNCALIBRATED';
+  experimental: true;
+};
+
 export const landmarkRecognitionApi = {
-  submitWordSequence: (payload: WordLandmarkSequencePayload) =>
+  submitColorExperiment: import.meta.env.DEV
+    ? (payload: WordLandmarkSequencePayload, token: string, signal?: AbortSignal) =>
+        publicApiRequest<ExperimentalColorResult>('/api/v1/recognitions/colors-experimental?diagnostic=true', {
+          method: 'POST', headers: { 'x-colors-dev-token': token }, body: JSON.stringify(payload), signal,
+        })
+    : undefined,
+  submitWordSequence: (payload: WordLandmarkSequencePayload, signal?: AbortSignal) =>
     publicApiRequest<PublicRecognitionResult>('/api/v1/recognitions/word', {
       method: 'POST',
       body: JSON.stringify(payload),
+      signal,
     }),
 };

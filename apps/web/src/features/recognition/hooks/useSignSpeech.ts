@@ -27,6 +27,8 @@ export function useSignSpeech({
     speechRunRef.current += 1;
     const audio = audioRef.current;
     if (audio) {
+      audio.onended = null;
+      audio.onerror = null;
       audio.pause();
       audio.removeAttribute('src');
       audio.load();
@@ -103,12 +105,14 @@ export function useSignSpeech({
         audio.load();
         try {
           await audio.play();
+          if (speechRun !== speechRunRef.current) return;
           playbackStarted = true;
           schedule(() => finish(), 20_000);
         } catch {
           audio.onended = null;
           audio.onerror = null;
         }
+        if (speechRun !== speechRunRef.current) return;
         if (!playbackStarted) playWithBrowserSpeech(result.labelAr, speechRun);
       } catch {
         if (speechRun === speechRunRef.current) {

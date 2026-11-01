@@ -1,6 +1,6 @@
 # Core architecture
 
-OpenSigne Darija is a deliberately small stateless runtime:
+The recognition path is a deliberately small stateless runtime:
 
 ```text
 browser camera
@@ -13,9 +13,23 @@ browser camera
   -> browser playback, cooldown, next sign
 ```
 
+```mermaid
+flowchart LR
+  U[Browser camera] --> M[MediaPipe and segmentation]
+  M -->|landmarks| N[Nginx /api]
+  N --> A[FastAPI]
+  A -->|HTTP| I[ONNX inference]
+  I --> P[Local model package]
+  A -->|supported key| S[Local speech service]
+  U -->|explicit video submission when enabled| N
+  A -->|optional contribution| Q[Private quarantine and SQLite]
+  O[Operator CLI] --> Q
+```
+
 Nginx exposes the React application and `/api/`. Inference and speech are
-container-only services. The API has no PostgreSQL, Redis, MinIO, migration,
-seed, authentication, storage, or repository layer.
+container-only services. The recognition path has no database or repository dependency. A separate optional
+contribution path uses private SQLite metadata and local or S3 video quarantine; it is
+closed by default and isolated from recognition. See [contribution architecture](../contributions/architecture.md).
 
 The active runtime services are web, API, inference, speech, and Nginx. The optional
 `ml` Compose profile runs a one-shot audit of data already present locally; it performs

@@ -9,6 +9,35 @@ import {
 import type { RecognitionFlowState, SegmentedSign } from '../state/recognition-flow';
 
 describe('AutomaticSignSegmenter', () => {
+  it('reset removes prior capture frames and matches a fresh segmenter', () => {
+    const reused = new AutomaticSignSegmenter();
+    const fresh = new AutomaticSignSegmenter();
+    let previousState: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    for (let i = 0; i < 25; i += 1) {
+      const event = reused.ingest(createAutomaticTestFrame(i, i * 70), previousState);
+      if (event.type === 'started') previousState = 'CAPTURING';
+    }
+    expect(previousState).toBe('CAPTURING');
+    reused.reset();
+    const results: Array<{ types: string[]; completed: SegmentedSign | null }> = [];
+    for (const segmenter of [reused, fresh]) {
+      let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+      let completed: SegmentedSign | null = null;
+      const types: string[] = [];
+      for (let i = 0; i < 48; i += 1) {
+        const event = segmenter.ingest(createAutomaticTestFrame(i, 10_000 + i * 70), state);
+        types.push(event.type);
+        if (event.type === 'started') state = 'CAPTURING';
+        if (event.type === 'completed') completed = event.segment;
+      }
+      results.push({ types, completed });
+    }
+    expect(results[0].types).toEqual(results[1].types);
+    expect(results[0].completed).not.toBeNull();
+    expect(results[0].completed?.sourceFrames.every((frame) => frame.timestampMs >= 10_000)).toBe(true);
+    expect(results[0].completed?.frames).toEqual(results[1].completed?.frames);
+  });
+
   it('stays waiting when hands are absent or stationary at rest', () => {
     const segmenter = new AutomaticSignSegmenter();
     const events = [

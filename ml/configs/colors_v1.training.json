@@ -1,0 +1,13 @@
+{
+  "dataset_id": "colors_v1",
+  "experiment_status": "SMOKE_ONLY_NOT_VALIDATED",
+  "architecture_candidate": "bidirectional_gru",
+  "feature_schema": "OPEN_SIGNE_LANDMARK_SCHEMA_V1",
+  "sequence_length": 60,
+  "landmarks": 75,
+  "coordinates": 3,
+  "class_count": "derive from approved semantic label configuration",
+  "calibration": "UNAVAILABLE",
+  "activation": "DISABLED",
+  "note": "One-epoch local smoke completed; no independent accuracy, calibration or activation."
+}

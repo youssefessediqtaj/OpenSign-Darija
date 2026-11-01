@@ -9,6 +9,7 @@
 - [Recognition state machine](architecture/recognition-state-machine.md)
 - [Dependency rules](architecture/dependency-rules.md)
 - [Landmark schema V1](architecture/landmark-schema-v1.md)
+- [COLORS_V1 experimental feature contract](architecture/colors-v1-feature-contract.md)
 - [Model lifecycle](architecture/model-lifecycle.md)
 - [UNKNOWN calibration](architecture/unknown-calibration.md)
 - [Privacy and security](architecture/privacy-security.md)
@@ -77,6 +78,14 @@
 - [Privacy and security](architecture/privacy-security.md)
 
 ## Reports
+
+- [COLORS_V1 phase-three reliability](audits/colors-v1-phase3-reliability-2026-11.md)
+
+- [COLORS_V1 first experimental model](audits/colors-v1-first-model-2026-11.md)
+
+- [COLORS_V1 readiness](audits/colors-v1-readiness-2026-11.md)
+
+- [November 2026 engineering audit](audits/repository-audit-2026-11.md)
 
 - [Community video contribution feature report](reports/community-video-contribution-feature-report.md)
 - [Core recognition process final report](reports/core-recognition-process-final-report.md)

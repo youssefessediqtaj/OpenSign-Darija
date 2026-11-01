@@ -21,12 +21,14 @@ metadata, and aggregate quality values. It does not persist the request or predi
 
 Landmarks still describe a person's body motion and should be treated as sensitive in
 transport and logs even though they are not raw pixels. The runtime does not turn camera
-sessions into dataset contributions and has no public contribution/import workflow.
+sessions into dataset contributions. The separate `/contribute` workflow can upload
+video only after explicit submission when its readiness gates are satisfied; it is
+closed by default. See [contribution security](../contributions/security-review.md).
 
 ## Security controls
 
 - anonymous recognition with no public account/token surface;
-- Nginx same-origin API, security headers, 2 MB gateway ceiling, camera self-only, and
+- Nginx same-origin API, security headers, 26 MB gateway ceiling (with a separate recognition request limit), camera self-only, and
   microphone denied;
 - strict Pydantic `extra=forbid`, exact V1 shape, finite/range checks, size ceiling, and
   in-memory anonymous rate limit;
@@ -36,7 +38,7 @@ sessions into dataset contributions and has no public contribution/import workfl
 - supported label keys, not arbitrary browser text, drive speech;
 - offline speech uses direct subprocess arguments without a shell and ephemeral WAV
   files;
-- no runtime DB, Redis, MinIO, credentials, migrations, external dataset or TTS request.
+- recognition needs no runtime DB, Redis, MinIO, credentials, migrations, external dataset or TTS request; optional contributions use private SQLite and local or S3 storage.
 
 Do not log full landmark tensors, audio/base64, local video paths, or sensitive camera
 details. OpenSigne Darija is a research prototype, not a certified interpreter.

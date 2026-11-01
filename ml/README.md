@@ -1,5 +1,7 @@
 # Machine Learning Workspace
 
+For the separate, unvalidated color experiment, see [COLORS_V1 preparation](datasets/colors_v1/README.md).
+
 The active ML path is the offline, local-only MoSL isolated-sign workflow. It uses
 the native 60 x 75 x 3 landmark caches under
 `ml/data/external/mosl-video-dataset/` and never downloads datasets or model
@@ -16,6 +18,13 @@ Directory ownership:
 - `export/`: ONNX package validation and export checks.
 - `validation/`: data/model validation utilities.
 - `tests/`: deterministic ML tests.
+
+Training/test dependencies are installed with `make ml-install`. Offline video decoding
+and landmark extraction additionally require OpenCV (`cv2`) and MediaPipe in the Python
+environment used for preprocessing; those packages are not included in
+`requirements-train.txt` or the inference runtime lock. Their compatible versions and a
+repeatable installation are not currently pinned, so setup for a fresh preprocessing
+environment remains a reproducibility gap. No GPU is required for the recorded baseline.
 
 ```bash
 ml/.venv/bin/python -m ml.datasets.mosl_video.local_audit

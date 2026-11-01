@@ -9,10 +9,11 @@ are intentionally scoped to the current stateless recognition runtime.
 docker compose logs api
 ```
 
-Expect only health/version, `/recognitions/word`, and `/speech/sign` traffic. Block on:
+For recognition, expect health/version, `/recognitions/word`, and `/speech/sign` traffic.
+The separate contribution page also calls contribution status, signs, and notice routes. Block on:
 
 - tracebacks;
-- DB, Redis, or MinIO connection attempts;
+- unexpected DB or object-storage connection attempts when contributions are disabled;
 - legacy routes returning non-404 responses;
 - payload logging;
 - repeated speech for one segment;
@@ -38,5 +39,5 @@ Verify:
 - no request to inference, model registry, alphabet, dataset import, or external source;
 - recognition and known-only speech requests return successfully;
 - UNKNOWN causes no speech request;
-- request bodies contain landmarks only, never video/image/canvas/base64/microphone data;
+- recognition request bodies contain landmarks only, never video/image/canvas/base64/microphone data;
 - camera tracks, timers, speech, and detector loop stop when the camera is disabled.

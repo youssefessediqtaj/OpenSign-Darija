@@ -2,12 +2,13 @@
 
 ## Status
 
-Accepted.
+Accepted for the recognition path; amended by the separate contribution workflow described below.
 
 ## Decision
 
-The public FastAPI service is stateless and exposes only system, word-recognition,
-and supported-sign speech routes.
+The recognition path remains stateless and exposes system, word-recognition,
+and supported-sign speech routes. The later optional contribution workflow adds private
+SQLite metadata and video quarantine, isolated from recognition and closed by default.
 
 ## Consequences
 

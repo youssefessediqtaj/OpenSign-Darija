@@ -26,14 +26,12 @@ Multimodal-Moroccan-Sign-Language-Generation/vedios-dataset/
 
 The source folder spelling is preserved in manifests for provenance. No local source-code license file was found in the nested project; source code was therefore reimplemented natively instead of copied. Dataset licensing should continue to be checked against upstream metadata before any public redistribution.
 
-## Import And Verification
+## Historical import and verification
 
-The import target now requires an explicit local source path:
-
-```bash
-MOSL_SOURCE_DATASET_ROOT=/path/to/source/videos make ml-dataset-import
-MOSL_SOURCE_DATASET_ROOT=/path/to/source/videos make ml-verify-mosl-migration
-```
+The original source project and its import/migration targets have since been removed.
+Do not rerun the historical import commands; use the present dataset audit and artifact
+validation targets from `make help`. The following values are a historical migration
+snapshot, not a fresh verification of every file:
 
 Current verified result:
 

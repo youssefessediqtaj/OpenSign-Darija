@@ -13,10 +13,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install numpy pytest
-      - run: PYTHONPATH=. pytest ml/tests
+      - run: pip install -r ml/requirements-train.txt
+      - run: python -m pytest ml/tests
+      - run: ruff check ml
       - run: python -m compileall -q ml scripts
-      - run: |
-          set +e
-          PYTHONPATH=. python -m ml.datasets.validate_training_dataset --dataset-version 0.1.0
-          test "$?" -eq 1

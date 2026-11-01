@@ -1,6 +1,6 @@
 # Core runtime API
 
-Nginx exposes only the stateless API needed by automatic isolated-sign recognition. The
+Nginx exposes a stateless recognition API and a separate optional contribution API. The
 public client does not need a token, account, model ID, or dataset choice.
 
 ## Public endpoints
@@ -10,9 +10,7 @@ public client does not need a token, account, model ID, or dataset choice.
 - `POST /api/v1/recognitions/word`
 - `POST /api/v1/speech/sign`
 
-The application also exposes `GET /health` as a container health alias. Account,
-contribution, message, dataset-registry, alphabet, mock-recognition, and manual
-confirmation modules are absent from the core source and runtime.
+The application also exposes `GET /health` as a container health alias. The separate contribution endpoints are listed in the [API service guide](../../services/api/README.md); writes are fail-closed by default. Account, message, dataset-registry, alphabet, mock-recognition, and manual confirmation routes are absent.
 
 ## Word recognition
 

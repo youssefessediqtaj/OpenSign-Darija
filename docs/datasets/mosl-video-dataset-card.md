@@ -4,8 +4,9 @@
 
 The only active data source is the already-present native copy under
 `ml/data/external/mosl-video-dataset/`: 2,216 readable MP4 files and a matching local
-manifest. Raw videos, landmarks, and model outputs remain local/ignored; no public
-collection, contribution, upload, export, or remote-ingestion workflow is mounted.
+manifest. Raw videos, landmarks, and model binaries remain local/ignored. The separate
+contribution workflow is closed by default and does not automatically add submitted
+videos to this dataset or training; see [contribution documentation](../contributions/README.md).
 
 ## Audit snapshot
 

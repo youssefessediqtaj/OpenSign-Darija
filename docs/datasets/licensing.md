@@ -1,6 +1,6 @@
 # External Dataset Licenses
 
-Allowed license identifiers are configurable with `EXTERNAL_DATA_ALLOWED_LICENSES`.
+Historical external-ingestion experiments used a configurable `EXTERNAL_DATA_ALLOWED_LICENSES` gate. That ingestion system is not mounted in the current runtime; this list is not an active permission check.
 
 Default allow-list:
 

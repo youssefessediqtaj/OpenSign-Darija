@@ -3,8 +3,8 @@
 ## Full local verification
 
 ```bash
-make install
-make ml-install
+make install PYTHON=python3.12
+make ml-install PYTHON=python3.12
 make test
 make compose-check
 ```
@@ -23,6 +23,6 @@ cd apps/web && npm run dev
 ```
 
 Real inference needs the environment paths from `.env.example` and a validated local
-package at `artifacts/models/mosl-isolated-sign-v1/`. The API is stateless and does not
-run migrations or seed data. PostgreSQL, Redis, MinIO, user accounts, and object-storage
-buckets are not part of the core development loop.
+package at `artifacts/models/mosl-isolated-sign-v1/`. The recognition path is stateless; the optional contribution workflow has private SQLite
+storage and is closed by default. The API does not run migrations or seed data. PostgreSQL,
+Redis, MinIO, user accounts, and object-storage buckets are not part of the core loop.

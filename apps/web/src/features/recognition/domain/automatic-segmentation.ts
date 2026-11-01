@@ -210,6 +210,8 @@ export class AutomaticSignSegmenter {
   reset(): void {
     this.preRoll = [];
     this.captureFrames = [];
+    this.captureKind = 'dynamic';
+    this.captureStartedAt = 0;
     this.previousFrame = null;
     this.dynamicFrames = 0;
     this.staticSince = null;

@@ -10,7 +10,7 @@ There is no CDN or runtime model download. A rejected loader promise is cleared 
 later camera activation can retry. The animation-frame loop is idempotent and owns one
 run ID, preventing multiple detector loops after React renders.
 
-The core application processes at a nominal 15 FPS cadence. Each result is reduced to 33
+The core application processes at a nominal 24 FPS target. Each result is reduced to 33
 pose, 21 left-hand, and 21 right-hand landmarks; face landmarks are not transmitted.
 Physical FPS depends on the device and must be measured rather than inferred from the
 throttle setting.
