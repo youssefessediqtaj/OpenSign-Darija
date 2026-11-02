@@ -1,7 +1,7 @@
 """Optional, loopback-only gateway for experimental color diagnostics."""
 
 import hmac
-from ipaddress import ip_address
+from ipaddress import ip_address, ip_network
 from typing import Any, Literal
 
 import httpx
@@ -15,11 +15,29 @@ from app.services.request_protection import enforce_recognition_request_limits
 router = APIRouter(prefix="/recognitions", tags=["local experimental"])
 
 
+ColorLabel = Literal["black", "blue", "brown", "green", "orange", "pink", "red", "white", "yellow"]
+
+
+class RankedColor(BaseModel):
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
+    label: ColorLabel
+    raw_score: float
+
+
+class ColorDiagnostics(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    feature_schema_version: Literal["COLORS_V1_VIDEO_V1_EXPERIMENTAL"]
+    output_shape: tuple[Literal[1], Literal[9]] | None
+    top_three: list[RankedColor]
+    failure_stage: Literal["model_load", "inference"] | None = None
+
+
 class ExperimentalColorResult(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     model_id: str
     model_version: str
+    experiment_id: str | None = None
     recognition_state: Literal[
         "UNKNOWN_SIGN",
         "NO_HAND_DETECTED",
@@ -30,22 +48,33 @@ class ExperimentalColorResult(BaseModel):
     ]
     semantic_label: None
     sign_variant_id: None
-    candidate: (
-        Literal["black", "blue", "brown", "green", "orange", "pink", "red", "white", "yellow"]
-        | None
-    )
+    candidate: ColorLabel | None
     raw_score: float | None
     calibration_status: Literal["UNCALIBRATED"]
     experimental: Literal[True]
+    diagnostics: ColorDiagnostics | None = None
 
 
 @router.post("/colors-experimental", response_model=ExperimentalColorResult)
 async def predict_colors(
-    payload: WordLandmarkRecognitionRequest, request: Request, diagnostic: bool = False
+    payload: WordLandmarkRecognitionRequest,
+    request: Request,
+    diagnostic: bool = False,
+    trace: bool = False,
 ) -> ExperimentalColorResult:
     settings = get_settings()
     try:
-        local = bool(request.client and ip_address(request.client.host).is_loopback)
+        address = ip_address(request.client.host) if request.client else None
+        local = bool(
+            address
+            and (
+                address.is_loopback
+                or (
+                    settings.colors_experimental_trusted_network
+                    and address in ip_network(settings.colors_experimental_trusted_network)
+                )
+            )
+        )
     except ValueError:
         local = False
     if (
@@ -64,12 +93,19 @@ async def predict_colors(
         async with httpx.AsyncClient(timeout=settings.inference_timeout_seconds) as client:
             response = await client.post(
                 url,
-                params={"diagnostic": str(diagnostic).lower()},
+                params={
+                    "diagnostic": str(diagnostic).lower(),
+                    "trace": str(diagnostic and trace).lower(),
+                },
                 headers={"x-colors-dev-token": settings.colors_experimental_token},
                 json=payload.model_dump(mode="json"),
             )
             response.raise_for_status()
             data: dict[str, Any] = response.json()
             return ExperimentalColorResult.model_validate(data)
-    except (httpx.HTTPError, ValueError, TypeError) as exc:
-        raise HTTPException(status_code=503, detail="Experimental model unavailable") from exc
+    except httpx.TimeoutException as exc:
+        raise HTTPException(status_code=504, detail="Inference request timed out") from exc
+    except httpx.HTTPError as exc:
+        raise HTTPException(status_code=502, detail="Inference service unavailable") from exc
+    except (ValueError, TypeError) as exc:
+        raise HTTPException(status_code=502, detail="Invalid inference response") from exc

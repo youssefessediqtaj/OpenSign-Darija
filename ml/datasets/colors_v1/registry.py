@@ -15,16 +15,19 @@ FEATURE_VERSION = "COLORS_V1_VIDEO_V1_EXPERIMENTAL"
 LABELS = ["black", "blue", "brown", "green", "orange", "pink", "red", "white", "yellow"]
 
 
-def register(model_dir: Path, output: Path) -> dict[str, Any]:
+def register(model_dir: Path, output: Path, *, model_version: str | None = None) -> dict[str, Any]:
     """Check actual artifacts and create an experimental, never-active registry entry."""
     model_dir = model_dir.resolve()
     checkpoint, model, report_path = (model_dir / name for name in ("checkpoint.pt", "model.onnx", "report.json"))
     if not all(path.is_file() and not path.is_symlink() for path in (checkpoint, model, report_path)):
         raise ValueError("checkpoint, ONNX and report must be regular files")
     report = json.loads(report_path.read_text(encoding="utf-8"))
-    if (report.get("dataset") != "colors_v1" or report.get("status") != "SMOKE_ONLY_NOT_VALIDATED"
+    learning = report.get("status") == "EXPERIMENTAL_INACTIVE"
+    if (report.get("dataset") != "colors_v1" or report.get("status") not in {"SMOKE_ONLY_NOT_VALIDATED", "EXPERIMENTAL_INACTIVE"}
             or report.get("feature_version") != FEATURE_VERSION or report.get("labels") != LABELS
-            or report.get("activation") != "DISABLED" or report.get("calibration") != "UNAVAILABLE"):
+            or (not learning and report.get("activation") != "DISABLED") or report.get("calibration") != "UNAVAILABLE"
+            or (learning and (report.get("evaluation") != "NO_INDEPENDENT_EVALUATION"
+                              or not model_version or not report.get("experiment_id")))):
         raise ValueError("experimental model metadata is incompatible")
     session = ort.InferenceSession(str(model), providers=["CPUExecutionProvider"])
     inputs, outputs = session.get_inputs(), session.get_outputs()
@@ -32,16 +35,18 @@ def register(model_dir: Path, output: Path) -> dict[str, Any]:
             or inputs[0].type != "tensor(float)" or len(outputs) != 1
             or outputs[0].name != "logits" or outputs[0].shape[1:] != [len(LABELS)]):
         raise ValueError("ONNX model input/output contract is incompatible")
-    result = {"model_id": "colors_v1_gru_experimental", "model_version": "0.1.0-smoke",
+    training = report["training_config"] if learning else report
+    result = {"model_id": "colors_v1_gru_experimental", "model_version": model_version or "0.1.0-smoke",
+              "experiment_id": report.get("experiment_id", model_dir.name),
               "model_type": "bidirectional_gru", "dataset_id": "colors_v1",
               "dataset_manifest_hash": report["manifest_sha256"], "feature_schema_version": FEATURE_VERSION,
               "label_mapping_version": "colors_v1_semantic_1", "labels": LABELS,
               "checkpoint_path": str(checkpoint), "checkpoint_sha256": sha256(checkpoint),
               "onnx_path": str(model), "onnx_sha256": sha256(model), "report_path": str(report_path),
               "report_sha256": sha256(report_path),
-              "training_configuration": {"epochs": report["epochs"], "seed": report["seed"],
-                                         "hidden_size": report["hidden_size"]},
-              "training_status": "SMOKE_ONLY", "evaluation_status": "EVALUATION_PENDING",
+              "training_configuration": {"epochs": training["epochs_run"] if learning else training["epochs"],
+                                         "seed": training["seed"], "hidden_size": training["hidden_size"]},
+              "training_status": "LEARNING_DIAGNOSTIC" if learning else "SMOKE_ONLY", "evaluation_status": "EVALUATION_PENDING",
               "calibration_status": "UNCALIBRATED", "activation_status": "INACTIVE",
               "model_state": "EXPERIMENTAL"}
     output.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
@@ -56,8 +61,9 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--model-dir", required=True, type=Path)
     parser.add_argument("--output", required=True, type=Path)
+    parser.add_argument("--model-version")
     args = parser.parse_args()
-    print(json.dumps(register(args.model_dir, args.output), indent=2))
+    print(json.dumps(register(args.model_dir, args.output, model_version=args.model_version), indent=2))
     return 0
 
 

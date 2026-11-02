@@ -75,6 +75,7 @@ export type WordRecognitionPayloadValidationCode =
   | 'invalid_timestamp'
   | 'non_monotonic_timestamp'
   | 'invalid_presence_mask'
+  | 'coordinate_out_of_range'
   | 'non_finite_coordinate'
   | 'insufficient_valid_frames'
   | 'detector_not_ready';

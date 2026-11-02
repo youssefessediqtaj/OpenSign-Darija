@@ -1,6 +1,5 @@
 import { ApiError, publicApiRequest } from '../../../shared/api/client';
 import type { WordLandmarkSequencePayload } from '../domain/recognition-contract';
-import type { PublicRecognitionResult } from '../state/recognition-flow';
 
 function firstValidationField(error: ApiError): string | null {
   const errors = error.details.errors;
@@ -24,30 +23,27 @@ export function recognitionErrorMessage(error: unknown): string {
       : 'La sequence capturee ne respecte pas le format attendu.';
   }
   if (status === 429) return 'Trop de tentatives. Reessayez dans quelques instants.';
+  if (status === 502) return 'Le service de calcul est inaccessible ou a renvoyé une réponse invalide.';
+  if (status === 504) return 'Le calcul a expiré. Réessayez.';
   if (status === 503) return 'Le moteur de reconnaissance est temporairement indisponible.';
   return 'Le backend est indisponible.';
 }
 
 export type ExperimentalColorResult = {
   model_id: string;
+  model_version: string;
+  experiment_id?: string | null;
   recognition_state: 'UNKNOWN_SIGN' | 'NO_HAND_DETECTED' | 'INSUFFICIENT_FRAMES' | 'MODEL_NOT_READY' | 'PREPROCESSING_ERROR' | 'INFERENCE_ERROR';
   candidate: string | null;
   raw_score: number | null;
   calibration_status: 'UNCALIBRATED';
   experimental: true;
+  diagnostics?: { feature_schema_version: string; output_shape: number[] | null; failure_stage?: string | null; top_three: Array<{ label: string; raw_score: number }> } | null;
 };
 
 export const landmarkRecognitionApi = {
-  submitColorExperiment: import.meta.env.DEV
-    ? (payload: WordLandmarkSequencePayload, token: string, signal?: AbortSignal) =>
-        publicApiRequest<ExperimentalColorResult>('/api/v1/recognitions/colors-experimental?diagnostic=true', {
-          method: 'POST', headers: { 'x-colors-dev-token': token }, body: JSON.stringify(payload), signal,
-        })
-    : undefined,
-  submitWordSequence: (payload: WordLandmarkSequencePayload, signal?: AbortSignal) =>
-    publicApiRequest<PublicRecognitionResult>('/api/v1/recognitions/word', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-      signal,
+  submitColorExperiment: (payload: WordLandmarkSequencePayload, token: string, signal?: AbortSignal, trace = false) =>
+    publicApiRequest<ExperimentalColorResult>(`/api/v1/recognitions/colors-experimental?diagnostic=true${trace ? '&trace=true' : ''}`, {
+      method: 'POST', headers: { 'x-colors-dev-token': token }, body: JSON.stringify(payload), signal,
     }),
 };

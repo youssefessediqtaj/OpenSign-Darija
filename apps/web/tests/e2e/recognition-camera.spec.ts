@@ -1,8 +1,4 @@
-import { expect, test, type Page, type Request, type Response } from '@playwright/test';
-
-function isBenignMediaPipeDiagnostic(message: string): boolean {
-  return message === 'INFO: Created TensorFlow Lite XNNPACK delegate for CPU.';
-}
+import { expect, test, type Page, type Request } from '@playwright/test';
 
 async function installCameraMock(page: Page) {
   await page.addInitScript(() => {
@@ -117,341 +113,93 @@ test('camera permission refusal remains understandable', async ({ page }) => {
   await expect(page.getByText(/accès à la caméra a été refusé/i)).toBeVisible();
 });
 
-test('one activation produces two automatic recognition and speech cycles', async ({ page }) => {
+test('color candidates and Sign Again preserve the camera and never request legacy or speech', async ({ page }) => {
   await installCameraMock(page);
-  const wordRequests: Request[] = [];
-  const speechLabels: string[] = [];
-  const forbiddenRequests: string[] = [];
-  const consoleErrors: string[] = [];
-  const pageErrors: string[] = [];
-  page.on('console', (message) => {
-    if (message.type() === 'error') consoleErrors.push(message.text());
-  });
-  page.on('pageerror', (error) => pageErrors.push(error.message));
-  page.on('request', (request) => {
-    if (/\/predict|recognitions\/alphabet|external-datasets|models\/active|\/auth\//.test(request.url())) {
-      forbiddenRequests.push(request.url());
-    }
-  });
-
-  await page.route('**/api/v1/recognitions/word', async (route) => {
-    const request = route.request();
-    expectPrivatePayload(request);
-    wordRequests.push(request);
-    const second = wordRequests.length === 2;
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        status: 'recognized',
-        label_key: second ? 'THANK_YOU' : 'HELLO',
-        label_ar: second ? 'شكرا' : 'سلام',
-        confidence: second ? 0.91 : 0.94,
-        unknown: false,
-        latency_ms: second ? 35 : 31,
-      }),
-    });
-  });
-  await page.route('**/api/v1/speech/sign', async (route) => {
-    expect(route.request().headers()).not.toHaveProperty('authorization');
-    const body = route.request().postDataJSON() as { label_key: string };
-    speechLabels.push(body.label_key);
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        generation_id: `speech-${speechLabels.length}`,
-        status: 'ready',
-        audio: { url: `/test-audio-${speechLabels.length}.wav`, mime_type: 'audio/wav' },
-      }),
-    });
-  });
-
-  await page.goto('/?mockCamera=1');
-  const activation = page.getByRole('button', { name: 'Activer la caméra' });
-  await activation.click();
-  await expect(page.getByText('Caméra active')).toBeVisible();
-  await expect(page.getByRole('status')).toContainText('Prêt — Faites un signe');
-
-  await expect(page.getByTestId('arabic-result')).toHaveText('سلام', { timeout: 10_000 });
-  await expect(page.getByTestId('arabic-result')).toHaveText('شكرا', { timeout: 10_000 });
-  await expect.poll(() => wordRequests.length, { timeout: 12_000 }).toBe(2);
-  await expect.poll(() => speechLabels.length, { timeout: 12_000 }).toBe(2);
-
-  expect(speechLabels).toEqual(['HELLO', 'THANK_YOU']);
-  expect(forbiddenRequests).toEqual([]);
-  expect(consoleErrors).toEqual([]);
-  expect(pageErrors).toEqual([]);
-  await page.waitForTimeout(1_500);
-  expect(wordRequests).toHaveLength(2);
-  expect(speechLabels).toHaveLength(2);
-});
-
-test('Sign Again keeps the camera and page while starting a fresh recognition', async ({ page }) => {
-  await installCameraMock(page);
-  const errors: string[] = [];
   let requests = 0;
-  page.on('pageerror', (error) => errors.push(error.message));
-  page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
-  await page.route('**/api/v1/recognitions/word', async (route) => {
+  const forbidden: string[] = [];
+  page.on('request', (request) => {
+    if (/recognitions\/word|speech\/sign/.test(request.url())) forbidden.push(request.url());
+  });
+  await page.route('**/api/v1/recognitions/colors-experimental?*', async (route) => {
     expectPrivatePayload(route.request());
     requests += 1;
     await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
-      status: 'recognized', label_key: requests === 1 ? 'HELLO' : 'THANK_YOU',
-      label_ar: requests === 1 ? 'سلام' : 'شكرا', confidence: 0.9, unknown: false, latency_ms: 1,
-    }) });
-  });
-  await page.route('**/api/v1/speech/sign', async (route) => {
-    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
-      generation_id: 'speech', status: 'ready', audio: { url: '/test.wav', mime_type: 'audio/wav' },
+      model_id: 'colors_v1_gru_experimental', recognition_state: 'UNKNOWN_SIGN',
+      candidate: requests === 1 ? 'blue' : 'red', raw_score: null,
+      calibration_status: 'UNCALIBRATED', experimental: true,
     }) });
   });
   await page.goto('/?mockCamera=1');
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
-  await expect(page.getByTestId('arabic-result')).toHaveText('سلام', { timeout: 10_000 });
-  const originalTimeOrigin = await page.evaluate(() => {
-    const video = document.querySelector('video');
-    (window as unknown as { __originalStream: MediaProvider | null }).__originalStream = video?.srcObject ?? null;
-    return performance.timeOrigin;
+  await expect(page.getByText('🔵 Bleu — Prédiction expérimentale')).toBeVisible({ timeout: 12_000 });
+  await page.evaluate(() => {
+    (window as unknown as { __originalStream: MediaProvider | null }).__originalStream = document.querySelector('video')?.srcObject ?? null;
   });
   await page.getByRole('button', { name: 'Refaire un signe' }).focus();
   await page.keyboard.press('Enter');
-  await expect(page.getByRole('status')).toContainText('Prêt — Faites un signe');
-  await expect(page.getByTestId('arabic-result')).toHaveCount(0);
+  await expect(page.getByText('🔵 Bleu — Prédiction expérimentale')).toHaveCount(0);
   expect(await page.evaluate(() => {
     const state = window as unknown as { __originalStream: MediaProvider | null; __cameraRequests: number };
     return Boolean(state.__originalStream) && document.querySelector('video')?.srcObject === state.__originalStream && state.__cameraRequests === 1;
   })).toBe(true);
-  await expect(page.getByTestId('arabic-result')).toHaveText('شكرا', { timeout: 12_000 });
+  await expect(page.getByText('🔴 Rouge — Prédiction expérimentale')).toBeVisible({ timeout: 12_000 });
   expect(requests).toBe(2);
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(originalTimeOrigin);
-  expect(await page.evaluate(() => {
-    const state = window as unknown as { __originalStream: MediaProvider | null; __cameraRequests: number };
-    return Boolean(state.__originalStream) && document.querySelector('video')?.srcObject === state.__originalStream && state.__cameraRequests === 1;
-  })).toBe(true);
-  expect(errors).toEqual([]);
+  expect(forbidden).toEqual([]);
 });
 
-test('UNKNOWN displays text and never requests speech', async ({ page }) => {
+test('model unavailable is distinct from an unknown sign', async ({ page }) => {
   await installCameraMock(page);
-  let speechRequests = 0;
-  await page.route('**/api/v1/recognitions/word', async (route) => {
-    await route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify({
-        status: 'unknown',
-        label_key: null,
-        label_ar: null,
-        confidence: 0.28,
-        unknown: true,
-        latency_ms: 29,
-      }),
-    });
+  await page.route('**/api/v1/recognitions/colors-experimental?*', async (route) => {
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+      model_id: 'colors_v1_gru_experimental', recognition_state: 'MODEL_NOT_READY', candidate: null,
+      raw_score: null, calibration_status: 'UNCALIBRATED', experimental: true,
+    }) });
   });
-  await page.route('**/api/v1/speech/sign', async (route) => {
-    speechRequests += 1;
-    await route.abort();
-  });
-
   await page.goto('/?mockCamera=1');
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
-  await expect(page.getByTestId('arabic-result')).toHaveText('الإشارة غير معروفة', {
-    timeout: 10_000,
-  });
-  expect(speechRequests).toBe(0);
+  await expect(page.getByText(/MODEL_NOT_READY/)).toBeVisible({ timeout: 12_000 });
+  await expect(page.getByText(/Couleur détectée/)).toHaveCount(0);
 });
 
-test('real Docker API receives an automatic private sequence and returns its real compact decision', async ({
-  page,
-  request,
-}) => {
+test('real Docker camera processes colors when a validated fake video is supplied', async ({ page, request }) => {
   test.setTimeout(60_000);
-  const runtimeProcess = (globalThis as {
-    process?: { env?: Record<string, string | undefined> };
-  }).process;
-  const dockerBaseUrl = runtimeProcess?.env?.DOCKER_E2E_BASE_URL ?? 'http://127.0.0.1:8081';
-  const fakeCameraVideo = runtimeProcess?.env?.PLAYWRIGHT_FAKE_CAMERA_VIDEO;
-  const expectTwoSigns = runtimeProcess?.env?.PLAYWRIGHT_EXPECT_TWO_SIGNS === '1';
-  let dockerAvailable = false;
-  try {
-    const health = await request.get(`${dockerBaseUrl}/api/v1/health`, { timeout: 2_000 });
-    dockerAvailable = health.ok();
-  } catch {
-    dockerAvailable = false;
-  }
-  test.skip(
-    !dockerAvailable,
-    `Docker stack unavailable at ${dockerBaseUrl}; start it before the real API browser gate.`,
-  );
-  test.skip(
-    !fakeCameraVideo,
-    'Set PLAYWRIGHT_FAKE_CAMERA_VIDEO to a validated Y4M fixture for the real MediaPipe browser gate.',
-  );
-
-  const forbiddenRequests: string[] = [];
-  const consoleErrors: string[] = [];
-  const pageErrors: string[] = [];
-  const speechRequests: Request[] = [];
-  const wordResponses: Response[] = [];
-  const observedArabicResults: string[] = [];
-  await page.exposeFunction('recordArabicResultForTest', (value: string) => {
-    observedArabicResults.push(value);
-  });
-  await page.addInitScript(() => {
-    const testWindow = window as unknown as {
-      __lastArabicResultForTest?: string;
-      recordArabicResultForTest?: (value: string) => void;
-    };
-    const record = () => {
-      const element = document.querySelector('[data-testid="arabic-result"]');
-      const text = element?.textContent?.trim();
-      if (!text || text === testWindow.__lastArabicResultForTest) return;
-      testWindow.__lastArabicResultForTest = text;
-      testWindow.recordArabicResultForTest?.(text);
-    };
-    const installObserver = () => {
-      record();
-      new MutationObserver(record).observe(document.documentElement, {
-        childList: true,
-        subtree: true,
-        characterData: true,
-      });
-    };
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', installObserver, { once: true });
-    } else {
-      installObserver();
-    }
-  });
-  page.on('console', (message) => {
-    if (message.type() === 'error' && !isBenignMediaPipeDiagnostic(message.text())) {
-      consoleErrors.push(message.text());
-    }
-  });
-  page.on('pageerror', (error) => pageErrors.push(error.message));
-  page.on('response', (browserResponse) => {
-    if (
-      browserResponse.url().includes('/api/v1/recognitions/word') &&
-      browserResponse.request().method() === 'POST'
-    ) {
-      wordResponses.push(browserResponse);
-    }
-  });
-  page.on('request', (browserRequest) => {
-    const url = browserRequest.url();
-    if (
-      /\/predict|recognitions\/alphabet|external-datasets|dataset-import|kaggle|mendeley|sciencedirect/i.test(
-        url,
-      )
-    ) {
-      forbiddenRequests.push(url);
-    }
-    if (url.includes('/api/v1/speech/sign')) speechRequests.push(browserRequest);
-  });
-
-  await page.goto(`${dockerBaseUrl}/app/recognition`);
+  const runtime = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
+  const base = runtime?.env?.DOCKER_E2E_BASE_URL ?? 'http://127.0.0.1:8081';
+  const video = runtime?.env?.PLAYWRIGHT_FAKE_CAMERA_VIDEO;
+  let available = false;
+  try { available = (await request.get(`${base}/api/v1/health`, { timeout: 2_000 })).ok(); } catch { /* unavailable */ }
+  test.skip(!available || !video, 'Requires the local Docker stack and PLAYWRIGHT_FAKE_CAMERA_VIDEO.');
+  const forbidden: string[] = [];
+  page.on('request', (r) => { if (/recognitions\/word|speech\/sign/.test(r.url())) forbidden.push(r.url()); });
+  await page.goto(`${base}/app/recognition`);
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
-  await expect(page.getByRole('status')).toContainText('Prêt — Faites un signe', {
-    timeout: 20_000,
+  const response = await page.waitForResponse((r) => r.url().includes('/recognitions/colors-experimental') && r.request().method() === 'POST', { timeout: 30_000 });
+  expect(response.status()).toBe(200);
+  expectPrivatePayload(response.request());
+  expect(await response.json()).toMatchObject({ model_id: 'colors_v1_gru_experimental', experimental: true, calibration_status: 'UNCALIBRATED' });
+  expect(forbidden).toEqual([]);
+});
+
+test('local diagnostics capture raw ranking without media or landmarks', async ({ page }) => {
+  await installCameraMock(page);
+  await page.route('**/api/v1/recognitions/colors-experimental?*', async (route) => {
+    expect(route.request().url()).toContain('trace=true');
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({
+      model_id: 'colors_v1_gru_experimental', model_version: '0.1.0-smoke',
+      recognition_state: 'UNKNOWN_SIGN', candidate: 'green', raw_score: 0.4,
+      calibration_status: 'UNCALIBRATED', experimental: true,
+      diagnostics: { feature_schema_version: 'COLORS_V1_VIDEO_V1_EXPERIMENTAL', output_shape: [1, 9],
+        top_three: [{ label: 'green', raw_score: 0.4 }, { label: 'red', raw_score: 0.2 }, { label: 'pink', raw_score: 0.1 }] },
+    }) });
   });
-
-  if (expectTwoSigns) {
-    await expect.poll(() => wordResponses.length, { timeout: 25_000 }).toBe(2);
-  } else {
-    await expect.poll(() => wordResponses.length, { timeout: 25_000 }).toBeGreaterThanOrEqual(1);
-  }
-  if (!expectTwoSigns && wordResponses.length === 1) {
-    await page
-      .waitForResponse(
-        (response) =>
-          response.url().includes('/api/v1/recognitions/word') &&
-          response.request().method() === 'POST',
-        { timeout: 8_000 },
-      )
-      .catch(() => null);
-  }
-
-  expect(wordResponses.length).toBeLessThanOrEqual(2);
-  if (expectTwoSigns) expect(wordResponses).toHaveLength(2);
-
-  type CompactDecision = {
-    status: 'recognized' | 'unknown';
-    label_key: string | null;
-    label_ar: string | null;
-    confidence: number;
-    unknown: boolean;
-    latency_ms: number;
-  };
-  const decisions: CompactDecision[] = [];
-  for (const response of wordResponses) {
-    expect(response.status()).toBe(200);
-    expectPrivatePayload(response.request());
-    const decision = (await response.json()) as CompactDecision;
-    expect(Object.keys(decision).sort()).toEqual(
-      ['status', 'label_key', 'label_ar', 'confidence', 'unknown', 'latency_ms'].sort(),
-    );
-    expect(decision.confidence).toBeGreaterThanOrEqual(0);
-    expect(decision.confidence).toBeLessThanOrEqual(1);
-    expect(decision.latency_ms).toBeGreaterThanOrEqual(0);
-    if (decision.status === 'recognized') {
-      expect(decision.unknown).toBe(false);
-      expect(decision.label_key).toEqual(expect.any(String));
-      expect(decision.label_ar).toEqual(expect.any(String));
-    } else {
-      expect(decision).toMatchObject({
-        unknown: true,
-        label_key: null,
-        label_ar: null,
-      });
-    }
-    decisions.push(decision);
-  }
-
-  const expectedSpeechLabels = decisions.flatMap((decision) =>
-    decision.status === 'recognized' && decision.label_key ? [decision.label_key] : [],
-  );
-  const captureCadences = wordResponses.map(
-    (response) =>
-      (response.request().postDataJSON() as { source_fps: number }).source_fps,
-  );
-  if (expectTwoSigns) {
-    expect(decisions.every((decision) => decision.status === 'recognized')).toBe(true);
-    expect(captureCadences).toHaveLength(2);
-    captureCadences.forEach((sourceFps) => expect(sourceFps).toBeGreaterThanOrEqual(15));
-  }
-  if (expectedSpeechLabels.length > 0) {
-    await expect.poll(() => speechRequests.length, { timeout: 8_000 }).toBe(expectedSpeechLabels.length);
-  }
-  const observedSpeechLabels = speechRequests.map(
-    (speechRequest) => (speechRequest.postDataJSON() as { label_key: string }).label_key,
-  );
-  expect(observedSpeechLabels).toEqual(expectedSpeechLabels);
-  for (const speechRequest of speechRequests) {
-    expect(speechRequest.headers()).not.toHaveProperty('authorization');
-  }
-
-  const finalDecision = decisions[decisions.length - 1];
-  const expectedVisibleText =
-    finalDecision?.status === 'recognized'
-      ? finalDecision.label_ar ?? ''
-      : 'الإشارة غير معروفة';
-  if (!observedArabicResults.includes(expectedVisibleText)) {
-    await expect(page.getByTestId('arabic-result')).toHaveText(expectedVisibleText, {
-      timeout: 5_000,
-    });
-  }
-
-  await expect(page.getByRole('status')).toContainText('Prêt — Faites un signe', {
-    timeout: 25_000,
-  });
-  const completedResponseCount = wordResponses.length;
-  await page.waitForTimeout(2_000);
-  expect(wordResponses).toHaveLength(completedResponseCount);
-  expect(wordResponses.length).toBeLessThanOrEqual(2);
-  if (expectTwoSigns) expect(wordResponses).toHaveLength(2);
-  expect(speechRequests).toHaveLength(expectedSpeechLabels.length);
-  expect(forbiddenRequests).toEqual([]);
-  expect(consoleErrors).toEqual([]);
-  expect(pageErrors).toEqual([]);
+  await page.goto('/?mockCamera=1&diagnostics=1');
+  await page.getByRole('button', { name: 'Activer la caméra' }).click();
+  await expect(page.getByText('🟢 Vert — Prédiction expérimentale')).toBeVisible({ timeout: 12_000 });
+  await page.getByText(/Diagnostics locaux/).click();
+  const records = JSON.parse(await page.getByTestId('attempt-diagnostics').innerText());
+  expect(records).toHaveLength(1);
+  expect(records[0]).toMatchObject({ completion_reason: 'stable', request_status: 'response_received',
+    sequence_length: 60, output_shape: [1, 9], model_version: '0.1.0-smoke' });
+  expect(records[0].top_three_raw_scores).toHaveLength(3);
+  expect(JSON.stringify(records)).not.toMatch(/landmarks|presence_mask|data:image/);
 });

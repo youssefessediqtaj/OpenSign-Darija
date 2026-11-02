@@ -46,6 +46,9 @@ export function wordValidationErrorMessage(error: WordRecognitionPayloadValidati
     case 'detector_not_ready':
       return 'Attendez que le moteur de detection soit pret.';
     case 'insufficient_valid_frames':
+      if (error.field === 'quality.detected_hand_ratio') return 'Gardez au moins une main visible pendant le signe.';
+      if (error.field === 'quality.detected_pose_ratio') return 'Gardez le haut du corps visible pendant le signe.';
+      if (error.field === 'quality.movement_score') return 'Le mouvement est trop faible pour cette capture.';
       return `Capture insuffisante : seulement ${error.received} images valides sur le minimum requis.`;
     case 'invalid_frame_count':
       return 'La sequence doit contenir exactement 60 images.';
@@ -59,6 +62,8 @@ export function wordValidationErrorMessage(error: WordRecognitionPayloadValidati
       return 'Les limites du signe ne sont pas assez fiables.';
     case 'invalid_usable_frame_count':
       return 'La sequence ne contient pas assez d’images utilisables.';
+    case 'coordinate_out_of_range':
+      return 'Capture invalide : placez-vous face à la caméra avec les épaules visibles.';
     case 'non_finite_coordinate':
       return 'Les coordonnees invalides ont ete rejetees avant envoi.';
     case 'invalid_presence_mask':
@@ -411,6 +416,14 @@ export function validateWordRecognitionPayloadV1(
             message: 'coordinates must be finite numbers',
             expected: 'finite number',
             received: String(coordinate),
+          });
+        } else if (Math.abs(coordinate) > 20) {
+          pushError(errors, {
+            code: 'coordinate_out_of_range',
+            field: `frames.${frameIndex}.landmarks.${landmarkIndex}.${coordinateIndex}`,
+            message: 'coordinates must be within the API range',
+            expected: '-20..20',
+            received: coordinate,
           });
         }
       });

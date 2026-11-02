@@ -80,6 +80,8 @@
 ## Reports
 
 - [COLORS_V1 phase-three reliability](audits/colors-v1-phase3-reliability-2026-11.md)
+- [COLORS_V1 cleaned-video update](audits/colors-v1-clean-video-update-2026-11.md)
+- [COLORS_V1 clean-model learning diagnostics](audits/colors-v1-clean-model-training-2026-11.md)
 
 - [COLORS_V1 first experimental model](audits/colors-v1-first-model-2026-11.md)
 

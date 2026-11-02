@@ -11,7 +11,10 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     colors_experimental_enabled: bool = False
     colors_experimental_token: str = ""
+    colors_experimental_trusted_network: str = ""
     colors_experimental_registry: str = ""
+    colors_experimental_dataset_manifest: str = ""
+    colors_experimental_model_version: str = ""
     model_name: str = "mosl-isolated-sign-v1"
     model_version: str = "1.0.0"
     feature_schema_version: str = "OPEN_SIGNE_LANDMARK_SCHEMA_V1"

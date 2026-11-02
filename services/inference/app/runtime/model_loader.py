@@ -9,7 +9,10 @@ class ModelLoader:
         self.model: OnnxModel | None = None
         self.state = "STARTING"
         self.error: str | None = None
-        self._load()
+        if get_settings().colors_experimental_enabled:
+            self.state = "EXPERIMENTAL"
+        else:
+            self._load()
 
     def _load(self) -> None:
         self.state = "MODEL_LOADING"

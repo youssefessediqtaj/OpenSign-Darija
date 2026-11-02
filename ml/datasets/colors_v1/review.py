@@ -63,15 +63,18 @@ def generate(manifest: Path, root: Path, feature_dir: Path, output: Path) -> int
             raise ValueError("feature/source checksum mismatch")
         cap = cv2.VideoCapture(str(source))
         fps = float(cap.get(cv2.CAP_PROP_FPS))
-        duration = float(cap.get(cv2.CAP_PROP_FRAME_COUNT)) / fps if fps > 0 else 0
-        if duration <= 0:
+        frame_count = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        duration = frame_count / fps if fps > 0 else 0
+        if duration <= 0 or frame_count < 1:
             cap.release()
             raise ValueError("unable to determine approximate duration")
         first, last = float(meta["first_hand_seconds"]), float(meta["last_hand_seconds"])
-        candidates = np.linspace(max(0.0, first - 0.8), min(duration, last + 0.8), 8)
+        # Duration is one frame past the last valid index. Never seek to EOF.
+        last_frame_time = (frame_count - 1) / fps
+        candidates = np.linspace(max(0.0, first - 0.8), min(last_frame_time, last + 0.8), 8)
         sheet = np.full((2 * 210, 4 * 280, 3), 255, dtype=np.uint8)
         for i, timestamp in enumerate(candidates):
-            cap.set(cv2.CAP_PROP_POS_MSEC, float(timestamp * 1000))
+            cap.set(cv2.CAP_PROP_POS_FRAMES, min(int(timestamp * fps), frame_count - 1))
             ok, frame = cap.read()
             if not ok:
                 cap.release()
@@ -100,13 +103,18 @@ def generate(manifest: Path, root: Path, feature_dir: Path, output: Path) -> int
                   "largest_sampled_gap_seconds": float(np.max(np.diff(distinct))) if len(distinct) > 1 else None,
                   "notes": "Review full motion, repetitions, occlusion, start and end; detection is not a boundary."}
         reviews.append(review)
-        video_url = quote(os.path.relpath(source, output))
+        # Browser caches must not reuse a preview after source bytes change in place.
+        version = item["file_hash"]
+        video_url = f"{quote(os.path.relpath(source, output))}?v={version}"
+        image_url = f"{quote(image.name)}?v={version}"
         sections.append(f'<section><h2>{html.escape(item["video_id"])}</h2>'
                         f'<video controls preload="metadata" width="480" src="{video_url}"></video><br>'
-                        f'<img width="800" src="{html.escape(image.name)}" alt="Timestamped frames">'
+                        f'<img width="800" src="{image_url}" alt="Timestamped frames">'
                         f'<p>First–last hand: {first:.2f}–{last:.2f}s; review remains pending.</p></section>')
     (output / "review-draft.json").write_text(json.dumps(reviews, indent=2) + "\n", encoding="utf-8")
-    (output / "index.html").write_text('<!doctype html><meta charset="utf-8"><title>Private sign review</title>'
+    (output / "index.html").write_text('<!doctype html><meta charset="utf-8">'
+        '<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">'
+        '<title>Private sign review</title>'
         '<h1>Private sign review — pending</h1><p>Preview timestamps are approximate; inspect the full video. '
         'Record decisions in review-draft.json; technical and qualified linguistic reviews are separate.</p>'
         + ''.join(sections), encoding="utf-8")

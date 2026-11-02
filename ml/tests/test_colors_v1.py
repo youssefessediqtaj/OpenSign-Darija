@@ -333,6 +333,58 @@ def test_review_requires_separate_identified_approvals() -> None:
         validate_review(review, source)
 
 
+def test_review_previews_avoid_eof_and_include_source_hash(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    import hashlib
+    import sys
+    from types import SimpleNamespace
+
+    import numpy as np
+
+    from ml.datasets.colors_v1.review import generate
+
+    root = tmp_path / "source"
+    root.mkdir()
+    video = root / "clip.mp4"
+    video.write_bytes(b"fixture")
+    digest = hashlib.sha256(video.read_bytes()).hexdigest()
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps([{"video_id": "clip", "file_path": "clip.mp4", "file_hash": digest}]))
+    features = tmp_path / "features"
+    features.mkdir()
+    metadata = {"source_sha256": digest, "first_hand_seconds": 0.2, "last_hand_seconds": 0.95,
+                "detector_frames": 10, "valid_frames": 8}
+    np.savez(features / "clip.npz", metadata=json.dumps(metadata), sampled_source_times_seconds=[0.2, 0.9])
+    positions: list[int] = []
+
+    class Capture:
+        def __init__(self, path: str) -> None:
+            self.index = 0
+
+        def get(self, prop: int) -> float:
+            return 10.0
+
+        def set(self, prop: int, index: int) -> None:
+            self.index = index
+            positions.append(index)
+
+        def read(self) -> tuple[bool, np.ndarray]:
+            return self.index < 10, np.zeros((10, 10, 3), dtype=np.uint8)
+
+        def release(self) -> None:
+            pass
+
+    fake = SimpleNamespace(VideoCapture=Capture, CAP_PROP_FPS=1, CAP_PROP_FRAME_COUNT=2,
+                           CAP_PROP_POS_FRAMES=3, FONT_HERSHEY_SIMPLEX=0,
+                           resize=lambda frame, size: np.zeros((size[1], size[0], 3), dtype=np.uint8),
+                           putText=lambda *args: None,
+                           imwrite=lambda path, image: Path(path).write_bytes(b"image") > 0)
+    monkeypatch.setitem(sys.modules, "cv2", fake)
+    output = tmp_path / "review"
+    assert generate(manifest, root, features, output) == 1
+    assert max(positions) == 9
+    assert (output / "index.html").read_text().count(f"?v={digest}") == 2
+
+
 def test_experimental_model_registry_requires_compatible_labels_and_shapes(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     from types import SimpleNamespace
 
@@ -363,6 +415,16 @@ def test_experimental_model_registry_requires_compatible_labels_and_shapes(tmp_p
     (directory / "report.json").write_text(json.dumps(report))
     with pytest.raises(ValueError, match="metadata"):
         register(directory, tmp_path / "wrong.json")
+    report.update(labels=LABELS, status="EXPERIMENTAL_INACTIVE", experiment_id="clean-test",
+                  evaluation="NO_INDEPENDENT_EVALUATION",
+                  training_config={"epochs_run": 10, "seed": 42, "hidden_size": 16})
+    (directory / "report.json").write_text(json.dumps(report))
+    with pytest.raises(ValueError, match="metadata"):
+        register(directory, tmp_path / "unversioned.json")
+    clean = register(directory, tmp_path / "clean.json", model_version="clean-1")
+    assert clean["model_version"] == "clean-1" and clean["experiment_id"] == "clean-test"
+    assert clean["training_status"] == "LEARNING_DIAGNOSTIC"
+    assert clean["activation_status"] == "INACTIVE"
 
 
 def test_calibration_and_promotion_fail_closed() -> None:

@@ -51,6 +51,7 @@ def test_local_gate_and_candidate_are_explicit(monkeypatch: pytest.MonkeyPatch) 
                 return {
                     "model_id": "colors_v1_gru_experimental",
                     "model_version": "0.1.0-smoke",
+                    "experiment_id": "test-experiment",
                     "recognition_state": "UNKNOWN_SIGN",
                     "semantic_label": None,
                     "sign_variant_id": None,
@@ -58,6 +59,16 @@ def test_local_gate_and_candidate_are_explicit(monkeypatch: pytest.MonkeyPatch) 
                     "raw_score": 0.1,
                     "calibration_status": "UNCALIBRATED",
                     "experimental": True,
+                    "diagnostics": {
+                        "feature_schema_version": "COLORS_V1_VIDEO_V1_EXPERIMENTAL",
+                        "output_shape": [1, 9],
+                        "top_three": [
+                            {"label": "blue", "raw_score": 0.1},
+                            {"label": "pink", "raw_score": 0.0},
+                            {"label": "red", "raw_score": -0.1},
+                        ],
+                        "failure_stage": None,
+                    },
                 }
 
         class AsyncClient:
@@ -73,14 +84,17 @@ def test_local_gate_and_candidate_are_explicit(monkeypatch: pytest.MonkeyPatch) 
             async def post(self, *args: Any, **kwargs: Any) -> Response:
                 assert kwargs["headers"]["x-colors-dev-token"] == TOKEN
                 assert kwargs["params"]["diagnostic"] == "true"
+                assert kwargs["params"]["trace"] == "true"
                 return Response()
 
         monkeypatch.setattr("app.api.v1.colors_experimental.httpx.AsyncClient", AsyncClient)
-        response = local.post(PATH + "?diagnostic=true", json=PAYLOAD, headers=headers)
+        response = local.post(PATH + "?diagnostic=true&trace=true", json=PAYLOAD, headers=headers)
         assert response.status_code == 200
         assert response.json()["recognition_state"] == "UNKNOWN_SIGN"
         assert response.json()["candidate"] == "blue"
+        assert response.json()["experiment_id"] == "test-experiment"
         assert response.json()["semantic_label"] is None
+        assert response.json()["diagnostics"]["top_three"][0]["label"] == "blue"
     finally:
         get_settings.cache_clear()
 
@@ -108,7 +122,52 @@ def test_unavailable_inference_fails_closed(monkeypatch: pytest.MonkeyPatch) -> 
 
         monkeypatch.setattr("app.api.v1.colors_experimental.httpx.AsyncClient", Unavailable)
         assert (
-            local.post(PATH, json=PAYLOAD, headers={"x-colors-dev-token": TOKEN}).status_code == 503
+            local.post(PATH, json=PAYLOAD, headers={"x-colors-dev-token": TOKEN}).status_code == 502
+        )
+    finally:
+        get_settings.cache_clear()
+
+
+def test_color_mode_rejects_legacy_word_route(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_ENABLED", "true")
+    get_settings.cache_clear()
+    try:
+        client = TestClient(create_app(), client=("127.0.0.1", 5000))
+        assert client.post("/api/v1/recognitions/word", json=PAYLOAD).status_code == 404
+    finally:
+        get_settings.cache_clear()
+
+
+@pytest.mark.parametrize(
+    ("error", "status"),
+    [(httpx.ConnectError("offline"), 502), (httpx.ReadTimeout("timeout"), 504)],
+)
+def test_gateway_distinguishes_inference_network_and_timeout(
+    monkeypatch: pytest.MonkeyPatch, error: httpx.HTTPError, status: int
+) -> None:
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_ENABLED", "true")
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_TOKEN", TOKEN)
+    get_settings.cache_clear()
+    try:
+
+        class Unavailable:
+            def __init__(self, **kwargs: Any) -> None:
+                pass
+
+            async def __aenter__(self) -> "Unavailable":
+                return self
+
+            async def __aexit__(self, *args: Any) -> None:
+                pass
+
+            async def post(self, *args: Any, **kwargs: Any) -> Any:
+                raise error
+
+        monkeypatch.setattr("app.api.v1.colors_experimental.httpx.AsyncClient", Unavailable)
+        local = TestClient(create_app(), client=("127.0.0.1", 5000))
+        assert (
+            local.post(PATH, json=PAYLOAD, headers={"x-colors-dev-token": TOKEN}).status_code
+            == status
         )
     finally:
         get_settings.cache_clear()

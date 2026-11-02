@@ -34,7 +34,7 @@ export type SegmentationEvent =
   | { type: 'none' }
   | { type: 'started'; kind: SegmentationKind }
   | { type: 'completed'; segment: SegmentedSign }
-  | { type: 'rejected'; reason: SegmentationRejectionReason }
+  | { type: 'rejected'; reason: SegmentationRejectionReason; attempt: { id: string; startedAtMs: number; endedAtMs: number; capturedFrames: number; usableFrames: number; handCoverage: number; poseCoverage: number; completionReason: 'stable' | 'maximum_duration' } }
   | { type: 'reset' };
 
 export type PublicRecognitionResult = {

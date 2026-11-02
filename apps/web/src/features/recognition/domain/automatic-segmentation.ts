@@ -190,6 +190,7 @@ export class AutomaticSignSegmenter {
   private captureFrames: HolisticFrame[] = [];
   private captureKind: SegmentationKind = 'dynamic';
   private captureStartedAt = 0;
+  private captureId = '';
   private previousFrame: HolisticFrame | null = null;
   private dynamicFrames = 0;
   private staticSince: number | null = null;
@@ -212,6 +213,7 @@ export class AutomaticSignSegmenter {
     this.captureFrames = [];
     this.captureKind = 'dynamic';
     this.captureStartedAt = 0;
+    this.captureId = '';
     this.previousFrame = null;
     this.dynamicFrames = 0;
     this.staticSince = null;
@@ -336,6 +338,7 @@ export class AutomaticSignSegmenter {
 
   private startCapture(kind: SegmentationKind, timestampMs: number): void {
     this.captureKind = kind;
+    this.captureId = crypto.randomUUID();
     this.captureFrames = [...this.preRoll];
     this.captureStartedAt = this.captureFrames[0]?.timestampMs ?? timestampMs;
     this.stableSince = null;
@@ -379,20 +382,26 @@ export class AutomaticSignSegmenter {
     this.stableSince = null;
     this.postRollRemaining = 0;
 
+    const attempt = { id: this.captureId, startedAtMs: this.captureStartedAt, endedAtMs,
+      capturedFrames: sourceFrames.length, usableFrames: usableSourceFrames.length,
+      handCoverage: sourceFrames.length ? sourceFrames.filter(handsPresent).length / sourceFrames.length : 0,
+      poseCoverage: sourceFrames.length ? sourceFrames.filter((item) => item.metadata.poseDetected).length / sourceFrames.length : 0,
+      completionReason: maximumReached ? 'maximum_duration' as const : 'stable' as const };
+    if (maximumReached) return { type: 'rejected', reason: 'unreliable_boundary', attempt };
     if (durationMs < this.config.minimumDurationMs) {
-      return { type: 'rejected', reason: 'too_short' };
+      return { type: 'rejected', reason: 'too_short', attempt };
     }
     if (usableSourceFrames.length < this.config.minimumUsableFrames) {
-      return { type: 'rejected', reason: 'insufficient_usable_frames' };
+      return { type: 'rejected', reason: 'insufficient_usable_frames', attempt };
     }
     if (!maximumReached && this.captureKind === 'dynamic' && sourceFrames.length < this.config.minimumUsableFrames) {
-      return { type: 'rejected', reason: 'unreliable_boundary' };
+      return { type: 'rejected', reason: 'unreliable_boundary', attempt };
     }
 
     const frames = uniformSample(usableSourceFrames, this.config.targetFrames);
     const usableFrameCount = Math.min(usableSourceFrames.length, this.config.targetFrames);
     const segment: SegmentedSign = {
-      id: crypto.randomUUID(),
+      id: this.captureId,
       kind: this.captureKind,
       reliable: true,
       startedAtMs: this.captureStartedAt,

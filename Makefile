@@ -1,4 +1,6 @@
 PYTHON ?= python3
+# Set to 1 only for tasks explicitly prohibiting frontend rebuilds.
+SKIP_WEB_BUILD ?= 0
 
 .PHONY: help install ml-install dev up down logs logs-api logs-inference logs-speech \
 	test test-all test-backend test-inference test-ml speech-test test-frontend test-e2e \
@@ -61,10 +63,10 @@ ml-install:
 	ml/.venv/bin/python -m pip install -r ml/requirements-train.txt
 
 dev:
-	docker compose up --build
+	docker compose -f docker-compose.yml -f docker-compose.local.yml up --build
 
 up:
-	docker compose up -d --build
+	docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
 
 down:
 	docker compose down
@@ -114,7 +116,7 @@ speech-test:
 test-frontend:
 	cd apps/web && npm test -- --run
 	cd apps/web && npm run lint
-	cd apps/web && npm run build
+	if [ "$(SKIP_WEB_BUILD)" != "1" ]; then cd apps/web && npm run build; else printf "%s\n" "Frontend production build skipped (SKIP_WEB_BUILD=1)"; fi
 
 test-e2e:
 	cd apps/web && npm run test:e2e

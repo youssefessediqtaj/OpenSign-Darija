@@ -1,9 +1,8 @@
 # OpenSign Darija
 
 OpenSign Darija is a local research prototype for anonymous Moroccan Sign Language
-isolated-word recognition. The current product is intentionally narrow: one browser
-camera loop, one protected local ONNX model package, Arabic/Darija display, and
-known-result speech.
+isolated-sign experimentation. The local development interface uses one browser camera
+loop and the experimental COLORS_V1 ONNX model for diagnostic color candidates.
 
 It is not a certified interpreter and is not production-ready.
 
@@ -16,8 +15,8 @@ Activate camera
 → 60 × 75 × 3 landmark sequence
 → public FastAPI API through /api
 → internal ONNX inference
-→ Arabic/Darija result or UNKNOWN
-→ automatic speech for known results only
+→ experimental color candidate, UNKNOWN, or MODEL_NOT_READY
+→ no automatic speech
 → cooldown
 → wait for the next sign
 ```
@@ -44,23 +43,15 @@ private quarantine; they do not enter recognition or training automatically. See
 
 ## COLORS_V1 research direction
 
-A separate experimental dataset contains ten private source videos across nine colors,
-including two variants of blue. A local template baseline and one-epoch GRU smoke model
-exist but are unvalidated and inactive; the legacy three-sign runtime remains active. See
-[COLORS_V1 dataset preparation](ml/datasets/colors_v1/README.md) for current capabilities
-and blockers.
+The local development interface displays diagnostic candidates for nine colors:
+black, blue, brown, green, orange, pink, red, white, and yellow. Both blue variants
+map to blue. The one-epoch GRU smoke model is uncalibrated and scientifically
+unvalidated. Its candidates are never spoken or presented as accepted recognition.
+Legacy model weights remain archived; the local color runtime does not load or fall
+back to them. The source videos and derived features remain pending review.
 
-## Active vocabulary and limits
-
-The active model recognizes only three unambiguous lexical labels:
-
-- `اب` — `أَبٌ`
-- `احب` — `أَحَبَّ`
-- `سوق` — `سُوقٌ`
-
-UNKNOWN rejection is calibrated but limited. The held-out active test set has only three
-known examples and OOV false acceptance remains high, so the model is a local baseline,
-not a safety guarantee.
+See [COLORS_V1 dataset preparation](ml/datasets/colors_v1/README.md) and the
+[local runtime audit](docs/audits/colors-v1-local-runtime-2026-11.md) for details.
 
 ## Repository structure
 
@@ -81,7 +72,7 @@ tests/           Cross-project architecture, contract, privacy tests and fixture
 ```
 
 Root files are intentionally limited to project entry points: `README.md`, `LICENSE`,
-`NOTICE`, `Makefile`, `docker-compose.yml`, `.env.example`, and `.gitignore`.
+`NOTICE`, `Makefile`, `docker-compose.yml`, `docker-compose.local.yml`, `.env.example`, and `.gitignore`.
 
 ## Requirements and model assets
 
@@ -95,9 +86,8 @@ also needs OpenCV and MediaPipe, as described in the ML workspace.
 ## Quick Docker startup
 
 ```bash
-docker compose build
-docker compose up -d
-docker compose ps
+make up
+docker compose -f docker-compose.yml -f docker-compose.local.yml ps
 ```
 
 Open the app at:

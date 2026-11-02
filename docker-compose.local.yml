@@ -1,0 +1,35 @@
+# Local diagnostics only. The host port is loopback-bound; production stays opt-in disabled.
+services:
+  web:
+    build:
+      args:
+        VITE_COLORS_EXPERIMENTAL_TOKEN: local-colors-diagnostic-token-only
+        VITE_COLORS_LOCAL_DIAGNOSTICS: "true"
+  api:
+    environment:
+      COLORS_EXPERIMENTAL_ENABLED: "true"
+      COLORS_EXPERIMENTAL_TOKEN: local-colors-diagnostic-token-only
+      COLORS_EXPERIMENTAL_TRUSTED_NETWORK: 172.29.248.0/24
+  inference:
+    environment:
+      COLORS_EXPERIMENTAL_ENABLED: "true"
+      COLORS_EXPERIMENTAL_TOKEN: local-colors-diagnostic-token-only
+      COLORS_EXPERIMENTAL_TRUSTED_NETWORK: 172.29.248.0/24
+      COLORS_EXPERIMENTAL_REGISTRY: /workspace/artifacts/colors_v1/${COLORS_EXPERIMENTAL_REGISTRY_FILE:-registry-gru-smoke-v1.json}
+      COLORS_EXPERIMENTAL_DATASET_MANIFEST: /workspace/colors/manifest.json
+      COLORS_EXPERIMENTAL_MODEL_VERSION: ${COLORS_EXPERIMENTAL_MODEL_VERSION:-0.1.0-smoke}
+      MODEL_NAME: colors_v1_gru_experimental
+      MODEL_VERSION: 0.1.0-smoke
+    volumes: !override
+      - ./artifacts/colors_v1:/workspace/artifacts/colors_v1:ro
+      - ./ml/data/colors_v1/source_v1/manifest.json:/workspace/colors/manifest.json:ro
+  nginx:
+    ports: !override
+      - "127.0.0.1:${NGINX_HOST_PORT:-8081}:80"
+    volumes: !override
+      - ./infrastructure/nginx/local-colors.conf:/etc/nginx/conf.d/default.conf:ro
+networks:
+  default:
+    ipam:
+      config:
+        - subnet: 172.29.248.0/24

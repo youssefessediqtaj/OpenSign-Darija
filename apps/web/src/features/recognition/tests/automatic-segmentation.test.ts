@@ -192,28 +192,26 @@ describe('AutomaticSignSegmenter', () => {
     expect(rejection).toBe('too_short');
   });
 
-  it('finalizes safely when a moving sign reaches the maximum duration', () => {
+  it('rejects an unfinished moving sign at the maximum duration', () => {
     const segmenter = new AutomaticSignSegmenter({
       preRollFrames: 1,
       minimumDurationMs: 200,
       maximumDurationMs: 700,
     });
     let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
-    const completed: SegmentedSign[] = [];
+    const rejected: string[] = [];
 
-    for (let index = 0; index < 30 && completed.length === 0; index += 1) {
+    for (let index = 0; index < 30 && rejected.length === 0; index += 1) {
       const kind = index < 3 ? 'rest' : 'gesture-a';
       const event = segmenter.ingest(
         createSyntheticFrame(index, index * 70, kind, kind !== 'rest'),
         state,
       );
       if (event.type === 'started') state = 'CAPTURING';
-      if (event.type === 'completed') completed.push(event.segment);
+      if (event.type === 'rejected') rejected.push(event.reason);
     }
 
-    expect(completed).toHaveLength(1);
-    expect(completed[0].endedAtMs - completed[0].startedAtMs).toBeGreaterThanOrEqual(700);
-    expect(completed[0].frames).toHaveLength(60);
+    expect(rejected).toEqual(['unreliable_boundary']);
   });
 
   it('requires a real rest reset before it can detect another sign', () => {

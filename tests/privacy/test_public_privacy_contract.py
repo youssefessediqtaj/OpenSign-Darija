@@ -38,7 +38,8 @@ def test_frontend_uses_same_origin_api_gateway_only() -> None:
     assert "http://speech" not in source_text
     assert "/predict/word" not in source_text
     assert "/synthesize" not in source_text
-    assert "/api/v1/recognitions/word" in source_text
+    assert "/api/v1/recognitions/colors-experimental" in source_text
+    assert "/api/v1/recognitions/word" not in source_text
     assert "/api/v1/speech/sign" in source_text
 
 

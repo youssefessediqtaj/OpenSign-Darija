@@ -28,12 +28,14 @@ describe('recognition API error mapping', () => {
     expect(recognitionErrorMessage(new ApiError('', '', {}, 403))).toMatch(/autorise/i);
     expect(recognitionErrorMessage(new ApiError('', '', {}, 413))).toMatch(/volumineuse/i);
     expect(recognitionErrorMessage(new ApiError('', '', {}, 429))).toMatch(/tentatives/i);
+    expect(recognitionErrorMessage(new ApiError('', '', {}, 502))).toMatch(/service de calcul/i);
+    expect(recognitionErrorMessage(new ApiError('', '', {}, 504))).toMatch(/expiré/i);
     expect(recognitionErrorMessage(new ApiError('', '', {}, 503))).toMatch(/temporairement indisponible/i);
   });
 });
 
 describe('recognition request cancellation', () => {
-  it.each(['legacy', 'colors'] as const)('propagates cancellation for %s inference', async (mode) => {
+  it('propagates cancellation for color inference', async () => {
     const fetchMock = vi.fn((_url: unknown, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
       init?.signal?.addEventListener('abort', () => reject(new DOMException('Aborted', 'AbortError')));
     }));
@@ -41,13 +43,7 @@ describe('recognition request cancellation', () => {
     try {
       const controller = new AbortController();
       const payload = {} as WordLandmarkSequencePayload;
-      let pending: Promise<unknown>;
-      if (mode === 'legacy') {
-        pending = landmarkRecognitionApi.submitWordSequence(payload, controller.signal);
-      } else {
-        if (!landmarkRecognitionApi.submitColorExperiment) throw new Error('Experimental client unavailable');
-        pending = landmarkRecognitionApi.submitColorExperiment(payload, 'test-token', controller.signal);
-      }
+      const pending = landmarkRecognitionApi.submitColorExperiment(payload, 'test-token', controller.signal);
       controller.abort();
       await expect(pending).rejects.toMatchObject({ name: 'AbortError' });
       expect(fetchMock).toHaveBeenCalledOnce();

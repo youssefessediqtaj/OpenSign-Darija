@@ -186,6 +186,9 @@ describe('word sequence contract', () => {
         ],
       }),
     ).toContain('non_finite_coordinate');
+    expect(codes({ ...payload, frames: [{ ...payload.frames[0],
+      landmarks: [[20.01, 0, 0], ...payload.frames[0].landmarks.slice(1)] }, ...payload.frames.slice(1)]
+    })).toContain('coordinate_out_of_range');
   });
 
   it('matches the shared schema-v1 normalization fixture', () => {

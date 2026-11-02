@@ -15,7 +15,7 @@ const fakeCameraArguments = fakeCameraVideo
 export default defineConfig({
   testDir: './tests/e2e',
   webServer: {
-    command: 'npm run dev',
+    command: 'VITE_COLORS_EXPERIMENTAL_TOKEN=local-colors-diagnostic-token-only npm run dev',
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: true,
   },

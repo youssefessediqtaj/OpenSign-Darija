@@ -1,17 +1,24 @@
 # COLORS_V1 experimental dataset
 
-The current private import contains ten source recordings, nine semantic colors and ten
-variants. `Bleu.mov` and `Bleu-2.mov` retain separate variant IDs and share semantic label
-`blue`. The owner confirmed **local experimental training** on these ten clips; original
-source, copyright, consent, signer identity and linguistic review remain unverified.
-This does not authorize publication or redistribution. The legacy three-sign model is
-still the active runtime. Neither experimental model below is deployed or validated.
+The current private dataset contains ten cleaned recordings, nine semantic colors and ten
+variants. `08_bleu_1.mp4` and `09_bleu_2.mp4` map to separate variants of `blue`.
+The owner supplied the cleaned replacements and requested local feature regeneration
+and a smoke test; original source, copyright, consent, signer identity, equivalence to
+earlier performances and linguistic review remain unverified. This does not authorize
+publication or redistribution. See the [clean-video update](../../../docs/audits/colors-v1-clean-video-update-2026-11.md).
+The local diagnostic runtime still uses the historical smoke model, not a model trained
+on the cleaned videos by default; its fingerprint mismatch makes it unavailable. A
+separate clean-data learning diagnostic can be selected explicitly as documented in the
+[learning report](../../../docs/audits/colors-v1-clean-model-training-2026-11.md).
+No color model is validated for recognition.
 
 ## Import and inspect
 
 The original ZIP remains in the user's Downloads folder. Current private files are under
-Git-ignored `ml/data/colors_v1/source_v1/`; checksum-verified originals are never modified.
-To import a fresh copy to a **new** private destination, run the importer with the ZIP and
+Git-ignored `ml/data/colors_v1/source_v1/`. The original manifest and checksums are
+preserved in `ml/data/colors_v1/history/source-v1-before-cleaning/`; they describe the
+old files and must not be used as the active dataset. The archive importer below is for
+the historical ZIP, not the cleaned recordings. To import it to a **new** private destination, run the importer with the ZIP and
 destination arguments. `--local-training-permitted` may be used only when the owner has
 confirmed that permission. Existing directories are never overwritten:
 
@@ -91,8 +98,8 @@ the flag for a reviewed-only run:
 ```bash
 ml/.venv/bin/python -m ml.datasets.colors_v1.baseline \
   --manifest ml/data/colors_v1/source_v1/manifest.json \
-  --feature-dir ml/data/colors_v1/features_v1 \
-  --output artifacts/colors_v1/experimental/new-template.npz --allow-pending-review
+  --feature-dir ml/data/colors_v1/features_clean_v2 \
+  --output artifacts/colors_v1/experimental/new-template-clean-v2.npz --allow-pending-review
 ```
 
 A separate small bidirectional-GRU smoke trainer consumes an experimental template
@@ -100,11 +107,11 @@ package, saves a new checkpoint, exports ONNX, and checks one-input numerical pa
 
 ```bash
 ml/.venv/bin/python -m ml.datasets.colors_v1.train_smoke \
-  --package artifacts/colors_v1/experimental/template-v1.npz \
-  --output-dir artifacts/colors_v1/experimental/new-gru-smoke --epochs 1 --seed 42
+  --package artifacts/colors_v1/experimental/new-template-clean-v2.npz \
+  --output-dir artifacts/colors_v1/experimental/new-gru-smoke-clean-v2 --epochs 1 --seed 42
 ```
 
-The current one-epoch run is a pipeline smoke test on the same ten samples, **not an
+The earlier one-epoch run is a pipeline smoke test on the earlier ten samples, **not an
 independent validation or a calibrated model**. Output directories must be new. The GRU is registered as experimental and inactive; the local-only diagnostic API is
 opt-in and neither artifact is activated for ordinary users. An eventual release
 needs rights and linguistic review, validated sign intervals, matched camera preprocessing,
@@ -114,8 +121,11 @@ validation and explicit activation. See the
 
 ## Phase-three review and local integration
 
-A private review packet is available at `ml/data/colors_v1/review_phase3/index.html`;
-its `review-draft.json` contains ten pending technical and linguistic decisions. The
+A private review packet for the cleaned recordings is available at
+`ml/data/colors_v1/review_phase3/index.html`; its `review-draft.json` contains ten
+pending technical and linguistic decisions. Video and preview URLs include source
+hashes so browsers do not reuse older cached content. The previous packet is preserved
+under `ml/data/colors_v1/history/review_phase3-before-cleaning/`. The
 contact sheets and hand-detection times are approximate prompts, not approved boundaries.
 Edit a copy of that JSON after review, recording technical start/end, reviewer and ISO
 review date separately from a qualified linguistic review. Pass it to preprocessing via
@@ -135,22 +145,21 @@ It uses absolute local paths and must be regenerated with `python -m
 ml.datasets.colors_v1.registry --model-dir <dir> --output <new-file>` on another machine.
 Registration verifies hashes, label order and ONNX shapes and does not activate the model.
 
-The optional API/inference routes are mounted only if `COLORS_EXPERIMENTAL_ENABLED=true`
-and `COLORS_EXPERIMENTAL_TOKEN` is at least 16 characters. Bind both Uvicorn processes
-to `127.0.0.1`, configure the inference process with `COLORS_EXPERIMENTAL_REGISTRY` set
-to the absolute private registry path, and configure the API's `INFERENCE_SERVICE_URL` to
-that loopback inference server. Forwarded requests and non-loopback clients are rejected.
-The default Docker configuration does not enable these routes. For the Vite development
-server only, set `VITE_COLORS_EXPERIMENTAL_TOKEN` to the same local token and
-`VITE_API_BASE_URL=http://127.0.0.1:8000`; bind Vite to loopback and open
-`http://localhost:5173` using `npm run dev -- --host 127.0.0.1` from `apps/web`.
-The token is visible to the local browser and is not a production
-secret or a substitute for authentication. The developer must explicitly select the
-experimental checkbox before starting the camera. A candidate is labeled unvalidated,
-never spoken and never promoted to an accepted color. A production build excludes the
-experimental route and token marker. The default legacy recognition path is unchanged.
-Live camera use also requires locally served MediaPipe task and WASM assets; camera
-permissions, assets and the full physical-camera path remain to be verified on-device.
+The local Docker development stack runs color diagnostics with `make up` (or `make dev`)
+and serves `http://localhost:8081`. `docker-compose.local.yml` binds the host port to
+127.0.0.1, enables the color-only routes, mounts the registry read-only, and trusts only
+its dedicated internal Docker subnet plus a local diagnostic token. The token is visible
+in the browser and is not a production secret or authentication. The same-origin browser
+interface never sends a legacy word request or speaks candidates. Missing artifacts show
+`MODEL_NOT_READY`. The registry's absolute paths are resolved against the local registry
+mount when the original host paths are unavailable, with all hashes checked again.
+
+Standard `docker-compose.yml` leaves the experimental endpoints disabled; do not use the
+local override on a production or shared host. Color predictions remain uncalibrated,
+non-validated diagnostics; no promotion or speech is enabled. The current smoke checkpoint
+was trained using provisional features from the earlier ten color clips, whose technical and
+linguistic reviews are still pending. It does not establish approved derived features,
+rights or consent, or scientific recognition accuracy.
 
 For a local Vite session using the real detector, from the repository root create the
 optional asset link below (only if that path does not already exist), and set the WASM
