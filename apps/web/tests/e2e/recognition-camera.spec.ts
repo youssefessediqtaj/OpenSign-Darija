@@ -129,9 +129,20 @@ test('color candidates and Sign Again preserve the camera and never request lega
       calibration_status: 'UNCALIBRATED', experimental: true,
     }) });
   });
-  await page.goto('/?mockCamera=1');
+  await page.goto('/?mockCamera=1&diagnostics=1');
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
+  await expect(page.getByTestId('tracking-diagnostics')).toContainText('Left hand: YES; raw 21/21; valid 21/21');
+  await expect(page.getByTestId('tracking-diagnostics')).toContainText('Right hand: YES; raw 21/21; valid 21/21');
   await expect(page.getByText('🔵 Bleu — Prédiction expérimentale')).toBeVisible({ timeout: 12_000 });
+  await expect(page.getByText('🟢 Mains détectées')).toBeVisible();
+  const overlay = page.getByTestId('landmark-overlay');
+  await expect(overlay).toBeVisible();
+  expect(await overlay.evaluate((canvas: HTMLCanvasElement) => {
+    const context = canvas.getContext('2d');
+    if (!context) return false;
+    const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+    return pixels.some((value, index) => index % 4 === 3 && value > 0);
+  })).toBe(true);
   await page.evaluate(() => {
     (window as unknown as { __originalStream: MediaProvider | null }).__originalStream = document.querySelector('video')?.srcObject ?? null;
   });
@@ -143,7 +154,38 @@ test('color candidates and Sign Again preserve the camera and never request lega
     return Boolean(state.__originalStream) && document.querySelector('video')?.srcObject === state.__originalStream && state.__cameraRequests === 1;
   })).toBe(true);
   await expect(page.getByText('🔴 Rouge — Prédiction expérimentale')).toBeVisible({ timeout: 12_000 });
+  await expect(page.getByText('🟢 Mains détectées')).toBeVisible();
+  await expect(page.getByTestId('tracking-diagnostics')).toContainText('Right hand: YES; raw 21/21; valid 21/21');
+  await page.getByRole('button', { name: 'Éteindre la caméra' }).click();
+  await expect(overlay).toHaveCount(0);
   expect(requests).toBe(2);
+  expect(forbidden).toEqual([]);
+});
+
+test('local manual diagnostic capture sends only a validated experimental request', async ({ page }) => {
+  await installCameraMock(page);
+  let requests = 0;
+  const forbidden: string[] = [];
+  page.on('request', (request) => { if (/recognitions\/word|speech\/sign/.test(request.url())) forbidden.push(request.url()); });
+  await page.route('**/api/v1/recognitions/colors-experimental?*', async (route) => {
+    expectPrivatePayload(route.request());
+    requests += 1;
+    await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ recognition_state: 'UNKNOWN_SIGN', candidate: 'blue', calibration_status: 'UNCALIBRATED', experimental: true }) });
+  });
+  await page.goto('/?mockCamera=1&diagnostics=1');
+  await page.getByRole('button', { name: 'Activer la caméra' }).click();
+  const toggle = page.getByRole('checkbox', { name: /Mode manuel expérimental/ });
+  await expect(toggle).not.toBeChecked();
+  await toggle.check();
+  await page.getByRole('button', { name: 'Démarrer la capture' }).click();
+  await expect(page.getByTestId('segmentation-diagnostics')).toContainText('Sign started: YES');
+  await page.waitForTimeout(2600);
+  await page.getByRole('button', { name: 'Arrêter la capture' }).click();
+  await expect(page.getByText('🔵 Bleu — Prédiction expérimentale')).toBeVisible();
+  await expect(page.getByTestId('segmentation-outcome')).toContainText('manual');
+  await page.getByRole('button', { name: 'Refaire un signe' }).click();
+  await expect(page.getByRole('button', { name: 'Démarrer la capture' })).toBeVisible();
+  expect(requests).toBe(1);
   expect(forbidden).toEqual([]);
 });
 
@@ -157,7 +199,7 @@ test('model unavailable is distinct from an unknown sign', async ({ page }) => {
   });
   await page.goto('/?mockCamera=1');
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
-  await expect(page.getByText(/MODEL_NOT_READY/)).toBeVisible({ timeout: 12_000 });
+  await expect(page.getByText('Modèle de reconnaissance indisponible.')).toBeVisible({ timeout: 12_000 });
   await expect(page.getByText(/Couleur détectée/)).toHaveCount(0);
 });
 
@@ -201,5 +243,5 @@ test('local diagnostics capture raw ranking without media or landmarks', async (
   expect(records[0]).toMatchObject({ completion_reason: 'stable', request_status: 'response_received',
     sequence_length: 60, output_shape: [1, 9], model_version: '0.1.0-smoke' });
   expect(records[0].top_three_raw_scores).toHaveLength(3);
-  expect(JSON.stringify(records)).not.toMatch(/landmarks|presence_mask|data:image/);
+  expect(JSON.stringify(records)).not.toMatch(/"(?:pose|leftHand|rightHand|presence_mask)"\s*:|data:image/);
 });

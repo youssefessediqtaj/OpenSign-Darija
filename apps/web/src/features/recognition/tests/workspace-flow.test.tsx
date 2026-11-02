@@ -2,10 +2,12 @@ import { act, render, screen, waitFor } from '@testing-library/react';
 import { useCallback, useState } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { ApiError } from '../../../shared/api/client';
 import { RecognitionWorkspace } from '../components/RecognitionWorkspace';
 import type { HolisticFrame } from '../domain/landmarks';
 import {
   createAutomaticTestFrame,
+  createSyntheticFrame,
 } from '../services/holistic';
 
 const mocks = vi.hoisted(() => ({
@@ -19,6 +21,8 @@ const mocks = vi.hoisted(() => ({
   createSpeech: vi.fn(),
   browserSpeak: vi.fn(),
 }));
+
+vi.mock('../services/landmark-overlay', () => ({ drawLandmarkOverlay: vi.fn() }));
 
 vi.mock('../hooks/useCameraStream', () => ({
   useCameraStream: () => {
@@ -52,7 +56,9 @@ vi.mock('../hooks/useHolisticLandmarker', () => ({
 
 vi.mock('../services/recognition-api', () => ({
   landmarkRecognitionApi: { submitWordSequence: mocks.submitWord, submitColorExperiment: mocks.submitColor },
-  recognitionErrorMessage: () => 'Reconnaissance indisponible.',
+  recognitionErrorMessage: (error: { code?: string }) => error.code === 'INCOMPATIBLE_MODEL_OUTPUT'
+    ? 'Réponse incompatible du modèle couleurs.' : error.code === 'MODEL_NOT_READY'
+      ? 'Modèle de reconnaissance indisponible.' : 'Reconnaissance indisponible.',
 }));
 
 vi.mock('../services/speech-api', () => ({
@@ -122,6 +128,113 @@ describe('RecognitionWorkspace automatic flow', () => {
     vi.unstubAllEnvs();
   });
 
+  it('reports actual hand counts and keeps tracking across Sign Again', async () => {
+    vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
+    window.history.replaceState({}, '', '/?diagnostics=1');
+    mocks.submitColor.mockResolvedValue({ recognition_state: 'UNKNOWN_SIGN', candidate: 'blue', calibration_status: 'UNCALIBRATED', experimental: true });
+    render(<RecognitionWorkspace />);
+    await act(async () => { screen.getByRole('button', { name: 'Activer la caméra' }).click(); });
+    const base = performance.now() + 100;
+    act(() => { for (let i = 0; i < 48; i += 1) mocks.frameSink.current?.(createAutomaticTestFrame(i, base + i * 70)); });
+    await waitFor(() => expect(screen.getByText(/Bleu — Prédiction expérimentale/)).toBeInTheDocument());
+    expect(screen.getByTestId('tracking-diagnostics')).toHaveTextContent('Left hand: YES; raw 21/21; valid 21/21');
+    expect(screen.getByTestId('tracking-diagnostics')).toHaveTextContent('Right hand: YES; raw 21/21; valid 21/21');
+    await act(async () => { screen.getByRole('button', { name: 'Refaire un signe' }).click(); });
+    act(() => { const frame = createAutomaticTestFrame(0, base + 4000); frame.leftHand = []; mocks.frameSink.current?.(frame); });
+    expect(screen.getByTestId('tracking-diagnostics')).toHaveTextContent('Left hand: NO');
+    expect(screen.getByTestId('tracking-diagnostics')).toHaveTextContent('Right hand: YES; raw 21/21; valid 21/21');
+    expect(mocks.landmarkerStart).toHaveBeenCalledTimes(1);
+    expect(mocks.landmarkerStop).not.toHaveBeenCalled();
+  });
+
+  it('sends a validated tracked gesture after pose-confirmed return to rest', async () => {
+    vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
+    window.history.replaceState({}, '', '/?diagnostics=1');
+    mocks.submitColor.mockResolvedValue({ recognition_state: 'UNKNOWN_SIGN', candidate: 'blue', calibration_status: 'UNCALIBRATED', experimental: true });
+    render(<RecognitionWorkspace />);
+    await act(async () => { screen.getByRole('button', { name: 'Activer la caméra' }).click(); });
+    const base = performance.now() + 100;
+    act(() => {
+      for (let i = 0; i < 45; i += 1) {
+        const frame = createSyntheticFrame(i, base + i * 70, i < 4 ? 'rest' : i < 20 ? 'gesture-a' : 'rest', i >= 4 && i < 20);
+        if (i >= 20) { frame.leftHand = []; frame.rightHand = []; frame.metadata.leftHandDetected = false; frame.metadata.rightHandDetected = false; }
+        mocks.frameSink.current?.(frame);
+      }
+    });
+    await waitFor(() => expect(mocks.submitColor).toHaveBeenCalledTimes(1));
+    expect(screen.getByTestId('segmentation-outcome')).toHaveTextContent('pose_rest_after_disappearance');
+    expect(mocks.submitWord).not.toHaveBeenCalled();
+    expect(mocks.createSpeech).not.toHaveBeenCalled();
+  });
+
+  it('restricts manual capture to local diagnostics and validates before the color request', async () => {
+    vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
+    window.history.replaceState({}, '', '/?diagnostics=1');
+    mocks.submitColor.mockResolvedValue({ recognition_state: 'UNKNOWN_SIGN', candidate: 'blue', calibration_status: 'UNCALIBRATED', experimental: true });
+    render(<RecognitionWorkspace />);
+    await act(async () => { screen.getByRole('button', { name: 'Activer la caméra' }).click(); });
+    expect(screen.queryByRole('button', { name: 'Démarrer la capture' })).toBeNull();
+    await act(async () => { screen.getByRole('checkbox', { name: /Mode manuel expérimental/ }).click(); });
+    await act(async () => { screen.getByRole('button', { name: 'Démarrer la capture' }).click(); });
+    const base = performance.now() + 100;
+    act(() => { for (let i = 0; i < 12; i += 1) mocks.frameSink.current?.(createSyntheticFrame(i, base + i * 70, 'no-hands', false)); });
+    await act(async () => { screen.getByRole('button', { name: 'Arrêter la capture' }).click(); });
+    expect(mocks.submitColor).not.toHaveBeenCalled();
+    expect(screen.getByTestId('segmentation-outcome')).toHaveTextContent('insufficient_usable_frames');
+    await act(async () => { screen.getByRole('button', { name: 'Refaire un signe' }).click(); });
+    await act(async () => { screen.getByRole('button', { name: 'Démarrer la capture' }).click(); });
+    act(() => { for (let i = 0; i < 25; i += 1) mocks.frameSink.current?.(createSyntheticFrame(i, base + 3000 + i * 70, 'gesture-a', true)); });
+    await act(async () => { screen.getByRole('button', { name: 'Arrêter la capture' }).click(); });
+    await waitFor(() => expect(mocks.submitColor).toHaveBeenCalledTimes(1));
+    expect(screen.getByTestId('segmentation-outcome')).toHaveTextContent('manual');
+    expect(mocks.submitWord).not.toHaveBeenCalled();
+    expect(mocks.createSpeech).not.toHaveBeenCalled();
+  });
+
+  it('keeps three manual attempts isolated and records the real start and stop triggers', async () => {
+    vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
+    window.history.replaceState({}, '', '/?diagnostics=1');
+    mocks.submitColor.mockReset();
+    for (const candidate of ['red', 'pink', 'white']) mocks.submitColor.mockResolvedValueOnce({ recognition_state: 'UNKNOWN_SIGN', candidate, calibration_status: 'UNCALIBRATED', experimental: true });
+    render(<RecognitionWorkspace />);
+    await act(async () => { screen.getByRole('button', { name: 'Activer la caméra' }).click(); });
+    await act(async () => { screen.getByRole('checkbox', { name: /Mode manuel expérimental/ }).click(); });
+    const base = performance.now() + 100;
+    // Enabled manual mode cannot start or submit just because movement is present.
+    act(() => { for (let i = 0; i < 25; i += 1) mocks.frameSink.current?.(createSyntheticFrame(i, base + i * 70, 'gesture-a', true)); });
+    expect(mocks.submitColor).not.toHaveBeenCalled();
+    for (const [attempt, expected] of ['Rouge', 'Rose', 'Blanc'].entries()) {
+      await act(async () => { screen.getByRole('button', { name: 'Démarrer la capture' }).click(); });
+      act(() => { for (let i = 0; i < 24; i += 1) mocks.frameSink.current?.(createSyntheticFrame(i, base + 5000 + attempt * 4000 + i * 70, 'gesture-a', true)); });
+      expect(screen.getByTestId('segmentation-diagnostics')).toHaveTextContent('Capture mode: manual');
+      expect(screen.getByTestId('segmentation-diagnostics')).toHaveTextContent('Captured frames: 24');
+      await act(async () => { screen.getByRole('button', { name: 'Arrêter la capture' }).click(); });
+      await waitFor(() => expect(screen.getByText(new RegExp(`${expected} — Prédiction expérimentale`))).toBeInTheDocument());
+      await act(async () => { screen.getByRole('button', { name: 'Refaire un signe' }).click(); });
+    }
+    const records = JSON.parse(screen.getByTestId('attempt-diagnostics').textContent ?? '[]');
+    expect(records).toHaveLength(3);
+    expect(records.every((item: { capture_mode: string; start_trigger: string; stop_trigger: string; captured_frames: number }) => item.capture_mode === 'manual' && item.start_trigger === 'manual_start' && item.stop_trigger === 'manual' && item.captured_frames === 24)).toBe(true);
+    expect(mocks.submitColor).toHaveBeenCalledTimes(3);
+    expect(mocks.submitWord).not.toHaveBeenCalled();
+    expect(mocks.createSpeech).not.toHaveBeenCalled();
+  });
+
+  it('reports a manual timeout separately and never sends it to inference', async () => {
+    vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
+    window.history.replaceState({}, '', '/?diagnostics=1');
+    render(<RecognitionWorkspace />);
+    await act(async () => { screen.getByRole('button', { name: 'Activer la caméra' }).click(); });
+    await act(async () => { screen.getByRole('checkbox', { name: /Mode manuel expérimental/ }).click(); });
+    await act(async () => { screen.getByRole('button', { name: 'Démarrer la capture' }).click(); });
+    const base = performance.now() + 100;
+    act(() => { for (let i = 0; i <= 61; i += 1) mocks.frameSink.current?.(createSyntheticFrame(i, base + i * 100, 'gesture-a', true)); });
+    expect(screen.getByTestId('segmentation-outcome')).toHaveTextContent('Mode : manual');
+    expect(screen.getByTestId('segmentation-outcome')).toHaveTextContent('maximum_duration');
+    expect(screen.getByText(/Capture manuelle interrompue après 6 secondes/)).toBeInTheDocument();
+    expect(mocks.submitColor).not.toHaveBeenCalled();
+  });
+
   it('invalidates a pending experimental candidate on reset', async () => {
     vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
     let finishOld!: (value: unknown) => void;
@@ -150,8 +263,10 @@ describe('RecognitionWorkspace automatic flow', () => {
 
   it.each([
     ['UNKNOWN_SIGN', null, /Signe inconnu/],
-    ['MODEL_NOT_READY', null, /MODEL_NOT_READY/],
-    ['UNKNOWN_SIGN', 'legacy_arabic', /Signe inconnu/],
+    ['MODEL_NOT_READY', null, /Modèle de reconnaissance indisponible/],
+    ['INCOMPATIBLE_MODEL_OUTPUT', null, /Réponse incompatible/],
+    ['UNKNOWN_SIGN', 'legacy_arabic', /Réponse incompatible/],
+    ['UNKNOWN_SIGN', 'toString', /Réponse incompatible/],
   ])('handles %s without speaking or displaying unsupported labels', async (state, candidate, message) => {
     vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
     mocks.submitColor.mockReset().mockResolvedValue({ recognition_state: state, candidate,
@@ -163,6 +278,21 @@ describe('RecognitionWorkspace automatic flow', () => {
     act(() => { for (let i = 0; i < 48; i += 1) mocks.frameSink.current?.(createAutomaticTestFrame(i, base + i * 70)); });
     await waitFor(() => expect(screen.getByText(message)).toBeInTheDocument());
     expect(screen.queryByText(/Couleur détectée/)).toBeNull();
+    expect(mocks.submitWord).not.toHaveBeenCalled();
+    expect(mocks.createSpeech).not.toHaveBeenCalled();
+  });
+
+  it('handles the gateway 503 without stopping the camera or speaking', async () => {
+    vi.stubEnv('VITE_COLORS_EXPERIMENTAL_TOKEN', 'local_test_token_2026');
+    mocks.submitColor.mockReset().mockRejectedValue(new ApiError('', 'MODEL_NOT_READY', {}, 503));
+    render(<RecognitionWorkspace />);
+    await act(async () => { await screen.getByRole('button', { name: 'Activer la caméra' }).click(); });
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Prêt'));
+    const base = performance.now() + 100;
+    act(() => { for (let i = 0; i < 48; i += 1) mocks.frameSink.current?.(createAutomaticTestFrame(i, base + i * 70)); });
+    await waitFor(() => expect(screen.getByText('Modèle de reconnaissance indisponible.')).toBeInTheDocument());
+    expect(screen.getByRole('button', { name: 'Refaire un signe' })).toBeInTheDocument();
+    expect(mocks.cameraStop).not.toHaveBeenCalled();
     expect(mocks.submitWord).not.toHaveBeenCalled();
     expect(mocks.createSpeech).not.toHaveBeenCalled();
   });
@@ -187,7 +317,7 @@ describe('RecognitionWorkspace automatic flow', () => {
       model_id: 'colors_v1_gru_experimental', experiment_id: 'gru-phase4-provisional-v1',
       model_version: '0.2.0-provisional-v1', sequence_length: 60, output_shape: [1, 9],
       top_three_raw_scores: [{ label: 'blue', raw_score: 0.1 }, { label: 'red', raw_score: -0.1 }, { label: 'pink', raw_score: -0.2 }] });
-    expect(JSON.stringify(records)).not.toMatch(/landmarks|presence_mask|data:image/);
+    expect(JSON.stringify(records)).not.toMatch(/"(?:pose|leftHand|rightHand|presence_mask)"\s*:|data:image/);
     expect(mocks.submitColor.mock.calls[0][3]).toBe(true);
   });
 

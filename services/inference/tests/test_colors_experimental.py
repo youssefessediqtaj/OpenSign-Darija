@@ -10,7 +10,12 @@ from fastapi.testclient import TestClient
 
 from app.core.config import get_settings
 from app.main import app, create_app
-from app.runtime.colors_model import FEATURE_VERSION, LABELS, ExperimentalColorsModel
+from app.runtime.colors_model import (
+    FEATURE_VERSION,
+    LABELS,
+    ExperimentalColorsModel,
+    IncompatibleModelOutputError,
+)
 
 TOKEN = "local_test_token_2026_only"
 PAYLOAD = json.loads(
@@ -97,6 +102,11 @@ def test_registry_integrity_shapes_and_fail_closed(
     get_settings.cache_clear()
     _load_model.cache_clear()
     local_model()
+    # A cached session must not survive replacement or corruption of its artifact.
+    (tmp_path / "onnx").write_bytes(b"corrupted")
+    with pytest.raises(ValueError, match="checksum"):
+        local_model()
+    (tmp_path / "onnx").write_bytes(b"onnx")
     manifest.write_text("changed dataset", encoding="utf-8")
     with pytest.raises(ValueError, match="fingerprint"):
         ExperimentalColorsModel(str(path), str(manifest))
@@ -114,6 +124,10 @@ def test_registry_integrity_shapes_and_fail_closed(
     assert result["diagnostics"]["output_shape"] == [1, 9]
     assert result["diagnostics"]["top_three"][0] == {"label": "blue", "raw_score": 1.0}
     assert len(result["diagnostics"]["top_three"]) == 3
+    model.session = SimpleNamespace(run=lambda *args, **kwargs: [np.zeros((1, 3))])
+    with pytest.raises(IncompatibleModelOutputError):
+        model.predict(x, mask, 60, include_candidate=True)
+    model.session = Session()
     assert "diagnostics" not in model.predict(x, mask, 60, include_candidate=True)
     assert (
         model.predict(x, mask, 2, include_candidate=True)["recognition_state"]
@@ -144,6 +158,63 @@ def test_registry_integrity_shapes_and_fail_closed(
     (tmp_path / "onnx").write_bytes(b"changed")
     with pytest.raises(ValueError, match="checksum"):
         ExperimentalColorsModel(str(path))
+
+
+@pytest.mark.parametrize(
+    "failure", ["registry", "model", "fingerprint", "schema", "corrupt", "initialize"]
+)
+def test_load_failures_return_not_ready_without_legacy(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch, failure: str
+) -> None:
+    from app.api.colors_experimental import _load_model
+
+    manifest = tmp_path / "manifest"
+    manifest.write_text("dataset")
+    fingerprint = hashlib.sha256(manifest.read_bytes()).hexdigest()
+    registry: dict[str, Any] = {
+        "model_id": "colors_v1_gru_experimental", "model_version": "test",
+        "dataset_id": "colors_v1", "feature_schema_version": FEATURE_VERSION,
+        "labels": LABELS, "label_mapping_version": "colors_v1_semantic_1",
+        "training_status": "SMOKE_ONLY", "evaluation_status": "EVALUATION_PENDING",
+        "model_state": "EXPERIMENTAL", "activation_status": "INACTIVE",
+        "calibration_status": "UNCALIBRATED", "dataset_manifest_hash": fingerprint,
+    }
+    report = {"dataset": "colors_v1", "feature_version": FEATURE_VERSION, "labels": LABELS,
+              "manifest_sha256": fingerprint, "status": "SMOKE_ONLY_NOT_VALIDATED",
+              "activation": "DISABLED", "calibration": "UNAVAILABLE"}
+    for kind in ("onnx", "checkpoint", "report"):
+        artifact = tmp_path / kind
+        artifact.write_text(json.dumps(report) if kind == "report" else kind)
+        registry[f"{kind}_path"] = str(artifact)
+        registry[f"{kind}_sha256"] = hashlib.sha256(artifact.read_bytes()).hexdigest()
+    if failure == "model":
+        (tmp_path / "onnx").unlink()
+    elif failure == "corrupt":
+        (tmp_path / "onnx").write_text("corrupted")
+    elif failure == "fingerprint":
+        manifest.write_text("different dataset")
+    elif failure == "schema":
+        registry["feature_schema_version"] = "legacy"
+    registry_path = tmp_path / "registry.json"
+    if failure != "registry":
+        registry_path.write_text(json.dumps(registry))
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_ENABLED", "true")
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_TOKEN", TOKEN)
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_REGISTRY", str(registry_path))
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_DATASET_MANIFEST", str(manifest))
+    monkeypatch.setenv("COLORS_EXPERIMENTAL_MODEL_VERSION", "test")
+    monkeypatch.setattr("app.runtime.prediction.PredictionService.predict_word",
+                        lambda *args: pytest.fail("legacy inference called"))
+    get_settings.cache_clear()
+    _load_model.cache_clear()
+    try:
+        client = TestClient(create_app(), client=("127.0.0.1", 5000))
+        response = client.post(PATH, json=PAYLOAD, headers={"x-colors-dev-token": TOKEN})
+        assert response.json()["recognition_state"] == "MODEL_NOT_READY"
+        assert response.json()["candidate"] is None
+    finally:
+        _load_model.cache_clear()
+        get_settings.cache_clear()
 
 
 def test_enabled_route_requires_loopback_token_and_reports_missing_model(

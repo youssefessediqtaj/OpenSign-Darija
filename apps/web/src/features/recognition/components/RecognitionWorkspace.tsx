@@ -6,10 +6,11 @@ import { Button } from '../../../shared/ui/Button';
 import { SkipLink } from '../../../shared/ui/SkipLink';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
 import { CameraPreview } from './CameraPreview';
+import { drawLandmarkOverlay } from '../services/landmark-overlay';
 import { useCameraPermission } from '../hooks/useCameraPermission';
 import { useCameraStream } from '../hooks/useCameraStream';
 import { useHolisticLandmarker } from '../hooks/useHolisticLandmarker';
-import { AutomaticSignSegmenter } from '../domain/automatic-segmentation';
+import { AutomaticSignSegmenter, DEFAULT_SEGMENTATION_CONFIG, handsPresent, usableFrame } from '../domain/automatic-segmentation';
 import type { HolisticFrame } from '../domain/landmarks';
 import type { AttemptDiagnostic } from '../domain/attempt-diagnostics';
 import { ApiError } from '../../../shared/api/client';
@@ -23,6 +24,7 @@ import { landmarkRecognitionApi, recognitionErrorMessage } from '../services/rec
 import type {
   RecognitionFlowState,
   SegmentedSign,
+  SegmentationEvent,
 } from '../state/recognition-flow';
 
 const FLOW_LABELS: Record<RecognitionFlowState, string> = {
@@ -41,6 +43,7 @@ const REJECTION_MESSAGES = {
   too_short: 'Signe trop court. Réessayez naturellement.',
   insufficient_usable_frames: 'Gardez au moins une main et le haut du corps visibles.',
   unreliable_boundary: 'Le début ou la fin du signe n’est pas assez net.',
+  invalid_timestamps: 'Capture rejetée : horodatages de caméra invalides.',
 } as const;
 
 const COLOR_LABELS: Record<string, string> = {
@@ -50,6 +53,12 @@ const COLOR_LABELS: Record<string, string> = {
 
 export function RecognitionWorkspace() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const overlayRef = useRef<HTMLCanvasElement | null>(null);
+  const trackingRef = useRef<HTMLSpanElement | null>(null);
+  const trackingDiagnosticsRef = useRef<HTMLPreElement | null>(null);
+  const transitionDiagnosticsRef = useRef<HTMLPreElement | null>(null);
+  const transitionLogRef = useRef<string[]>([]);
+  const lastDrawRef = useRef<number | null>(null);
   const segmenterRef = useRef(new AutomaticSignSegmenter());
   const flowStateRef = useRef<RecognitionFlowState>('CAMERA_OFF');
   const recognizeSegmentRef = useRef<(segment: SegmentedSign) => void>(() => undefined);
@@ -57,6 +66,8 @@ export function RecognitionWorkspace() {
   const recognitionRequestRef = useRef<AbortController | null>(null);
   const hadCameraStreamRef = useRef(false);
   const timerRefs = useRef(new Set<number>());
+  const manualModeRef = useRef(false);
+  const [manualMode, setManualMode] = useState(false);
   const [flowState, setFlowState] = useState<RecognitionFlowState>('CAMERA_OFF');
   const pendingAttemptRef = useRef<string | null>(null);
   const [attempts, setAttempts] = useState<AttemptDiagnostic[]>([]);
@@ -122,12 +133,24 @@ export function RecognitionWorkspace() {
     transition('COOLDOWN');
   }, [cameraStream, transition]);
 
+  const accounting = (frames: HolisticFrame[]) => {
+    const withHand = frames.filter(handsPresent).length;
+    const withPose = frames.filter((frame) => frame.metadata.poseDetected).length;
+    const accepted = frames.filter(usableFrame).length;
+    return { frames_analyzed: frames.length, frames_with_hand_landmarks: withHand,
+      frames_with_pose_landmarks: withPose, frames_accepted_for_sequence: accepted,
+      frames_rejected: frames.length - accepted, coverage_denominator: frames.length,
+      hand_coverage: frames.length ? withHand / frames.length : 0, pose_coverage: frames.length ? withPose / frames.length : 0,
+      rejection_reasons: { no_hand: frames.filter((frame) => !handsPresent(frame)).length,
+        missing_pose_or_shoulders: frames.filter((frame) => handsPresent(frame) && !usableFrame(frame)).length } };
+  };
+
   const recognizeSegment = useCallback(
     async (segment: SegmentedSign) => {
       const session = sessionRef.current;
-      recordAttempt({ attempt_id: segment.id, segment_start_ms: segment.startedAtMs, segment_end_ms: segment.endedAtMs,
-        captured_frames: segment.sourceFrames.length, processed_frames: segment.usableFrameCount, sequence_length: null,
-        hand_coverage: null, pose_coverage: null, completion_reason: 'stable', input_feature_schema: null,
+      recordAttempt({ attempt_id: segment.id, capture_mode: segment.captureMode ?? 'automatic', start_trigger: segment.startTrigger ?? 'unknown', stop_trigger: segment.completionReason ?? 'stable', segment_start_ms: segment.startedAtMs, segment_end_ms: segment.endedAtMs,
+        ...accounting(segment.sourceFrames), captured_frames: segment.sourceFrames.length, processed_frames: segment.usableFrameCount, sequence_length: null,
+        completion_reason: segment.completionReason ?? 'stable', input_feature_schema: null,
         model_feature_schema: null, model_version: null, request_status: 'not_sent', reason: null,
         output_shape: null, top_three_raw_scores: null });
       if (segmenterRef.current.shouldSuppressDuplicate(segment, performance.now())) {
@@ -139,6 +162,7 @@ export function RecognitionWorkspace() {
       const controller = new AbortController();
       recognitionRequestRef.current?.abort();
       recognitionRequestRef.current = controller;
+      setCandidate(null);
       try {
         const sequence = createLandmarkSequence(segment.sourceFrames, new Date().toISOString());
         const payload = toWordLandmarkPayload(sequence, {
@@ -150,8 +174,7 @@ export function RecognitionWorkspace() {
           rawFrameCount: sequence.rawFrameCount,
           validFrameCount: sequence.validFrameCount,
         });
-        updateAttempt(segment.id, { processed_frames: sequence.validFrameCount, sequence_length: payload.frames.length, hand_coverage: payload.quality.detected_hand_ratio,
-          pose_coverage: payload.quality.detected_pose_ratio, input_feature_schema: payload.feature_schema_version });
+        updateAttempt(segment.id, { processed_frames: sequence.validFrameCount, sequence_length: payload.frames.length, input_feature_schema: payload.feature_schema_version });
         if (!validation.valid) {
           updateAttempt(segment.id, { request_status: 'not_sent', reason: validation.errors[0]?.code ?? 'invalid_input' });
           setCandidate(null);
@@ -161,21 +184,28 @@ export function RecognitionWorkspace() {
         }
 
         if (!localHost || colorsToken.length < 16) {
-          throw new Error('MODEL_NOT_READY — Modèle couleurs expérimental indisponible.');
+          throw new Error('Modèle de reconnaissance indisponible.');
         }
         pendingAttemptRef.current = segment.id;
         updateAttempt(segment.id, { request_status: 'pending' });
         const diagnostic = await landmarkRecognitionApi.submitColorExperiment(payload, colorsToken, controller.signal, diagnosticsEnabled);
-        if (session !== sessionRef.current || !cameraStream) return;
+        if (session !== sessionRef.current || recognitionRequestRef.current !== controller || !cameraStream) return;
+        if (diagnostic.experimental !== true || diagnostic.calibration_status !== 'UNCALIBRATED' ||
+          (diagnostic.candidate !== null && (diagnostic.recognition_state !== 'UNKNOWN_SIGN' ||
+            !Object.prototype.hasOwnProperty.call(COLOR_LABELS, diagnostic.candidate))) ||
+          diagnostic.diagnostics?.top_three.some(({ label }) => !Object.prototype.hasOwnProperty.call(COLOR_LABELS, label))) {
+          throw new ApiError('Réponse incompatible', 'INCOMPATIBLE_MODEL_OUTPUT', {}, 502);
+        }
         pendingAttemptRef.current = null;
         updateAttempt(segment.id, { request_status: 'response_received', reason: diagnostic.diagnostics?.failure_stage ?? diagnostic.recognition_state,
           model_id: diagnostic.model_id ?? null, experiment_id: diagnostic.experiment_id ?? null,
           model_version: diagnostic.model_version ?? null, model_feature_schema: diagnostic.diagnostics?.feature_schema_version ?? null,
           output_shape: diagnostic.diagnostics?.output_shape ?? null, top_three_raw_scores: diagnostic.diagnostics?.top_three ?? null });
-        const label = diagnostic.candidate && COLOR_LABELS[diagnostic.candidate];
+        const label = diagnostic.candidate !== null ? COLOR_LABELS[diagnostic.candidate] : null;
         setCandidate(label || null);
         setDetailMessage(label ? 'Aucune décision fiable : candidat non calibré et non validé.' :
-          diagnostic.recognition_state === 'MODEL_NOT_READY' ? 'MODEL_NOT_READY — Modèle couleurs indisponible.' :
+          diagnostic.recognition_state === 'MODEL_NOT_READY' ? 'Modèle de reconnaissance indisponible.' :
+          diagnostic.recognition_state === 'INCOMPATIBLE_MODEL_OUTPUT' ? 'Réponse incompatible du modèle couleurs.' :
           diagnostic.recognition_state === 'UNKNOWN_SIGN' ? 'Signe inconnu — aucune décision fiable.' :
           diagnostic.recognition_state === 'NO_HAND_DETECTED' ? 'Aucune main détectée. Gardez votre main visible.' :
           diagnostic.recognition_state === 'INSUFFICIENT_FRAMES' ? 'Capture insuffisante. Réessayez avec une main visible.' :
@@ -184,7 +214,7 @@ export function RecognitionWorkspace() {
         transition('DISPLAYING');
         schedule(enterCooldown, 1_500);
       } catch (error) {
-        if (session !== sessionRef.current || !cameraStream) return;
+        if (session !== sessionRef.current || recognitionRequestRef.current !== controller || !cameraStream) return;
         pendingAttemptRef.current = null;
         const reason = error instanceof ApiError ? `http_${error.status ?? 'unknown'}` :
           error instanceof DOMException && error.name === 'AbortError' ? 'timeout_or_abort' :
@@ -210,9 +240,7 @@ export function RecognitionWorkspace() {
     };
   }, [recognizeSegment]);
 
-  const handleFrame = useCallback(
-    (frame: HolisticFrame) => {
-      const event = segmenterRef.current.ingest(frame, flowStateRef.current);
+  const processEvent = useCallback((event: SegmentationEvent, timestampMs: number) => {
       if (event.type === 'started') {
         setDetailMessage(event.kind === 'static' ? 'Signe statique détecté.' : 'Mouvement détecté.');
         transition('CAPTURING');
@@ -221,21 +249,56 @@ export function RecognitionWorkspace() {
         transition('RECOGNIZING');
         recognizeSegmentRef.current(event.segment);
       } else if (event.type === 'rejected') {
-        recordAttempt({ attempt_id: event.attempt.id, segment_start_ms: event.attempt.startedAtMs, segment_end_ms: event.attempt.endedAtMs,
-          captured_frames: event.attempt.capturedFrames, processed_frames: event.attempt.usableFrames, sequence_length: null,
+        recordAttempt({ attempt_id: event.attempt.id, capture_mode: event.attempt.captureMode, start_trigger: event.attempt.startTrigger, stop_trigger: event.attempt.completionReason, segment_start_ms: event.attempt.startedAtMs, segment_end_ms: event.attempt.endedAtMs,
+          rejection_reasons: { no_hand: event.attempt.noHandFrames, missing_pose_or_shoulders: event.attempt.missingPoseFrames }, frames_analyzed: event.attempt.capturedFrames, frames_accepted_for_sequence: event.attempt.usableFrames, frames_rejected: event.attempt.capturedFrames - event.attempt.usableFrames, coverage_denominator: event.attempt.capturedFrames, frames_with_hand_landmarks: Math.round(event.attempt.handCoverage * event.attempt.capturedFrames), frames_with_pose_landmarks: Math.round(event.attempt.poseCoverage * event.attempt.capturedFrames), captured_frames: event.attempt.capturedFrames, processed_frames: event.attempt.usableFrames, sequence_length: null,
           hand_coverage: event.attempt.handCoverage, pose_coverage: event.attempt.poseCoverage, completion_reason: event.attempt.completionReason,
           input_feature_schema: null, model_feature_schema: null, model_version: null, request_status: 'not_sent',
           reason: event.reason, output_shape: null, top_three_raw_scores: null });
-        setDetailMessage(REJECTION_MESSAGES[event.reason]);
-        segmenterRef.current.beginCooldown(frame.timestampMs);
+        setDetailMessage(event.attempt.captureMode === 'manual' && event.attempt.completionReason === 'maximum_duration' ? 'Capture manuelle interrompue après 6 secondes. Recommencez et appuyez sur Arrêter avant la limite.' : REJECTION_MESSAGES[event.reason]);
+        segmenterRef.current.beginCooldown(timestampMs);
         transition('COOLDOWN');
       } else if (event.type === 'reset') {
         setCandidate(null);
         setDetailMessage('');
         transition('WAITING_FOR_SIGN');
       }
+  }, [recordAttempt, transition]);
+
+  const handleFrame = useCallback(
+    (frame: HolisticFrame) => {
+      let draw: ReturnType<typeof drawLandmarkOverlay> = null;
+      try {
+        if (overlayRef.current) draw = drawLandmarkOverlay(overlayRef.current, frame, true);
+        if (draw) lastDrawRef.current = frame.timestampMs;
+      } catch {
+        // Visualization must never interrupt segmentation or inference.
+      }
+      if (trackingRef.current) {
+        const detected = [frame.leftHand, frame.rightHand].some((hand) => hand.some((p) => Number.isFinite(p.x) && Number.isFinite(p.y)));
+        const label = detected ? '🟢 Mains détectées' : '○ Aucune main détectée';
+        if (trackingRef.current.textContent !== label) trackingRef.current.textContent = label;
+      }
+      if (trackingDiagnosticsRef.current) {
+        const valid = (hand: HolisticFrame['leftHand']) => hand.slice(0, 21).filter((p) => Number.isFinite(p.x) && Number.isFinite(p.y)).length;
+        const left = valid(frame.leftHand);
+        const right = valid(frame.rightHand);
+        const text = `MediaPipe: ready\nFrame timestamp: ${frame.timestampMs.toFixed(1)} ms\nLeft hand: ${left ? 'YES' : 'NO'}; raw ${frame.leftHand.length}/21; valid ${left}/21; drawn ${draw?.leftDrawn ?? 0}/21\nRight hand: ${right ? 'YES' : 'NO'}; raw ${frame.rightHand.length}/21; valid ${right}/21; drawn ${draw?.rightDrawn ?? 0}/21\nPose: ${frame.metadata.poseDetected ? 'YES' : 'NO'}\nCanvas: ${draw?.width ?? 0} × ${draw?.height ?? 0}; video: ${frame.metadata.videoWidth} × ${frame.metadata.videoHeight}; mirrored: YES\nLast successful draw timestamp: ${lastDrawRef.current?.toFixed(1) ?? 'none'} ms`;
+        trackingDiagnosticsRef.current.textContent = text;
+      }
+      const event = segmenterRef.current.ingest(frame, manualModeRef.current && flowStateRef.current === 'WAITING_FOR_SIGN' ? 'CAMERA_OFF' : flowStateRef.current);
+      if (transitionDiagnosticsRef.current) {
+        const d = segmenterRef.current.diagnostic;
+        const capture = segmenterRef.current.captureDiagnostics();
+        if (event.type !== 'none') {
+          const next = event.type === 'started' ? 'CAPTURING' : event.type === 'completed' ? 'RECOGNIZING' : event.type === 'rejected' ? 'COOLDOWN' : 'WAITING_FOR_SIGN';
+          const reason = event.type === 'started' ? event.kind : event.type === 'rejected' ? event.reason : event.type;
+          transitionLogRef.current = [...transitionLogRef.current, `${frame.timestampMs.toFixed(1)} ms ${flowStateRef.current} → ${next}: ${reason}; energy=${d.energy} threshold=${manualModeRef.current && flowStateRef.current === 'CAPTURING' ? 'not_applied_manual' : flowStateRef.current === 'COOLDOWN' ? DEFAULT_SEGMENTATION_CONFIG.restEnergy : d.threshold}; usable=${d.usable}; zone=${d.handZone}`].slice(-30);
+        }
+        transitionDiagnosticsRef.current.textContent = `LIVE CAPTURE\nCapture mode: ${manualModeRef.current ? 'manual' : 'automatic'}\nCapture state: ${flowStateRef.current}\nStart trigger: ${flowStateRef.current === 'CAPTURING' ? capture.startTrigger : 'none'}\nStop trigger: ${flowStateRef.current === 'CAPTURING' ? 'pending' : 'none'}\nCaptured frames: ${capture.captured}\nUsable frames: ${capture.usable}\nHand coverage: ${capture.handCoverage.toFixed(3)}\nPose coverage: ${capture.poseCoverage.toFixed(3)}\nCurrent motion energy: ${d.energy}\nStart motion threshold: ${DEFAULT_SEGMENTATION_CONFIG.dynamicStartEnergy}\nEnd boundary threshold: ${DEFAULT_SEGMENTATION_CONFIG.endEnergy}\nRest/cooldown threshold: ${DEFAULT_SEGMENTATION_CONFIG.restEnergy}\nThreshold use: ${manualModeRef.current ? 'manual capture: not applied' : 'automatic capture'}\nWrist zone: ${d.handZone}\nHands detected: ${handsPresent(frame) ? 'YES' : 'NO'}\nPose detected: ${frame.metadata.poseDetected ? 'YES' : 'NO'}\nSign started: ${d.started ? 'YES' : 'NO'}\nElapsed duration: ${d.elapsedMs.toFixed(0)} ms\nEnd stability duration: ${d.stableMs.toFixed(0)} ms\nLast or current tracking-loss duration: ${d.lossMs.toFixed(0)} ms\nTransitions:\n${transitionLogRef.current.join('\n')}`;
+      }
+      processEvent(event, frame.timestampMs);
     },
-    [recordAttempt, transition],
+    [processEvent],
   );
 
   const {
@@ -266,6 +329,8 @@ export function RecognitionWorkspace() {
   }, [cancelPendingAttempt, clearTimers, markGranted, markRequesting, setPermissionStatus, startCameraStream, transition]);
 
   const stopCamera = useCallback(() => {
+    manualModeRef.current = false;
+    setManualMode(false);
     sessionRef.current += 1;
     cancelPendingAttempt();
     recognitionRequestRef.current?.abort();
@@ -311,6 +376,10 @@ export function RecognitionWorkspace() {
       setDetailMessage('La détection démarre automatiquement.');
       transition('WAITING_FOR_SIGN');
     } else if (landmarkerStatus === 'error') {
+      const canvas = overlayRef.current;
+      canvas?.getContext('2d')?.clearRect(0, 0, canvas.width, canvas.height);
+      if (trackingRef.current) trackingRef.current.textContent = '○ Aucune main détectée';
+      if (trackingDiagnosticsRef.current) trackingDiagnosticsRef.current.textContent = 'Détection indisponible';
       setDetailMessage(landmarkerError ?? 'Le moteur de détection est indisponible.');
       transition('ERROR');
     }
@@ -334,6 +403,7 @@ export function RecognitionWorkspace() {
     recognitionRequestRef.current = null;
     clearTimers();
     segmenterRef.current.reset();
+    transitionLogRef.current = [...transitionLogRef.current, `${performance.now().toFixed(1)} ms ${flowStateRef.current} → WAITING_FOR_SIGN: sign_again`].slice(-30);
     setCandidate(null);
     setDetailMessage('');
     transition('WAITING_FOR_SIGN');
@@ -382,7 +452,10 @@ export function RecognitionWorkspace() {
         {cameraActive && (
           <div className="space-y-5">
             <CameraPreview stream={cameraStream} videoRef={videoRef} isMirrored>
-              {null}
+              <canvas ref={overlayRef} className="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true" data-testid="landmark-overlay" />
+              <span ref={trackingRef} className="absolute bottom-3 left-3 rounded-md bg-black/70 px-3 py-1 text-xs font-semibold text-white">
+                ○ Aucune main détectée
+              </span>
             </CameraPreview>
 
             <section
@@ -414,6 +487,18 @@ export function RecognitionWorkspace() {
               )}
             </section>
 
+            {diagnosticsEnabled && (
+              <section className="rounded-xl border border-slate-200 bg-white p-4 dark:bg-slate-900" aria-label="MediaPipe Tracking">
+                <h2 className="font-semibold">MediaPipe Tracking</h2>
+                <p className="mt-2 text-xs" data-testid="segmentation-outcome">DERNIÈRE TENTATIVE · Mode : {attempts[attempts.length - 1]?.capture_mode ?? 'aucune'} · Début : {attempts[attempts.length - 1]?.start_trigger ?? 'aucun'} · Arrêt : {attempts[attempts.length - 1]?.stop_trigger ?? 'aucun'} · Fin : {attempts[attempts.length - 1]?.completion_reason ?? 'aucune'} · Rejet / résultat : {attempts[attempts.length - 1]?.reason ?? 'aucun'} · Requête : {attempts[attempts.length - 1]?.request_status ?? 'non envoyée'} · Modèle : {attempts[attempts.length - 1]?.model_version ?? 'aucun'}</p>
+                <label className="mt-3 flex items-center gap-2 text-sm"><input type="checkbox" checked={manualMode} disabled={flowState !== 'WAITING_FOR_SIGN'} onChange={(event) => { manualModeRef.current = event.target.checked; setManualMode(event.target.checked); segmenterRef.current.reset(); }} /> Mode manuel expérimental (diagnostic local)</label>
+                {manualMode && <p className="mt-2 text-sm">Appuyez sur Démarrer, signez, puis sur Arrêter avant 6 secondes. Aucun arrêt automatique par position de repos.</p>}
+                {manualMode && flowState === 'WAITING_FOR_SIGN' && <Button variant="secondary" onClick={() => { segmenterRef.current.startManual(); transitionLogRef.current = [...transitionLogRef.current, `${performance.now().toFixed(1)} ms WAITING_FOR_SIGN → CAPTURING: manual_start`].slice(-30); setDetailMessage('Capture manuelle en cours : appuyez sur Arrêter avant 6 secondes.'); transition('CAPTURING'); }}>Démarrer la capture</Button>}
+                {manualMode && flowState === 'CAPTURING' && <Button variant="secondary" onClick={() => { const event = segmenterRef.current.stopManual(); const now = performance.now(); transitionLogRef.current = [...transitionLogRef.current, `${now.toFixed(1)} ms CAPTURING → ${event.type === 'completed' ? 'RECOGNIZING' : 'COOLDOWN'}: manual_stop (${event.type})`].slice(-30); processEvent(event, now); }}>Arrêter la capture</Button>}
+                <pre ref={transitionDiagnosticsRef} data-testid="segmentation-diagnostics" className="mt-2 whitespace-pre-wrap text-xs" />
+                <pre ref={trackingDiagnosticsRef} data-testid="tracking-diagnostics" className="mt-2 whitespace-pre-wrap text-xs">En attente de détection</pre>
+              </section>
+            )}
             {diagnosticsEnabled && (
               <details className="rounded-xl border border-slate-200 bg-white p-4 dark:bg-slate-900">
                 <summary className="cursor-pointer font-semibold">Diagnostics locaux ({attempts.length})</summary>

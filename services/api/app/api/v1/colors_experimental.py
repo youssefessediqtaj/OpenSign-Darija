@@ -2,13 +2,14 @@
 
 import hmac
 from ipaddress import ip_address, ip_network
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 
 import httpx
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.core.config import get_settings
+from app.core.errors import ApiError
 from app.schemas.recognition import WordLandmarkRecognitionRequest
 from app.services.request_protection import enforce_recognition_request_limits
 
@@ -16,6 +17,7 @@ router = APIRouter(prefix="/recognitions", tags=["local experimental"])
 
 
 ColorLabel = Literal["black", "blue", "brown", "green", "orange", "pink", "red", "white", "yellow"]
+SafeIdentifier = Annotated[str, Field(pattern=r"^[a-zA-Z0-9][a-zA-Z0-9._-]{0,79}$")]
 
 
 class RankedColor(BaseModel):
@@ -33,11 +35,11 @@ class ColorDiagnostics(BaseModel):
 
 
 class ExperimentalColorResult(BaseModel):
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", allow_inf_nan=False)
 
-    model_id: str
-    model_version: str
-    experiment_id: str | None = None
+    model_id: Literal["colors_v1_gru_experimental"]
+    model_version: SafeIdentifier
+    experiment_id: SafeIdentifier | None = None
     recognition_state: Literal[
         "UNKNOWN_SIGN",
         "NO_HAND_DETECTED",
@@ -45,6 +47,7 @@ class ExperimentalColorResult(BaseModel):
         "MODEL_NOT_READY",
         "PREPROCESSING_ERROR",
         "INFERENCE_ERROR",
+        "INCOMPATIBLE_MODEL_OUTPUT",
     ]
     semantic_label: None
     sign_variant_id: None
@@ -53,6 +56,12 @@ class ExperimentalColorResult(BaseModel):
     calibration_status: Literal["UNCALIBRATED"]
     experimental: Literal[True]
     diagnostics: ColorDiagnostics | None = None
+
+    @model_validator(mode="after")
+    def validate_candidate_state(self) -> "ExperimentalColorResult":
+        if self.candidate is not None and self.recognition_state != "UNKNOWN_SIGN":
+            raise ValueError("candidate is inconsistent with recognition state")
+        return self
 
 
 @router.post("/colors-experimental", response_model=ExperimentalColorResult)
@@ -102,10 +111,19 @@ async def predict_colors(
             )
             response.raise_for_status()
             data: dict[str, Any] = response.json()
-            return ExperimentalColorResult.model_validate(data)
+            result = ExperimentalColorResult.model_validate(data)
+            if result.recognition_state == "MODEL_NOT_READY":
+                raise ApiError(
+                    "MODEL_NOT_READY", "Modèle de reconnaissance indisponible.", 503,
+                    {"status": "MODEL_NOT_READY", "prediction": None, "candidate": None,
+                     "model_id": "colors_v1"},
+                )
+            return result
     except httpx.TimeoutException as exc:
         raise HTTPException(status_code=504, detail="Inference request timed out") from exc
     except httpx.HTTPError as exc:
         raise HTTPException(status_code=502, detail="Inference service unavailable") from exc
     except (ValueError, TypeError) as exc:
-        raise HTTPException(status_code=502, detail="Invalid inference response") from exc
+        raise ApiError(
+            "INCOMPATIBLE_MODEL_OUTPUT", "La réponse du modèle couleurs est incompatible.", 502
+        ) from exc

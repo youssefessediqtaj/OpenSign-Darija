@@ -11,7 +11,14 @@ import numpy as np
 import onnxruntime as ort  # type: ignore[import-untyped]
 
 LABELS = ["black", "blue", "brown", "green", "orange", "pink", "red", "white", "yellow"]
+COLORS_V1_LABELS = frozenset({
+    "black", "blue", "brown", "green", "orange", "pink", "red", "white", "yellow",
+})
 FEATURE_VERSION = "COLORS_V1_VIDEO_V1_EXPERIMENTAL"
+
+
+class IncompatibleModelOutputError(ValueError):
+    """The selected model produced an incompatible output."""
 
 
 def digest(path: Path) -> str:
@@ -45,6 +52,7 @@ class ExperimentalColorsModel:
             or registry.get("dataset_id") != "colors_v1"
             or registry.get("feature_schema_version") != FEATURE_VERSION
             or registry.get("labels") != LABELS
+            or frozenset(registry.get("labels", [])) != COLORS_V1_LABELS
             or registry.get("label_mapping_version") != "colors_v1_semantic_1"
             or registry.get("training_status") not in {"SMOKE_ONLY", "LEARNING_DIAGNOSTIC"}
             or registry.get("evaluation_status") != "EVALUATION_PENDING"
@@ -103,6 +111,17 @@ class ExperimentalColorsModel:
         self.registry: dict[str, Any] = registry
         self.session = session
 
+    def verify_artifacts(self) -> None:
+        """Recheck cached model artifacts before each use."""
+        for kind in ("onnx", "checkpoint", "report"):
+            path = Path(self.registry[f"{kind}_path"])
+            if (
+                not path.is_file()
+                or path.is_symlink()
+                or digest(path) != self.registry[f"{kind}_sha256"]
+            ):
+                raise ValueError(f"{kind} artifact is missing or has a checksum mismatch")
+
     def predict(
         self,
         landmarks: np.ndarray,
@@ -140,7 +159,7 @@ class ExperimentalColorsModel:
             return response
         logits = self.session.run(None, {"landmarks": landmarks[None].astype(np.float32)})[0]
         if logits.shape != (1, len(LABELS)) or not np.isfinite(logits).all():
-            raise ValueError("invalid experimental model output")
+            raise IncompatibleModelOutputError("invalid experimental model output")
         if include_trace:
             order = np.argsort(-logits[0], kind="stable")[:3]
             response["diagnostics"] = {

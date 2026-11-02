@@ -214,6 +214,131 @@ describe('AutomaticSignSegmenter', () => {
     expect(rejected).toEqual(['unreliable_boundary']);
   });
 
+  it('does not treat a hand tracking interruption as a stable end', () => {
+    const segmenter = new AutomaticSignSegmenter({ maximumDurationMs: 1400 });
+    let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    let result = '';
+    for (let i = 0; i < 30; i += 1) {
+      const frame = createSyntheticFrame(i, i * 70, i < 3 ? 'rest' : i < 9 ? 'gesture-a' : 'no-hands', i >= 3 && i < 9);
+      const event = segmenter.ingest(frame, state);
+      if (event.type === 'started') state = 'CAPTURING';
+      if (event.type === 'completed') result = 'completed';
+      if (event.type === 'rejected') { result = event.reason; break; }
+    }
+    expect(result).toBe('unreliable_boundary');
+  });
+
+  it('completes after tracked signing, visible lowered pose wrists and sustained hand disappearance', () => {
+    const segmenter = new AutomaticSignSegmenter();
+    let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    let result: SegmentedSign | null = null;
+    for (let i = 0; i < 45; i += 1) {
+      const frame = createSyntheticFrame(i, i * 70, i < 4 ? 'rest' : i < 20 ? 'gesture-a' : 'rest', i >= 4 && i < 20);
+      if (i >= 20) { frame.leftHand = []; frame.rightHand = []; frame.metadata.leftHandDetected = false; frame.metadata.rightHandDetected = false; }
+      const event = segmenter.ingest(frame, state);
+      if (event.type === 'started') state = 'CAPTURING';
+      if (event.type === 'completed') { result = event.segment; break; }
+    }
+    expect(result?.completionReason).toBe('pose_rest_after_disappearance');
+  });
+
+  it('does not complete on a short occlusion even when the pose returns to rest', () => {
+    const segmenter = new AutomaticSignSegmenter();
+    let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    const events: string[] = [];
+    for (let i = 0; i < 27; i += 1) {
+      const frame = createSyntheticFrame(i, i * 70, i < 4 ? 'rest' : i < 20 || i >= 24 ? 'gesture-a' : 'rest', i >= 4 && (i < 20 || i >= 24));
+      if (i >= 20 && i < 24) { frame.leftHand = []; frame.rightHand = []; frame.metadata.leftHandDetected = false; frame.metadata.rightHandDetected = false; }
+      const event = segmenter.ingest(frame, state);
+      if (event.type === 'started') state = 'CAPTURING';
+      events.push(event.type);
+    }
+    expect(events).not.toContain('completed');
+  });
+
+  it('rejects disappearance with missing or unreliable pose wrists', () => {
+    const segmenter = new AutomaticSignSegmenter({ maximumDurationMs: 2100 });
+    let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    let result = '';
+    for (let i = 0; i < 40; i += 1) {
+      const frame = createSyntheticFrame(i, i * 70, i < 4 ? 'rest' : i < 18 ? 'gesture-a' : 'rest', i >= 4 && i < 18);
+      if (i >= 18) { frame.leftHand = []; frame.rightHand = []; frame.metadata.leftHandDetected = false; frame.metadata.rightHandDetected = false; frame.pose[15].visibility = 0; }
+      const event = segmenter.ingest(frame, state);
+      if (event.type === 'started') state = 'CAPTURING';
+      if (event.type === 'completed') result = 'completed';
+      if (event.type === 'rejected') { result = event.reason; break; }
+    }
+    expect(result).toBe('unreliable_boundary');
+  });
+
+  it('does not infer a disappearance boundary across a long detector gap', () => {
+    const segmenter = new AutomaticSignSegmenter({ maximumDurationMs: 3000 });
+    let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    let result = '';
+    for (let i = 0; i < 45; i += 1) {
+      const frame = createSyntheticFrame(i, i * 70 + (i >= 20 ? 350 : 0), i < 4 ? 'rest' : i < 20 ? 'gesture-a' : 'rest', i >= 4 && i < 20);
+      if (i >= 20) { frame.leftHand = []; frame.rightHand = []; frame.metadata.leftHandDetected = false; frame.metadata.rightHandDetected = false; }
+      const event = segmenter.ingest(frame, state);
+      if (event.type === 'started') state = 'CAPTURING';
+      if (event.type === 'completed') result = 'completed';
+      if (event.type === 'rejected') { result = event.reason; break; }
+    }
+    expect(result).toBe('unreliable_boundary');
+  });
+
+  it('requires valid frames for manually bounded diagnostic attempts', () => {
+    const segmenter = new AutomaticSignSegmenter();
+    segmenter.startManual();
+    for (let i = 0; i < 12; i += 1) segmenter.ingest(createSyntheticFrame(i, i * 70, 'no-hands', false), 'CAPTURING');
+    expect(segmenter.stopManual()).toMatchObject({ type: 'rejected', reason: 'insufficient_usable_frames' });
+    segmenter.startManual();
+    for (let i = 0; i < 14; i += 1) segmenter.ingest(createSyntheticFrame(i, 2000 + i * 70, 'gesture-a', true), 'CAPTURING');
+    expect(segmenter.stopManual()).toMatchObject({ type: 'completed', segment: { completionReason: 'manual' } });
+  });
+
+  it('completes visible hands with small alternating landmark jitter below the end threshold', () => {
+    const segmenter = new AutomaticSignSegmenter();
+    let state: RecognitionFlowState = 'WAITING_FOR_SIGN';
+    let result = '';
+    for (let i = 0; i < 45; i += 1) {
+      const frame = createSyntheticFrame(i, i * 70, i < 4 ? 'rest' : 'gesture-a', i >= 4 && i < 20);
+      if (i >= 20) for (const point of [...frame.leftHand, ...frame.rightHand]) point.x += i % 2 ? 0.0002 : -0.0002;
+      const event = segmenter.ingest(frame, state);
+      if (event.type === 'started') state = 'CAPTURING';
+      if (event.type === 'completed') { result = event.segment.completionReason ?? ''; break; }
+    }
+    expect(result).toBe('stable');
+  });
+
+  it('manual capture ignores automatic stability and completes only on explicit stop', () => {
+    const segmenter = new AutomaticSignSegmenter();
+    segmenter.startManual();
+    for (let i = 0; i < 25; i += 1) {
+      const event = segmenter.ingest(createSyntheticFrame(i, i * 70, 'gesture-a', false), 'CAPTURING');
+      expect(event.type).toBe('none');
+    }
+    expect(segmenter.stopManual()).toMatchObject({ type: 'completed', segment: { captureMode: 'manual', completionReason: 'manual', sourceFrames: { length: 25 } } });
+  });
+
+  it('marks a manual timeout as manual and never completes it', () => {
+    const segmenter = new AutomaticSignSegmenter({ maximumDurationMs: 700 });
+    segmenter.startManual();
+    let event = segmenter.ingest(createSyntheticFrame(0, 0, 'gesture-a', true), 'CAPTURING');
+    for (let i = 1; i <= 10; i += 1) event = segmenter.ingest(createSyntheticFrame(i, i * 70, 'gesture-a', true), 'CAPTURING');
+    expect(event).toMatchObject({ type: 'rejected', reason: 'unreliable_boundary', attempt: { captureMode: 'manual', startTrigger: 'manual_start', completionReason: 'maximum_duration' } });
+    expect(segmenter.stopManual()).toEqual({ type: 'none' });
+  });
+
+  it('rejects invalid manual source timestamps before resampling', () => {
+    const segmenter = new AutomaticSignSegmenter();
+    segmenter.startManual();
+    for (let i = 0; i < 20; i += 1) {
+      const timestamp = i === 10 ? 9 * 70 : i * 70;
+      segmenter.ingest(createSyntheticFrame(i, timestamp, 'gesture-a', true), 'CAPTURING');
+    }
+    expect(segmenter.stopManual()).toMatchObject({ type: 'rejected', reason: 'invalid_timestamps' });
+  });
+
   it('requires a real rest reset before it can detect another sign', () => {
     const segmenter = new AutomaticSignSegmenter({ cooldownMs: 300, resetStableMs: 210 });
     let state: RecognitionFlowState = 'WAITING_FOR_SIGN';

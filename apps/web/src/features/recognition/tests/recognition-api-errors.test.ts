@@ -22,6 +22,11 @@ describe('recognition API error mapping', () => {
     expect(recognitionErrorMessage(new TypeError('Failed to fetch'))).toMatch(/backend est indisponible/i);
   });
 
+  it('maps model unavailability to the specific French message', () => {
+    expect(recognitionErrorMessage(new ApiError('', 'MODEL_NOT_READY', {}, 503)))
+      .toBe('Modèle de reconnaissance indisponible.');
+  });
+
   it('maps common HTTP statuses to user-facing messages', () => {
     expect(recognitionErrorMessage(new ApiError('', '', {}, 400))).toMatch(/invalide/i);
     expect(recognitionErrorMessage(new ApiError('', '', {}, 401))).toMatch(/expire/i);

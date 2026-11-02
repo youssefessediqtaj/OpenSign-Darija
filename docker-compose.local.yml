@@ -15,9 +15,9 @@ services:
       COLORS_EXPERIMENTAL_ENABLED: "true"
       COLORS_EXPERIMENTAL_TOKEN: local-colors-diagnostic-token-only
       COLORS_EXPERIMENTAL_TRUSTED_NETWORK: 172.29.248.0/24
-      COLORS_EXPERIMENTAL_REGISTRY: /workspace/artifacts/colors_v1/${COLORS_EXPERIMENTAL_REGISTRY_FILE:-registry-gru-smoke-v1.json}
+      COLORS_EXPERIMENTAL_REGISTRY: /workspace/artifacts/colors_v1/${COLORS_EXPERIMENTAL_REGISTRY_FILE:-}
       COLORS_EXPERIMENTAL_DATASET_MANIFEST: /workspace/colors/manifest.json
-      COLORS_EXPERIMENTAL_MODEL_VERSION: ${COLORS_EXPERIMENTAL_MODEL_VERSION:-0.1.0-smoke}
+      COLORS_EXPERIMENTAL_MODEL_VERSION: ${COLORS_EXPERIMENTAL_MODEL_VERSION:-}
       MODEL_NAME: colors_v1_gru_experimental
       MODEL_VERSION: 0.1.0-smoke
     volumes: !override

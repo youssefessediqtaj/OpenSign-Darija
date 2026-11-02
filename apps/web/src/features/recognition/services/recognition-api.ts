@@ -11,6 +11,8 @@ function firstValidationField(error: ApiError): string | null {
 
 export function recognitionErrorMessage(error: unknown): string {
   if (!(error instanceof ApiError)) return 'Le backend est indisponible.';
+  if (error.code === 'MODEL_NOT_READY') return 'Modèle de reconnaissance indisponible.';
+  if (error.code === 'INCOMPATIBLE_MODEL_OUTPUT') return 'Réponse incompatible du modèle couleurs.';
   const status = error.status ?? Number(error.details.status);
   if (status === 400) return 'Requete de reconnaissance invalide.';
   if (status === 401) return 'Votre session a expire.';
@@ -33,7 +35,7 @@ export type ExperimentalColorResult = {
   model_id: string;
   model_version: string;
   experiment_id?: string | null;
-  recognition_state: 'UNKNOWN_SIGN' | 'NO_HAND_DETECTED' | 'INSUFFICIENT_FRAMES' | 'MODEL_NOT_READY' | 'PREPROCESSING_ERROR' | 'INFERENCE_ERROR';
+  recognition_state: 'UNKNOWN_SIGN' | 'NO_HAND_DETECTED' | 'INSUFFICIENT_FRAMES' | 'MODEL_NOT_READY' | 'PREPROCESSING_ERROR' | 'INFERENCE_ERROR' | 'INCOMPATIBLE_MODEL_OUTPUT';
   candidate: string | null;
   raw_score: number | null;
   calibration_status: 'UNCALIBRATED';

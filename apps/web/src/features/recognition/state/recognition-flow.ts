@@ -17,6 +17,9 @@ export type SegmentedSign = {
   id: string;
   kind: SegmentationKind;
   reliable: true;
+  captureMode?: 'manual' | 'automatic';
+  startTrigger?: string;
+  completionReason?: 'stable' | 'pose_rest_after_disappearance' | 'manual';
   startedAtMs: number;
   endedAtMs: number;
   sourceFrames: HolisticFrame[];
@@ -28,13 +31,14 @@ export type SegmentedSign = {
 type SegmentationRejectionReason =
   | 'too_short'
   | 'insufficient_usable_frames'
-  | 'unreliable_boundary';
+  | 'unreliable_boundary'
+  | 'invalid_timestamps';
 
 export type SegmentationEvent =
   | { type: 'none' }
   | { type: 'started'; kind: SegmentationKind }
   | { type: 'completed'; segment: SegmentedSign }
-  | { type: 'rejected'; reason: SegmentationRejectionReason; attempt: { id: string; startedAtMs: number; endedAtMs: number; capturedFrames: number; usableFrames: number; handCoverage: number; poseCoverage: number; completionReason: 'stable' | 'maximum_duration' } }
+  | { type: 'rejected'; reason: SegmentationRejectionReason; attempt: { captureMode: 'manual' | 'automatic'; startTrigger: string; id: string; startedAtMs: number; endedAtMs: number; capturedFrames: number; usableFrames: number; noHandFrames: number; missingPoseFrames: number; handCoverage: number; poseCoverage: number; completionReason: 'stable' | 'maximum_duration' | 'pose_rest_after_disappearance' | 'manual' } }
   | { type: 'reset' };
 
 export type PublicRecognitionResult = {

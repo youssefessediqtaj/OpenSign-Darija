@@ -33,6 +33,8 @@ type AutomaticSegmentationConfig = {
   cooldownMs: number;
   duplicateWindowMs: number;
   duplicateSimilarity: number;
+  disappearanceRestMs: number;
+  maximumFrameGapMs: number;
 };
 
 export const DEFAULT_SEGMENTATION_CONFIG: AutomaticSegmentationConfig = {
@@ -55,6 +57,8 @@ export const DEFAULT_SEGMENTATION_CONFIG: AutomaticSegmentationConfig = {
   cooldownMs: 800,
   duplicateWindowMs: 3000,
   duplicateSimilarity: 0.985,
+  disappearanceRestMs: 700,
+  maximumFrameGapMs: 250,
 };
 
 const POSE_MOTION_INDICES = [11, 12, 13, 14, 15, 16];
@@ -65,7 +69,7 @@ function finitePoint(point: NormalizedLandmark | undefined): point is Normalized
   );
 }
 
-function handsPresent(frame: HolisticFrame): boolean {
+export function handsPresent(frame: HolisticFrame): boolean {
   return (
     frame.metadata.leftHandDetected ||
     frame.metadata.rightHandDetected ||
@@ -74,7 +78,7 @@ function handsPresent(frame: HolisticFrame): boolean {
   );
 }
 
-function usableFrame(frame: HolisticFrame): boolean {
+export function usableFrame(frame: HolisticFrame): boolean {
   return (
     handsPresent(frame) &&
     frame.metadata.poseDetected &&
@@ -118,6 +122,19 @@ function classifyHandZone(frame: HolisticFrame): HandZone {
   if (anchors.some((anchor) => anchor.y <= lowerSigningBoundary)) return 'signing';
   if (anchors.every((anchor) => anchor.y >= upperRestBoundary)) return 'rest';
   return 'neutral';
+}
+
+// Require independently visible pose wrists and shoulders; absent hands alone never prove rest.
+function visiblePosePoint(point: NormalizedLandmark | undefined): point is NormalizedLandmark {
+  return finitePoint(point) && (point.visibility === undefined || point.visibility >= 0.5) &&
+    (point.presence === undefined || point.presence >= 0.5) && point.x >= 0 && point.x <= 1 && point.y >= 0 && point.y <= 1;
+}
+
+function poseRestBoundary(frame: HolisticFrame): number | null {
+  const [left, right, wristLeft, wristRight] = [frame.pose[11], frame.pose[12], frame.pose[15], frame.pose[16]];
+  if (!frame.metadata.poseDetected || ![left, right, wristLeft, wristRight].every(visiblePosePoint)) return null;
+  const width = Math.hypot(left.x - right.x, left.y - right.y, left.z - right.z);
+  return (left.y + right.y) / 2 + Math.max(0.2, width * 1.15);
 }
 
 function pairedDistances(
@@ -186,6 +203,17 @@ function sequenceSimilarity(left: number[], right: number[]): number {
 
 export class AutomaticSignSegmenter {
   private readonly config: AutomaticSegmentationConfig;
+  diagnostic = { energy: 0, threshold: 0, usable: false, handZone: 'absent' as HandZone, stableMs: 0, elapsedMs: 0, lossMs: 0, started: false };
+  private lossSince: number | null = null;
+  private trackingLossSince: number | null = null;
+  private lastTrackingLossMs = 0;
+  private lastCaptureTimestamp: number | null = null;
+  private signingWristY: [number | null, number | null] = [null, null];
+  private manualCapture = false;
+  private captureMode: 'manual' | 'automatic' = 'automatic';
+  private startTrigger = 'none';
+  private trackedAfterStart = 0;
+  private disappearanceContinuous = true;
   private preRoll: HolisticFrame[] = [];
   private captureFrames: HolisticFrame[] = [];
   private captureKind: SegmentationKind = 'dynamic';
@@ -211,6 +239,16 @@ export class AutomaticSignSegmenter {
   reset(): void {
     this.preRoll = [];
     this.captureFrames = [];
+    this.lossSince = null;
+    this.trackingLossSince = null;
+    this.lastTrackingLossMs = 0;
+    this.lastCaptureTimestamp = null;
+    this.signingWristY = [null, null];
+    this.manualCapture = false;
+    this.captureMode = 'automatic';
+    this.startTrigger = 'none';
+    this.trackedAfterStart = 0;
+    this.disappearanceContinuous = true;
     this.captureKind = 'dynamic';
     this.captureStartedAt = 0;
     this.captureId = '';
@@ -229,6 +267,8 @@ export class AutomaticSignSegmenter {
   }
 
   beginCooldown(timestampMs: number): void {
+    this.manualCapture = false;
+    this.lossSince = null;
     this.cooldownStartedAt = timestampMs;
     this.resetSince = null;
     this.resetObserved = false;
@@ -257,11 +297,42 @@ export class AutomaticSignSegmenter {
   ingest(frame: HolisticFrame, state: RecognitionFlowState): SegmentationEvent {
     const energy = frameMotionEnergy(this.previousFrame, frame);
     this.previousFrame = frame;
+    let event: SegmentationEvent = { type: 'none' };
+    if (state === 'COOLDOWN') event = this.observeCooldown(frame, energy);
+    else if (state === 'CAPTURING') event = this.capture(frame, energy);
+    else if (state === 'WAITING_FOR_SIGN') event = this.waitForSign(frame, energy);
+    this.diagnostic = { energy, threshold: state === 'CAPTURING' ? this.config.endEnergy : this.config.dynamicStartEnergy,
+      usable: usableFrame(frame), handZone: classifyHandZone(frame),
+      stableMs: this.stableSince === null ? 0 : Math.max(0, frame.timestampMs - this.stableSince),
+      elapsedMs: state === 'CAPTURING' || event.type === 'started' ? Math.max(0, frame.timestampMs - this.captureStartedAt) : 0,
+      lossMs: this.trackingLossSince === null ? this.lastTrackingLossMs : Math.max(0, frame.timestampMs - this.trackingLossSince),
+      started: state === 'CAPTURING' || event.type === 'started' };
+    return event;
+  }
 
-    if (state === 'COOLDOWN') return this.observeCooldown(frame, energy);
-    if (state === 'CAPTURING') return this.capture(frame, energy);
-    if (state !== 'WAITING_FOR_SIGN') return { type: 'none' };
-    return this.waitForSign(frame, energy);
+  startManual(): void {
+    this.reset();
+    this.captureMode = 'manual';
+    this.startTrigger = 'manual_start';
+    this.manualCapture = true;
+    this.captureId = crypto.randomUUID();
+    this.captureKind = 'dynamic';
+  }
+
+  stopManual(): SegmentationEvent {
+    if (!this.manualCapture) return { type: 'none' };
+    this.manualCapture = false;
+    const end = this.captureFrames[this.captureFrames.length - 1]?.timestampMs ?? this.captureStartedAt;
+    return this.complete(end, false, 'manual');
+  }
+
+  captureDiagnostics() {
+    const frames = this.captureFrames;
+    const captured = frames.length;
+    return { mode: this.captureMode, startTrigger: this.startTrigger, captured,
+      usable: frames.filter(usableFrame).length,
+      handCoverage: captured ? frames.filter(handsPresent).length / captured : 0,
+      poseCoverage: captured ? frames.filter((frame) => frame.metadata.poseDetected).length / captured : 0 };
   }
 
   private waitForSign(frame: HolisticFrame, energy: number): SegmentationEvent {
@@ -338,6 +409,15 @@ export class AutomaticSignSegmenter {
 
   private startCapture(kind: SegmentationKind, timestampMs: number): void {
     this.captureKind = kind;
+    this.captureMode = 'automatic';
+    this.startTrigger = kind === 'dynamic' ? 'dynamic_motion' : 'static_dwell';
+    this.trackingLossSince = null;
+    this.lastTrackingLossMs = 0;
+    this.trackedAfterStart = 0;
+    this.disappearanceContinuous = true;
+    this.lossSince = null;
+    this.lastCaptureTimestamp = null;
+    this.signingWristY = [null, null];
     this.captureId = crypto.randomUUID();
     this.captureFrames = [...this.preRoll];
     this.captureStartedAt = this.captureFrames[0]?.timestampMs ?? timestampMs;
@@ -348,11 +428,43 @@ export class AutomaticSignSegmenter {
   }
 
   private capture(frame: HolisticFrame, energy: number): SegmentationEvent {
+    if (this.manualCapture && this.captureFrames.length === 0) this.captureStartedAt = frame.timestampMs;
+    if (!handsPresent(frame)) this.trackingLossSince ??= frame.timestampMs;
+    else if (this.trackingLossSince !== null) {
+      this.lastTrackingLossMs = Math.max(0, frame.timestampMs - this.trackingLossSince);
+      this.trackingLossSince = null;
+    }
+    const previousTimestamp = this.lastCaptureTimestamp;
+    this.lastCaptureTimestamp = frame.timestampMs;
     this.captureFrames.push(frame);
     const durationMs = frame.timestampMs - this.captureStartedAt;
-    if (durationMs >= this.config.maximumDurationMs) return this.complete(frame.timestampMs, true);
+    if (usableFrame(frame)) this.trackedAfterStart += 1;
+    if (previousTimestamp !== null && (frame.timestampMs <= previousTimestamp || frame.timestampMs - previousTimestamp > this.config.maximumFrameGapMs)) this.disappearanceContinuous = false;
+    if (durationMs >= this.config.maximumDurationMs) { this.manualCapture = false; return this.complete(frame.timestampMs, true); }
+    if (this.manualCapture) return { type: 'none' };
 
-    if (energy <= this.config.endEnergy) this.stableSince ??= frame.timestampMs;
+    if (usableFrame(frame) && classifyHandZone(frame) === 'signing') {
+      [15, 16].forEach((index, side) => {
+        const wrist = frame.pose[index];
+        const detected = side === 0 ? frame.metadata.leftHandDetected : frame.metadata.rightHandDetected;
+        if (detected && visiblePosePoint(wrist)) this.signingWristY[side] = Math.min(this.signingWristY[side] ?? wrist.y, wrist.y);
+      });
+    }
+    const boundary = poseRestBoundary(frame);
+    const descended = boundary !== null && [15, 16].some((index, side) => {
+      const signingY = this.signingWristY[side];
+      return signingY !== null && frame.pose[index].y - signingY >= 0.12;
+    });
+    const poseAtRest = boundary !== null && frame.pose[15].y >= boundary && frame.pose[16].y >= boundary;
+    const continuous = previousTimestamp !== null && frame.timestampMs > previousTimestamp && frame.timestampMs - previousTimestamp <= this.config.maximumFrameGapMs;
+    const enoughTracked = this.trackedAfterStart >= this.config.minimumUsableFrames;
+    if (!handsPresent(frame) && continuous && this.disappearanceContinuous && poseAtRest && descended && enoughTracked && energy <= this.config.endEnergy) {
+      this.lossSince ??= frame.timestampMs;
+      if (frame.timestampMs - this.lossSince >= this.config.disappearanceRestMs) return this.complete(frame.timestampMs, false, 'pose_rest_after_disappearance');
+    } else this.lossSince = null;
+
+    // Missing tracking is not evidence of a stable end boundary.
+    if (usableFrame(frame) && (previousTimestamp === null || continuous) && energy <= this.config.endEnergy) this.stableSince ??= frame.timestampMs;
     else {
       this.stableSince = null;
       this.postRollRemaining = 0;
@@ -373,7 +485,7 @@ export class AutomaticSignSegmenter {
     return { type: 'none' };
   }
 
-  private complete(endedAtMs: number, maximumReached: boolean): SegmentationEvent {
+  private complete(endedAtMs: number, maximumReached: boolean, completionReason: 'stable' | 'pose_rest_after_disappearance' | 'manual' = 'stable'): SegmentationEvent {
     const sourceFrames = [...this.captureFrames];
     const durationMs = endedAtMs - this.captureStartedAt;
     const usableSourceFrames = sourceFrames.filter(usableFrame);
@@ -382,12 +494,19 @@ export class AutomaticSignSegmenter {
     this.stableSince = null;
     this.postRollRemaining = 0;
 
-    const attempt = { id: this.captureId, startedAtMs: this.captureStartedAt, endedAtMs,
+    const attempt = { captureMode: this.captureMode, startTrigger: this.startTrigger, id: this.captureId, startedAtMs: this.captureStartedAt, endedAtMs,
       capturedFrames: sourceFrames.length, usableFrames: usableSourceFrames.length,
+      noHandFrames: sourceFrames.filter((item) => !handsPresent(item)).length,
+      missingPoseFrames: sourceFrames.filter((item) => handsPresent(item) && !usableFrame(item)).length,
       handCoverage: sourceFrames.length ? sourceFrames.filter(handsPresent).length / sourceFrames.length : 0,
       poseCoverage: sourceFrames.length ? sourceFrames.filter((item) => item.metadata.poseDetected).length / sourceFrames.length : 0,
-      completionReason: maximumReached ? 'maximum_duration' as const : 'stable' as const };
+      completionReason: maximumReached ? 'maximum_duration' as const : completionReason };
     if (maximumReached) return { type: 'rejected', reason: 'unreliable_boundary', attempt };
+    // Resampling creates new timestamps; reject invalid source ordering before it can hide a camera fault.
+    if (this.captureMode === 'manual' && sourceFrames.some((item, index) => !Number.isFinite(item.timestampMs) ||
+      (index > 0 && item.timestampMs <= sourceFrames[index - 1].timestampMs))) {
+      return { type: 'rejected', reason: 'invalid_timestamps', attempt };
+    }
     if (durationMs < this.config.minimumDurationMs) {
       return { type: 'rejected', reason: 'too_short', attempt };
     }
@@ -403,6 +522,9 @@ export class AutomaticSignSegmenter {
     const segment: SegmentedSign = {
       id: this.captureId,
       kind: this.captureKind,
+      captureMode: this.captureMode,
+      startTrigger: this.startTrigger,
+      completionReason,
       reliable: true,
       startedAtMs: this.captureStartedAt,
       endedAtMs,

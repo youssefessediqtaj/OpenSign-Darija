@@ -10,7 +10,12 @@ import numpy as np
 from fastapi import APIRouter, HTTPException, Request
 
 from app.core.config import get_settings
-from app.runtime.colors_model import FEATURE_VERSION, ExperimentalColorsModel, digest
+from app.runtime.colors_model import (
+    FEATURE_VERSION,
+    ExperimentalColorsModel,
+    IncompatibleModelOutputError,
+    digest,
+)
 from app.schemas.prediction import WordLandmarkSequenceRequest
 
 router = APIRouter()
@@ -30,12 +35,15 @@ def local_model() -> ExperimentalColorsModel:
         raise ValueError("current dataset manifest is required")
     if not settings.colors_experimental_model_version:
         raise ValueError("explicit experimental model version is required")
-    return _load_model(
-        settings.colors_experimental_registry, settings.colors_experimental_dataset_manifest,
+    model = _load_model(
+        settings.colors_experimental_registry,
+        settings.colors_experimental_dataset_manifest,
         settings.colors_experimental_model_version,
         digest(Path(settings.colors_experimental_registry)),
         digest(Path(settings.colors_experimental_dataset_manifest)),
     )
+    model.verify_artifacts()
+    return model
 
 
 def require_local(request: Request) -> None:
@@ -112,5 +120,11 @@ def predict_colors(
             include_candidate=diagnostic,
             include_trace=diagnostic and trace,
         )
+    except IncompatibleModelOutputError:
+        return {
+            **unavailable,
+            "recognition_state": "INCOMPATIBLE_MODEL_OUTPUT",
+            **failure("inference"),
+        }
     except Exception:
         return {**unavailable, "recognition_state": "INFERENCE_ERROR", **failure("inference")}

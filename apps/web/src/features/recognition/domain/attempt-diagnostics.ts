@@ -1,10 +1,20 @@
 /** Ephemeral local debugging only: never include landmarks, images, or identifiers of a person. */
 export type AttemptDiagnostic = {
   attempt_id: string;
+  capture_mode?: 'automatic' | 'manual';
+  start_trigger?: string;
+  stop_trigger?: string;
   segment_start_ms: number;
   segment_end_ms: number;
   captured_frames: number;
   processed_frames: number;
+  frames_analyzed?: number;
+  frames_with_hand_landmarks?: number;
+  frames_with_pose_landmarks?: number;
+  frames_accepted_for_sequence?: number;
+  frames_rejected?: number;
+  coverage_denominator?: number;
+  rejection_reasons?: Record<string, number>;
   sequence_length: number | null;
   hand_coverage: number | null;
   pose_coverage: number | null;
