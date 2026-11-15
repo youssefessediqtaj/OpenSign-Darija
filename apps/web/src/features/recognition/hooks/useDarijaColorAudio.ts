@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import { darijaColorAudioUrl } from '../domain/darija-colors';
+import { speechProviderRegistry } from '../domain/darija-voice-provider';
 
 export type VoiceStatus = 'stopped' | 'loading' | 'playing' | 'unavailable';
 
@@ -31,9 +31,9 @@ export function useDarijaColorAudio(color: string) {
   }, [dispose]);
   const play = useCallback(() => {
     dispose();
-    const url = darijaColorAudioUrl(color);
-    if (!url) { setStatus('unavailable'); return; }
-    const audio = new Audio(url);
+    const asset = speechProviderRegistry.local.resolve(color);
+    if (!asset) { setStatus('unavailable'); return; }
+    const audio = new Audio(asset.url);
     player.current = audio;
     audio.preload = 'auto';
     setStatus('loading');

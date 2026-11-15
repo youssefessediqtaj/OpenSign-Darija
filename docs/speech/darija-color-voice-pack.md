@@ -13,7 +13,7 @@ that the gesture was recognized correctly.
 
 Record the nine labels with a consenting native Moroccan Darija speaker.
 Review pronunciation (including regional variants), rights and permitted use
-before distributing any recording. Place the approved files locally at:
+before distributing any recording. The explicit packaging process below installs approved files at:
 
 ```
 apps/web/public/audio/darija/colors/
@@ -28,13 +28,10 @@ apps/web/public/audio/darija/colors/
   yellow.wav
 ```
 
-Each file should contain exactly one approved spoken color label in Moroccan
-Darija, not a Modern Standard Arabic substitute. Suggested recording specs:
-WAV PCM signed 16-bit, mono, 24 kHz, short silence-trimmed clips. For example:
-
-```bash
-ffmpeg -i original-recording.wav -ac 1 -ar 24000 -c:a pcm_s16le red.wav
-```
+Each file must contain exactly one approved spoken color label in Moroccan Darija.
+The preparation tool converts to WAV PCM signed 16-bit, mono, 24 kHz and trims
+leading and trailing silence using a conservative threshold. Listen to the result:
+thresholds can cut soft speech or preserve noise.
 
 The provisional text forms are in
 `apps/web/src/features/recognition/domain/darija-colors.ts`. They are a
@@ -43,8 +40,9 @@ blue sign variants map to one audio label.
 
 To avoid accidentally publishing unapproved recordings, WAV clips are ignored
 by Git until their provenance and voice-use rights have been reviewed.
-A fresh clone therefore has *no playable Darija audio*. Clicking the preview
-shows an explicit unavailable message, never a standard-Arabic fallback.
+A fresh clone therefore has *no playable Darija audio*. Playback requires an explicit
+approved build manifest; a named WAV alone is not enough. Clicking the preview shows
+an unavailable message, never a standard-Arabic fallback.
 
 ## QA checklist
 
@@ -117,3 +115,62 @@ not yet measured.
 
 Neither option is selected or validated. Obtain speaker evaluations, current terms,
 licence and pricing before any provider integration or spending.
+
+
+## Preparation, review and explicit packaging
+
+`ffmpeg`, Python 3 and Node are required. Work in a private directory outside Git.
+Supply files named `<color>.wav`; FFmpeg decodes and converts them. The staging and
+package paths must not already exist. Source files are never overwritten.
+
+```bash
+python3 scripts/speech/prepare_voice_pack.py prepare --source /private/source --staging /private/candidates
+```
+
+`report.json` gives hashes, duration, peak, RMS, unexpected filenames and per-label
+issues. Missing/corrupt files, silence, clipping and durations outside 0.15–5 seconds
+are flagged. These heuristics cannot assess pronunciation, background music, loudness
+consistency, consent, licensing or recording quality. Review all of those manually;
+re-record if needed. The silence gate can clip soft onsets. Staging audio is **not**
+approved and must not be copied to the web assets folder.
+
+A qualified Moroccan speaker reviews each proposed expression and listens to the
+exact prepared WAV. Record regional alternatives, adjective versus standalone usage,
+context, and pronunciation notes; ask a Moroccan sign-language specialist to review
+sign-to-class mapping separately. Obtain speaker consent and redistribution rights.
+Keep personal data and signed consent in a separate access-controlled system. The
+review record below uses opaque references to those private records, not names.
+
+Create a private JSON approval file with entries only for labels actually reviewed:
+
+```json
+{"assets":{"red":{"sha256":"<64-character candidate SHA-256>","version":"1",
+"text_approved":true,"audio_approved":true,"rights_approved":true,"expression":"حمر",
+"review_reference":"private-review-id","rights_reference":"private-rights-id"}}}
+```
+
+```bash
+python3 scripts/speech/prepare_voice_pack.py package --staging /private/candidates --approvals /private/approvals.json --output /private/approved-pack
+```
+
+Packaging rechecks WAV format and quality and requires all three approvals, both
+references, and exact expression and checksum matches. It exports only approved files and a
+sanitized manifest. Assertions in this local record are not independently verified;
+the maintainer must authenticate the reviewer and rights evidence. Never mark test
+tones approved except inside isolated automated tests. The candidate and approval
+records remain private; the exported manifest intentionally contains no identities.
+
+To install for a release, copy only the exported WAVs to
+`apps/web/public/audio/darija/colors/` and the exported `approved-voice-pack.json` to
+`apps/web/src/features/recognition/domain/approved-voice-pack.json`, then run
+`npm run build` from `apps/web`. Remove stale WAVs first. The build verifies each WAV
+against the manifest and fails on unlisted files, missing files or hash mismatch.
+The Docker web build invokes the same check. WAVs are Git-ignored, so a release must
+explicitly provision the approved pack in its build environment; a fresh clone cannot
+reproduce a voice-enabled build without the separately authorized assets. Do not
+publish recordings unless distribution rights cover that release. Preserve a backup
+of local private assets before changing them.
+
+The UI shows pack registration and runtime playback status separately. A registered
+file can still be unavailable at runtime, and an asset checksum does not certify
+linguistic accuracy. Revocation requires removing the pack entry and rebuilding.

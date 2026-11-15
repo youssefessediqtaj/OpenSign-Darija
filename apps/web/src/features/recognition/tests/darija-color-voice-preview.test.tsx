@@ -1,6 +1,10 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+vi.mock('../domain/darija-voice-provider', () => ({
+  speechProviderRegistry: { local: { resolve: (color: string) => ({ url: `/audio/darija/colors/${color}.wav`, version: 'fixture', format: 'audio/wav', sha256: 'a'.repeat(64) }) } },
+}));
+
 import { DarijaColorVoicePreview } from '../components/DarijaColorVoicePreview';
 
 describe('DarijaColorVoicePreview', () => {

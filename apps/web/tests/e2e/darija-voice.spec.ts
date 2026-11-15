@@ -25,6 +25,7 @@ test('local voice tester plays manually without camera and cancels on color chan
       await route.fulfill({ status: 404, body: '' });
     }
   });
+  await page.route(/approved-voice-pack\.json(?:\?.*)?$/, async (route) => route.fulfill({ contentType: 'application/javascript', body: `export default { version: '1', assets: { black: { approved: true, expression: 'كحل', sha256: '${'a'.repeat(64)}', version: 'fixture' }, red: { approved: true, expression: 'حمر', sha256: '${'a'.repeat(64)}', version: 'fixture' } } };` }));
   await page.goto('/app/recognition?diagnostics=1');
   const tester = page.getByRole('region', { name: 'Test local du pack vocal' });
   await expect(tester).toBeVisible();
@@ -39,4 +40,15 @@ test('local voice tester plays manually without camera and cancels on color chan
   await expect(tester.getByRole('status')).toContainText('indisponible');
   await expect(page.getByRole('button', { name: 'Activer la caméra' })).toBeVisible();
   expect(errors).toEqual([]);
+});
+
+test('unapproved voice pack never requests or plays a clip', async ({ page }) => {
+  const audioRequests: string[] = [];
+  page.on('request', (request) => { if (request.url().includes('/audio/darija/colors/')) audioRequests.push(request.url()); });
+  await page.goto('/app/recognition?diagnostics=1');
+  const tester = page.getByRole('region', { name: 'Test local du pack vocal' });
+  await expect(tester).toContainText('Audio non approuvé ou absent');
+  await tester.getByRole('button', { name: 'Écouter en darija' }).click();
+  await expect(tester.getByRole('status')).toContainText('indisponible');
+  expect(audioRequests).toEqual([]);
 });

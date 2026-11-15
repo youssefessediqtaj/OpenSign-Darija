@@ -1,9 +1,11 @@
 import { Button } from '../../../shared/ui/Button';
 import { DARIJA_COLOR_WORDS, type DarijaColor } from '../domain/darija-colors';
+import { speechProviderRegistry } from '../domain/darija-voice-provider';
 import { useDarijaColorAudio } from '../hooks/useDarijaColorAudio';
 
 export function DarijaColorVoicePreview({ color }: { color: DarijaColor }) {
   const { status, play, stop } = useDarijaColorAudio(color);
+  const asset = speechProviderRegistry.local.resolve(color);
   const message = {
     stopped: 'Lecture arrêtée.',
     loading: 'Chargement vocal…',
@@ -17,6 +19,7 @@ export function DarijaColorVoicePreview({ color }: { color: DarijaColor }) {
       <p className="mt-2 text-xs text-slate-600 dark:text-slate-300">
         Texte provisoire à vérifier. Le candidat est expérimental : la voix ne valide pas la reconnaissance.
       </p>
+      <p className="mt-2 text-xs">{asset ? `Audio approuvé · version ${asset.version}` : "Audio non approuvé ou absent · version indisponible"}</p>
       <Button variant="secondary" type="button" className="mt-3" onClick={play}>
         {status === 'playing' ? 'Réécouter en darija' : 'Écouter en darija'}
       </Button>

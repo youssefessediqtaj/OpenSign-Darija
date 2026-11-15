@@ -1,23 +1,24 @@
 import { describe, expect, it } from 'vitest';
-import { DARIJA_COLOR_WORDS, darijaColorAudioUrl, isDarijaColor } from '../domain/darija-colors';
+import { DARIJA_COLOR_WORDS, DARIJA_VOCABULARY, isDarijaColor } from '../domain/darija-colors';
+import { LocalDarijaVoiceProvider } from '../domain/darija-voice-provider';
 
 describe('local Moroccan Darija color voice pack', () => {
-  it('has exactly the nine semantic COLORS_V1 keys and no legacy word labels', () => {
-    expect(Object.keys(DARIJA_COLOR_WORDS)).toEqual([
-      'black', 'blue', 'brown', 'green', 'orange', 'pink', 'red', 'white', 'yellow',
-    ]);
-    for (const label of Object.keys(DARIJA_COLOR_WORDS)) expect(isDarijaColor(label)).toBe(true);
-    expect(isDarijaColor('اب')).toBe(false);
-    expect(isDarijaColor('احب')).toBe(false);
-    expect(isDarijaColor('سوق')).toBe(false);
+  it('has nine provisional classes and rejects legacy or unsafe labels', () => {
+    expect(Object.keys(DARIJA_COLOR_WORDS)).toEqual(['black', 'blue', 'brown', 'green', 'orange', 'pink', 'red', 'white', 'yellow']);
+    for (const label of Object.keys(DARIJA_COLOR_WORDS)) {
+      expect(isDarijaColor(label)).toBe(true);
+      if (isDarijaColor(label)) expect(DARIJA_VOCABULARY[label].reviewStatus).toBe('pending');
+    }
+    for (const label of ['اب', '../private', 'UNKNOWN_SIGN']) expect(isDarijaColor(label)).toBe(false);
   });
-
-  it('produces same-origin static WAV paths with no user-selected text', () => {
-    expect(darijaColorAudioUrl('red', '/')).toBe('/audio/darija/colors/red.wav');
-    expect(darijaColorAudioUrl('blue', '/opensign')).toBe('/opensign/audio/darija/colors/blue.wav');
-    expect(isDarijaColor('../private')).toBe(false);
-    expect(darijaColorAudioUrl('../private')).toBeNull();
-    expect(darijaColorAudioUrl('اب')).toBeNull();
-    expect(isDarijaColor('UNKNOWN_SIGN')).toBe(false);
+  it('requires a reviewed pack entry and constructs a fixed local path', () => {
+    const missing = new LocalDarijaVoiceProvider();
+    expect(missing.resolve('red')).toBeNull();
+    const valid = new LocalDarijaVoiceProvider({ assets: { red: { approved: true, sha256: 'a'.repeat(64), version: '1', expression: 'حمر' } } });
+    expect(valid.resolve('red')).toMatchObject({ url: '/audio/darija/colors/red.wav', version: '1' });
+    expect(valid.resolve('../private')).toBeNull();
+    expect(new LocalDarijaVoiceProvider({ assets: { red: { approved: true, sha256: 'a'.repeat(64), version: '1', expression: 'wrong' } } }).resolve('red')).toBeNull();
+    expect(valid.resolve('blue')).toBeNull();
+    expect(new LocalDarijaVoiceProvider({ assets: { red: { approved: false, sha256: 'a'.repeat(64), version: '1', expression: 'حمر' } } }).resolve('red')).toBeNull();
   });
 });

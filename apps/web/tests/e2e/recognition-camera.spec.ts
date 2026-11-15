@@ -138,6 +138,7 @@ test('color candidates and Sign Again preserve the camera and never request lega
       calibration_status: 'UNCALIBRATED', experimental: true,
     }) });
   });
+  await page.route('**/darija-voice-provider.ts*', async (route) => route.fulfill({ contentType: 'application/javascript', body: `export const speechProviderRegistry = { local: { resolve: (color) => ({ url: '/audio/darija/colors/' + color + '.wav', version: 'fixture', format: 'audio/wav', sha256: 'a'.repeat(64) }) } };` }));
   await page.goto('/?mockCamera=1&diagnostics=1');
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
   await expect(page.getByTestId('tracking-diagnostics')).toContainText('Left hand: YES; raw 21/21; valid 21/21');

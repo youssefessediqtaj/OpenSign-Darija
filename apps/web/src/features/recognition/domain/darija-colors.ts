@@ -1,27 +1,31 @@
-/** Explicit, provisional Moroccan Darija vocabulary for nine COLORS_V1 semantic classes. 
- * Written forms and recorded pronunciations require review by native Darija speakers.
- * This map is not evidence that a sign is linguistically correct.
- */
+/** Proposed text is not evidence of Moroccan speaker or sign-language review. */
 export const DARIJA_COLOR_WORDS = {
-  black: 'كحل',
-  blue: 'زرق',
-  brown: 'قهوي',
-  green: 'خضر',
-  orange: 'ليموني',
-  pink: 'وردي',
-  red: 'حمر',
-  white: 'بيض',
-  yellow: 'صفر',
+  black: 'كحل', blue: 'زرق', brown: 'قهوي', green: 'خضر', orange: 'ليموني',
+  pink: 'وردي', red: 'حمر', white: 'بيض', yellow: 'صفر',
 } as const;
 
 export type DarijaColor = keyof typeof DARIJA_COLOR_WORDS;
+export type VocabularyEntry = {
+  id: DarijaColor;
+  expression: string;
+  regionalAlternatives: readonly string[];
+  pronunciationNotes: string;
+  reviewStatus: 'pending' | 'approved' | 'rejected';
+  reviewerReference: string | null;
+  audioReference: string;
+  audioApprovalStatus: 'pending' | 'approved' | 'rejected';
+  version: string;
+};
+
+export const DARIJA_VOCABULARY = Object.fromEntries(
+  Object.entries(DARIJA_COLOR_WORDS).map(([id, expression]) => [id, {
+    id, expression, regionalAlternatives: [],
+    pronunciationNotes: id === 'orange' ? 'Meaning and adjective versus color name need review.' : 'Pronunciation and standalone usage require review.',
+    reviewStatus: 'pending', reviewerReference: null, audioReference: `${id}.wav`,
+    audioApprovalStatus: 'pending', version: '1',
+  }]),
+) as unknown as Record<DarijaColor, VocabularyEntry>;
 
 export function isDarijaColor(value: string): value is DarijaColor {
   return Object.prototype.hasOwnProperty.call(DARIJA_COLOR_WORDS, value);
-}
-
-export function darijaColorAudioUrl(color: string, baseUrl = import.meta.env.BASE_URL): string | null {
-  if (!isDarijaColor(color)) return null;
-  const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
-  return `${base}audio/darija/colors/${color}.wav`;
 }
