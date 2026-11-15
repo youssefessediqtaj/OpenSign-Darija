@@ -6,6 +6,7 @@ import { Button } from '../../../shared/ui/Button';
 import { SkipLink } from '../../../shared/ui/SkipLink';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
 import { DarijaColorVoicePreview } from './DarijaColorVoicePreview';
+import { PrivateVoicePackPreview } from './PrivateVoicePackPreview';
 import { DARIJA_COLOR_WORDS, isDarijaColor, type DarijaColor } from '../domain/darija-colors';
 import { CameraPreview } from './CameraPreview';
 import { drawLandmarkOverlay } from '../services/landmark-overlay';
@@ -443,6 +444,7 @@ export function RecognitionWorkspace() {
               {Object.keys(DARIJA_COLOR_WORDS).map((color) => <option key={color} value={color}>{color}</option>)}
             </select>
             <DarijaColorVoicePreview color={testColor} />
+            <PrivateVoicePackPreview />
           </section>
         )}
         {!cameraActive && (

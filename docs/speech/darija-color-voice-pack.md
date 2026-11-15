@@ -200,3 +200,19 @@ quality, and separately authorize intended distribution. Record these permission
 privately before constructing the existing approval JSON and running `package`. A
 mapping selection, written-form confirmation, or technical pass is not permission to
 publish voice recordings. Do not place staging audio in public web assets or Git.
+
+## Private mapped-candidate browser preview
+
+In the local diagnostics page, the “Aperçu privé des enregistrements” file picker
+accepts all nine canonical WAV files selected by the user. The browser uses local
+object URLs and does not upload files or change the approved pack. The picker validates
+names and uniqueness, not hashes, identity or audio quality: run `import-mapping`
+first, then select its verified private staging files. Use the native player to play,
+stop and replay; changing color or leaving the page releases the current player.
+This preview is shown only behind the existing loopback diagnostics gate, and is not
+available to recognition or included in the approved voice provider.
+
+Before release, the speaker must separately approve the pronunciation and quality of
+each exact hash-bound clip and authorize the intended distribution. Record those
+approvals privately, then run the nine-asset packaging and build-verification workflow.
+Selection in the local player does not grant any approval.
