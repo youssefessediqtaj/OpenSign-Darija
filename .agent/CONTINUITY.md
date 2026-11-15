@@ -92,6 +92,7 @@
 - 2026-11-02T00:00Z [CODE] [MILESTONE] Compressed older entries: Historical MoSL segmentation, model, privacy and deployment findings are documented in docs/reports/core-recognition-process-final-report.md and docs/reports/physical-camera-word-recognition-fix.md; these predate the current experimental COLORS_V1 runtime.
 
 ## [OUTCOMES]
+- 2026-11-15T11:32Z [TOOL] Committed remaining non-ignored local changes as cc1957f and pushed to main and codex/colors-v1-phase3-reliability; both branches synchronized.
 - 2026-11-15T11:32Z [TOOL] Fast-forwarded GitHub and local main from 1846844 to published branch codex/colors-v1-phase3-reliability commit c05ca96; main remains default. Existing uncommitted local changes remain outside the published commit.
 - 2026-11-04T22:23Z [TOOL] Started Docker Desktop and local Compose stack using explicit provisional COLORS_V1 registry/version; recreated missing local network with configured subnet. API, inference and speech healthy; localhost:8081 returned HTTP 200. Physical camera remains UNCONFIRMED.
 - 2026-11-02T21:53Z [TOOL] Restored local Compose runtime with existing recovery configuration and network; browser verified camera, tracking, manual start/stop and diagnostics, then stopped camera. Frontend 88 tests, lint/build and Playwright 10 passed/1 fixture skipped. Valid tokenless request returned 403, legacy word 404; authorized synthetic fixture returned UNKNOWN_SIGN, uncalibrated COLORS_V1 0.2.0-provisional-v1. Documentation now distinguishes base and local startup.
