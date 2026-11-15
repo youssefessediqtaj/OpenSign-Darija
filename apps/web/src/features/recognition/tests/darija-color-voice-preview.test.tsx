@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DarijaColorVoicePreview } from '../components/DarijaColorVoicePreview';
@@ -27,6 +27,30 @@ describe('DarijaColorVoicePreview', () => {
     vi.spyOn(HTMLMediaElement.prototype, 'play').mockRejectedValueOnce(new Error('Missing clip'));
     render(<DarijaColorVoicePreview color="orange" />);
     fireEvent.click(screen.getByRole('button', { name: 'Écouter en darija' }));
-    await waitFor(() => expect(screen.getByText(/Aucun enregistrement darija approuvé/)).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByText(/Enregistrement indisponible ou illisible/)).toBeInTheDocument());
   });
+  it('stops old audio on color change and ignores delayed play completion', async () => {
+    let resolvePlay: (() => void) | undefined;
+    vi.mocked(HTMLMediaElement.prototype.play).mockImplementationOnce(() => new Promise<void>((resolve) => { resolvePlay = resolve; }));
+    const view = render(<DarijaColorVoicePreview color="red" />);
+    fireEvent.click(screen.getByRole('button', { name: 'Écouter en darija' }));
+    expect(screen.getByRole('status')).toHaveTextContent('Chargement');
+    view.rerender(<DarijaColorVoicePreview color="blue" />);
+    expect(HTMLMediaElement.prototype.pause).toHaveBeenCalled();
+    await act(async () => resolvePlay?.());
+    expect(screen.getByRole('status')).toHaveTextContent('arrêtée');
+  });
+
+  it('cancels on stop and releases each replaced player', async () => {
+    const view = render(<DarijaColorVoicePreview color="red" />);
+    fireEvent.click(screen.getByRole('button', { name: 'Écouter en darija' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Écouter en darija' }));
+    await waitFor(() => expect(screen.getByRole('status')).toHaveTextContent('Lecture en cours'));
+    expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledTimes(1);
+    fireEvent.click(screen.getByRole('button', { name: 'Arrêter la lecture' }));
+    expect(screen.getByRole('status')).toHaveTextContent('arrêtée');
+    expect(HTMLMediaElement.prototype.pause).toHaveBeenCalledTimes(2);
+    view.unmount();
+  });
+
 });

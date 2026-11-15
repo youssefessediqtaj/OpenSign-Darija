@@ -16,6 +16,8 @@ describe('local Moroccan Darija color voice pack', () => {
     expect(darijaColorAudioUrl('red', '/')).toBe('/audio/darija/colors/red.wav');
     expect(darijaColorAudioUrl('blue', '/opensign')).toBe('/opensign/audio/darija/colors/blue.wav');
     expect(isDarijaColor('../private')).toBe(false);
+    expect(darijaColorAudioUrl('../private')).toBeNull();
+    expect(darijaColorAudioUrl('اب')).toBeNull();
     expect(isDarijaColor('UNKNOWN_SIGN')).toBe(false);
   });
 });

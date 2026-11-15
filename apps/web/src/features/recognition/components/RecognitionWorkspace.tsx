@@ -6,7 +6,7 @@ import { Button } from '../../../shared/ui/Button';
 import { SkipLink } from '../../../shared/ui/SkipLink';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
 import { DarijaColorVoicePreview } from './DarijaColorVoicePreview';
-import { isDarijaColor } from '../domain/darija-colors';
+import { DARIJA_COLOR_WORDS, isDarijaColor, type DarijaColor } from '../domain/darija-colors';
 import { CameraPreview } from './CameraPreview';
 import { drawLandmarkOverlay } from '../services/landmark-overlay';
 import { useCameraPermission } from '../hooks/useCameraPermission';
@@ -75,6 +75,7 @@ export function RecognitionWorkspace() {
   const pendingAttemptRef = useRef<string | null>(null);
   const [attempts, setAttempts] = useState<AttemptDiagnostic[]>([]);
   const [candidate, setCandidate] = useState<string | null>(null);
+  const [testColor, setTestColor] = useState<DarijaColor>('black');
   const [detailMessage, setDetailMessage] = useState('');
   const colorsToken = import.meta.env.VITE_COLORS_EXPERIMENTAL_TOKEN ?? '';
   const localHost = isLocalSameOrigin(window.location.href, env.apiBaseUrl);
@@ -433,6 +434,17 @@ export function RecognitionWorkspace() {
           </a>
         </div>
 
+        {diagnosticsEnabled && !cameraActive && (
+          <section aria-label="Test local du pack vocal" className="mb-5 rounded-xl border border-slate-200 bg-white p-4 dark:bg-slate-900">
+            <label htmlFor="voice-test-color" className="font-semibold">Test local du pack vocal (sans caméra)</label>
+            <select id="voice-test-color" className="ml-3 text-slate-900" value={testColor} onChange={(event) => {
+              if (isDarijaColor(event.target.value)) setTestColor(event.target.value);
+            }}>
+              {Object.keys(DARIJA_COLOR_WORDS).map((color) => <option key={color} value={color}>{color}</option>)}
+            </select>
+            <DarijaColorVoicePreview color={testColor} />
+          </section>
+        )}
         {!cameraActive && (
           <div className="space-y-3">
             <CameraPermissionPanel

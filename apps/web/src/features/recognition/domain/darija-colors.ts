@@ -20,7 +20,8 @@ export function isDarijaColor(value: string): value is DarijaColor {
   return Object.prototype.hasOwnProperty.call(DARIJA_COLOR_WORDS, value);
 }
 
-export function darijaColorAudioUrl(color: DarijaColor, baseUrl = import.meta.env.BASE_URL): string {
+export function darijaColorAudioUrl(color: string, baseUrl = import.meta.env.BASE_URL): string | null {
+  if (!isDarijaColor(color)) return null;
   const base = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
   return `${base}audio/darija/colors/${color}.wav`;
 }
