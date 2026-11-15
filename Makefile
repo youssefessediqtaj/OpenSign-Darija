@@ -4,7 +4,7 @@ SKIP_WEB_BUILD ?= 0
 
 .PHONY: help install ml-install dev up down logs logs-api logs-inference logs-speech \
 	test test-all test-backend test-inference test-ml speech-test test-frontend test-e2e \
-	test-architecture architecture-check lint format ml-dataset-scan ml-dataset-audit ml-preprocess-mosl \
+	test-architecture architecture-check speech-pack-test lint format ml-dataset-scan ml-dataset-audit ml-preprocess-mosl \
 	ml-validate-mosl-artifacts ml-train-v1 ml-validate-model benchmark-inference \
 	benchmark-speech compose-check verify \
 	contributions-retention-check contributions-list-pending contributions-inspect \
@@ -28,6 +28,7 @@ help:
 		"  make test-inference          Run inference pytest, Ruff, and MyPy." \
 		"  make test-ml                 Run offline ML pytest and Ruff." \
 		"  make speech-test             Run speech pytest, Ruff, and MyPy." \
+		"  make speech-pack-test        Test the offline voice preparation pipeline (requires ffmpeg)." \
 		"  make test-frontend           Run frontend unit tests, ESLint, and production build." \
 		"  make test-e2e                Run Playwright browser tests." \
 		"  make test-architecture       Run architecture and contract tests." \
@@ -89,6 +90,7 @@ test:
 	$(MAKE) test-inference
 	$(MAKE) test-ml
 	$(MAKE) speech-test
+	$(MAKE) speech-pack-test
 	$(MAKE) test-frontend
 
 test-all: test
@@ -112,6 +114,9 @@ speech-test:
 	cd services/speech && .venv/bin/python -m pytest
 	cd services/speech && .venv/bin/python -m ruff check app tests
 	cd services/speech && .venv/bin/python -m mypy app
+
+speech-pack-test:
+	services/api/.venv/bin/python -m pytest tests/speech
 
 test-frontend:
 	cd apps/web && npm test -- --run

@@ -30,6 +30,15 @@ async function installCameraMock(page: Page) {
       },
     });
 
+    const nativePause = HTMLMediaElement.prototype.pause;
+    (window as unknown as { __audioPauses: number }).__audioPauses = 0;
+    HTMLMediaElement.prototype.pause = function pause() {
+      if (this instanceof HTMLAudioElement) {
+        (window as unknown as { __audioPauses: number }).__audioPauses += 1;
+        return;
+      }
+      nativePause.call(this);
+    };
     const nativeLoad = HTMLMediaElement.prototype.load;
     const nativePlay = HTMLMediaElement.prototype.play;
     HTMLMediaElement.prototype.load = function load() {
@@ -129,6 +138,7 @@ test('color candidates and Sign Again preserve the camera and never request lega
       calibration_status: 'UNCALIBRATED', experimental: true,
     }) });
   });
+  await page.route('**/darija-voice-provider.ts*', async (route) => route.fulfill({ contentType: 'application/javascript', body: `export const speechProviderRegistry = { local: { resolve: (color) => ({ url: '/audio/darija/colors/' + color + '.wav', version: 'fixture', format: 'audio/wav', sha256: 'a'.repeat(64) }) } };` }));
   await page.goto('/?mockCamera=1&diagnostics=1');
   await page.getByRole('button', { name: 'Activer la caméra' }).click();
   await expect(page.getByTestId('tracking-diagnostics')).toContainText('Left hand: YES; raw 21/21; valid 21/21');
@@ -146,9 +156,12 @@ test('color candidates and Sign Again preserve the camera and never request lega
   await page.evaluate(() => {
     (window as unknown as { __originalStream: MediaProvider | null }).__originalStream = document.querySelector('video')?.srcObject ?? null;
   });
+  await page.getByRole('button', { name: 'Écouter en darija' }).click();
+  await expect(page.getByRole('button', { name: 'Réécouter en darija' })).toBeVisible();
   await page.getByRole('button', { name: 'Refaire un signe' }).focus();
   await page.keyboard.press('Enter');
   await expect(page.getByText('🔵 Bleu — Prédiction expérimentale')).toHaveCount(0);
+  expect(await page.evaluate(() => (window as unknown as { __audioPauses: number }).__audioPauses)).toBeGreaterThan(0);
   expect(await page.evaluate(() => {
     const state = window as unknown as { __originalStream: MediaProvider | null; __cameraRequests: number };
     return Boolean(state.__originalStream) && document.querySelector('video')?.srcObject === state.__originalStream && state.__cameraRequests === 1;
@@ -156,8 +169,12 @@ test('color candidates and Sign Again preserve the camera and never request lega
   await expect(page.getByText('🔴 Rouge — Prédiction expérimentale')).toBeVisible({ timeout: 12_000 });
   await expect(page.getByText('🟢 Mains détectées')).toBeVisible();
   await expect(page.getByTestId('tracking-diagnostics')).toContainText('Right hand: YES; raw 21/21; valid 21/21');
+  await page.getByRole('button', { name: 'Écouter en darija' }).click();
+  await expect(page.getByRole('button', { name: 'Réécouter en darija' })).toBeVisible();
+  const pausesBeforeStop = await page.evaluate(() => (window as unknown as { __audioPauses: number }).__audioPauses);
   await page.getByRole('button', { name: 'Éteindre la caméra' }).click();
   await expect(overlay).toHaveCount(0);
+  expect(await page.evaluate(() => (window as unknown as { __audioPauses: number }).__audioPauses)).toBeGreaterThan(pausesBeforeStop);
   expect(requests).toBe(2);
   expect(forbidden).toEqual([]);
 });

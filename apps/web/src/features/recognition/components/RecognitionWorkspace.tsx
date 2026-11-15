@@ -5,6 +5,9 @@ import { env } from '../../../shared/config/env';
 import { Button } from '../../../shared/ui/Button';
 import { SkipLink } from '../../../shared/ui/SkipLink';
 import { CameraPermissionPanel } from './CameraPermissionPanel';
+import { DarijaColorVoicePreview } from './DarijaColorVoicePreview';
+import { PrivateVoicePackPreview } from './PrivateVoicePackPreview';
+import { DARIJA_COLOR_WORDS, isDarijaColor, type DarijaColor } from '../domain/darija-colors';
 import { CameraPreview } from './CameraPreview';
 import { drawLandmarkOverlay } from '../services/landmark-overlay';
 import { useCameraPermission } from '../hooks/useCameraPermission';
@@ -73,69 +76,8 @@ export function RecognitionWorkspace() {
   const pendingAttemptRef = useRef<string | null>(null);
   const [attempts, setAttempts] = useState<AttemptDiagnostic[]>([]);
   const [candidate, setCandidate] = useState<string | null>(null);
-  const voiceRef = useRef<HTMLAudioElement | null>(null);
-  const [voiceStatus, setVoiceStatus] = useState<'idle' | 'playing' | 'unavailable'>('idle');
+  const [testColor, setTestColor] = useState<DarijaColor>('black');
   const [detailMessage, setDetailMessage] = useState('');
-  const stopVoice = useCallback(() => {
-    const audio = voiceRef.current;
-    voiceRef.current = null;
-    if (audio) {
-      audio.onended = null;
-      audio.onerror = null;
-      audio.pause();
-      audio.removeAttribute('src');
-      audio.load();
-    }
-    setVoiceStatus('idle');
-  }, []);
-
-  useEffect(() => () => {
-    const audio = voiceRef.current;
-    voiceRef.current = null;
-    if (audio) {
-      audio.pause();
-      audio.removeAttribute('src');
-    }
-  }, []);
-
-  // Play only a manually requested, allowlisted color recording.
-  // The WAVs are private local assets and are never committed to GitHub.
-  const playColorVoice = useCallback((visibleLabel: string) => {
-    stopVoice();
-    const color = Object.keys(COLOR_LABELS).find((key) => COLOR_LABELS[key] === visibleLabel);
-    if (!color) return;
-    const base = import.meta.env.BASE_URL.endsWith('/') ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`;
-    const audio = new Audio(`${base}audio/darija/colors/${color}.wav`);
-    voiceRef.current = audio;
-    audio.onended = () => {
-      if (voiceRef.current === audio) {
-        voiceRef.current = null;
-        setVoiceStatus('idle');
-      }
-    };
-    audio.onerror = () => {
-      if (voiceRef.current === audio) {
-        voiceRef.current = null;
-        setVoiceStatus('unavailable');
-      }
-    };
-    try {
-      void audio.play().then(() => {
-        if (voiceRef.current === audio) setVoiceStatus('playing');
-      }).catch(() => {
-        if (voiceRef.current === audio) {
-          voiceRef.current = null;
-          setVoiceStatus('unavailable');
-        }
-      });
-    } catch {
-      if (voiceRef.current === audio) {
-        voiceRef.current = null;
-        setVoiceStatus('unavailable');
-      }
-    }
-  }, [stopVoice]);
-
   const colorsToken = import.meta.env.VITE_COLORS_EXPERIMENTAL_TOKEN ?? '';
   const localHost = isLocalSameOrigin(window.location.href, env.apiBaseUrl);
   const diagnosticsEnabled = localDiagnosticsEnabled({ pageUrl: window.location.href,
@@ -221,7 +163,6 @@ export function RecognitionWorkspace() {
       const controller = new AbortController();
       recognitionRequestRef.current?.abort();
       recognitionRequestRef.current = controller;
-      stopVoice();
       setCandidate(null);
       try {
         const sequence = createLandmarkSequence(segment.sourceFrames, new Date().toISOString());
@@ -291,7 +232,7 @@ export function RecognitionWorkspace() {
         if (recognitionRequestRef.current === controller) recognitionRequestRef.current = null;
       }
     },
-    [cameraStream, colorsToken, diagnosticsEnabled, localHost, enterCooldown, recordAttempt, updateAttempt, schedule, transition, stopVoice],
+    [cameraStream, colorsToken, diagnosticsEnabled, localHost, enterCooldown, recordAttempt, updateAttempt, schedule, transition],
   );
 
   useEffect(() => {
@@ -389,7 +330,6 @@ export function RecognitionWorkspace() {
   }, [cancelPendingAttempt, clearTimers, markGranted, markRequesting, setPermissionStatus, startCameraStream, transition]);
 
   const stopCamera = useCallback(() => {
-    stopVoice();
     manualModeRef.current = false;
     setManualMode(false);
     sessionRef.current += 1;
@@ -404,7 +344,7 @@ export function RecognitionWorkspace() {
     setDetailMessage('');
     setPermissionStatus('STOPPED');
     transition('CAMERA_OFF');
-  }, [cancelPendingAttempt, clearTimers, setPermissionStatus, stopCameraStream, stopLandmarker, stopVoice, transition]);
+  }, [cancelPendingAttempt, clearTimers, setPermissionStatus, stopCameraStream, stopLandmarker, transition]);
 
   useEffect(() => {
     if (!cameraStream) return;
@@ -457,7 +397,6 @@ export function RecognitionWorkspace() {
   );
 
   const signAgain = useCallback(() => {
-    stopVoice();
     // Invalidate both network and speech callbacks before clearing the attempt state.
     sessionRef.current += 1;
     cancelPendingAttempt();
@@ -469,7 +408,7 @@ export function RecognitionWorkspace() {
     setCandidate(null);
     setDetailMessage('');
     transition('WAITING_FOR_SIGN');
-  }, [cancelPendingAttempt, clearTimers, stopVoice, transition]);
+  }, [cancelPendingAttempt, clearTimers, transition]);
 
   const cameraActive = Boolean(cameraStream);
   const canSignAgain = cameraActive && landmarkerStatus === 'ready' &&
@@ -496,6 +435,18 @@ export function RecognitionWorkspace() {
           </a>
         </div>
 
+        {diagnosticsEnabled && !cameraActive && (
+          <section aria-label="Test local du pack vocal" className="mb-5 rounded-xl border border-slate-200 bg-white p-4 dark:bg-slate-900">
+            <label htmlFor="voice-test-color" className="font-semibold">Test local du pack vocal (sans caméra)</label>
+            <select id="voice-test-color" className="ml-3 text-slate-900" value={testColor} onChange={(event) => {
+              if (isDarijaColor(event.target.value)) setTestColor(event.target.value);
+            }}>
+              {Object.keys(DARIJA_COLOR_WORDS).map((color) => <option key={color} value={color}>{color}</option>)}
+            </select>
+            <DarijaColorVoicePreview color={testColor} />
+            <PrivateVoicePackPreview />
+          </section>
+        )}
         {!cameraActive && (
           <div className="space-y-3">
             <CameraPermissionPanel
@@ -545,17 +496,10 @@ export function RecognitionWorkspace() {
                 <div className="mt-5 border-t border-slate-200 pt-5 text-center dark:border-slate-700" aria-live="polite">
                   <p className="text-sm font-medium text-slate-500">Couleur détectée — Expérimental</p>
                   <p className="mt-2 text-3xl font-bold text-cedar dark:text-teal-300">{candidate} — Prédiction expérimentale</p>
-                  <div className="mt-3 flex justify-center gap-2">
-                    <Button type="button" variant="secondary" onClick={() => playColorVoice(candidate)}>
-                      Écouter en darija
-                    </Button>
-                    {voiceStatus === 'playing' && (
-                      <Button type="button" variant="ghost" onClick={stopVoice}>Arrêter</Button>
-                    )}
-                  </div>
-                  {voiceStatus === 'unavailable' && (
-                    <p role="status" className="mt-2 text-sm">Enregistrement local indisponible.</p>
-                  )}
+                  {(() => {
+                    const key = Object.keys(COLOR_LABELS).find((color) => COLOR_LABELS[color] === candidate);
+                    return key && isDarijaColor(key) ? <DarijaColorVoicePreview color={key} /> : null;
+                  })()}
                 </div>
               )}
             </section>
