@@ -144,13 +144,99 @@ def prepare(source: Path, staging: Path) -> dict:
     return report
 
 
+def import_reviewed_mapping(review: Path, mapping_path: Path, output: Path) -> dict:
+    """Copy uniquely mapped candidates unchanged into private staging; not approval."""
+    sources = {"Black.m4a": "black.wav"}
+    sources.update(
+        {
+            f"New Recording {i}.m4a": f"unverified_recording_{i:02d}.wav"
+            for i in range(4, 12)
+        }
+    )
+    candidate_dir = review / "candidates"
+    if not candidate_dir.is_dir() or {p.name for p in candidate_dir.iterdir()} != set(
+        sources.values()
+    ):
+        raise ValueError(
+            "candidate directory must contain exactly the nine expected WAVs"
+        )
+    mapping = json.loads(mapping_path.read_text())
+    if (
+        not isinstance(mapping, dict)
+        or mapping.get("status") != "user_labeled_not_publication_approval"
+    ):
+        raise ValueError("expected user-labeled mapping export")
+    rows = mapping.get("mapping")
+    if not isinstance(rows, list) or len(rows) != len(LABELS):
+        raise ValueError("exactly nine mapping entries required")
+    pairs = []
+    for row in rows:
+        if (
+            not isinstance(row, dict)
+            or row.get("source_file") not in sources
+            or row.get("color") not in LABELS
+        ):
+            raise ValueError("unsupported source or color")
+        pairs.append((row["source_file"], row["color"]))
+    if len({source for source, _ in pairs}) != 9 or {
+        color for _, color in pairs
+    } != set(LABELS):
+        raise ValueError("each recording and color must occur exactly once")
+    original_report = json.loads(
+        (review / "technical_validation_report.json").read_text()
+    )
+    records = original_report.get("records", [])
+    expected = {
+        record.get("source_file"): record.get("sha256")
+        for record in records
+        if isinstance(record, dict)
+    }
+    if len(records) != 9 or set(expected) != set(sources):
+        raise ValueError("invalid original technical report")
+    checks = []
+    for source, color in pairs:
+        path = review / "candidates" / sources[source]
+        if path.is_symlink() or not path.is_file():
+            raise ValueError(f"missing or unsafe candidate: {source}")
+        details = inspect(path)
+        if details["issues"] or details["sha256"] != expected[source]:
+            raise ValueError(
+                f"candidate failed technical checks or archive checksum: {source}"
+            )
+        checks.append((source, color, path, details))
+    if len({details["sha256"] for _, _, _, details in checks}) != 9:
+        raise ValueError("recordings must have distinct checksums")
+    output.mkdir(parents=True, exist_ok=False)
+    results = []
+    for source, color, path, details in checks:
+        shutil.copyfile(path, output / f"{color}.wav")
+        results.append(
+            {
+                "source_file": source,
+                "candidate_file": path.name,
+                "color": color,
+                "final_file": f"{color}.wav",
+                **details,
+            }
+        )
+    report = {
+        "status": "mapped_not_approved",
+        "pronunciation_approved": False,
+        "quality_approved": False,
+        "rights_approved": False,
+        "assets": results,
+    }
+    (output / "mapping-report.json").write_text(json.dumps(report, indent=2) + "\n")
+    return report
+
+
 def package(staging: Path, approvals_path: Path, output: Path) -> dict:
     approvals = json.loads(approvals_path.read_text())
     if not isinstance(approvals, dict) or not isinstance(approvals.get("assets"), dict):
         raise ValueError("invalid approval record")
     entries = approvals["assets"]
-    if not entries or not set(entries).issubset(LABELS):
-        raise ValueError("invalid or empty labels in approval record")
+    if set(entries) != set(LABELS):
+        raise ValueError("completed voice pack requires all nine labels")
     selected = {}
     for label, approval in entries.items():
         if not isinstance(approval, dict):
@@ -166,11 +252,14 @@ def package(staging: Path, approvals_path: Path, output: Path) -> dict:
                 raise ValueError(f"{label}: {field} required")
         if (
             approval.get("text_approved") is not True
+            or approval.get("mapping_confirmed") is not True
+            or approval.get("pronunciation_approved") is not True
+            or approval.get("quality_approved") is not True
             or approval.get("audio_approved") is not True
             or approval.get("rights_approved") is not True
         ):
             raise ValueError(
-                f"{label}: explicit text, audio and rights approval required"
+                f"{label}: explicit text, mapping, pronunciation, quality, audio and rights approval required"
             )
         if approval.get("expression") != WORDS[label]:
             raise ValueError(f"{label}: expression does not match vocabulary")
@@ -182,6 +271,8 @@ def package(staging: Path, approvals_path: Path, output: Path) -> dict:
             "version": approval["version"],
             "expression": WORDS[label],
         }
+    if len({entry["sha256"] for entry in selected.values()}) != len(LABELS):
+        raise ValueError("completed voice pack requires nine distinct recordings")
     output.mkdir(parents=True, exist_ok=False)
     for label in selected:
         shutil.copyfile(staging / f"{label}.wav", output / f"{label}.wav")
@@ -202,13 +293,18 @@ def main() -> int:
     pack.add_argument("--staging", type=Path, required=True)
     pack.add_argument("--approvals", type=Path, required=True)
     pack.add_argument("--output", type=Path, required=True)
+    mapped = sub.add_parser("import-mapping")
+    mapped.add_argument("--review", type=Path, required=True)
+    mapped.add_argument("--mapping", type=Path, required=True)
+    mapped.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
-        result = (
-            prepare(args.source, args.staging)
-            if args.command == "prepare"
-            else package(args.staging, args.approvals, args.output)
-        )
+        if args.command == "prepare":
+            result = prepare(args.source, args.staging)
+        elif args.command == "import-mapping":
+            result = import_reviewed_mapping(args.review, args.mapping, args.output)
+        else:
+            result = package(args.staging, args.approvals, args.output)
         print(json.dumps(result, indent=2))
         return 0
     except (OSError, ValueError, wave.Error, json.JSONDecodeError) as exc:

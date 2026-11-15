@@ -17,7 +17,7 @@ export function DarijaColorVoicePreview({ color }: { color: DarijaColor }) {
       <p className="text-sm font-semibold">Parole en darija marocaine — aperçu manuel</p>
       <p className="mt-2 text-2xl font-bold" lang="ary" dir="rtl">{DARIJA_COLOR_WORDS[color]}</p>
       <p className="mt-2 text-xs text-slate-600 dark:text-slate-300">
-        Texte provisoire à vérifier. Le candidat est expérimental : la voix ne valide pas la reconnaissance.
+        Texte confirmé par la personne enregistrée pour ce prototype. Le candidat est expérimental : la voix ne valide pas la reconnaissance.
       </p>
       <p className="mt-2 text-xs">{asset ? `Audio approuvé · version ${asset.version}` : "Audio non approuvé ou absent · version indisponible"}</p>
       <Button variant="secondary" type="button" className="mt-3" onClick={play}>

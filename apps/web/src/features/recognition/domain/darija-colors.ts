@@ -1,4 +1,4 @@
-/** Proposed text is not evidence of Moroccan speaker or sign-language review. */
+/** The user confirmed the written forms for this prototype; audio and sign mapping remain unreviewed. */
 export const DARIJA_COLOR_WORDS = {
   black: 'كحل', blue: 'زرق', brown: 'قهوي', green: 'خضر', orange: 'ليموني',
   pink: 'وردي', red: 'حمر', white: 'بيض', yellow: 'صفر',
@@ -21,7 +21,7 @@ export const DARIJA_VOCABULARY = Object.fromEntries(
   Object.entries(DARIJA_COLOR_WORDS).map(([id, expression]) => [id, {
     id, expression, regionalAlternatives: [],
     pronunciationNotes: id === 'orange' ? 'Meaning and adjective versus color name need review.' : 'Pronunciation and standalone usage require review.',
-    reviewStatus: 'pending', reviewerReference: null, audioReference: `${id}.wav`,
+    reviewStatus: 'approved', reviewerReference: 'prototype-speaker-confirmation', audioReference: `${id}.wav`,
     audioApprovalStatus: 'pending', version: '1',
   }]),
 ) as unknown as Record<DarijaColor, VocabularyEntry>;

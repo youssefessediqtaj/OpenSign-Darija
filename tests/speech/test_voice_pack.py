@@ -59,17 +59,30 @@ def test_conversion_missing_and_approval_gate(tmp_path):
         "version": "1",
         "text_approved": True,
         "audio_approved": True,
+        "mapping_confirmed": True,
+        "pronunciation_approved": True,
+        "quality_approved": True,
         "rights_approved": True,
         "expression": "حمر",
         "review_reference": "private-1",
         "rights_reference": "private-2",
     }
     approval.write_text(json.dumps({"assets": {"red": entry}}))
-    assert voice_pack.package(staging, approval, tmp_path / "pack")["assets"]["red"][
-        "approved"
-    ]
-    entry["sha256"] = "0" * 64
-    approval.write_text(json.dumps({"assets": {"red": entry}}))
+    with pytest.raises(ValueError):
+        voice_pack.package(staging, approval, tmp_path / "pack")
+    approvals = {}
+    for index, label in enumerate(voice_pack.LABELS):
+        path = staging / f"{label}.wav"
+        tone(path, amplitude=1000 + index * 500, rate=24000)
+        approvals[label] = {
+            **entry,
+            "sha256": voice_pack.inspect(path)["sha256"],
+            "expression": voice_pack.WORDS[label],
+        }
+    approval.write_text(json.dumps({"assets": approvals}))
+    assert len(voice_pack.package(staging, approval, tmp_path / "pack")["assets"]) == 9
+    approvals["red"]["sha256"] = "0" * 64
+    approval.write_text(json.dumps({"assets": approvals}))
     with pytest.raises(ValueError):
         voice_pack.package(staging, approval, tmp_path / "pack2")
 
@@ -125,3 +138,54 @@ def test_build_verifier_rejects_unapproved_or_modified_audio(tmp_path):
     assert verify() == 0
     (audio / "red.wav").write_bytes(b"tampered")
     assert verify() != 0
+
+
+def test_review_mapping_import_preserves_bytes_and_rejects_ambiguity(tmp_path):
+    import hashlib
+
+    review = tmp_path / "review"
+    candidates = review / "candidates"
+    candidates.mkdir(parents=True)
+    sources = {"Black.m4a": "black.wav"}
+    sources.update(
+        {
+            f"New Recording {i}.m4a": f"unverified_recording_{i:02d}.wav"
+            for i in range(4, 12)
+        }
+    )
+    records = []
+    for index, (source, filename) in enumerate(sources.items()):
+        tone(candidates / filename, amplitude=1000 + index * 500, rate=24000)
+        digest = hashlib.sha256((candidates / filename).read_bytes()).hexdigest()
+        records.append({"source_file": source, "sha256": digest})
+    (review / "technical_validation_report.json").write_text(
+        json.dumps({"records": records})
+    )
+    rows = [
+        {"source_file": source, "color": color}
+        for source, color in zip(sources, voice_pack.LABELS)
+    ]
+    mapping = tmp_path / "mapping.json"
+    mapping.write_text(
+        json.dumps({"status": "user_labeled_not_publication_approval", "mapping": rows})
+    )
+    report = voice_pack.import_reviewed_mapping(review, mapping, tmp_path / "staging")
+    assert len(report["assets"]) == 9 and not report["rights_approved"]
+    for row in report["assets"]:
+        assert (candidates / row["candidate_file"]).read_bytes() == (
+            tmp_path / "staging" / row["final_file"]
+        ).read_bytes()
+    rows[1]["color"] = rows[0]["color"]
+    mapping.write_text(
+        json.dumps({"status": "user_labeled_not_publication_approval", "mapping": rows})
+    )
+    with pytest.raises(ValueError):
+        voice_pack.import_reviewed_mapping(review, mapping, tmp_path / "reject")
+    assert not (tmp_path / "reject").exists()
+    rows[1]["color"] = "blue"
+    rows[0]["source_file"] = "../private"
+    mapping.write_text(
+        json.dumps({"status": "user_labeled_not_publication_approval", "mapping": rows})
+    )
+    with pytest.raises(ValueError):
+        voice_pack.import_reviewed_mapping(review, mapping, tmp_path / "reject")

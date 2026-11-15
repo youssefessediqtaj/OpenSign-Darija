@@ -33,7 +33,7 @@ The preparation tool converts to WAV PCM signed 16-bit, mono, 24 kHz and trims
 leading and trailing silence using a conservative threshold. Listen to the result:
 thresholds can cut soft speech or preserve noise.
 
-The provisional text forms are in
+The user-confirmed prototype text forms are in
 `apps/web/src/features/recognition/domain/darija-colors.ts`. They are a
 review checklist, **not an approved Moroccan linguistic dictionary**. Both
 blue sign variants map to one audio label.
@@ -62,11 +62,9 @@ Darija pronunciation quality, and no Arabic default should be silently used.
 
 ## Vocabulary review register
 
-All forms below are provisional and require review by Moroccan Darija speakers,
-including regional alternatives and a listening review of each recording. None is
-linguistically approved here.
+The user, a native Moroccan Darija speaker, confirmed the written forms for this prototype. Regional alternatives, pronunciation of each recording and sign-to-color mapping still require review.
 
-| Class | Proposed written form | Text and pronunciation review |
+| Class | Proposed written form | Pronunciation review |
 | --- | --- | --- |
 | black | كحل | Pending |
 | blue | زرق | Pending |
@@ -141,11 +139,12 @@ sign-to-class mapping separately. Obtain speaker consent and redistribution righ
 Keep personal data and signed consent in a separate access-controlled system. The
 review record below uses opaque references to those private records, not names.
 
-Create a private JSON approval file with entries only for labels actually reviewed:
+Create a private JSON approval file with entries for all nine labels after each is reviewed (one entry shown):
 
 ```json
 {"assets":{"red":{"sha256":"<64-character candidate SHA-256>","version":"1",
-"text_approved":true,"audio_approved":true,"rights_approved":true,"expression":"حمر",
+"text_approved":true,"mapping_confirmed":true,"pronunciation_approved":true,
+"quality_approved":true,"audio_approved":true,"rights_approved":true,"expression":"حمر",
 "review_reference":"private-review-id","rights_reference":"private-rights-id"}}}
 ```
 
@@ -153,8 +152,8 @@ Create a private JSON approval file with entries only for labels actually review
 python3 scripts/speech/prepare_voice_pack.py package --staging /private/candidates --approvals /private/approvals.json --output /private/approved-pack
 ```
 
-Packaging rechecks WAV format and quality and requires all three approvals, both
-references, and exact expression and checksum matches. It exports only approved files and a
+Packaging rechecks WAV format and quality and requires all separate approvals, both
+references, and exact expression and checksum matches. It requires nine distinct approved recordings and exports them with a
 sanitized manifest. Assertions in this local record are not independently verified;
 the maintainer must authenticate the reviewer and rights evidence. Never mark test
 tones approved except inside isolated automated tests. The candidate and approval
@@ -174,3 +173,30 @@ of local private assets before changing them.
 The UI shows pack registration and runtime playback status separately. A registered
 file can still be unavailable at runtime, and an asset checksum does not certify
 linguistic accuracy. Revocation requires removing the pack entry and rebuilding.
+
+
+## User recording identification (Phase 3)
+
+The supplied private review archive contains nine WAV candidates and full-length
+backups. Its HTML page exports `user_labeled_not_publication_approval` mapping JSON.
+After the user explicitly selects every label, use a private new output path:
+
+```bash
+python3 scripts/speech/prepare_voice_pack.py import-mapping --review /private/review --mapping /private/confirmed_recording_color_mapping.json --output /private/mapped-candidates
+```
+
+This verifies all nine source names and color IDs exactly once, validates candidate
+format and checksums against the archive report, rejects duplicate audio hashes, and
+copies the candidate bytes unchanged into canonical filenames. The generated private
+`mapping-report.json` records each original name, label, final filename, checksum,
+and technical metrics; it explicitly marks pronunciation, audio quality and rights
+as unapproved. The output is staging, not an approved pack. Review each clip against
+its full-length backup for clipped speech by listening; matching samples cannot prove
+that a phoneme was not trimmed. Retain the original archive and never re-encode merely
+to rename clips.
+
+Ask the speaker separately to approve the exact hash-bound pronunciation and audio
+quality, and separately authorize intended distribution. Record these permissions
+privately before constructing the existing approval JSON and running `package`. A
+mapping selection, written-form confirmation, or technical pass is not permission to
+publish voice recordings. Do not place staging audio in public web assets or Git.

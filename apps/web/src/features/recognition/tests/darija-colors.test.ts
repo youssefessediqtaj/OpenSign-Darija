@@ -7,9 +7,18 @@ describe('local Moroccan Darija color voice pack', () => {
     expect(Object.keys(DARIJA_COLOR_WORDS)).toEqual(['black', 'blue', 'brown', 'green', 'orange', 'pink', 'red', 'white', 'yellow']);
     for (const label of Object.keys(DARIJA_COLOR_WORDS)) {
       expect(isDarijaColor(label)).toBe(true);
-      if (isDarijaColor(label)) expect(DARIJA_VOCABULARY[label].reviewStatus).toBe('pending');
+      if (isDarijaColor(label)) expect(DARIJA_VOCABULARY[label].reviewStatus).toBe('approved');
     }
     for (const label of ['اب', '../private', 'UNKNOWN_SIGN']) expect(isDarijaColor(label)).toBe(false);
+  });
+  it('resolves each approved semantic color to its own WAV', () => {
+    for (const label of Object.keys(DARIJA_COLOR_WORDS)) {
+      if (!isDarijaColor(label)) throw new Error('unexpected color');
+      const provider = new LocalDarijaVoiceProvider({ assets: {
+        [label]: { approved: true, sha256: 'a'.repeat(64), version: 'test', expression: DARIJA_COLOR_WORDS[label] },
+      } });
+      expect(provider.resolve(label)?.url).toBe(`/audio/darija/colors/${label}.wav`);
+    }
   });
   it('requires a reviewed pack entry and constructs a fixed local path', () => {
     const missing = new LocalDarijaVoiceProvider();
