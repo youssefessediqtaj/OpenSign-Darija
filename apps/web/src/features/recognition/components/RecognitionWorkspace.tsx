@@ -13,6 +13,7 @@ import { useHolisticLandmarker } from '../hooks/useHolisticLandmarker';
 import { AutomaticSignSegmenter, DEFAULT_SEGMENTATION_CONFIG, handsPresent, usableFrame } from '../domain/automatic-segmentation';
 import type { HolisticFrame } from '../domain/landmarks';
 import type { AttemptDiagnostic } from '../domain/attempt-diagnostics';
+import { isLocalSameOrigin, localDiagnosticsEnabled } from '../domain/local-diagnostics';
 import { ApiError } from '../../../shared/api/client';
 import {
   createLandmarkSequence,
@@ -74,14 +75,10 @@ export function RecognitionWorkspace() {
   const [candidate, setCandidate] = useState<string | null>(null);
   const [detailMessage, setDetailMessage] = useState('');
   const colorsToken = import.meta.env.VITE_COLORS_EXPERIMENTAL_TOKEN ?? '';
-  let localHost = false;
-  try {
-    localHost = ['localhost', '127.0.0.1', '[::1]'].includes(window.location.hostname) &&
-      new URL(env.apiBaseUrl || window.location.origin, window.location.origin).origin === window.location.origin;
-  } catch { /* Invalid API configuration is unavailable. */ }
-  const diagnosticsEnabled = (import.meta.env.DEV || import.meta.env.VITE_COLORS_LOCAL_DIAGNOSTICS === 'true') &&
-    localHost && colorsToken.length >= 16 &&
-    new URLSearchParams(window.location.search).get('diagnostics') === '1';
+  const localHost = isLocalSameOrigin(window.location.href, env.apiBaseUrl);
+  const diagnosticsEnabled = localDiagnosticsEnabled({ pageUrl: window.location.href,
+    apiBaseUrl: env.apiBaseUrl, developmentBuild: import.meta.env.DEV,
+    localDiagnosticsFlag: import.meta.env.VITE_COLORS_LOCAL_DIAGNOSTICS, token: colorsToken });
   const recordAttempt = useCallback((record: AttemptDiagnostic) => {
     if (diagnosticsEnabled) setAttempts((previous) => [...previous, record].slice(-30));
   }, [diagnosticsEnabled]);

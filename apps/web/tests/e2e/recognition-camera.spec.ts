@@ -189,6 +189,30 @@ test('local manual diagnostic capture sends only a validated experimental reques
   expect(forbidden).toEqual([]);
 });
 
+test('configured Docker local diagnostics expose manual controls and require the query flag', async ({ page }) => {
+  const localUrl = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.PLAYWRIGHT_LOCAL_DIAGNOSTICS_URL;
+  test.skip(!localUrl, 'Set PLAYWRIGHT_LOCAL_DIAGNOSTICS_URL to test the configured local Docker stack');
+  await installCameraMock(page);
+  await page.goto(localUrl as string);
+  await page.getByRole('button', { name: 'Activer la caméra' }).click();
+  await expect(page.getByRole('heading', { name: 'MediaPipe Tracking' })).toBeVisible();
+  await expect(page.getByText('Diagnostics locaux', { exact: false })).toBeVisible();
+  await expect(page.getByTestId('segmentation-diagnostics')).toContainText('Current motion energy', { timeout: 20_000 });
+  const toggle = page.getByRole('checkbox', { name: /Mode manuel expérimental/ });
+  await expect(toggle).toBeEnabled({ timeout: 20_000 });
+  await toggle.check();
+  await expect(page.getByRole('button', { name: 'Démarrer la capture' })).toBeVisible();
+  await page.getByRole('button', { name: 'Démarrer la capture' }).click();
+  await expect(page.getByRole('button', { name: 'Arrêter la capture' })).toBeVisible();
+  await page.getByRole('button', { name: 'Éteindre la caméra' }).click();
+  const noDiagnostics = new URL(localUrl as string);
+  noDiagnostics.searchParams.delete('diagnostics');
+  await page.goto(noDiagnostics.href);
+  await page.getByRole('button', { name: 'Activer la caméra' }).click();
+  await expect(page.getByRole('heading', { name: 'MediaPipe Tracking' })).toHaveCount(0);
+  await expect(page.getByRole('checkbox', { name: /Mode manuel expérimental/ })).toHaveCount(0);
+});
+
 test('model unavailable is distinct from an unknown sign', async ({ page }) => {
   await installCameraMock(page);
   await page.route('**/api/v1/recognitions/colors-experimental?*', async (route) => {

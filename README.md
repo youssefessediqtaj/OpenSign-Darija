@@ -21,8 +21,9 @@ Activate camera
 → wait for the next sign
 ```
 
-There are no login screens, admin panels, public dataset imports, manual capture
-controls, model selectors, PostgreSQL, Redis, or MinIO in the active runtime.
+The ordinary interface has no login screens, admin panels, public dataset imports,
+model selectors, PostgreSQL, Redis, or MinIO. Explicitly enabled local diagnostics
+include an experimental manual capture mode; it is disabled in the default build.
 
 ## Privacy model
 
@@ -95,6 +96,17 @@ Open the app at:
 ```text
 http://localhost:8081/app/recognition
 ```
+
+For local diagnostics, use `make up` (or both Compose files shown above), then open
+`http://localhost:8081/app/recognition?diagnostics=1` and activate the camera. The
+base `docker compose up` command alone builds without diagnostics. Vite build flags
+are compiled into the web image, so restart with a local-override web rebuild after
+switching configurations. Local diagnostics require the explicit flag, a configured
+local token, the query parameter, a loopback browser host and same-origin API. The
+local token is bundled into browser code and is not a production credential. Use the
+loopback-bound local gateway and existing backend checks; never expose this local stack
+as a public deployment. For an existing externally managed Docker network, preserve
+and include its machine-specific recovery override rather than recreating the network.
 
 ## Development commands
 

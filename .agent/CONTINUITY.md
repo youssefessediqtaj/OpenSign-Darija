@@ -1,6 +1,8 @@
 # OpenSign Darija Continuity
 
 ## [PLANS]
+- 2026-11-02T21:53Z [USER] Restore authorized local diagnostics, preserve existing guards and COLORS_V1, add regression coverage and verify localhost in a real browser; no deployment or retraining.
+
 - 2026-11-02T21:42Z [USER] Supersedes earlier no-push restrictions: commit and push all non-ignored project changes to the current GitHub branch, preserving ignored local data and recovery configuration.
 
 - 2026-11-02T21:30Z [USER] Diagnose manual-mode timeout versus automatic segmentation, preserve COLORS_V1 and verify isolated manual attempts; no training or push. Physical webcam evaluation remains UNCONFIRMED.
@@ -63,6 +65,8 @@
 - 2026-11-02T00:00Z [CODE] [MILESTONE] Compressed older entries: Earlier MoSL integration, architecture/refactor and community contribution milestones are documented in docs/reports/mosl-native-integration-final-report.md, docs/reports/professional-project-structure-report.md and docs/reports/community-video-contribution-feature-report.md.
 
 ## [DISCOVERIES]
+- 2026-11-02T21:53Z [TOOL] Running containers had been recreated from docker-compose.yml alone: the production web build omitted local diagnostic flags and controls, and nginx listened on all interfaces. Local and recovery overrides restore flags and loopback binding. Browser token is not a production secret.
+
 - 2026-11-02T21:30Z [CODE] Manual capture ignores automatic start/end after explicit Start but shares six-second timeout; checkbox alone cannot start it. Prior attempt log lacks mode and trigger, so its exact path is UNCONFIRMED. Manual source timestamps were previously resampled before order validation.
 - 2026-11-02T20:40Z [CODE] Previous capture resets end stability whenever hands disappear, making a timeout inevitable if visible-hand stability was incomplete and hands do not return. The user’s individual physical attempt cause remains UNCONFIRMED without frame-level observations.
 - 2026-11-02T20:28Z [CODE] Capture formerly treated tracking loss as stable motion; usable frames now required for end stability. The prior live bundle already contained the visibility fix; physical finger and timeout causes remain UNCONFIRMED. Segment coverage uses analyzed source frames including pre-roll; processed_frames semantics vary by processing stage.
@@ -88,6 +92,10 @@
 - 2026-11-02T00:00Z [CODE] [MILESTONE] Compressed older entries: Historical MoSL segmentation, model, privacy and deployment findings are documented in docs/reports/core-recognition-process-final-report.md and docs/reports/physical-camera-word-recognition-fix.md; these predate the current experimental COLORS_V1 runtime.
 
 ## [OUTCOMES]
+- 2026-11-15T11:32Z [TOOL] Fast-forwarded GitHub and local main from 1846844 to published branch codex/colors-v1-phase3-reliability commit c05ca96; main remains default. Existing uncommitted local changes remain outside the published commit.
+- 2026-11-04T22:23Z [TOOL] Started Docker Desktop and local Compose stack using explicit provisional COLORS_V1 registry/version; recreated missing local network with configured subnet. API, inference and speech healthy; localhost:8081 returned HTTP 200. Physical camera remains UNCONFIRMED.
+- 2026-11-02T21:53Z [TOOL] Restored local Compose runtime with existing recovery configuration and network; browser verified camera, tracking, manual start/stop and diagnostics, then stopped camera. Frontend 88 tests, lint/build and Playwright 10 passed/1 fixture skipped. Valid tokenless request returned 403, legacy word 404; authorized synthetic fixture returned UNKNOWN_SIGN, uncalibrated COLORS_V1 0.2.0-provisional-v1. Documentation now distinguishes base and local startup.
+
 - 2026-11-02T21:42Z [TOOL] Pushed project changes in commit 70905a0 to origin/codex/colors-v1-phase3-reliability; ignored private data and local recovery override remained excluded.
 
 - 2026-11-02T21:30Z [TOOL] Added capture mode/trigger and current/previous attempt diagnostics, timeout guidance and manual source timestamp validation. make test-all passed 14 architecture, 119 API, 41 inference, 58 ML, 9 speech, 76 web, 9 browser; one camera fixture skipped. After a diagnostic log label change, 17 workspace tests passed. Rebuilt local web only; new bundle served HTTP 200; backend services healthy. See docs/audits/manual-capture-debug-2026-11.md.
